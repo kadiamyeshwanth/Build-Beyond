@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .dot-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(#e0e0e0 1px, transparent 1px);
+            background-size: 20px 20px;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        /* Heading Styles */
+        h1 {
+            text-align: center;
+            color: #5e135e;
+            width: 100%;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .separator {
+            width: 100px;
+            height: 3px;
+            background-color: #4a104a;
+            margin: 0 auto 50px;
+            display: block;
+        }
+
+        /* Content layout */
+        .content-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 40px;
+        }
+
+        /* Form Section */
+        .form-section {
+            width: 600px;
+            max-width: 100%;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #5e135e;
+        }
+
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background-color: #5e135e;
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background-color 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #4a104a;
+        }
+
+        /* Contact Info Section */
+        .contact-info {
+            width: 300px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .info-item a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .info-item a:hover .info-content {
+            color: #5e135e;
+            text-decoration: underline;
+        }
+
+        .icon {
+            width: 50px;
+            height: 50px;
+            background-color: #4a104a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: #e1e7eb;
+            font-size: 24px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .info-item a:hover .icon {
+            transform: scale(1.1);
+        }
+
+        .info-content {
+            font-size: 18px;
+            color: #333;
+            transition: color 0.2s ease;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .content-wrapper {
+                flex-direction: column;
+                align-items: center;
+            }
+            .form-section, .contact-info {
+                width: 100%;
+                max-width: 600px;
+            }
+            .contact-info {
+                margin-top: 40px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .form-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dot-background"></div>
+    <div class="container">
+        <h1>Contact Us</h1>
+        <div class="separator"></div>
+        
+        <div class="content-wrapper">
+            <div class="form-section">
+                <div class="form-row">
+                    <input type="text" placeholder="First Name">
+                    <input type="text" placeholder="Last Name">
+                </div>
+                <div class="form-row">
+                    <input type="email" placeholder="Email">
+                </div>
+                <div class="form-row">
+                    <textarea placeholder="Please write your message here"></textarea>
+                </div>
+                <button class="submit-btn">SUBMIT</button>
+            </div>
+            
+            <div class="contact-info">
+                <div class="info-item">
+                    <a href="https://maps.google.com/?q=IIIT+Sri+City,Chittor" target="_blank">
+                        <div class="icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="info-content">IIIT Sri City,Chittor</div>
+                    </a>
+                </div>
+                <div class="info-item">
+                    <a href="tel:+918186790891">
+                        <div class="icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="info-content">+91 8186790891</div>
+                    </a>
+                </div>
+                <div class="info-item">
+                    <a href="mailto:queries@Build&Beyond.com">
+                        <div class="icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="info-content">queries@Build&Beyond.com</div>
+                    </a>
+                </div>
+                <div class="info-item">
+                    <a href="https://www.instagram.com/buildandbeyond/" target="_blank">
+                        <div class="icon">
+                            <i class="fab fa-instagram"></i>
+                        </div>
+                        <div class="info-content">Build&Beyond</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
