@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In / Sign Up</title>
+    <title>Sign In / Sign Up - Build & Beyond</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -14,13 +15,18 @@
 
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-content {
+            flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            transition: background 0.5s ease;
+            padding: 40px 20px;
         }
 
         .wrapper {
@@ -30,13 +36,6 @@
             width: 100%;
             max-width: 1200px;
             perspective: 1000px;
-        }
-
-        @media (max-width: 768px) {
-            .wrapper {
-                flex-direction: column;
-                gap: 20px;
-            }
         }
 
         .container {
@@ -59,12 +58,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.2),
-                transparent
-            );
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             transition: 0.5s;
         }
 
@@ -116,7 +110,8 @@
             color: #667eea;
         }
 
-        .form-group input, .form-group select {
+        .form-group input,
+        .form-group select {
             width: 100%;
             padding: 15px;
             border: 2px solid #e1e1e1;
@@ -126,7 +121,8 @@
             background: rgba(255, 255, 255, 0.9);
         }
 
-        .form-group input:focus, .form-group select:focus {
+        .form-group input:focus,
+        .form-group select:focus {
             border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
             outline: none;
@@ -161,12 +157,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.2),
-                transparent
-            );
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             transition: 0.5s;
         }
 
@@ -218,15 +209,12 @@
             accent-color: #667eea;
         }
 
-        .remember-me label {
+        .radio-group {
             display: flex;
-            align-items: center;
-            color: #555;
-            cursor: pointer;
-            user-select: none;
+            gap: 20px;
+            margin-top: 10px;
         }
 
-        /* File input styling */
         input[type="file"] {
             padding: 10px;
             background: rgba(102, 126, 234, 0.1);
@@ -245,127 +233,238 @@
             transition: background 0.3s ease;
         }
 
-        input[type="file"]::file-selector-button:hover {
-            background: #764ba2;
+        /* Footer Styles */
+        .footer {
+            background-color: #1f1f2e;
+            color: #fff;
+            padding: 4rem 0 2rem 0;
+            margin-top: auto;
         }
 
-        /* Radio button container */
-        .radio-group {
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+
+        .footer-section h3 {
+            color: #4a90e2;
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .footer-section p {
+            color: #aaa;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-section ul li a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: #4a90e2;
+        }
+
+        .social-links {
             display: flex;
-            gap: 20px;
-            margin-top: 10px;
+            gap: 1rem;
+            margin-top: 1rem;
         }
 
-        .radio-group label {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
+        .social-links a {
+            color: #aaa;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
         }
 
-        /* Loading animation for button */
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .social-links a:hover {
+            color: #4a90e2;
         }
 
-        button:active {
-            background-size: 200% 200%;
-            animation: gradient 1s ease infinite;
+        .footer-bottom {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #333;
+            color: #aaa;
         }
-    </style>
-    <script>
-        function toggleForm() {
-            const userType = document.querySelector('input[name="userType"]:checked').value;
-            const customerFields = document.getElementById('customerFields');
-            const builderFields = document.getElementById('builderFields');
-            if (userType === 'builder') {
-                customerFields.style.display = 'none';
-                builderFields.style.display = 'block';
-            } else {
-                customerFields.style.display = 'block';
-                builderFields.style.display = 'none';
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .wrapper {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
-    </script>
+
+        @media (max-width: 480px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="wrapper">
-        <div class="container">
-            <h2>Login</h2>
-            <form>
-                <div class="form-group">
-                    <label>Username or email address</label>
-                    <input type="text" required placeholder="Enter your email">
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" required placeholder="Enter your password">
-                </div>
-                <a href="#" class="forgot-password">Forgot email?</a>
-                <div class="remember-me">
-                    <label>
-                        <input type="checkbox">
-                        <span>Remember me</span>
-                    </label>
-                </div>
-                <button type="submit">Log In</button>
-            </form>
-        </div>
-        <div class="container">
-            <h2>Register</h2>
-            <form>
-                <div class="form-group">
-                    <label>Email address</label>
-                    <input type="email" required placeholder="Enter your email">
-                </div>
-                <div class="form-group">
-                    <label>I am a:</label>
-                    <div class="radio-group">
-                        <label><input type="radio" name="userType" value="customer" onclick="toggleForm()" checked> Customer</label>
-                        <label><input type="radio" name="userType" value="builder" onclick="toggleForm()"> Builder</label>
-                    </div>
-                </div>
-                <div id="customerFields">
+    <div class="main-content">
+        <div class="wrapper">
+            <div class="container">
+                <h2>Login</h2>
+                <form>
                     <div class="form-group">
-                        <label>First Name</label>
-                        <input type="text" required placeholder="Enter your first name">
+                        <label>Username or email address</label>
+                        <input type="text" required placeholder="Enter your email">
                     </div>
                     <div class="form-group">
-                        <label>Last Name</label>
-                        <input type="text" required placeholder="Enter your last name">
+                        <label>Password</label>
+                        <input type="password" required placeholder="Enter your password">
+                    </div>
+                    <a href="#" class="forgot-password">Forgot email?</a>
+                    <div class="remember-me">
+                        <label>
+                            <input type="checkbox">
+                            <span>Remember me</span>
+                        </label>
+                    </div>
+                    <button type="submit">Log In</button>
+                </form>
+            </div>
+            <div class="container">
+                <h2>Register</h2>
+                <form>
+                    <div class="form-group">
+                        <label>Email address</label>
+                        <input type="email" required placeholder="Enter your email">
                     </div>
                     <div class="form-group">
-                        <label>Gender</label>
-                        <select required>
-                            <option value="">Select Gender</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="other">Other</option>
-                        </select>
+                        <label>I am a:</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="userType" value="customer" onclick="toggleForm()" checked> Customer</label>
+                            <label><input type="radio" name="userType" value="builder" onclick="toggleForm()"> Builder</label>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Phone Number</label>
-                        <input type="tel" required placeholder="Enter your phone number">
+                    <div id="customerFields">
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" required placeholder="Enter your first name">
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input type="text" required placeholder="Enter your last name">
+                        </div>
+                        <div class="form-group">
+                            <label>Gender</label>
+                            <select required>
+                                <option value="">Select Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input type="tel" required placeholder="Enter your phone number">
+                        </div>
                     </div>
-                </div>
-                <div id="builderFields" style="display:none;">
-                    <div class="form-group">
-                        <label>Company Name</label>
-                        <input type="text" required placeholder="Enter company name">
+                    <div id="builderFields" style="display:none;">
+                        <div class="form-group">
+                            <label>Company Name</label>
+                            <input type="text" required placeholder="Enter company name">
+                        </div>
+                        <div class="form-group">
+                            <label>Office Location</label>
+                            <input type="text" required placeholder="Enter office location">
+                        </div>
+                        <div class="form-group">
+                            <label>Company License (JPG/PNG)</label>
+                            <input type="file" accept="image/jpeg, image/png" required>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Office Location</label>
-                        <input type="text" required placeholder="Enter office location">
-                    </div>
-                    <div class="form-group">
-                        <label>Company License (JPG/PNG)</label>
-                        <input type="file" accept="image/jpeg, image/png" required>
-                    </div>
-                </div>
-                <button type="submit">Register</button>
-            </form>
+                    <button type="submit">Register</button>
+                </form>
+            </div>
         </div>
     </div>
-</body>
-</html>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p>Build & Beyond connects homeowners with trusted professionals for all home improvement needs. We ensure quality service and customer satisfaction.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Find Professionals</a></li>
+                    <li><a href="#">Projects</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Services</h3>
+                <ul>
+                    <li><a href="#">Home Renovation</a></li>
+                    <li><a href="#">Repairs & Maintenance</a></li>
+                    <li><a href="#">Interior Design</a></li>
+                    <li><a href="#">Landscaping</a></li>
+                    <li><a href="#">Custom Projects</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <ul>
+                    <li>IIIT Sri City, Chittor</li>
+                    <li>Phone: +91 8186790891</li>
+                    <li>Email: queries@Build&Beyond.com</li>
+                </ul>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.instagram.com/buildandbeyond/"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 Build & Beyond. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+      function toggleForm() {
+          const userType = document.querySelector('input[name="userType"]:checked').value;
+          const customerFields = document.getElementById('customerFields');
+          const builderFields = document.getElementById('builderFields');
+          if (userType === 'builder') {
+              customerFields.style.display = 'none';
+              builderFields.style.display = 'block';
+          } else {
+              customerFields.style.display = 'block';
+              builderFields.style.display = 'none';
+          }
+      }
+  </script>
