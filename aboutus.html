@@ -12,52 +12,6 @@
       font-family: Arial, sans-serif;
     }
 
-    /* Header */
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #ffffff;
-      padding: 20px 40px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      font-size: 28px;
-      font-weight: bold;
-      color: #553c9a;
-    }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 20px;
-    }
-
-    nav ul li {
-      display: inline;
-    }
-
-    nav ul li a {
-      text-decoration: none;
-      font-weight: bold;
-      color: #553c9a;
-    }
-
-    nav ul li a.active,
-    nav ul li a:hover {
-      color: #ff9900;
-    }
-
-    .nav-icons a {
-      text-decoration: none;
-      color: #553c9a;
-      font-weight: bold;
-      margin-left: 15px;
-    }
-
     /* About Section */
     .about-section {
       padding: 60px 20px;
@@ -177,50 +131,6 @@
       line-height: 1.5;
     }
 
-    /* Footer Section */
-    footer {
-            background: #553c9a;
-            color: white;
-            padding: 40px 20px;
-            text-align: center;
-            margin-top: 40px;
-        }
-        
-        .footer-container {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-        }
-        
-        .footer-section {
-            margin: 10px;
-            min-width: 200px;
-        }
-        
-        .footer-section h3 {
-            margin-bottom: 15px;
-        }
-        
-        .footer-section ul {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .footer-section ul li {
-            margin: 8px 0;
-        }
-        
-        .footer-section ul li a, .social-icons a {
-            color: white;
-            text-decoration: none;
-        }
-
-        .footer-bottom {
-            margin-top: 20px;
-            border-top: 1px solid white;
-            padding-top: 10px;
-        }
-
     /* Responsive Styles */
     @media (max-width: 768px) {
       .about-content {
@@ -245,26 +155,6 @@
   </style>
 </head>
 <body>
-
-  <header>
-    <div class="logo">
-      <span>🏗️ Build & Beyond</span>
-    </div>
-    <nav>
-      <ul>
-        <li><a href="#">HOME</a></li>
-        <li><a href="#">SHOP</a></li>
-        <li><a href="#">BUILDING SERVICES</a></li>
-        <li><a href="#" class="active">ABOUT</a></li>
-        <li><a href="#">CONTACT</a></li>
-      </ul>
-    </nav>
-    <div class="nav-icons">
-      <a href="#"><span class="cart-icon">🛒</span></a>
-      <a href="#">Log In/Sign Up</a>
-    </div>
-  </header>
-
   <section class="about-section">
     <h1>About Us</h1>
     <p>
@@ -332,42 +222,5 @@
       </div>
     </div>
   </section>
-
-  <footer>
-    <div class="footer-container">
-        <div class="footer-section">
-            <h3>Contact Us</h3>
-            <p>📍 456 Build Street, Construction City, CC 12345</p>
-            <p>📞 +1 987 654 321</p>
-            <p>✉ support@buildandbeyond.com</p>
-        </div>
-        
-        <div class="footer-section">
-            <h3>Our Services</h3>
-            <ul>
-                <li><a href="#">🏗️ Construction Supplies</a></li>
-                <li><a href="#">🏢 Interior Design</a></li>
-                <li><a href="#">🏥 Health & Safety Services</a></li>
-                <li><a href="#">🔧 Equipment Rental</a></li>
-                <li><a href="#">🎨 Custom Design</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-section">
-            <h3>Follow Us</h3>
-            <div class="social-icons">
-                <a href="#">🔵 Facebook</a>
-                <a href="#">🟣 Instagram</a>
-                <a href="#">🔷 Twitter</a>
-                <a href="#">🔴 YouTube</a>
-            </div>
-        </div>
-    </div>
-    
-    <div class="footer-bottom">
-        <p>© 2025 Build & Beyond. All rights reserved.</p>
-    </div>
-</footer>
-
 </body>
 </html>
