@@ -1,0 +1,53 @@
+/* Navbar */
+.navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 3rem;
+        background-color: #1f1f2e;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        opacity: 0.95;
+      }
+      .navbar .logo {
+        font-weight: bold;
+        color: #fff;
+        font-size: 1.8rem;
+      }
+      .navbar .mid-nav ul {
+        list-style: none;
+        display: flex;
+        gap: 2rem;
+      }
+      .navbar .mid-nav ul li a {
+        text-decoration: none;
+        color: #aaa;
+        transition: color 0.3s;
+      }
+      .navbar .mid-nav ul li a:hover {
+        color: #fff;
+      }
+      .navbar .right-nav {
+        color: #aaa;
+        cursor: pointer;
+        transition: color 0.3s, transform 0.3s;
+      }
+      .navbar .right-nav:hover {
+        color: #fff;
+        transform: scale(1.1);
+      }
+
+      <nav class="navbar">
+        <div class="logo">Build & Beyond</div>
+        <div class="mid-nav">
+          <ul>
+            <li><a href="#">HOME</a></li>
+            <li><a href="#">USERS</a></li>
+            <li><a href="#">ABOUT</a></li>
+            <li><a href="#">CONTACT</a></li>
+          </ul>
+        </div>
+        <div class="right-nav">Login/SignUp</div>
+      </nav>
