@@ -174,6 +174,89 @@
                 gap: 10px;
             }
         }
+        .footer {
+      background-color: #1f1f2e;
+      color: #fff;
+      padding: 4rem 0 2rem 0;
+      margin-top: 4rem;
+  }
+  
+  .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      padding: 0 2rem;
+  }
+  
+  .footer-section h3 {
+      color: #4a90e2;
+      margin-bottom: 1.5rem;
+      font-size: 1.2rem;
+      font-weight: 600;
+  }
+  
+  .footer-section p {
+      color: #aaa;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+  }
+  
+  .footer-section ul {
+      list-style: none;
+  }
+  
+  .footer-section ul li {
+      margin-bottom: 0.8rem;
+  }
+  
+  .footer-section ul li a {
+      color: #aaa;
+      text-decoration: none;
+      transition: color 0.3s;
+  }
+  
+  .footer-section ul li a:hover {
+      color: #4a90e2;
+  }
+  
+  .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+  }
+  
+  .social-links a {
+      color: #aaa;
+      font-size: 1.5rem;
+      transition: color 0.3s;
+  }
+  
+  .social-links a:hover {
+      color: #4a90e2;
+  }
+  
+  .footer-bottom {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid #333;
+      color: #aaa;
+  }
+  
+  @media (max-width: 768px) {
+      .footer-content {
+          grid-template-columns: repeat(2, 1fr);
+      }
+  }
+  
+  @media (max-width: 480px) {
+      .footer-content {
+          grid-template-columns: 1fr;
+      }
+  }
+
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -235,4 +318,53 @@
         </div>
     </div>
 </body>
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>About Us</h3>
+            <p>Build & Beyond connects homeowners with trusted professionals for all home improvement needs. We ensure quality service and customer satisfaction.</p>
+        </div>
+        
+        <div class="footer-section">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Find Professionals</a></li>
+                <li><a href="#">Projects</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-section">
+            <h3>Services</h3>
+            <ul>
+                <li><a href="#">Home Renovation</a></li>
+                <li><a href="#">Repairs & Maintenance</a></li>
+                <li><a href="#">Interior Design</a></li>
+                <li><a href="#">Landscaping</a></li>
+                <li><a href="#">Custom Projects</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-section">
+            <h3>Contact Info</h3>
+            <ul>
+                <li>IIIT Sri City, Chittor</li>
+                <li>Phone: +91 8186790891</li>
+                <li>Email: queries@Build&Beyond.com</li>
+            </ul>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.instagram.com/buildandbeyond/"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>&copy; 2025 Build & Beyond. All rights reserved.</p>
+    </div>
+  </footer>
 </html>
