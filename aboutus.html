@@ -4,14 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>About Us - Build & Beyond</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"/>
   <style>
-    body,
-    html {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
-    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        background: #f0f2f5;
+        color: #333;
+      }
+
     /* Navbar */
     .navbar {
         display: flex;
@@ -24,7 +32,6 @@
         top: 0;
         z-index: 100;
         opacity: 0.95;
-        height:20px;
       }
       .navbar .logo {
         font-weight: bold;
@@ -54,21 +61,20 @@
         transform: scale(1.1);
       }
 
-    
     /* About Section */
-    .about-section {
+    .aboutus-section-1 {
       padding: 60px 20px;
       background-color: #f9f9f9;
       text-align: center; /* Center the heading and intro text */
     }
 
-    .about-section h1 {
+    .aboutus-section-1 h1 {
       font-size: 42px;
       color: #5e135e;
       margin-bottom: 20px;
     }
 
-    .about-section p {
+    .aboutus-section-1 p {
       font-size: 18px;
       max-width: 900px;
       margin: 0 auto 30px;
@@ -77,7 +83,7 @@
     }
 
     /* Container for content */
-    .about-content {
+    .about-content-1 {
       display: flex;
       justify-content: center;
       align-items: flex-start;
@@ -88,7 +94,7 @@
       padding: 0 20px;   /* Optional side padding */
     }
 
-    .details {
+    .details-1 {
       flex: 1;
       max-width: 600px;
       background-color: #fff;
@@ -99,25 +105,25 @@
       margin: 20px 0;
     }
 
-    .details h3 {
+    .details-1 h3 {
       font-size: 30px;
       color: #5e135e;
       margin-bottom: 20px;
     }
 
-    .details p {
+    .details-1 p {
       font-size: 16px;
       color: #555;
       line-height: 1.6;
       margin-bottom: 20px;
     }
 
-    .details ul {
+    .details-1 ul {
       list-style: none;
       padding: 0;
     }
 
-    .details ul li {
+    .details-1 ul li {
       font-size: 18px;
       margin: 15px 0;
       color: #555;
@@ -177,12 +183,12 @@
     
     /* Responsive Styles */
     @media (max-width: 768px) {
-      .about-content {
+      .about-content-1 {
         flex-direction: column;
         align-items: center;
       }
 
-      .details {
+      .details-1 {
         text-align: center; /* On smaller screens, you may prefer center alignment */
       }
 
@@ -196,107 +202,108 @@
         gap: 20px;
       }
     }
-    .footer {
-      background-color: #1f1f2e;
-      color: #fff;
-      padding: 4rem 0 2rem 0;
-      margin-top: 4rem;
-  }
-  
-  .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 2rem;
-      padding: 0 2rem;
-  }
-  
-  .footer-section h3 {
-      color: #4a90e2;
-      margin-bottom: 1.5rem;
-      font-size: 1.2rem;
-      font-weight: 600;
-  }
-  
-  .footer-section p {
-      color: #aaa;
-      line-height: 1.6;
-      margin-bottom: 1rem;
-  }
-  
-  .footer-section ul {
-      list-style: none;
-  }
-  
-  .footer-section ul li {
-      margin-bottom: 0.8rem;
-  }
-  
-  .footer-section ul li a {
-      color: #aaa;
-      text-decoration: none;
-      transition: color 0.3s;
-  }
-  
-  .footer-section ul li a:hover {
-      color: #4a90e2;
-  }
-  
-  .social-links {
-      display: flex;
-      gap: 1rem;
-      margin-top: 1rem;
-  }
-  
-  .social-links a {
-      color: #aaa;
-      font-size: 1.5rem;
-      transition: color 0.3s;
-  }
-  
-  .social-links a:hover {
-      color: #4a90e2;
-  }
-  
-  .footer-bottom {
-      text-align: center;
-      margin-top: 3rem;
-      padding-top: 2rem;
-      border-top: 1px solid #333;
-      color: #aaa;
-  }
-  
-  @media (max-width: 768px) {
+
+    /* Footer Section */
+      .footer {
+        background-color: #1f1f2e;
+        color: #fff;
+        padding: 4rem 0 2rem 0;
+        margin-top: 4rem;
+      }
+
       .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+        padding: 0 2rem;
+      }
+
+      .footer-section h3 {
+        color: #4a90e2;
+        margin-bottom: 1.5rem;
+        font-size: 1.2rem;
+        font-weight: 600;
+      }
+
+      .footer-section p {
+        color: #aaa;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+      }
+
+      .footer-section ul {
+        list-style: none;
+      }
+
+      .footer-section ul li {
+        margin-bottom: 0.8rem;
+      }
+
+      .footer-section ul li a {
+        color: #aaa;
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+
+      .footer-section ul li a:hover {
+        color: #4a90e2;
+      }
+
+      .social-links {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .social-links a {
+        color: #aaa;
+        font-size: 1.5rem;
+        transition: color 0.3s;
+      }
+
+      .social-links a:hover {
+        color: #4a90e2;
+      }
+
+      .footer-bottom {
+        text-align: center;
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px solid #333;
+        color: #aaa;
+      }
+
+      @media (max-width: 768px) {
+        .footer-content {
           grid-template-columns: repeat(2, 1fr);
+        }
       }
-  }
-  
-  @media (max-width: 480px) {
-      .footer-content {
+
+      @media (max-width: 480px) {
+        .footer-content {
           grid-template-columns: 1fr;
+        }
       }
-  }
 
   </style>
 </head>
 <body>
   <nav class="navbar">
-    <div class="logo">Build & Beyond</div>
-    <div class="mid-nav">
-      <ul>
-        <li><a href="homepage.html">HOME</a></li>
-        <li><a href="users.html">USERS</a></li>
-        <li><a href="aboutus.html">ABOUT</a></li>
-        <li><a href="contactus.html">CONTACT</a></li>
-      </ul>
-    </div>
-    <div class="right-nav">Login/SignUp</div>
-  </nav>
+      <div class="logo">Build & Beyond</div>
+      <div class="mid-nav">
+        <ul>
+          <li><a href="#">HOME</a></li>
+          <li><a href="#">USERS</a></li>
+          <li><a href="#">ABOUT</a></li>
+          <li><a href="#">CONTACT</a></li>
+        </ul>
+      </div>
+      <div class="right-nav">Login/SignUp</div>
+    </nav>
   
-
-  <section class="about-section">
+  <section class="aboutus-section-1">
     <h1>About Us</h1>
     <p>
       At Build & Beyond, we are committed to helping individuals and businesses turn their dream spaces into reality. 
@@ -305,8 +312,8 @@
     </p>
 
     <!-- Content centered in the middle -->
-    <div class="about-content">
-      <div class="details">
+    <div class="about-content-1">
+      <div class="details-1">
         <h3>Our Mission</h3>
         <p>
           Our mission is to simplify the construction process for our customers by providing a one-stop platform 
@@ -363,54 +370,63 @@
       </div>
     </div>
   </section>
+
+ 
+
 </body>
 <footer class="footer">
   <div class="footer-content">
-      <div class="footer-section">
-          <h3>About Us</h3>
-          <p>Build & Beyond connects homeowners with trusted professionals for all home improvement needs. We ensure quality service and customer satisfaction.</p>
+    <div class="footer-section">
+      <h3>About Us</h3>
+      <p>
+        Build & Beyond connects homeowners with trusted professionals for
+        all home improvement needs. We ensure quality service and customer
+        satisfaction.
+      </p>
+    </div>
+
+    <div class="footer-section">
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Services</a></li>
+        <li><a href="#">Find Professionals</a></li>
+        <li><a href="#">Projects</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-section">
+      <h3>Services</h3>
+      <ul>
+        <li><a href="#">Home Renovation</a></li>
+        <li><a href="#">Repairs & Maintenance</a></li>
+        <li><a href="#">Interior Design</a></li>
+        <li><a href="#">Landscaping</a></li>
+        <li><a href="#">Custom Projects</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-section">
+      <h3>Contact Info</h3>
+      <ul>
+        <li>IIIT Sri City, Chittor</li>
+        <li>Phone: +91 8186790891</li>
+        <li>Email: queries@Build&Beyond.com</li>
+      </ul>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="https://www.instagram.com/buildandbeyond/"
+          ><i class="fab fa-instagram"></i
+        ></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
       </div>
-      
-      <div class="footer-section">
-          <h3>Quick Links</h3>
-          <ul>
-              <li><a href="#">Home</a></li>
-              <li><a href="#">Services</a></li>
-              <li><a href="#">Find Professionals</a></li>
-              <li><a href="#">Projects</a></li>
-              <li><a href="#">Contact</a></li>
-          </ul>
-      </div>
-      
-      <div class="footer-section">
-          <h3>Services</h3>
-          <ul>
-              <li><a href="#">Home Renovation</a></li>
-              <li><a href="#">Repairs & Maintenance</a></li>
-              <li><a href="#">Interior Design</a></li>
-              <li><a href="#">Landscaping</a></li>
-              <li><a href="#">Custom Projects</a></li>
-          </ul>
-      </div>
-      
-      <div class="footer-section">
-          <h3>Contact Info</h3>
-          <ul>
-              <li>IIIT Sri City, Chittor</li>
-              <li>Phone: +91 8186790891</li>
-              <li>Email: queries@Build&Beyond.com</li>
-          </ul>
-          <div class="social-links">
-              <a href="#"><i class="fab fa-facebook"></i></a>
-              <a href="#"><i class="fab fa-twitter"></i></a>
-              <a href="https://www.instagram.com/buildandbeyond/"><i class="fab fa-instagram"></i></a>
-              <a href="#"><i class="fab fa-linkedin"></i></a>
-          </div>
-      </div>
+    </div>
   </div>
-  
+
   <div class="footer-bottom">
-      <p>&copy; 2025 Build & Beyond. All rights reserved.</p>
+    <p>&copy; 2025 Build & Beyond. All rights reserved.</p>
   </div>
-  </footer>
+</footer>
 </html>

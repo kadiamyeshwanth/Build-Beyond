@@ -4,8 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"/>
     <style>
+       * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
 
+      body {
+        background: #f0f2f5;
+        color: #333;
+      } 
         /* Navbar */
       .navbar {
         display: flex;
@@ -18,7 +31,6 @@
         top: 0;
         z-index: 100;
         opacity: 0.95;
-        height: 20px;
       }
       .navbar .logo {
         font-weight: bold;
@@ -48,7 +60,6 @@
         transform: scale(1.1);
       }
 
-
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -57,7 +68,7 @@
             position: relative;
         }
 
-        .container {
+        .container-2 {
             max-width: 1200px;
             margin: 0 auto;
             padding: 40px 20px;
@@ -85,7 +96,7 @@
             margin-bottom: 10px;
         }
 
-        .separator {
+        .separator-2 {
             width: 100px;
             height: 3px;
             background-color: #4a104a;
@@ -94,7 +105,7 @@
         }
 
         /* Content layout */
-        .content-wrapper {
+        .content-wrapper-2 {
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -102,12 +113,12 @@
         }
 
         /* Form Section */
-        .form-section {
+        .form-section-2 {
             width: 600px;
             max-width: 100%;
         }
 
-        .form-row {
+        .form-row-2 {
             display: flex;
             gap: 20px;
             margin-bottom: 20px;
@@ -150,29 +161,29 @@
         }
 
         /* Contact Info Section */
-        .contact-info {
+        .contact-info-2 {
             width: 300px;
         }
 
-        .info-item {
+        .info-item-2 {
             display: flex;
             align-items: center;
             margin-bottom: 30px;
         }
 
-        .info-item a {
+        .info-item-2 a {
             display: flex;
             align-items: center;
             text-decoration: none;
             color: inherit;
         }
 
-        .info-item a:hover .info-content {
+        .info-item-2 a:hover .info-content {
             color: #5e135e;
             text-decoration: underline;
         }
 
-        .icon {
+        .icon-2 {
             width: 50px;
             height: 50px;
             background-color: #4a104a;
@@ -187,7 +198,7 @@
             transition: transform 0.2s ease;
         }
 
-        .info-item a:hover .icon {
+        .info-item-2 a:hover .icon-2 {
             transform: scale(1.1);
         }
 
@@ -199,108 +210,109 @@
 
         /* Responsive Design */
         @media (max-width: 992px) {
-            .content-wrapper {
+            .content-wrapper-2 {
                 flex-direction: column;
                 align-items: center;
             }
-            .form-section, .contact-info {
+            .form-section-2, .contact-info-2 {
                 width: 100%;
                 max-width: 600px;
             }
-            .contact-info {
+            .contact-info-2 {
                 margin-top: 40px;
             }
         }
 
         @media (max-width: 576px) {
-            .form-row {
+            .form-row-2 {
                 flex-direction: column;
                 gap: 10px;
             }
         }
-        .footer {
-      background-color: #1f1f2e;
-      color: #fff;
-      padding: 4rem 0 2rem 0;
-      margin-top: 4rem;
-  }
-  
-  .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 2rem;
-      padding: 0 2rem;
-  }
-  
-  .footer-section h3 {
-      color: #4a90e2;
-      margin-bottom: 1.5rem;
-      font-size: 1.2rem;
-      font-weight: 600;
-  }
-  
-  .footer-section p {
-      color: #aaa;
-      line-height: 1.6;
-      margin-bottom: 1rem;
-  }
-  
-  .footer-section ul {
-      list-style: none;
-  }
-  
-  .footer-section ul li {
-      margin-bottom: 0.8rem;
-  }
-  
-  .footer-section ul li a {
-      color: #aaa;
-      text-decoration: none;
-      transition: color 0.3s;
-  }
-  
-  .footer-section ul li a:hover {
-      color: #4a90e2;
-  }
-  
-  .social-links {
-      display: flex;
-      gap: 1rem;
-      margin-top: 1rem;
-  }
-  
-  .social-links a {
-      color: #aaa;
-      font-size: 1.5rem;
-      transition: color 0.3s;
-  }
-  
-  .social-links a:hover {
-      color: #4a90e2;
-  }
-  
-  .footer-bottom {
-      text-align: center;
-      margin-top: 3rem;
-      padding-top: 2rem;
-      border-top: 1px solid #333;
-      color: #aaa;
-  }
-  
-  @media (max-width: 768px) {
-      .footer-content {
-          grid-template-columns: repeat(2, 1fr);
+        
+        /* Footer Section */
+      .footer {
+        background-color: #1f1f2e;
+        color: #fff;
+        padding: 4rem 0 2rem 0;
+        margin-top: 4rem;
       }
-  }
-  
-  @media (max-width: 480px) {
-      .footer-content {
-          grid-template-columns: 1fr;
-      }
-  }
 
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+        padding: 0 2rem;
+      }
+
+      .footer-section h3 {
+        color: #4a90e2;
+        margin-bottom: 1.5rem;
+        font-size: 1.2rem;
+        font-weight: 600;
+      }
+
+      .footer-section p {
+        color: #aaa;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+      }
+
+      .footer-section ul {
+        list-style: none;
+      }
+
+      .footer-section ul li {
+        margin-bottom: 0.8rem;
+      }
+
+      .footer-section ul li a {
+        color: #aaa;
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+
+      .footer-section ul li a:hover {
+        color: #4a90e2;
+      }
+
+      .social-links {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .social-links a {
+        color: #aaa;
+        font-size: 1.5rem;
+        transition: color 0.3s;
+      }
+
+      .social-links a:hover {
+        color: #4a90e2;
+      }
+
+      .footer-bottom {
+        text-align: center;
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px solid #333;
+        color: #aaa;
+      }
+
+      @media (max-width: 768px) {
+        .footer-content {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 480px) {
+        .footer-content {
+          grid-template-columns: 1fr;
+        }
+      }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -309,62 +321,62 @@
         <div class="logo">Build & Beyond</div>
         <div class="mid-nav">
           <ul>
-            <li><a href="homepage.html">HOME</a></li>
-            <li><a href="users.html">USERS</a></li>
-            <li><a href="aboutus.html">ABOUT</a></li>
-            <li><a href="contactus.html">CONTACT</a></li>
+            <li><a href="#">HOME</a></li>
+            <li><a href="#">USERS</a></li>
+            <li><a href="#">ABOUT</a></li>
+            <li><a href="#">CONTACT</a></li>
           </ul>
         </div>
         <div class="right-nav">Login/SignUp</div>
-      </nav>
+    </nav>
     <div class="dot-background"></div>
-    <div class="container">
+    <div class="container-2">
         <h1>Contact Us</h1>
-        <div class="separator"></div>
+        <div class="separator-2"></div>
         
-        <div class="content-wrapper">
-            <div class="form-section">
-                <div class="form-row">
+        <div class="content-wrapper-2">
+            <div class="form-section-2">
+                <div class="form-row-2">
                     <input type="text" placeholder="First Name">
                     <input type="text" placeholder="Last Name">
                 </div>
-                <div class="form-row">
+                <div class="form-row-2">
                     <input type="email" placeholder="Email">
                 </div>
-                <div class="form-row">
+                <div class="form-row-2">
                     <textarea placeholder="Please write your message here"></textarea>
                 </div>
                 <button class="submit-btn">SUBMIT</button>
             </div>
             
-            <div class="contact-info">
-                <div class="info-item">
+            <div class="contact-info-2">
+                <div class="info-item-2">
                     <a href="https://maps.google.com/?q=IIIT+Sri+City,Chittor" target="_blank">
-                        <div class="icon">
+                        <div class="icon-2">
                             <i class="fas fa-map-marker-alt"></i>
                         </div>
                         <div class="info-content">IIIT Sri City,Chittor</div>
                     </a>
                 </div>
-                <div class="info-item">
+                <div class="info-item-2">
                     <a href="tel:+918186790891">
-                        <div class="icon">
+                        <div class="icon-2">
                             <i class="fas fa-phone-alt"></i>
                         </div>
                         <div class="info-content">+91 8186790891</div>
                     </a>
                 </div>
-                <div class="info-item">
+                <div class="info-item-2">
                     <a href="mailto:queries@Build&Beyond.com">
-                        <div class="icon">
+                        <div class="icon-2">
                             <i class="fas fa-envelope"></i>
                         </div>
                         <div class="info-content">queries@Build&Beyond.com</div>
                     </a>
                 </div>
-                <div class="info-item">
+                <div class="info-item-2">
                     <a href="https://www.instagram.com/buildandbeyond/" target="_blank">
-                        <div class="icon">
+                        <div class="icon-2">
                             <i class="fab fa-instagram"></i>
                         </div>
                         <div class="info-content">Build&Beyond</div>
