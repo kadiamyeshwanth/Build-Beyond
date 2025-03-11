@@ -3,103 +3,798 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Housing Listings</title>
+    <title>Architect Profiles</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f8f8;
+        * {
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Arial', sans-serif;
         }
-        .listing-container {
-            width: 80%;
-            margin: auto;
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+        :root {
+            --primary-color: #3a7bd5;
+            --primary-light: #5a9bff;
+            --primary-dark: #2856a3;
+            --accent-color: #ff6b6b;
+            --accent-hover: #ff8e8e;
+            --background-light: #f5f5f5;
+            --background-white: #ffffff;
+            --background-card: #ffffff;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --text-light: #888888;
+            --border-color: #e0e0e0;
+            --success-color: #4caf50;
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
         }
-        .listing {
-            border-bottom: 1px solid #ddd;
-            padding: 15px 0;
+
+        body {
+            background-color: var(--background-light);
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        header {
+            background-color: var(--primary-dark);
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+
+        .header-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header-content p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .container.sidebar-open {
+            max-width: calc(1200px - 400px);
+            margin-right: 400px;
+        }
+
+        .filter-section {
             display: flex;
+            justify-content: space-between;
             align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
-        .listing img {
-            width: 150px;
-            height: auto;
-            border-radius: 5px;
-            margin-right: 15px;
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            max-width: 500px;
         }
-        .listing-info {
+
+        .search-box input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 16px;
+        }
+
+        .search-box button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            padding: 0 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-box button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .filter-dropdown select {
+            padding: 10px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 16px;
+            background-color: white;
+            cursor: pointer;
+        }
+
+        .profiles-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .profile-card {
+            background: var(--background-white);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        @media (min-width: 768px) {
+            .profile-card {
+                flex-direction: row;
+            }
+            
+            .profiles-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .profiles-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .profile-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .profile-image {
+            width: 100%;
+            height: 180px; /* Reduced height */
+            overflow: hidden;
+            position: relative;
+        }
+
+        @media (min-width: 768px) {
+            .profile-image {
+                width: 180px; /* Reduced width */
+                height: auto;
+                flex-shrink: 0;
+            }
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .profile-card:hover .profile-image img {
+            transform: scale(1.05);
+        }
+
+        .profile-info {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .profile-title {
+            color: var(--accent-color);
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .profile-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
             flex-grow: 1;
         }
-        .price {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #333;
+
+        .profile-stats {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
         }
-        .emi {
-            color: #888;
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        .status {
-            background: #ffd700;
-            padding: 3px 8px;
-            border-radius: 5px;
-            font-size: 0.9em;
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .specialization {
             display: inline-block;
-            margin-top: 5px;
+            background-color: var(--background-light);
+            padding: 0.4rem 0.8rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
         }
-        .buttons {
-            margin-top: 10px;
+
+        .profile-actions {
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
-        .buttons button {
-            padding: 8px 15px;
+
+        .profile-actions button {
+            padding: 10px 20px;
             border: none;
+            border-radius: var(--radius-md);
+            font-weight: 500;
             cursor: pointer;
-            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-size: 15px;
         }
-        .contact {
-            background: green;
-            color: white;
-            margin-right: 5px;
-        }
-        .view {
-            background: blue;
+
+        .view-profile {
+            background-color: var(--primary-color);
             color: white;
         }
+
+        .view-profile:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .contact-architect {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .contact-architect:hover {
+            background-color: #3d9140;
+            transform: translateY(-2px);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 3rem;
+            gap: 0.5rem;
+        }
+
+        .pagination button {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--border-color);
+            background-color: white;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pagination button.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .pagination button:hover:not(.active) {
+            background-color: var(--background-light);
+        }
+
+        footer {
+            background-color: var(--primary-dark);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            transition: all 0.3s ease;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--accent-color);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            padding: 1.5rem 0;
+            background-color: rgba(0, 0, 0, 0.2);
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 2rem;
+        }
+
+        /* Sidebar styles for profile popup */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background-color: var(--background-white);
+            box-shadow: var(--shadow-lg);
+            transition: right 0.3s ease;
+            overflow-y: auto;
+            z-index: 1000;
+            padding: 2rem;
+        }
+
+        .sidebar.open {
+            right: 0;
+        }
+
+        .sidebar-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-primary);
+        }
+
+        .sidebar-profile-image {
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+            border-radius: var(--radius-md);
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .sidebar-content h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-title {
+            color: var(--accent-color);
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-section {
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .sidebar-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+
+        .sidebar-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+        
     </style>
 </head>
 <body>
-    <div class="listing-container">
-        <div class="listing">
-            <img src="map-placeholder.jpg" alt="Project Map">
-            <div class="listing-info">
-                <div class="price">
-                    ₹1.3 Cr - 1.4 Cr <span class="emi">(EMI starts at ₹64.48K)</span>
-                </div>
-                <div>Sreshta Adhiroha | 3 BHK Flat | Vidya Nagar</div>
-                <div class="status">Under Construction (Possession: May 2026)</div>
-                <div class="buttons">
-                    <button class="contact">Contact Developer</button>
-                    <button class="view">View Phone</button>
-                </div>
-            </div>
-        </div>
-        <div class="listing">
-            <img src="project-placeholder.jpg" alt="Project Image">
-            <div class="listing-info">
-                <div class="price">
-                    ₹48.49 L - 62.41 L <span class="emi">(EMI starts at ₹25.68K)</span>
-                </div>
-                <div>The Rise Sunsiri Projects | Plots in Kaza</div>
-                <div class="status">New Project</div>
-                <div class="buttons">
-                    <button class="contact">Contact Developer</button>
-                    <button class="view">View Phone</button>
-                </div>
-            </div>
+    <div class="overlay" id="overlay"></div>
+    <div class="sidebar" id="sidebar">
+        <button class="sidebar-close" id="sidebar-close">×</button>
+        <div class="sidebar-content" id="sidebar-content">
+            <!-- Sidebar content will be dynamically populated -->
         </div>
     </div>
+
+    <header>
+        <div class="header-content">
+            <h1>Top Architects</h1>
+            <p>Discover talented architects to bring your design vision to life</p>
+        </div>
+    </header>
+
+    <div class="container" id="main-container">
+        <div class="filter-section">
+            <div class="search-box">
+                <input type="text" placeholder="Search architects...">
+                <button>Search</button>
+            </div>
+            <div class="filter-dropdown">
+                <select>
+                    <option value="">Filter by Specialization</option>
+                    <option value="residential">Residential</option>
+                    <option value="commercial">Commercial</option>
+                    <option value="interior">Interior Design</option>
+                    <option value="landscape">Landscape</option>
+                    <option value="urban">Urban Planning</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="profiles-grid">
+            <div class="profile-card" data-architect-id="1">
+                <div class="profile-image">
+                    <img src="https://github.com/web-component23/awesome-designs/blob/main/Profile%20List/profile-img.png?raw=true" alt="Architect Portrait">
+                </div>
+                <div class="profile-info">
+                    <h2 class="profile-name">Rajiv Sharma</h2>
+                    <div class="profile-title">Senior Architect, LEED Certified</div>
+                    <p class="profile-description">Award-winning architect with over 15 years of experience specializing in sustainable residential and commercial designs. Known for innovative use of natural materials and energy-efficient solutions.</p>
+                    <div class="profile-stats">
+                        <div class="stat">
+                            <div class="stat-value">48</div>
+                            <div class="stat-label">Projects</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">15</div>
+                            <div class="stat-label">Years Exp.</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">4.9</div>
+                            <div class="stat-label">Rating</div>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="specialization">Residential</span>
+                        <span class="specialization">Commercial</span>
+                        <span class="specialization">Sustainable</span>
+                    </div>
+                    <div class="profile-actions">
+                        <button class="contact-architect">Contact Architect</button>
+                        <button class="view-profile">View Portfolio</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-card" data-architect-id="2">
+                <div class="profile-image">
+                    <img src="https://github.com/web-component23/awesome-designs/blob/main/Profile%20List/profile-img.png?raw=true" alt="Architect Portrait">
+                </div>
+                <div class="profile-info">
+                    <h2 class="profile-name">Priya Patel</h2>
+                    <div class="profile-title">Principal Architect & Interior Designer</div>
+                    <p class="profile-description">Specializes in luxury residential architecture and high-end interior design. Creates harmonious spaces that blend aesthetics with functionality. Featured in Architectural Digest and Home & Design.</p>
+                    <div class="profile-stats">
+                        <div class="stat">
+                            <div class="stat-value">36</div>
+                            <div class="stat-label">Projects</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">10</div>
+                            <div class="stat-label">Years Exp.</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">4.8</div>
+                            <div class="stat-label">Rating</div>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="specialization">Luxury Homes</span>
+                        <span class="specialization">Interior</span>
+                        <span class="specialization">Renovation</span>
+                    </div>
+                    <div class="profile-actions">
+                        <button class="contact-architect">Contact Architect</button>
+                        <button class="view-profile">View Portfolio</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-card" data-architect-id="3">
+                <div class="profile-image">
+                    <img src="https://github.com/web-component23/awesome-designs/blob/main/Profile%20List/profile-img.png?raw=true" alt="Architect Portrait">
+                </div>
+                <div class="profile-info">
+                    <h2 class="profile-name">Arjun Mehta</h2>
+                    <div class="profile-title">Urban Designer & Landscape Architect</div>
+                    <p class="profile-description">Passionate about creating sustainable urban spaces and ecological landscape designs. Combines traditional wisdom with modern techniques to deliver environmentally responsible projects.</p>
+                    <div class="profile-stats">
+                        <div class="stat">
+                            <div class="stat-value">22</div>
+                            <div class="stat-label">Projects</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">8</div>
+                            <div class="stat-label">Years Exp.</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">4.7</div>
+                            <div class="stat-label">Rating</div>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="specialization">Urban</span>
+                        <span class="specialization">Landscape</span>
+                        <span class="specialization">Public Spaces</span>
+                    </div>
+                    <div class="profile-actions">
+                        <button class="contact-architect">Contact Architect</button>
+                        <button class="view-profile">View Portfolio</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-card" data-architect-id="4">
+                <div class="profile-image">
+                    <img src="https://github.com/web-component23/awesome-designs/blob/main/Profile%20List/profile-img.png?raw=true " alt="Architect Portrait">
+                </div>
+                <div class="profile-info">
+                    <h2 class="profile-name">Ananya Desai</h2>
+                    <div class="profile-title">Conservation Architect</div>
+                    <p class="profile-description">Specialized in heritage conservation and adaptive reuse of historic buildings. Balances preservation of cultural significance with contemporary functionality requirements.</p>
+                    <div class="profile-stats">
+                        <div class="stat">
+                            <div class="stat-value">31</div>
+                            <div class="stat-label">Projects</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">12</div>
+                            <div class="stat-label">Years Exp.</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">4.9</div>
+                            <div class="stat-label">Rating</div>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="specialization">Heritage</span>
+                        <span class="specialization">Restoration</span>
+                        <span class="specialization">Adaptive Reuse</span>
+                    </div>
+                    <div class="profile-actions">
+                        <button class="contact-architect">Contact Architect</button>
+                        <button class="view-profile">View Portfolio</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pagination">
+            <button>1</button>
+            <button class="active">2</button>
+            <button>3</button>
+            <button>4</button>
+            <button>5</button>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p>We connect talented architects with clients looking to bring their vision to life. Our platform makes it easy to find the right professional for your project.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Browse Architects</a></li>
+                    <li><a href="#">How It Works</a></li>
+                    <li><a href="#">For Architects</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Email Us</a></li>
+                    <li><a href="#">Support</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2025 Architect Connect. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Script to handle profile card clicks and show sidebar
+        document.addEventListener('DOMContentLoaded', function() {
+            const profileCards = document.querySelectorAll('.profile-card');
+            const sidebar = document.getElementById('sidebar');
+            const sidebarContent = document.getElementById('sidebar-content');
+            const sidebarClose = document.getElementById('sidebar-close');
+            const overlay = document.getElementById('overlay');
+            const mainContainer = document.getElementById('main-container');
+            
+           
+            document.querySelectorAll('.profile-actions button').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            });
+
+           
+            profileCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const architectId = this.getAttribute('data-architect-id');
+                    const name = this.querySelector('.profile-name').textContent;
+                    const title = this.querySelector('.profile-title').textContent;
+                    const description = this.querySelector('.profile-description').textContent;
+                    const imgSrc = this.querySelector('.profile-image img').src;
+                    const stats = this.querySelector('.profile-stats').innerHTML;
+                    const specializations = this.querySelectorAll('.specialization');
+                    
+                    let specializationsHTML = '';
+                    specializations.forEach(spec => {
+                        specializationsHTML += `<span class="specialization">${spec.textContent}</span> `;
+                    });
+
+                   
+                    const sidebarHTML = `
+                        <div class="sidebar-profile-image">
+                            <img src="${imgSrc}" alt="${name}">
+                        </div>
+                        <h2>${name}</h2>
+                        <div class="sidebar-title">${title}</div>
+                        
+                        <div class="sidebar-section">
+                            <h3>About</h3>
+                            <p>${description}</p>
+                        </div>
+                        
+                        <div class="sidebar-section">
+                            <h3>Stats</h3>
+                            <div class="sidebar-stats">
+                                ${stats}
+                            </div>
+                        </div>
+                        
+                        <div class="sidebar-section">
+                            <h3>Specializations</h3>
+                            <div>${specializationsHTML}</div>
+                        </div>
+                        
+                        <div class="sidebar-section">
+                            <h3>Portfolio Highlights</h3>
+                            <p>Selected projects and achievements by ${name}.</p>
+                            <ul style="padding-left: 20px; margin-top: 10px;">
+                                <li>Award-winning residential project in downtown area</li>
+                                <li>Sustainable commercial complex design</li>
+                                <li>Featured work in Architecture Monthly magazine</li>
+                                <li>Innovative mixed-use development</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="profile-actions">
+                            <button class="contact-architect">Contact Architect</button>
+                            <button class="view-profile">View Full Portfolio</button>
+                        </div>
+                    `;
+                    
+                    // Update sidebar content
+                    sidebarContent.innerHTML = sidebarHTML;
+                    
+                    // Open sidebar and show overlay
+                    sidebar.classList.add('open');
+                    overlay.classList.add('active');
+                    mainContainer.classList.add('sidebar-open');
+                });
+            });
+            
+            // Close sidebar when close button is clicked
+            sidebarClose.addEventListener('click', function() {
+                closeSidebar();
+            });
+            
+            // Close sidebar when overlay is clicked
+            overlay.addEventListener('click', function() {
+                closeSidebar();
+            });
+            
+            // Function to close sidebar
+            function closeSidebar() {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+                mainContainer.classList.remove('sidebar-open');
+            }
+        });
+    </script>
 </body>
 </html>
