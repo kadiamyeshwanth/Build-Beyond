@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Housing Listings</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 20px;
+        }
+        .listing-container {
+            width: 80%;
+            margin: auto;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .listing {
+            border-bottom: 1px solid #ddd;
+            padding: 15px 0;
+            display: flex;
+            align-items: center;
+        }
+        .listing img {
+            width: 150px;
+            height: auto;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+        .listing-info {
+            flex-grow: 1;
+        }
+        .price {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+        }
+        .emi {
+            color: #888;
+        }
+        .status {
+            background: #ffd700;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            display: inline-block;
+            margin-top: 5px;
+        }
+        .buttons {
+            margin-top: 10px;
+        }
+        .buttons button {
+            padding: 8px 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .contact {
+            background: green;
+            color: white;
+            margin-right: 5px;
+        }
+        .view {
+            background: blue;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="listing-container">
+        <div class="listing">
+            <img src="map-placeholder.jpg" alt="Project Map">
+            <div class="listing-info">
+                <div class="price">
+                    ₹1.3 Cr - 1.4 Cr <span class="emi">(EMI starts at ₹64.48K)</span>
+                </div>
+                <div>Sreshta Adhiroha | 3 BHK Flat | Vidya Nagar</div>
+                <div class="status">Under Construction (Possession: May 2026)</div>
+                <div class="buttons">
+                    <button class="contact">Contact Developer</button>
+                    <button class="view">View Phone</button>
+                </div>
+            </div>
+        </div>
+        <div class="listing">
+            <img src="project-placeholder.jpg" alt="Project Image">
+            <div class="listing-info">
+                <div class="price">
+                    ₹48.49 L - 62.41 L <span class="emi">(EMI starts at ₹25.68K)</span>
+                </div>
+                <div>The Rise Sunsiri Projects | Plots in Kaza</div>
+                <div class="status">New Project</div>
+                <div class="buttons">
+                    <button class="contact">Contact Developer</button>
+                    <button class="view">View Phone</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
