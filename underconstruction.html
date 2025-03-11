@@ -5,257 +5,413 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Present Constructions</title>
     <style>
-        .filter-container {
-            display: flex;
-            gap: 20px;
-        }
-        .property-container {
-            width: 70%;
-        }
-        .filter-sidebar {
-            width: 25%;
-            position: sticky;
-            top: 20px;
-            align-self: flex-start;
-            background-color: white;
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        .filter-sidebar h3 {
-            margin-bottom: 15px;
-            font-size: 18px;
-        }
-        .filter-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .filter-btn {
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            background-color: #f5f5f5;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 14px;
-        }
-        .filter-btn:hover {
-            background-color: #e0e0e0;
-        }
-        .filter-btn.active {
-            background-color: #5c3dff;
-            color: white;
-        }
-        .property-card {
-            width: 100%;
-        }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Georgia', 'Times New Roman', serif; /* Changed to classic font */
-        }
-        body {
-            background-color: #f5f5f5;
-            padding: 20px;
-        }
-        .container {
-            max-width: 850px;
-            margin: 0 auto;
-        }
-        h1 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #333;
-        }
-        .property-card {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-            padding: 15px;
-            position: relative;
-            transition: transform 0.3s ease;
-        }
-        .property-card.favorite {
-            border: 2px solid #ff5722;
-        }
-        .property-image {
-            width: 200px;
-            height: 180px;
-            border-radius: 8px;
-            object-fit: cover;
-            float: left;
-            margin-right: 20px;
-        }
-        .property-info {
-            overflow: hidden;
-        }
-        .price {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #333;
-        }
-        .property-name {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .developer {
-            color: #666;
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-        .property-type {
-            margin-bottom: 15px;
-            font-size: 15px;
-        }
-        .detail-box {
-            display: flex;
-            justify-content: space-between;
-            background-color: #f9f9f9;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 15px;
-        }
-        .detail-item {
-            text-align: center;
-            flex: 1;
-        }
-        .detail-label {
-            font-size: 12px;
-            color: #777;
-        }
-        .detail-value {
-            font-size: 14px;
-            font-weight: bold;
-            color: #333;
-        }
-        .nearby {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 15px;
-        }
-        .nearby span {
-            margin-right: 10px;
-        }
-        .developer-info {
-            margin-top: 15px;
-            display: flex;
-            align-items: center;
-        }
-        .developer-logo {
-            width: 35px;
-            height: 35px;
-            border-radius: 5px;
-            background-color: #4caf50;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            margin-right: 10px;
-            float: left;
-        }
-        .share-icon {
-            position: absolute;
-            top: 15px;
-            right: 50px;
-            font-size: 20px;
-            color: #5c3dff;
-            cursor: pointer;
-            z-index: 10;
-        }
-        .favorite-icon {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 20px;
-            color: #888;
-            cursor: pointer;
-            z-index: 10;
-        }
-        .favorite-icon.active {
-            color: #ff5722;
-        }
-        .location-icon {
-            color: #666;
-            margin-right: 5px;
-        }
-        .school-icon, .hospital-icon {
-            margin-right: 5px;
-        }
-        .rera-badge {
-            display: inline-block;
-            background-color: #e8f5e9;
-            color: #4caf50;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 12px;
-            margin-left: 8px;
-        }
-        .emi {
-            font-size: 14px;
-            color: #6a5acd;
-            margin-left: 10px;
-        }
-        /* Share dropdown menu */
-        .share-dropdown {
-            position: absolute;
-            top: 40px;
-            right: 40px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            padding: 10px;
-            width: 250px;
-            z-index: 100;
-            display: none;
-        }
-        .share-dropdown.active {
-            display: block;
-        }
-        .share-header {
-            font-weight: bold;
-            padding: 5px 10px 15px 10px;
-            border-bottom: 1px solid #eee;
-            margin-bottom: 8px;
-        }
-        .share-option {
-            display: flex;
-            align-items: center;
-            padding: 8px 10px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .share-option:hover {
-            background-color: #f5f5f5;
-        }
-        .share-icon-small {
-            width: 24px;
-            height: 24px;
-            margin-right: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .share-text {
-            color: #333;
-        }
-        .facebook-icon {
-            color: #3b5998;
-        }
-        .mail-icon {
-            color: #D44638;
-        }
-        .twitter-icon {
-            color: #1DA1F2;
-        }
-        .copy-icon {
-            color: #555;
-        }
+:root {
+    --primary-color: #5c3dff;
+    --primary-light: #7d62ff;
+    --primary-dark: #4a31cc;
+    --accent-color: #ff5722;
+    --accent-hover: #ff7043;
+    --background-light: #f5f5f5;
+    --background-white: #ffffff;
+    --background-card: #ffffff;
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --text-light: #888888;
+    --border-color: #e0e0e0;
+    --success-color: #4caf50;
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', 'Arial', sans-serif;
+}
+
+body {
+    background-color: var(--background-light);
+    color: var(--text-primary);
+    line-height: 1.6;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--text-primary);
+    font-size: 32px;
+    font-weight: 600;
+    position: relative;
+    display: inline-block;
+}
+
+h1:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background-color: var(--accent-color);
+    border-radius: 2px;
+}
+
+/* Filter container layout */
+.filter-container {
+    display: flex;
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.property-container {
+    width: 70%;
+}
+
+.filter-sidebar {
+    width: 25%;
+    position: sticky;
+    top: 20px;
+    align-self: flex-start;
+    background-color: var(--background-white);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-color);
+}
+
+.filter-sidebar h3 {
+    margin-bottom: 15px;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    position: relative;
+}
+
+.filter-sidebar h3:after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background-color: var(--accent-color);
+    border-radius: 2px;
+}
+
+.filter-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.filter-btn {
+    padding: 12px;
+    border: none;
+    border-radius: var(--radius-sm);
+    background-color: var(--background-light);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.filter-btn:hover {
+    background-color: var(--primary-light);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.filter-btn.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Property Card Styling */
+.property-card {
+    background-color: var(--background-white);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 25px;
+    padding: 20px;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s;
+    border: 1px solid var(--border-color);
+}
+
+.property-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.property-card.favorite {
+    border: 2px solid var(--accent-color);
+}
+
+.property-image {
+    width: 200px;
+    height: 180px;
+    border-radius: var(--radius-sm);
+    object-fit: cover;
+    float: left;
+    margin-right: 20px;
+    transition: transform 0.5s;
+}
+
+.property-card:hover .property-image {
+    transform: scale(1.05);
+}
+
+.property-info {
+    overflow: hidden;
+}
+
+.price {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: var(--text-primary);
+}
+
+.property-name {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: var(--text-primary);
+}
+
+.developer {
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.property-type {
+    margin-bottom: 15px;
+    font-size: 15px;
+    color: var(--text-secondary);
+}
+
+.detail-box {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--background-light);
+    padding: 12px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 15px;
+    border: 1px solid var(--border-color);
+}
+
+.detail-item {
+    text-align: center;
+    flex: 1;
+}
+
+.detail-label {
+    font-size: 12px;
+    color: var(--text-light);
+}
+
+.detail-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.nearby {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+}
+
+.nearby span {
+    margin-right: 10px;
+}
+
+.developer-info {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.developer-logo {
+    width: 35px;
+    height: 35px;
+    border-radius: var(--radius-sm);
+    background-color: var(--success-color);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 10px;
+    float: left;
+}
+
+.share-icon {
+    position: absolute;
+    top: 15px;
+    right: 50px;
+    font-size: 20px;
+    color: var(--primary-color);
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s;
+}
+
+.share-icon:hover {
+    color: var(--primary-light);
+    transform: translateY(-2px);
+}
+
+.favorite-icon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 20px;
+    color: var(--text-light);
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s;
+}
+
+.favorite-icon:hover {
+    transform: translateY(-2px);
+}
+
+.favorite-icon.active {
+    color: var(--accent-color);
+}
+
+.location-icon {
+    color: var(--text-secondary);
+    margin-right: 5px;
+}
+
+.school-icon, .hospital-icon {
+    margin-right: 5px;
+}
+
+.rera-badge {
+    display: inline-block;
+    background-color: #e8f5e9;
+    color: var(--success-color);
+    padding: 3px 8px;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    margin-left: 8px;
+    font-weight: 500;
+}
+
+.emi {
+    font-size: 14px;
+    color: var(--primary-color);
+    margin-left: 10px;
+    font-weight: 500;
+}
+
+/* Share dropdown menu */
+.share-dropdown {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    background: var(--background-white);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    padding: 10px;
+    width: 250px;
+    z-index: 100;
+    display: none;
+    border: 1px solid var(--border-color);
+}
+
+.share-dropdown.active {
+    display: block;
+}
+
+.share-header {
+    font-weight: 600;
+    padding: 5px 10px 15px 10px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 8px;
+    color: var(--text-primary);
+}
+
+.share-option {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: all 0.2s ease;
+}
+
+.share-option:hover {
+    background-color: var(--background-light);
+}
+
+.share-icon-small {
+    width: 24px;
+    height: 24px;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.share-text {
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
+.facebook-icon {
+    color: #3b5998;
+}
+
+.mail-icon {
+    color: #D44638;
+}
+
+.twitter-icon {
+    color: #1DA1F2;
+}
+
+.copy-icon {
+    color: var(--text-secondary);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .filter-container {
+        flex-direction: column;
+    }
+    
+    .property-container, .filter-sidebar {
+        width: 100%;
+    }
+    
+    .property-image {
+        width: 100%;
+        float: none;
+        margin-right: 0;
+        margin-bottom: 15px;
+        height: 220px;
+    }
+}
     </style>
 </head>
 <body>
