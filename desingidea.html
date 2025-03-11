@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build & Beyond</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Arial', sans-serif;
+        }
+        body {
+            background-color: #f5f5f5;
+            color: #333333;
+            line-height: 1.6;
+        }
+        :root {
+            --primary-color: #3a7bd5;
+            --primary-light: #5a9bff;
+            --primary-dark: #2856a3;
+            --accent-color: #ff6b6b;
+            --accent-hover: #ff8e8e;
+            --background-light: #f5f5f5;
+            --background-white: #ffffff;
+            --background-card: #ffffff;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --text-light: #888888;
+            --border-color: #e0e0e0;
+            --success-color: #4caf50;
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        header {
+            background-color: var(--background-white);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-md);
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        .logo-icon {
+            color: var(--primary-color);
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 1px;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            justify-content: center;
+        }
+        .dropdown-button {
+            background-color: black;
+            color: white;
+            padding: 10px 18px;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .dropdown-button:hover {
+            background-color: orange;
+            transform: translateY(-2px);
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--background-white);
+            min-width: 180px;
+            box-shadow: var(--shadow-lg);
+            z-index: 1;
+            border-radius: var(--radius-md);
+            margin-top: 8px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+        .dropdown-content button {
+            color: orange;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            background: none;
+            border: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            font-size: 15px;
+            transition: all 0.2s ease;
+        }
+        .dropdown-content button:hover {
+            background-color: #f8f8f8;
+            color: orange;
+        }
+        .dropdown-content button.active {
+            background-color: orange;
+            color: white;
+        }
+        .show {
+            display: block;
+        }
+        main {
+            padding: 40px 0;
+        }
+        .section {
+            margin-bottom: 60px;
+            scroll-margin-top: 100px;
+        }
+        .section-heading {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            position: relative;
+            display: inline-block;
+            font-weight: 600;
+        }
+        .section-heading:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background-color: var(--accent-color);
+            border-radius: 2px;
+        }
+        .section-description {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            max-width: 800px;
+            font-size: 17px;
+        }
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 25px;
+        }
+        @media (min-width: 768px) {
+            .image-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (min-width: 992px) {
+            .image-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        .design-card {
+            background-color: var(--background-card);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--border-color);
+        }
+        .design-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        .card-image-container {
+            position: relative;
+            overflow: hidden;
+            height: 220px;
+        }
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        .design-card:hover .card-image {
+            transform: scale(1.05);
+        }
+        .card-content {
+            padding: 20px;
+        }
+        .card-title {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        .card-description {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        .card-status {
+            display: flex;
+            align-items: center;
+        }
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            background-color: var(--success-color);
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-text {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+        footer {
+            background-color: var(--primary-dark);
+            padding: 40px 0;
+            margin-top: 50px;
+            color: white;
+        }
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+        }
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .footer-logo .logo-icon {
+            color: white;
+        }
+        .footer-logo .logo-text {
+            color: white;
+        }
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .footer-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 15px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .footer-link:hover {
+            color: var(--accent-color);
+        }
+        .footer-bottom {
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .copyright {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        .social-link {
+            color: rgba(255, 255, 255, 0.8);
+            transition: all 0.3s;
+            font-size: 18px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .social-link:hover {
+            color: white;
+            background-color: var(--accent-color);
+            transform: translateY(-3px);
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon">●</span>
+                    <span class="logo-text">Build & Beyond</span>
+                </div> 
+                <div class="dropdown">
+                    <button class="dropdown-button" id="dropdownBtn">
+                        <span id="activeCategory">Design ideas</span>
+                        <span style="margin-left: 5px;">▼</span>
+                    </button>
+                    <div id="dropdownContent" class="dropdown-content">
+                        <button class="category-btn active" data-category="LivingRoom">Living Room</button>
+                        <button class="category-btn" data-category="Balcony">Balcony</button>
+                        <button class="category-btn" data-category="Bedroom">Bedroom</button>
+                        <button class="category-btn" data-category="Bathroom">Bathroom</button>
+                        <button class="category-btn" data-category="Kitchen">Kitchen</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <!-- Living Room Section -->
+            <section id="LivingRoom" class="section">
+                <h2 class="section-heading">Living Room Designs</h2>
+                <p class="section-description">Explore our stunning collection of living room designs that blend style, functionality, and elegance.</p>
+                
+                <div class="image-grid" id="LivingRoomGrid">
+                    <!-- Images will be added via JavaScript -->
+                </div>
+            </section>
+
+            <!-- Balcony Section -->
+            <section id="Balcony" class="section">
+                <h2 class="section-heading">Balcony Designs</h2>
+                <p class="section-description">Explore our stunning collection of balcony designs that blend style, functionality, and elegance.</p>
+                
+                <div class="image-grid" id="BalconyGrid">
+                    <!-- Images will be added via JavaScript -->
+                </div>
+            </section>
+
+            <!-- Bedroom Section -->
+            <section id="Bedroom" class="section">
+                <h2 class="section-heading">Bedroom Designs</h2>
+                <p class="section-description">Explore our stunning collection of bedroom designs that blend style, functionality, and elegance.</p>
+                
+                <div class="image-grid" id="BedroomGrid">
+                    <!-- Images will be added via JavaScript -->
+                </div>
+            </section>
+
+            <!-- Bathroom Section -->
+            <section id="Bathroom" class="section">
+                <h2 class="section-heading">Bathroom Designs</h2>
+                <p class="section-description">Explore our stunning collection of bathroom designs that blend style, functionality, and elegance.</p>
+                
+                <div class="image-grid" id="BathroomGrid">
+                    <!-- Images will be added via JavaScript -->
+                </div>
+            </section>
+
+            <!-- Kitchen Section -->
+            <section id="Kitchen" class="section">
+                <h2 class="section-heading">Kitchen Designs</h2>
+                <p class="section-description">Explore our stunning collection of kitchen designs that blend style, functionality, and elegance.</p>
+                
+                <div class="image-grid" id="KitchenGrid">
+                    <!-- Images will be added via JavaScript -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-top">
+                    <div class="footer-logo">
+                        <span class="logo-icon">●</span>
+                        <span class="logo-text">LIVSPACE</span>
+                    </div>
+                    <div class="footer-links">
+                        <button class="footer-link" data-category="LivingRoom">Living Room</button>
+                        <button class="footer-link" data-category="Balcony">Balcony</button>
+                        <button class="footer-link" data-category="Bedroom">Bedroom</button>
+                        <button class="footer-link" data-category="Bathroom">Bathroom</button>
+                        <button class="footer-link" data-category="Kitchen">Kitchen</button>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <div class="copyright">© 2025 LIVSPACE. All rights reserved.</div>
+                    <div class="social-links">
+                        <button class="social-link">✉</button>
+                        <button class="social-link">♯</button>
+                        <button class="social-link">♥</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const dropdownBtn = document.getElementById('dropdownBtn');
+        const dropdownContent = document.getElementById('dropdownContent');
+        const activeCategory = document.getElementById('activeCategory');
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        const footerLinks = document.querySelectorAll('.footer-link');
+        
+        // Categories
+        const categories = ['LivingRoom', 'Balcony', 'Bedroom', 'Bathroom', 'Kitchen'];
+        
+        // Image links data structure
+        const imageLinks = {
+            LivingRoom: [
+                'https://cdn.mos.cms.futurecdn.net/DGtgx67LZm6Aq6A25C9Frf-1024-80.jpg.webp',
+                'https://cdn.mos.cms.futurecdn.net/c9yLJYyaRv24CJ75Etz23R-1024-80.jpg.webp',
+                'https://cdn.mos.cms.futurecdn.net/GbCwmjB8phaUAk8kCG5AtU-1024-80.jpg.webp',
+                'https://cdn.mos.cms.futurecdn.net/F7fJUYdc5qeZAvDFMSwtcT-1024-80.jpg.webp',
+                'https://cdn.mos.cms.futurecdn.net/KT8za8ufhVBv3wZkTKHGtF-1024-80.jpg.webp',
+                'https://cdn.mos.cms.futurecdn.net/jEhSgifoGz9UVj9N47f7Xf-1024-80.jpg.webp',
+            ],
+            Balcony: [
+                'https://bonito.in/wp-content/uploads/2022/03/Blog-Detail-15-1.jpg',
+                'https://www.orientbell.com/blog/wp-content/uploads/2024/08/850x450-Pix_7-3.jpg',
+                'https://www.orientbell.com/blog/wp-content/uploads/2024/08/850x450-Pix_12-2.jpg',
+                'https://www.orientbell.com/blog/wp-content/uploads/2024/08/850x450-Pix_6-3.jpg',
+                'https://i.pinimg.com/736x/69/e1/56/69e156866d4027459363280a5ebd1e69.jpg',
+                'http://i.pinimg.com/564x/91/79/32/9179328dea1c181fef13eb358afb644b.jpg',
+            ],
+            Bedroom: [
+                'https://www.livehome3d.com/assets/img/articles/bedroom-design-ideas/bedroom-with-70-aesthetic@2x.jpg',
+                'http://livehome3d.com/assets/img/articles/bedroom-design-ideas/bedroom-with-unusual-color-combinations@2x.jpg',
+                'https://www.livehome3d.com/assets/img/articles/bedroom-design-ideas/bedroom-in-light-colors@2x.jpg',
+                'https://www.livehome3d.com/assets/img/articles/bedroom-design-ideas/elegant-bedroom-design@2x.jpg',
+                'http://livehome3d.com/assets/img/articles/bedroom-design-ideas/bedroom-with-elegant-photos@2x.jpg',
+                'https://www.livehome3d.com/assets/img/articles/bedroom-design-ideas/bedroom-design-with-creative-artwork@2x.jpg',
+            ],
+            Bathroom: [
+                'https://www.thespruce.com/thmb/j6DaUnI4Pu0V83v0c8XHVDdOQ3M=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/AJ_1150_0374copy-2101982162114cde9836313b13944dce.jpg',
+                'https://www.thespruce.com/thmb/oZfwjDAHWDTOn4P9-8PCD3_DUQQ=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/AJ_1150_0492copy-56b03205e1e84bd6815bdd7795c56998.jpg',
+                'https://www.thespruce.com/thmb/5EHK9l5ADLPauS_3rqY3LAU2FCM=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/EastValley-21-b-f4e24523d2f84f20b0c93b1e5b740f94.jpg',
+                'https://www.thespruce.com/thmb/oSoiYzKOJk2nsNCNrt4GM9bsk2M=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/mindy-gayer-napa-farmhouse-a-5-b85b593fa26d47818a11e14ae98bf62d.jpg',
+                'https://www.thespruce.com/thmb/Fa-f23U-JOUnoMAtStVZHbSRUdk=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/PhotoOct0934649PM1-d7012084a3c44319a104b1d275018b99.jpg',
+                'https://www.thespruce.com/thmb/UN3ynSbpqTTC7h9IzCtOFyHO2jE=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/Bathroom-9-49a167f8e282489ab1c92e4fbf49f092.jpg',
+            ],
+            Kitchen: [
+                'https://hips.hearstapps.com/hmg-prod/images/peach-pine-interiors-ph-joseph-bradshaw1-6762de44d651b.jpg?crop=0.8333333333333333xw:1xh;center,top&resize=980:*',
+                'https://hips.hearstapps.com/hmg-prod/images/ht24-samanthastathis-phkirstenfrancis-e76th-247-672b8ef41a1a7.jpg?crop=0.9996296296296295xw:1xh;center,top&resize=980:*',
+                'https://hips.hearstapps.com/hmg-prod/images/wh24-kelsey-leigh-design-phbrie-williams-hbx110124wh-kitchen-001-672b8f4cea460.jpg?crop=0.9380863039399625xw:1xh;center,top&resize=980:*',
+                'https://hips.hearstapps.com/hmg-prod/images/winsome-nagshead2023-00096-1-6682d9031c96c.jpg?crop=0.457xw:1.00xh;0.0697xw,0&resize=980:*',
+                'https://hips.hearstapps.com/hmg-prod/images/hbx070124ritachan-004-66a7a627434b2.jpg?crop=1xw:1xh;center,top&resize=980:*',
+                'https://hips.hearstapps.com/hmg-prod/images/hbx070124cover-001-66a7a5e94483f.jpg?crop=0.888888888888889xw:1xh;center,top&resize=980:*',
+            ]
+        };
+
+        // Toggle dropdown on button click
+        dropdownBtn.addEventListener('click', function() {
+            dropdownContent.classList.toggle('show');
+        });
+
+        // Close dropdown when clicking elsewhere
+        window.addEventListener('click', function(event) {
+            if (!event.target.matches('.dropdown-button') && !event.target.parentElement?.matches('.dropdown-button')) {
+                if (dropdownContent.classList.contains('show')) {
+                    dropdownContent.classList.remove('show');
+                }
+            }
+        });
+
+        // Handle category selection from dropdown
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const category = this.getAttribute('data-category');
+                setActiveCategory(category);
+                scrollToSection(category);
+                dropdownContent.classList.remove('show');
+            });
+        });
+
+        // Handle category selection from footer links
+        footerLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                const category = this.getAttribute('data-category');
+                setActiveCategory(category);
+                scrollToSection(category);
+            });
+        });
+
+        // Set active category
+        function setActiveCategory(category) {
+            activeCategory.textContent = category.replace(/([A-Z])/g, ' $1').trim();
+            categoryBtns.forEach(btn => {
+                if (btn.getAttribute('data-category') === category) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        // Scroll to section
+        function scrollToSection(category) {
+            const section = document.getElementById(category);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Create design card with error handling
+        function createDesignCard(category, index) {
+            const card = document.createElement('div');
+            card.className = 'design-card';
+            
+            // Check if the category exists in imageLinks and if the index is valid
+            const imageSrc = imageLinks[category] && imageLinks[category][index-1] 
+                ? imageLinks[category][index-1]
+                : 'https://via.placeholder.com/400x250?text=Image+Not+Found'; // Fallback image
+            
+            const designLink = `https://example.com/designs/${category.toLowerCase()}/${index}`;
+            
+            card.innerHTML = `
+                <a href="${designLink}" style="text-decoration: none; color: inherit;">
+                    <div class="card-image-container">
+                        <img src="${imageSrc}" alt="${category} Design ${index}" class="card-image">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">${category.replace(/([A-Z])/g, ' $1').trim()} Design ${index}</h3>
+                        <p class="card-description">Modern design with stylish elements</p>
+                        <div class="card-status">
+                            <span class="status-indicator"></span>
+                            <span class="status-text">Available</span>
+                        </div>
+                    </div>
+                </a>
+            `;
+            return card;
+        }
+
+        // Generate design cards
+        function generateDesignCards() {
+            categories.forEach(category => {
+                const grid = document.getElementById(`${category}Grid`);
+                if (!grid) return;
+                
+                grid.innerHTML = '';
+                
+                // Get the number of cards to create (based on available images or default to 6)
+                const cardCount = imageLinks[category] ? Math.min(imageLinks[category].length, 6) : 6;
+                
+                for (let i = 1; i <= cardCount; i++) {
+                    const card = createDesignCard(category, i);
+                    grid.appendChild(card);
+                }
+            });
+        }
+
+        // Initialize the page
+        function init() {
+            generateDesignCards();
+            // Set LivingRoom as the default active category
+            setActiveCategory('LivingRoom');
+        }
+
+        // Run initialization when DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

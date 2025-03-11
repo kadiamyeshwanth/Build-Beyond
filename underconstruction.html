@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Present Constructions</title>
+    <style>
+        /* CSS Variables for consistent theming */
+:root {
+    --primary-color: #5c3dff;
+    --primary-light: #7d62ff;
+    --primary-dark: #4a31cc;
+    --accent-color: #ff5722;
+    --accent-hover: #ff7043;
+    --background-light: #f5f5f5;
+    --background-white: #ffffff;
+    --background-card: #ffffff;
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --text-light: #888888;
+    --border-color: #e0e0e0;
+    --success-color: #4caf50;
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', 'Arial', sans-serif;
+}
+
+body {
+    background-color: var(--background-light);
+    color: var(--text-primary);
+    line-height: 1.6;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--text-primary);
+    font-size: 32px;
+    font-weight: 600;
+    position: relative;
+    display: inline-block;
+}
+
+h1:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background-color: var(--accent-color);
+    border-radius: 2px;
+}
+
+/* Filter container layout */
+.filter-container {
+    display: flex;
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.property-container {
+    width: 70%;
+}
+
+.filter-sidebar {
+    width: 25%;
+    position: sticky;
+    top: 20px;
+    align-self: flex-start;
+    background-color: var(--background-white);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-color);
+}
+
+.filter-sidebar h3 {
+    margin-bottom: 15px;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    position: relative;
+}
+
+.filter-sidebar h3:after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background-color: var(--accent-color);
+    border-radius: 2px;
+}
+
+.filter-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.filter-btn {
+    padding: 12px;
+    border: none;
+    border-radius: var(--radius-sm);
+    background-color: var(--background-light);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.filter-btn:hover {
+    background-color: var(--primary-light);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.filter-btn.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Property Card Styling */
+.property-card {
+    background-color: var(--background-white);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 25px;
+    padding: 20px;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s;
+    border: 1px solid var(--border-color);
+}
+
+.property-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.property-card.favorite {
+    border: 2px solid var(--accent-color);
+}
+
+.property-image {
+    width: 200px;
+    height: 180px;
+    border-radius: var(--radius-sm);
+    object-fit: cover;
+    float: left;
+    margin-right: 20px;
+    transition: transform 0.5s;
+}
+
+.property-card:hover .property-image {
+    transform: scale(1.05);
+}
+
+.property-info {
+    overflow: hidden;
+}
+
+.price {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: var(--text-primary);
+}
+
+.property-name {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: var(--text-primary);
+}
+
+.developer {
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.property-type {
+    margin-bottom: 15px;
+    font-size: 15px;
+    color: var(--text-secondary);
+}
+
+.detail-box {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--background-light);
+    padding: 12px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 15px;
+    border: 1px solid var(--border-color);
+}
+
+.detail-item {
+    text-align: center;
+    flex: 1;
+}
+
+.detail-label {
+    font-size: 12px;
+    color: var(--text-light);
+}
+
+.detail-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.nearby {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+}
+
+.nearby span {
+    margin-right: 10px;
+}
+
+.developer-info {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.developer-logo {
+    width: 35px;
+    height: 35px;
+    border-radius: var(--radius-sm);
+    background-color: var(--success-color);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 10px;
+    float: left;
+}
+
+.share-icon {
+    position: absolute;
+    top: 15px;
+    right: 50px;
+    font-size: 20px;
+    color: var(--primary-color);
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s;
+}
+
+.share-icon:hover {
+    color: var(--primary-light);
+    transform: translateY(-2px);
+}
+
+.favorite-icon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 20px;
+    color: var(--text-light);
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s;
+}
+
+.favorite-icon:hover {
+    transform: translateY(-2px);
+}
+
+.favorite-icon.active {
+    color: var(--accent-color);
+}
+
+.location-icon {
+    color: var(--text-secondary);
+    margin-right: 5px;
+}
+
+.school-icon, .hospital-icon {
+    margin-right: 5px;
+}
+
+.rera-badge {
+    display: inline-block;
+    background-color: #e8f5e9;
+    color: var(--success-color);
+    padding: 3px 8px;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    margin-left: 8px;
+    font-weight: 500;
+}
+
+.emi {
+    font-size: 14px;
+    color: var(--primary-color);
+    margin-left: 10px;
+    font-weight: 500;
+}
+
+/* Share dropdown menu */
+.share-dropdown {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    background: var(--background-white);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    padding: 10px;
+    width: 250px;
+    z-index: 100;
+    display: none;
+    border: 1px solid var(--border-color);
+}
+
+.share-dropdown.active {
+    display: block;
+}
+
+.share-header {
+    font-weight: 600;
+    padding: 5px 10px 15px 10px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 8px;
+    color: var(--text-primary);
+}
+
+.share-option {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: all 0.2s ease;
+}
+
+.share-option:hover {
+    background-color: var(--background-light);
+}
+
+.share-icon-small {
+    width: 24px;
+    height: 24px;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.share-text {
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
+.facebook-icon {
+    color: #3b5998;
+}
+
+.mail-icon {
+    color: #D44638;
+}
+
+.twitter-icon {
+    color: #1DA1F2;
+}
+
+.copy-icon {
+    color: var(--text-secondary);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .filter-container {
+        flex-direction: column;
+    }
+    
+    .property-container, .filter-sidebar {
+        width: 100%;
+    }
+    
+    .property-image {
+        width: 100%;
+        float: none;
+        margin-right: 0;
+        margin-bottom: 15px;
+        height: 220px;
+    }
+}
+footer {
+            background-color: var(--primary-dark);
+            padding: 40px 0;
+            margin-top: 50px;
+            color: white;
+        }
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+        }
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .footer-logo .logo-icon {
+            color: white;
+        }
+        .footer-logo .logo-text {
+            color: white;
+        }
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .footer-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 15px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .footer-link:hover {
+            color: var(--accent-color);
+        }
+        .footer-bottom {
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .copyright {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        .social-link {
+            color: rgba(255, 255, 255, 0.8);
+            transition: all 0.3s;
+            font-size: 18px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .social-link:hover {
+            color: white;
+            background-color: var(--accent-color);
+            transform: translateY(-3px);
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Our Present Constructions</h1> <!-- Moved to the top -->
+        <div class="filter-container">
+            <div class="property-container">
+                
+                <!-- Properties will go here -->
+                <div class="property-card" id="property1" data-status="under-construction">
+                    <!-- Property 1 content --><div class="property-card" id="property1"data-status="under-construction">
+            <div class="share-icon" onclick="toggleShareMenu('share-menu-1')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="18" cy="5" r="3"></circle>
+                    <circle cx="6" cy="12" r="3"></circle>
+                    <circle cx="18" cy="19" r="3"></circle>
+                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                </svg>
+            </div>
+            <!-- Share Dropdown Menu -->
+            <div class="share-dropdown" id="share-menu-1">
+                <div class="share-header">Share with your family & friends</div>
+                <div class="share-option" onclick="copyToClipboard('property1')">
+                    <div class="share-icon-small copy-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </div>
+                    <div class="share-text">Copy to clipboard</div>
+                </div>
+                <div class="share-option">
+                    <div class="share-icon-small facebook-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                        </svg>
+                    </div>
+                    <div class="share-text">Facebook</div>
+                </div>
+                <div class="share-option">
+                    <div class="share-icon-small mail-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                    </div>
+                    <div class="share-text">Mail</div>
+                </div>
+                <div class="share-option">
+                    <div class="share-icon-small twitter-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+                        </svg>
+                    </div>
+                    <div class="share-text">Twitter</div>
+                </div>
+            </div>
+            
+            <div class="favorite-icon" onclick="toggleFavorite('property1')">♡</div>
+            <img src="https://website-data-pluckwalk.s3.ap-south-1.amazonaws.com/blogs-images/38h6fE1nuT49Zt2Za3kKhw.webp" alt="Sreshta Adhiroha" class="property-image">
+            <div class="property-info">
+                <div class="price">₹1.3 Cr - 1.4 Cr </div>
+                <div class="property-name">Sreshta Adhiroha <span class="rera-badge">RERA ✓</span></div>
+                <div class="developer">By Sreshta Infra</div>
+                <div class="property-type">3 BHK Flat for sale in Vidhya Nagar, Chennai</div>
+                
+                <div class="detail-box">
+                    <div class="detail-item">
+                        <div class="detail-label">POSSESSION DATE</div>
+                        <div class="detail-value">May, 2026</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">AVERAGE PRICE</div>
+                        <div class="detail-value">₹6.8 K/sq.ft</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">POSSESSION STATUS</div>
+                        <div class="detail-value">Under Construction</div>
+                    </div>
+                </div>
+                
+                <div class="nearby">
+                    <span class="location-icon">📍</span> 3 nearby places:
+                    <span class="school-icon">🏫</span> Allen School is 0.1 km away
+                    <span class="hospital-icon">🏥</span> Apollo Hospital is 1 km away
+                    <span class="hospital-icon">🏥</span> Vijaya Hospital is 1.5 km away
+                </div>
+                
+                <div class="developer-info">
+                    <div class="developer-logo">SI</div>
+                    <div>
+                        <div style="font-weight: bold;">Sreshta Infra</div>
+                        <div style="font-size: 14px; color: #666;">Developer</div>
+                    </div>
+                    <!-- Removed action buttons here -->
+                </div>
+            </div>
+        </div>
+                </div>
+                <div class="property-card" id="property2" data-status="under-construction">
+                    <!-- Property 2 content --><div class="property-card" id="property2"data-status="under-construction">
+            <div class="share-icon" onclick="toggleShareMenu('share-menu-2')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="18" cy="5" r="3"></circle>
+                    <circle cx="6" cy="12" r="3"></circle>
+                    <circle cx="18" cy="19" r="3"></circle>
+                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                </svg>
+            </div>
+            <!-- Share Dropdown Menu -->
+            <div class="share-dropdown" id="share-menu-2">
+                <div class="share-header">Share with your family & friends</div>
+                <div class="share-option" onclick="copyToClipboard('property2')">
+                    <div class="share-icon-small copy-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </div>
+                    <div class="share-text">Copy to clipboard</div>
+                </div>
+                <div class="share-option">
+                    <div class="share-icon-small facebook-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                        </svg>
+                    </div>
+                    <div class="share-text">Facebook</div>
+                </div>
+                <div class="share-option">
+                    <div class="share-icon-small mail-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                    </div>
+                    <div class="share-text">Mail</div>
+                </div>
+                <div class="share-option">
+                    <div class="share-icon-small twitter-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+                        </svg>
+                    </div>
+                    <div class="share-text">Twitter</div>
+                </div>
+            </div>
+            
+            <div class="favorite-icon" onclick="toggleFavorite('property2')">♡</div>
+            <img src="https://static.vecteezy.com/system/resources/previews/033/831/865/non_2x/new-multistory-apartment-buildings-under-construction-photo.JPG" alt="The Rise Sunsiri Projects" class="property-image">
+            <div class="property-info">
+                <div class="price">₹48.49 L - 62.41 L </div>
+                <div class="property-name">The Rise Sunsiri Projects</div>
+                <div class="developer">By SUN SIRI PROJECTS PVT LTD</div>
+                <div class="property-type">Residential Plots for sale in Kaza, Bangalore</div>
+                
+                <div class="detail-box">
+                    <div class="detail-item">
+                        <div class="detail-label">POSSESSION DATE</div>
+                        <div class="detail-value">Jan, 2025</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">PLOT AREA</div>
+                        <div class="detail-value">1818 sq.yd</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">AVERAGE PRICE</div>
+                        <div class="detail-value">2.67k/sq.yd</div>
+                    </div>
+                </div>
+                
+                <div class="nearby">
+                    <span class="location-icon">📍</span> 3 nearby places:
+                    <span class="school-icon">🏫</span> National Public School is 0.1 km away
+                    <span class="hospital-icon">🏥</span> Fortis Hospital is 0.1 km away
+                    <span class="school-icon">🏫</span> Christ University is 1.2 km away
+                </div>
+                
+                <div class="developer-info">
+                    <div class="developer-logo" style="background-color: #3f51b5;">SS</div>
+                    <div>
+                        <div style="font-weight: bold;">SUN SIRI PROJECTS</div>
+                        <div style="font-size: 14px; color: #666;">Developer</div>
+                    </div>
+                    <!-- Removed action buttons here -->
+                </div>
+            </div>
+        </div>
+                </div>
+                <div class="property-card" id="property3" data-status="under-construction">
+                    <!-- Property 3 content --><div class="property-card" id="property3"data-status="under-construction">
+            <div class="share-icon" onclick="toggleShareMenu('share-menu-3')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="18" cy="5" r="3"></circle>
+                    <circle cx="6" cy="12" r="3"></circle>
+                    <circle cx="18" cy="19" r="3"></circle>
+                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                </svg>
+            </div>
+            <!-- Share Dropdown Menu -->
+            <div class="share-dropdown" id="share-menu-3">
+                <div class="share-header">Share with your family & friends</div>
+                <div class="share-option" onclick="copyToClipboard('property3')">
+                    <div class="share-icon-small copy-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </div>
+                    <div class="share-text">Copy to clipboard</div>
+                </div>
+                <div class="share-option">
+                    <div class="share-icon-small facebook-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                        </svg>
+                    </div>
+                    <div class="share-text">Facebook</div>
+                </div>
+                <div class="share-option">
+                    <div class="share-icon-small mail-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                    </div>
+                    <div class="share-text">Mail</div>
+                </div>
+                <div class="share-option">
+                    <div class="share-icon-small twitter-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+                        </svg>
+                    </div>
+                    <div class="share-text">Twitter</div>
+                </div>
+            </div>
+            
+            <div class="favorite-icon" onclick="toggleFavorite('property3')">♡</div>
+            <img src="https://imgk.timesnownews.com/story/Realestate.jpg" alt="Greenwood Residences" class="property-image">
+            <div class="property-info">
+                <div class="price">₹82.5 L - 95.6 L </div>
+                <div class="property-name">Greenwood Residences <span class="rera-badge">RERA ✓</span></div>
+                <div class="developer">By Green Constructions Ltd</div>
+                <div class="property-type">2 & 3 BHK Apartments for sale in Jayanagar, Hyderabad</div>
+                
+                <div class="detail-box">
+                    <div class="detail-item">
+                        <div class="detail-label">POSSESSION DATE</div>
+                        <div class="detail-value">Dec, 2025</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">AVERAGE PRICE</div>
+                        <div class="detail-value">₹7.2 K/sq.ft</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">POSSESSION STATUS</div>
+                        <div class="detail-value">Under Construction</div>
+                    </div>
+                </div>
+                
+                <div class="nearby">
+                    <span class="location-icon">📍</span> 3 nearby places:
+                    <span class="school-icon">🏫</span> Delhi Public School is 0.5 km away
+                    <span class="hospital-icon">🏥</span> CARE Hospital is 1.2 km away
+                    <span class="school-icon">🏫</span> BITS Hyderabad is 3 km away
+                </div>
+                
+                <div class="developer-info">
+                    <div class="developer-logo" style="background-color: #4caf50;">GC</div>
+                    <div>
+                        <div style="font-weight: bold;">Green Constructions Ltd</div>
+                        <div style="font-size: 14px; color: #666;">Developer</div>
+                    </div>
+                    <!-- Removed action buttons here -->
+                </div>
+            </div>
+        </div>
+                </div>
+                <div class="property-card" id="property4" data-status="under-construction">
+                    <!-- Property 4 content --><div class="property-card" id="property4"data-status="under-construction">
+            <div class="share-icon" onclick="toggleShareMenu('share-menu-4')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="18" cy="5" r="3"></circle>
+                    <circle cx="6" cy="12" r="3"></circle>
+                    <circle cx="18" cy="19" r="3"></circle>
+                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                </svg>
+            </div>
+            <!-- Share Dropdown Menu -->
+            <div class="share-dropdown" id="share-menu-4">
+                <!-- Share dropdown content similar to others -->
+                <div class="share-header">Share with your family & friends</div>
+                <div class="share-option" onclick="copyToClipboard('property4')">
+                    <div class="share-icon-small copy-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </div>
+                    <div class="share-text">Copy to clipboard</div>
+                </div>
+                <!-- Other share options -->
+            </div>
+            
+            <div class="favorite-icon" onclick="toggleFavorite('property4')">♡</div>
+            <img src="https://www.researchgate.net/publication/299652824/figure/fig62/AS:961329082937365@1606210122686/Multi-storey-apartment-building-under-construction-in-a-city-in-India-photo-author.jpg" alt="Skyline Towers" class="property-image">
+            <div class="property-info">
+                <div class="price">₹1.8 Cr - 2.2 Cr </div>
+                <div class="property-name">Skyline Towers <span class="rera-badge">RERA ✓</span></div>
+                <div class="developer">By Skyline Developers</div>
+                <div class="property-type">4 BHK Premium Flats for sale in Whitefield, Bangalore</div>
+                
+                <div class="detail-box">
+                    <div class="detail-item">
+                        <div class="detail-label">POSSESSION DATE</div>
+                        <div class="detail-value">Mar, 2026</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">AVERAGE PRICE</div>
+                        <div class="detail-value">₹9.5 K/sq.ft</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">POSSESSION STATUS</div>
+                        <div class="detail-value">Under Construction</div>
+                    </div>
+                </div>
+                <div class="nearby">
+                    <span class="location-icon">📍</span> 3 nearby places:
+                    <span class="school-icon">🏫</span> International School Bangalore is 1 km away
+                    <span class="hospital-icon">🏥</span> Columbia Asia Hospital is 2 km away
+                    <span class="school-icon">🏫</span> IIM Bangalore is 5 km away
+                </div>
+                
+                <div class="developer-info">
+                    <div class="developer-logo" style="background-color: #2196F3;">SD</div>
+                    <div>
+                        <div style="font-weight: bold;">Skyline Developers</div>
+                        <div style="font-size: 14px; color: #666;">Developer</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="property-card" id="property5"data-status="under-construction">
+            <div class="share-icons">&#8942;</div>
+            <div class="favorite-icon" onclick="toggleFavorite('property5')">♡</div>
+            <img src="https://3.imimg.com/data3/BW/VC/MY-14377259/apartment-construction-500x500.jpg" alt="Palm Grove Villas" class="property-image">
+            <div class="property-info">
+                <div class="price">₹2.5 Cr - 3.1 Cr </div>
+                <div class="property-name">Palm Grove Villas <span class="rera-badge">RERA ✓</span></div>
+                <div class="developer">By Palm Estate Developers</div>
+                <div class="property-type">Luxury Villas for sale in Electronic City, Coimbatore</div>
+                
+                <div class="detail-box">
+                    <div class="detail-item">
+                        <div class="detail-label">POSSESSION DATE</div>
+                        <div class="detail-value">Aug, 2025</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">AVERAGE PRICE</div>
+                        <div class="detail-value">₹12.8 K/sq.ft</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">POSSESSION STATUS</div>
+                        <div class="detail-value">Under Construction</div>
+                    </div>
+                </div>
+                
+                <div class="nearby">
+                    <span class="location-icon">📍</span> 3 nearby places:
+                    <span class="school-icon">🏫</span> PSG Institute is 1.5 km away
+                    <span class="hospital-icon">🏥</span> KG Hospital is 2 km away
+                    <span class="school-icon">🏫</span> Coimbatore Medical College is 3.5 km away
+                </div>
+                
+                <div class="developer-info">
+                    <div class="developer-logo" style="background-color: #ff9800;">PD</div>
+                    <div>
+                        <div style="font-weight: bold;">Palm Estate Developers</div>
+                        <div style="font-size: 14px; color: #666;">Developer</div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+                </div>
+                <div class="property-card" id="property5" data-status="under-construction">
+                    <!-- Property 5 content --><div class="property-card" id="property4" data-status="under-construction">
+    <div class="share-icon" onclick="toggleShareMenu('share-menu-4')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="18" cy="5" r="3"></circle>
+            <circle cx="6" cy="12" r="3"></circle>
+            <circle cx="18" cy="19" r="3"></circle>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+        </svg>
+    </div>
+    <div class="share-dropdown" id="share-menu-4">
+        <div class="share-header">Share with your family & friends</div>
+        <div class="share-option" onclick="copyToClipboard('property4')">
+            <div class="share-icon-small copy-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+            </div>
+            <div class="share-text">Copy to clipboard</div>
+        </div>
+        <div class="share-option">
+            <div class="share-icon-small facebook-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                </svg>
+            </div>
+            <div class="share-text">Facebook</div>
+        </div>
+        <div class="share-option">
+            <div class="share-icon-small mail-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+            </div>
+            <div class="share-text">Mail</div>
+        </div>
+        <div class="share-option">
+            <div class="share-icon-small twitter-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+                </svg>
+            </div>
+            <div class="share-text">Twitter</div>
+        </div>
+    </div>
+    <div class="favorite-icon" onclick="toggleFavorite('property4')">♡</div>
+    <img src="https://images.unsplash.com/photo-1621511075938-f03482369feb?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8YnVpbGRpbmclMjBjb25zdHJ1Y3Rpb258ZW58MHx8MHx8fDA%3D" alt="Sunshine Heights" class="property-image">
+    <div class="property-info">
+        <div class="price">₹95.2 L - 1.1 Cr </div>
+        <div class="property-name">Sunshine Heights <span class="rera-badge">RERA ✓</span></div>
+        <div class="developer">By Sunshine Developers</div>
+        <div class="property-type">3 & 4 BHK Apartments for sale in Banjara Hills, Hyderabad</div>
+        <div class="detail-box">
+            <div class="detail-item">
+                <div class="detail-label">POSSESSION DATE</div>
+                <div class="detail-value">June, 2026</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">AVERAGE PRICE</div>
+                <div class="detail-value">₹9.5 K/sq.ft</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">POSSESSION STATUS</div>
+                <div class="detail-value">Under Construction</div>
+            </div>
+        </div>
+        <div class="nearby">
+            <span class="location-icon">📍</span> 3 nearby places:
+            <span class="school-icon">🏫</span> Oakridge International is 0.8 km away
+            <span class="hospital-icon">🏥</span> Apollo Hospital is 2.1 km away
+            <span class="school-icon">🏫</span> ISB Hyderabad is 5 km away
+        </div>
+        <div class="developer-info">
+            <div class="developer-logo" style="background-color: #f39c12;">SD</div>
+            <div>
+                <div style="font-weight: bold;">Sunshine Developers</div>
+                <div style="font-size: 14px; color: #666;">Developer</div>
+            </div>
+        </div>
+    </div>
+</div>
+                </div>
+                <div class="property-card" id="property6" data-status="completed">
+                    <!-- Property 6 content --><div class="property-card" id="property6" data-status="completed">
+    <div class="share-icon" onclick="toggleShareMenu('share-menu-6')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="18" cy="5" r="3"></circle>
+            <circle cx="6" cy="12" r="3"></circle>
+            <circle cx="18" cy="19" r="3"></circle>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+        </svg>
+    </div>
+    <div class="share-dropdown" id="share-menu-6">
+        <div class="share-header">Share with your family & friends</div>
+        <div class="share-option" onclick="copyToClipboard('property6')">
+            <div class="share-icon-small copy-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+            </div>
+            <div class="share-text">Copy to clipboard</div>
+        </div>
+        <div class="share-option">
+            <div class="share-icon-small facebook-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                </svg>
+            </div>
+            <div class="share-text">Facebook</div>
+        </div>
+        <div class="share-option">
+            <div class="share-icon-small mail-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+            </div>
+            <div class="share-text">Mail</div>
+        </div>
+        <div class="share-option">
+            <div class="share-icon-small twitter-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+                </svg>
+            </div>
+            <div class="share-text">Twitter</div>
+        </div>
+    </div>
+    
+    <div class="favorite-icon" onclick="toggleFavorite('property6')">♡</div>
+    <img src="https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg" alt="Marina Heights" class="property-image">
+    <div class="property-info">
+        <div class="price">₹1.1 Cr - 1.5 Cr </div>
+        <div class="property-name">Marina Heights <span class="rera-badge">RERA ✓</span></div>
+        <div class="developer">By Marina Builders</div>
+        <div class="property-type">3 & 4 BHK Apartments for sale in Nungambakkam, Chennai</div>
+        
+        <div class="detail-box">
+            <div class="detail-item">
+                <div class="detail-label">POSSESSION DATE</div>
+                <div class="detail-value">Ready to Move</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">AVERAGE PRICE</div>
+                <div class="detail-value">₹8.2 K/sq.ft</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">POSSESSION STATUS</div>
+                <div class="detail-value">Completed</div>
+            </div>
+        </div>
+        
+        <div class="nearby">
+            <span class="location-icon">📍</span> 3 nearby places:
+            <span class="school-icon">🏫</span> Loyola College is 1 km away
+            <span class="hospital-icon">🏥</span> Apollo Hospitals is 1.5 km away
+            <span class="school-icon">🏫</span> IIT Madras is 4 km away
+        </div>
+        
+        <div class="developer-info">
+            <div class="developer-logo" style="background-color: #009688;">MB</div>
+            <div>
+                <div style="font-weight: bold;">Marina Builders</div>
+                <div style="font-size: 14px; color: #666;">Developer</div>
+            </div>
+        </div>
+    </div>
+</div>
+                </div>
+                <div class="property-card" id="property7" data-status="completed">
+                    <!-- Property 7 content --><div class="property-card" id="property7" data-status="completed">
+    <div class="share-icon" onclick="toggleShareMenu('share-menu-7')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="18" cy="5" r="3"></circle>
+            <circle cx="6" cy="12" r="3"></circle>
+            <circle cx="18" cy="19" r="3"></circle>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+        </svg>
+    </div>
+    <div class="share-dropdown" id="share-menu-7">
+        <div class="share-header">Share with your family & friends</div>
+        <div class="share-option" onclick="copyToClipboard('property7')">
+            <div class="share-icon-small copy-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+            </div>
+            <div class="share-text">Copy to clipboard</div>
+        </div>
+        <div class="share-option">
+            <div class="share-icon-small facebook-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                </svg>
+            </div>
+            <div class="share-text">Facebook</div>
+        </div>
+        <div class="share-option">
+            <div class="share-icon-small mail-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+            </div>
+            <div class="share-text">Mail</div>
+        </div>
+        <div class="share-option">
+            <div class="share-icon-small twitter-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+                </svg>
+            </div>
+            <div class="share-text">Twitter</div>
+        </div>
+    </div>
+    
+    <div class="favorite-icon" onclick="toggleFavorite('property7')">♡</div>
+    <img src="https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg" alt="Coconut Grove Residency" class="property-image">
+    <div class="property-info">
+        <div class="price">₹75 L - 95 L </div>
+        <div class="property-name">Coconut Grove Residency <span class="rera-badge">RERA ✓</span></div>
+        <div class="developer">By Tropical Homes</div>
+        <div class="property-type">2 & 3 BHK Apartments for sale in Kochi, Kerala</div>
+        
+        <div class="detail-box">
+            <div class="detail-item">
+                <div class="detail-label">POSSESSION DATE</div>
+                <div class="detail-value">Ready to Move</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">AVERAGE PRICE</div>
+                <div class="detail-value">₹6.9 K/sq.ft</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">POSSESSION STATUS</div>
+                <div class="detail-value">Completed</div>
+            </div>
+        </div>
+        
+        <div class="nearby">
+            <span class="location-icon">📍</span> 3 nearby places:
+            <span class="school-icon">🏫</span> Cochin University is 2 km away
+            <span class="hospital-icon">🏥</span> Lakeshore Hospital is 1.2 km away
+            <span class="school-icon">🏫</span> Rajagiri School is 3 km away
+        </div>
+        
+        <div class="developer-info">
+            <div class="developer-logo" style="background-color: #795548;">TH</div>
+            <div>
+                <div style="font-weight: bold;">Tropical Homes</div>
+                <div style="font-size: 14px; color: #666;">Developer</div>
+            </div>
+        </div>
+    </div>
+</div>
+                </div>
+            </div>
+            <div class="filter-sidebar">
+                <h3>Filter Properties</h3>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" onclick="filterProperties(event, 'all')">All Properties</button>
+                    <button class="filter-btn" onclick="filterProperties(event, 'under-construction')">Under Construction</button>
+                    <button class="filter-btn" onclick="filterProperties(event, 'completed')">Completed</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-top">
+                    <div class="footer-logo">
+                        <span class="logo-icon">●</span>
+                        <span class="logo-text">Build&Beyond</span>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <div class="copyright">© 2025 Build&Beyond. All rights reserved.</div>
+                    <div class="social-links">
+                        <button class="social-link">✉</button>
+                        <button class="social-link">♯</button>
+                        <button class="social-link">♥</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        function toggleShareMenu(menuId) {
+            const menu = document.getElementById(menuId);
+            if (menu.classList.contains('active')) {
+                menu.classList.remove('active');
+            } else {
+                // Close all menus first
+                document.querySelectorAll('.share-dropdown').forEach(item => {
+                    item.classList.remove('active');
+                });
+                // Open the clicked menu
+                menu.classList.add('active');
+            }
+        }
+        
+        function toggleFavorite(propertyId) {
+            const property = document.getElementById(propertyId);
+            const favoriteIcon = property.querySelector('.favorite-icon');
+            
+            if (favoriteIcon.classList.contains('active')) {
+                favoriteIcon.classList.remove('active');
+                property.classList.remove('favorite');
+                favoriteIcon.textContent = '♡';
+            } else {
+                favoriteIcon.classList.add('active');
+                property.classList.add('favorite');
+                favoriteIcon.textContent = '❤';
+            }
+        }
+        
+        function copyToClipboard(propertyId) {
+            const property = document.getElementById(propertyId);
+            const name = property.querySelector('.property-name').textContent;
+            const price = property.querySelector('.price').textContent;
+            const text = `Check out this property: ${name} - ${price}`;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Property details copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+            
+            // Close menu after copying
+            document.querySelectorAll('.share-dropdown').forEach(item => {
+                item.classList.remove('active');
+            });
+        }
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.share-icon') && !event.target.closest('.share-dropdown')) {
+                document.querySelectorAll('.share-dropdown').forEach(item => {
+                    item.classList.remove('active');
+                });
+            }
+        });
+
+        // Initialize all properties when page loads
+        window.onload = function() {
+            // Move all property cards into the property-container
+            const propertyCards = document.querySelectorAll('.property-card');
+            
+            // Filter properties function
+            filterProperties('all');
+        };
+
+        function filterProperties(event, status) {
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Show/hide properties based on status
+            const propertyCards = document.querySelectorAll('.property-card');
+            propertyCards.forEach(card => {
+                if (status === 'all') {
+                    card.style.display = 'block';
+                } else if (card.getAttribute('data-status') === status) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
