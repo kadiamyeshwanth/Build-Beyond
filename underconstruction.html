@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Present Constructions</title>
     <style>
+        /* CSS Variables for consistent theming */
 :root {
     --primary-color: #5c3dff;
     --primary-light: #7d62ff;
@@ -412,6 +413,91 @@ h1:after {
         height: 220px;
     }
 }
+footer {
+            background-color: var(--primary-dark);
+            padding: 40px 0;
+            margin-top: 50px;
+            color: white;
+        }
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+        }
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .footer-logo .logo-icon {
+            color: white;
+        }
+        .footer-logo .logo-text {
+            color: white;
+        }
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .footer-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 15px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .footer-link:hover {
+            color: var(--accent-color);
+        }
+        .footer-bottom {
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .copyright {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        .social-link {
+            color: rgba(255, 255, 255, 0.8);
+            transition: all 0.3s;
+            font-size: 18px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .social-link:hover {
+            color: white;
+            background-color: var(--accent-color);
+            transform: translateY(-3px);
+        }
+        html {
+            scroll-behavior: smooth;
+        }
     </style>
 </head>
 <body>
@@ -1076,7 +1162,26 @@ h1:after {
             </div>
         </div>
     </div>
-
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-top">
+                    <div class="footer-logo">
+                        <span class="logo-icon">●</span>
+                        <span class="logo-text">Build&Beyond</span>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <div class="copyright">© 2025 Build&Beyond. All rights reserved.</div>
+                    <div class="social-links">
+                        <button class="social-link">✉</button>
+                        <button class="social-link">♯</button>
+                        <button class="social-link">♥</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
     <script>
         function toggleShareMenu(menuId) {
             const menu = document.getElementById(menuId);
