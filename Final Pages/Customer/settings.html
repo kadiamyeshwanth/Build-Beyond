@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Build & Beyond</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+        /* General Styles */
+        :root {
+            --primary-color: #1a237e; /* Dark blue from your nav bar */
+            --secondary-color: #e67e22; /* Orange to complement your sunset theme */
+            --light-color: #f9f9f9;
+            --dark-color: #333;
+            --border-color: #ddd;
+            --success-color: #27ae60;
+            --danger-color: #e74c3c;
+        }
+        * {
+            
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+        body {
+            background-color: #f4f4f4;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        /*Nav bar Styles */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            background-color: #0d1a44;
+            color: white;
+            height: 70px;
+            position: relative;
+            width: 100%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+        
+        .logo:hover {
+            color: #e9c46a;
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+        
+        .nav-item {
+            margin: 0 15px;
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 0 5px;
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-link:hover {
+            color: #e9c46a;
+        }
+        
+        .dropdown {
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 220px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            left: 0;
+            top: 70px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        
+        .dropdown-item {
+            color: #333;
+            padding: 14px 20px;
+            text-decoration: none;
+            display: block;
+            border-left: 3px solid transparent;
+        }
+        
+        .dropdown-item:hover {
+            background-color: #f1f1f1;
+            color: #0d1a44;
+            border-left: 3px solid #e9c46a;
+        }
+        
+        .right-section {
+            display: flex;
+            align-items: center;
+        }
+        
+        .notification-icon, .profile-icon {
+            margin-left: 25px;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .notification-dot {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 10px;
+            height: 10px;
+            background-color: #ff4d4f;
+            border-radius: 50%;
+            border: 2px solid #0d1a44;
+        }
+        
+        .notification-panel {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 70px;
+            width: 340px;
+            background-color: #fff;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            color: #333;
+        }
+        
+        .notification-panel.show {
+            display: block;
+        }
+        
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .notification-title {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .mark-read {
+            color: #0d1a44;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .notification-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .notification-item:before {
+            content: "•";
+            color: #e9c46a;
+            font-size: 24px;
+            margin-right: 12px;
+            line-height: 20px;
+        }
+        
+        .notification-read:before {
+            color: #ccc;
+        }
+        
+        .notification-content {
+            flex: 1;
+        }
+        
+        .notification-text {
+            font-size: 14px;
+            margin-bottom: 4px;
+            line-height: 1.4;
+        }
+        
+        .notification-time {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .notification-footer {
+            text-align: center;
+            padding: 15px;
+        }
+        
+        .view-all {
+            color: #0d1a44;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        /* Dropdown arrow */
+        .dropdown .nav-link {
+            display: flex;
+            align-items: center;
+        }
+        
+        .dropdown .nav-link:after {
+            content: '▼';
+            margin-left: 6px;
+            font-size: 10px;
+            transition: all 0.6s ease-in;
+        }
+        .dropdown:hover .nav-link:after {
+            transform: rotate(180deg); /* Rotate the arrow on hover */
+        } 
+        
+        .hero-section {
+            position: relative;
+            height: 400px;
+            background-image: url('/api/placeholder/1400/400');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0 40px;
+        }
+        
+        .hero-section:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to right, rgba(13, 26, 68, 0.8), rgba(13, 26, 68, 0.4));
+        }
+        
+        .hero-text {
+            position: relative;
+            z-index: 1;
+            color: white;
+            font-size: 42px;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 20px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .logo {
+                font-size: 20px;
+            }
+            
+            .hero-text {
+                font-size: 32px;
+            }
+        }
+        /* Header styles would be included in your main CSS */
+        /* Settings Page Styles */
+        .settings-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .settings-header {
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 1rem;
+        }
+        .settings-header h1 {
+            color: var(--primary-color);
+            font-size: 2rem;
+        }
+        .settings-header p {
+            color: #666;
+            margin-top: 0.5rem;
+        }
+        .settings-grid {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+        }
+        .settings-sidebar {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+        }
+        .settings-nav {
+            list-style: none;
+        }
+        .settings-nav li {
+            margin-bottom: 0.5rem;
+        }
+        .settings-nav a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--dark-color);
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        .settings-nav a:hover, .settings-nav a.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        .settings-nav a i {
+            margin-right: 0.5rem;
+            width: 20px;
+            text-align: center;
+        }
+        .settings-content {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+        .settings-section {
+            margin-bottom: 2rem;
+            display: none;
+        }
+        .settings-section.active {
+            display: block;
+        }
+        .settings-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(26, 35, 126, 0.2);
+        }
+        .form-check {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        .form-check input {
+            margin-right: 0.5rem;
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #0d1757;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+        .btn-danger {
+            background-color: var(--danger-color);
+        }
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+            .settings-sidebar {
+                margin-bottom: 1rem;
+            }
+            .settings-nav {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            .settings-nav li {
+                margin-bottom: 0;
+                flex-grow: 1;
+                min-width: 120px;
+            }
+        }
+    </style>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="navbar">
+        <a href="home.html" class="logo">BUILD & BEYOND</a>
+        <div class="nav-links">
+            <div class="nav-item">
+                <a href="home.html" class="nav-link">HOME</a>
+            </div>
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link">SERVICES</a>
+                <div class="dropdown-content">
+                    <a href="services/construction.html" class="dropdown-item">Construction</a>
+                    <a href="services/architect.html" class="dropdown-item">Architect</a>
+                    <a href="services/interior_designer.html" class="dropdown-item">Interior Designer</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="ongoing_projects.html" class="nav-link">ONGOING PROJECTS</a>
+            </div>
+            <div class="nav-item">
+                <a href="bidspace.html" class="nav-link">BIDSPACE</a>
+            </div>
+            <div class="nav-item">
+                <a href="design_ideas.html" class="nav-link">DESIGN IDEAS</a>
+            </div>
+        </div>
+        <div class="right-section">
+            <div class="notification-icon" id="notificationIcon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                </svg>
+                <div class="notification-dot"></div>
+                
+                <div class="notification-panel" id="notificationPanel">
+                    <div class="notification-header">
+                        <div class="notification-title">Notifications</div>
+                        <div class="mark-read">Mark all as read</div>
+                    </div>
+                    
+                    <div class="notification-item">
+                        <div class="notification-content">
+                            <div class="notification-text">Your bid for Project XYZ has been accepted!</div>
+                            <div class="notification-time">2 hours ago</div>
+                        </div>
+                    </div>
+                    
+                    <div class="notification-item">
+                        <div class="notification-content">
+                            <div class="notification-text">New design templates available for modern kitchens</div>
+                            <div class="notification-time">5 hours ago</div>
+                        </div>
+                    </div>
+                    
+                    <div class="notification-item notification-read">
+                        <div class="notification-content">
+                            <div class="notification-text">Weekly report for your ongoing projects is ready</div>
+                            <div class="notification-time">Yesterday</div>
+                        </div>
+                    </div>
+                    
+                    <div class="notification-footer">
+                        <a href="#" class="view-all">View all notifications</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="profile-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+            </div>
+        </div>
+    </div>
+    <!--existing header/navigation will go here -->
+    <div class="settings-container">
+        <div class="settings-header">
+            <h1>Account Settings</h1>
+            <p>Manage your account preferences and project settings</p>
+        </div>
+        <div class="settings-grid">
+            <div class="settings-sidebar">
+                <ul class="settings-nav">
+                    <li><a href="#profile" class="active"><i class="fas fa-user"></i> Profile</a></li>
+                    <li><a href="#appearance"><i class="fas fa-paint-brush"></i> Appearance</a></li>
+                    <li><a href="#security"><i class="fas fa-lock"></i> Security</a></li>
+                    <li><a href="#payments"><i class="fas fa-credit-card"></i> Payments</a></li>
+                    <li><a href="#help-center"><i class="fas fa-question-circle"></i> Help Center</a></li>
+                    <li><a href="#logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </div>
+            <div class="settings-content">
+                <!-- Profile Section -->
+                <div id="profile" class="settings-section active">
+                    <h2>Profile Information</h2>
+                    <div id="profile-display">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <p>Aarav</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <p>aarav@gmail.com</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <p>+91 78856 34429</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <p>Avenue Road , Meerut</p>
+                        </div>
+                        <div class="form-group">
+                            <label>About Me</label>
+                            <p>I'm a homeowner looking to renovate my kitchen and add a deck to the back of my house.</p>
+                        </div>
+                        <button id="edit-profile-btn" class="btn">Edit Profile</button>
+                    </div>
+                    <form id="profile-edit" style="display: none;">
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" class="form-control" value="Aarav">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" class="form-control" value="aarav@gmail.com">
+                            <button type="button" id="verify-email-btn" class="btn btn-secondary" style="margin-top: 0.5rem; display: none;">Verify Email</button>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" class="form-control" value="aarav@gmail.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <textarea id="address" class="form-control" rows="3">Avenue Road , Meerut</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="bio">About Me</label>
+                            <textarea id="bio" class="form-control" rows="5">I'm a homeowner looking to renovate my kitchen and add a deck to the back of my house.</textarea>
+                        </div>
+                        <button type="button" id="cancel-edit-btn" class="btn btn-secondary" style="margin-right: 1rem;">Cancel</button>
+                        <button type="submit" class="btn">Save Changes</button>
+                    </form>
+                </div>
+                <!-- Appearance -->
+                <div id="appearance" class="settings-section">
+                    <h2>Appearance Settings</h2>
+                    <form>
+                        <div class="form-group">
+                            <label>Theme</label>
+                            <div class="form-check">
+                                <input type="radio" name="theme" id="themeLight" checked>
+                                <label for="themeLight">Light Mode</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" name="theme" id="themeDark">
+                                <label for="themeDark">Dark Mode</label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn">Apply</button>
+                    </form>
+                </div>
+                <!-- Security -->
+                <div id="security" class="settings-section">
+                    <h2>Security Settings</h2>
+                    <form>
+                        <div class="form-group">
+                            <label for="currentPassword">Current Password</label>
+                            <input type="password" id="currentPassword" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="newPassword">New Password</label>
+                            <input type="password" id="newPassword" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm New Password</label>
+                            <input type="password" id="confirmPassword" class="form-control">
+                        </div>
+                        <button type="submit" class="btn">Update Password</button>
+                        <hr style="margin: 2rem 0;">
+                    </form>
+                </div>
+                
+                <!-- Payments -->
+                <div id="payments" class="settings-section">
+                    <h2>Payment Settings</h2>
+                    <div>
+                        <h3 style="margin-bottom: 1rem; color: #555;">Invoices</h3>
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid var(--border-color);">
+                                    <th style="text-align: left; padding: 0.75rem;">Invoice #</th>
+                                    <th style="text-align: left; padding: 0.75rem;">Date</th>
+                                    <th style="text-align: left; padding: 0.75rem;">Amount</th>
+                                    <th style="text-align: left; padding: 0.75rem;">Status</th>
+                                    <th style="text-align: left; padding: 0.75rem;"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 0.75rem;">INV-2025-001</td>
+                                    <td style="padding: 0.75rem;">Mar 05, 2025</td>
+                                    <td style="padding: 0.75rem;">₹10,250.00</td>
+                                    <td style="padding: 0.75rem; color: var(--success-color);">Paid</td>
+                                    <td style="padding: 0.75rem;">
+                                        <a href="payment_document.pdf" style="color: var(--primary-color);">Download</a>
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 0.75rem;">INV-2025-002</td>
+                                    <td style="padding: 0.75rem;">Feb 20, 2025</td>
+                                    <td style="padding: 0.75rem;">₹25,500.00</td>
+                                    <td style="padding: 0.75rem; color: var(--success-color);">Paid</td>
+                                    <td style="padding: 0.75rem;">
+                                        <a href="payment_document.pdf" style="color: var(--primary-color);">Download</a>
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 0.75rem;">INV-2025-003</td>
+                                    <td style="padding: 0.75rem;">Feb 05, 2025</td>
+                                    <td style="padding: 0.75rem;">₹1,00,800.00</td>
+                                    <td style="padding: 0.75rem; color: var(--success-color);">Paid</td>
+                                    <td style="padding: 0.75rem;">
+                                        <a href="payment_document.pdf" style="color: var(--primary-color);">Download</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Help Center -->
+                <div id="help-center" class="settings-section">
+                <h2>Help Center</h2>
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="margin-bottom: 1rem; color: #555;">Frequently Asked Questions</h3>
+                        <div style="padding: 1rem; border: 1px solid var(--border-color); border-radius: 4px; margin-bottom: 1rem;">
+                            <div>
+                                <span style="font-weight: 600;">How do I create a new project?</span>
+                                <p style="margin-top: 0.5rem; color: #666;">Go to the Dashboard and click on the "New Project" button in the top right corner.</p>
+                            </div>
+                        </div>
+                        <div style="padding: 1rem; border: 1px solid var(--border-color); border-radius: 4px; margin-bottom: 1rem;">
+                            <div>
+                                <span style="font-weight: 600;">How do I invite team members?</span>
+                                <p style="margin-top: 0.5rem; color: #666;">Navigate to your project, click on "Team" tab, and use the "Invite Member" button.</p>
+                            </div>
+                        </div>
+                        <div style="padding: 1rem; border: 1px solid var(--border-color); border-radius: 4px; margin-bottom: 1rem;">
+                            <div>
+                                <span style="font-weight: 600;">How can I track my project's budget?</span>
+                                <p style="margin-top: 0.5rem; color: #666;">Use the "Finances" tab within your project to track expenses and compare with your budget.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="margin-bottom: 1rem; color: #555;">Support Options</h3>
+                        <button class="btn" style="margin-right: 1rem;">Contact Support</button>
+                    </div>
+                </div>
+                <!-- Logout -->
+                <div id="logout" class="settings-section">
+                    <h2>Logout</h2>
+                    <div style="margin-bottom: 2rem;">
+                        <p style="margin-bottom: 1.5rem;">Are you sure you want to log out of your account?</p>
+                        <button class="btn btn-danger">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Simple JavaScript to handle tab switching
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.settings-nav a');
+            const sections = document.querySelectorAll('.settings-section');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // Remove active class from all links and sections
+                    navLinks.forEach(link => link.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    // Show corresponding section
+                    const targetId = this.getAttribute('href').substring(1);
+                    document.getElementById(targetId).classList.add('active');
+                });
+            });
+        });
+        // Profile edit functionality
+        const editProfileBtn=document.getElementById('edit-profile-btn');
+        const cancelEditBtn=document.getElementById('cancel-edit-btn');
+        const profileDisplay=document.getElementById('profile-display');
+        const profileEdit=document.getElementById('profile-edit');
+        const emailInput=document.getElementById('email');
+        const verifyEmailBtn=document.getElementById('verify-email-btn');
+        const originalEmail=emailInput?emailInput.value:'';
+        if (editProfileBtn && profileDisplay && profileEdit) {
+            editProfileBtn.addEventListener('click', function() {
+                profileDisplay.style.display = 'none';
+                profileEdit.style.display = 'block';
+            });
+        }
+        if (cancelEditBtn && profileDisplay && profileEdit) {
+            cancelEditBtn.addEventListener('click', function() {
+                profileDisplay.style.display='block';
+                profileEdit.style.display='none';
+                // Reset the form values (optional)
+                document.getElementById('profile-edit').reset();
+                // Hide verify button
+                verifyEmailBtn.style.display='none';
+            });
+        }
+        if (emailInput && verifyEmailBtn) {
+            emailInput.addEventListener('input', function() {
+                if (this.value !== originalEmail) {
+                    verifyEmailBtn.style.display='block';
+                } else {
+                    verifyEmailBtn.style.display='none';
+                }
+            });
+            verifyEmailBtn.addEventListener('click', function() {
+                alert('Verification email sent to '+emailInput.value);
+            });
+        }
+    </script>
+</body>
+</html>

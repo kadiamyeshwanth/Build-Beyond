@@ -1,0 +1,1064 @@
+
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Construction Company Dashboard</title>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+            <style>
+                * {
+                    margin: 0;
+                    padding: 0;
+                    box-sizing: border-box;
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                }
+        
+                body {
+                    background-color: #f5f7fa;
+                }
+        
+                .dashboard-container {
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    padding: 20px;
+                }
+        
+                header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 20px;
+                }
+        
+                h1 {
+                    color: #333;
+                    font-size: 24px;
+                }
+        
+                .add-project-btn {
+                    background-color: #4153ef;
+                    color: white;
+                    border: none;
+                    padding: 8px 16px;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                }
+        
+                .stats-container {
+                    display: grid;
+                    grid-template-columns: repeat(4, 1fr);
+                    gap: 20px;
+                    margin-bottom: 30px;
+                }
+        
+                .stat-card {
+                    background-color: white;
+                    border-radius: 8px;
+                    padding: 20px;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+                }
+        
+                .stat-title {
+                    color: #777;
+                    font-size: 14px;
+                    margin-bottom: 10px;
+                }
+        
+                .stat-value {
+                    font-size: 28px;
+                    font-weight: 600;
+                    margin-bottom: 10px;
+                }
+        
+                .stat-change {
+                    font-size: 12px;
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                }
+        
+                .increase {
+                    color: #4caf50;
+                }
+        
+                .decrease {
+                    color: #f44336;
+                }
+        
+                .main-content {
+                    display: flex;
+                    gap: 20px;
+                }
+        
+                .projects-section {
+                    flex: 1;
+                }
+        
+                .projects-section h2 {
+                    margin-bottom: 20px;
+                    color: #333;
+                }
+        
+                .projects-container {
+                    padding-right: 10px;
+                }
+        
+                .project-card {
+                    background-color: white;
+                    border-radius: 8px;
+                    margin-bottom: 20px;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+                    overflow: hidden;
+                }
+        
+                .project-image {
+                    width: 100%;
+                    height: 160px;
+                    object-fit: cover;
+                }
+        
+                .project-header {
+                    padding: 15px;
+                    position: relative;
+                }
+        
+                .project-header h3 {
+                    color: #4153ef;
+                    margin-bottom: 5px;
+                }
+        
+                .project-location {
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    color: #777;
+                    font-size: 13px;
+                }
+        
+                .project-completion {
+                    position: absolute;
+                    top: 15px;
+                    right: 15px;
+                    background-color: #333;
+                    color: white;
+                    padding: 5px 10px;
+                    border-radius: 15px;
+                    font-size: 12px;
+                }
+        
+                .project-stats {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 15px;
+                    border-top: 1px solid #eee;
+                    border-bottom: 1px solid #eee;
+                }
+        
+                .project-stat {
+                    text-align: center;
+                }
+        
+                .project-stat-value {
+                    font-size: 18px;
+                    font-weight: bold;
+                    color: #4153ef;
+                    margin-bottom: 5px;
+                }
+        
+                .project-stat-label {
+                    font-size: 12px;
+                    color: #777;
+                }
+        
+                .project-progress {
+                    padding: 15px;
+                }
+        
+                .progress-title {
+                    color: #333;
+                    margin-bottom: 10px;
+                    font-size: 14px;
+                }
+        
+                .progress-bar-container {
+                    background-color: #eee;
+                    height: 8px;
+                    border-radius: 4px;
+                    overflow: hidden;
+                    margin-bottom: 10px;
+                }
+        
+                .progress-bar {
+                    height: 100%;
+                    background-color: #4153ef;
+                    border-radius: 4px;
+                }
+        
+                .project-footer {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 15px;
+                }
+        
+                .project-status {
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    color: #4caf50;
+                    font-size: 14px;
+                }
+        
+                .project-status .status-dot {
+                    width: 8px;
+                    height: 8px;
+                    background-color: #4caf50;
+                    border-radius: 50%;
+                }
+        
+                .project-details-btn {
+                    color: #4153ef;
+                    text-decoration: none;
+                    font-size: 14px;
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                }
+        
+                .filter-section {
+                    width: 250px;
+                }
+        
+                .filter-section h3 {
+                    margin-bottom: 15px;
+                    color: #333;
+                }
+        
+                .filter-buttons {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                }
+        
+                .filter-btn {
+                    background-color: white;
+                    border: 1px solid #ddd;
+                    padding: 12px;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    text-align: center;
+                    transition: all 0.2s;
+                }
+        
+                .filter-btn.active {
+                    background-color: #5b42f3;
+                    color: white;
+                    border-color: #5b42f3;
+                }
+        
+                @media (max-width: 1024px) {
+                    .stats-container {
+                        grid-template-columns: repeat(2, 1fr);
+                    }
+        
+                    .main-content {
+                        flex-direction: column;
+                    }
+        
+                    .filter-section {
+                        width: 100%;
+                    }
+        
+                    .filter-buttons {
+                        flex-direction: row;
+                    }
+        
+                    .filter-btn {
+                        flex: 1;
+                    }
+                }
+        
+                @media (max-width: 768px) {
+                    header {
+                        flex-direction: column;
+                        align-items: flex-start;
+                        gap: 10px;
+                    }
+        
+                    .stats-container {
+                        grid-template-columns: 1fr;
+                    }
+                }
+        
+                /* Modal overlay */
+                .modal-overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: rgba(0, 0, 0, 0.7);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 1000;
+                }
+        
+                .modal-content {
+                    background-color: white;
+                    width: 90%;
+                    max-width: 900px;
+                    max-height: 90vh;
+                    border-radius: 8px;
+                    position: relative;
+                    display: flex;
+                    flex-direction: column;
+                    overflow: hidden;
+                }
+        
+                .modal-close {
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                    background: white;
+                    border: none;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    font-size: 20px;
+                    cursor: pointer;
+                    z-index: 10;
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+        
+                /* Slideshow container */
+                .slideshow-container {
+                    position: relative;
+                    height: 300px;
+                    background-color: #f5f5f5;
+                }
+        
+                .slide {
+                    width: 100%;
+                    height: 100%;
+                }
+        
+                .image-placeholder {
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 18px;
+                    color: #666;
+                    background-color: #e0e0e0;
+                }
+        
+                .slide-nav {
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    background-color: rgba(0, 0, 0, 0.5);
+                    color: white;
+                    border: none;
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    font-size: 18px;
+                    cursor: pointer;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+        
+                .prev {
+                    left: 20px;
+                }
+        
+                .next {
+                    right: 20px;
+                }
+        
+                .slide-indicators {
+                    position: absolute;
+                    bottom: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    display: flex;
+                    gap: 10px;
+                }
+        
+                .indicator {
+                    width: 12px;
+                    height: 12px;
+                    background-color: rgba(255, 255, 255, 0.5);
+                    border-radius: 50%;
+                    cursor: pointer;
+                }
+        
+                .indicator.active {
+                    background-color: white;
+                }
+        
+                /* Details container */
+                .details-container {
+                    padding: 20px;
+                    overflow-y: auto;
+                }
+        
+                .details-container h2 {
+                    color: #4153ef;
+                    margin-bottom: 10px;
+                }
+        
+                .location {
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    color: #777;
+                    margin-bottom: 20px;
+                }
+        
+                .detail-stats {
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 15px;
+                    margin-bottom: 20px;
+                }
+        
+                .detail-stat {
+                    background-color: #f5f7fa;
+                    padding: 10px;
+                    border-radius: 5px;
+                }
+        
+                .detail-stat .label {
+                    color: #777;
+                    font-size: 13px;
+                    display: block;
+                    margin-bottom: 5px;
+                }
+        
+                .detail-stat .value {
+                    font-weight: 600;
+                    color: #333;
+                }
+        
+                .progress-container h3 {
+                    margin-bottom: 10px;
+                    font-size: 16px;
+                }
+        
+                .progress-container .progress-bar-container {
+                    position: relative;
+                    height: 10px;
+                }
+        
+                .progress-container .progress-bar {
+                    height: 100%;
+                }
+        
+                .progress-label {
+                    position: absolute;
+                    top: -20px;
+                    right: 0;
+                    font-weight: 600;
+                    color: #4153ef;
+                }
+        
+                @media (max-width: 768px) {
+                    .detail-stats {
+                        grid-template-columns: 1fr 1fr;
+                    }
+                }
+        
+                @media (max-width: 480px) {
+                    .detail-stats {
+                        grid-template-columns: 1fr;
+                    }
+        
+                    .slideshow-container {
+                        height: 200px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="dashboard-container">
+                <header>
+                    <h1>Company Dashboard</h1>
+                    <button class="add-project-btn">
+                        <i class="fas fa-plus"></i> Add New Project
+                    </button>
+                </header>
+        
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <p class="stat-title">Total Active Projects</p>
+                        <h2 class="stat-value">10</h2>
+                        <p class="stat-change increase"><i class="fas fa-arrow-up"></i> 12% from last month</p>
+                    </div>
+                    <div class="stat-card">
+                        <p class="stat-title">Monthly Revenue</p>
+                        <h2 class="stat-value">₹4.8 Cr</h2>
+                        <p class="stat-change increase"><i class="fas fa-arrow-up"></i> 8.5% from last month</p>
+                    </div>
+                    <div class="stat-card">
+                        <p class="stat-title">Customer Satisfaction</p>
+                        <h2 class="stat-value">4.7/5</h2>
+                        <p class="stat-change increase"><i class="fas fa-arrow-up"></i> 0.3 points from last quarter</p>
+                    </div>
+                    <div class="stat-card">
+                        <p class="stat-title">Projects On Schedule</p>
+                        <h2 class="stat-value">85%</h2>
+                        <p class="stat-change decrease"><i class="fas fa-arrow-down"></i> 3% from last month</p>
+                    </div>
+                </div>
+        
+                <div class="main-content">
+                    <div class="projects-section">
+                        <h2>Ongoing Construction Projects</h2>
+                        <div class="projects-container" id="projectsContainer">
+                            <!-- Project cards will be dynamically added here -->
+                        </div>
+                    </div>
+                    <div class="filter-section">
+                        <h3>Filter Properties</h3>
+                        <div class="filter-buttons">
+                            <button class="filter-btn active" data-filter="all">All Properties</button>
+                            <button class="filter-btn" data-filter="construction">Under Construction</button>
+                            <button class="filter-btn" data-filter="ready">Ready to Move</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Project data
+                    const projects = [
+                    {
+            id: 1,
+            name: 'Urban Heights Tower',
+            image: 'Urban Heights Tower',
+            location: 'Chennai, Tamil Nadu',
+            completion: '45% Complete',
+            floors: 32,
+            budget: '₹42M',
+            completionYear: '2026',
+            progress: 45,
+            status: 'On Schedule',
+            type: 'construction',
+            images: ['construction-1a.jpg', 'construction-1b.jpg', 'construction-1c.jpg']
+        },
+        {
+            id: 2,
+            name: 'Riverside Development',
+            image: 'Riverside Development',
+            location: 'Bangalore, Karnataka',
+            completion: '65% Complete',
+            units: 127,
+            budget: '₹28M',
+            completionYear: '2025',
+            progress: 65,
+            status: 'On Schedule',
+            type: 'construction',
+            images: ['construction-2a.jpg', 'construction-2b.jpg', 'construction-2c.jpg']
+        },
+        {
+            id: 3,
+            name: 'Golden Residency',
+            image: 'Golden Residency',
+            location: 'Hyderabad, Telangana',
+            completion: '50% Complete',
+            floors: 20,
+            budget: '₹35M',
+            completionYear: '2024',
+            progress: 50,
+            status: 'On Schedule',
+            type: 'construction',
+            images: ['construction-3a.jpg', 'construction-3b.jpg', 'construction-3c.jpg']
+        },
+        {
+            id: 4,
+            name: 'Ocean View Apartments',
+            image: 'Ocean View Apartments',
+            location: 'Kochi, Kerala',
+            completion: '70% Complete',
+            units: 80,
+            budget: '₹22M',
+            completionYear: '2025',
+            progress: 70,
+            status: 'On Schedule',
+            type: 'construction',
+            images: ['construction-4a.jpg', 'construction-4b.jpg', 'construction-4c.jpg']
+        },
+        {
+            id: 5,
+            name: 'Green Valley Homes',
+            image: 'Green Valley Homes',
+            location: 'Coimbatore, Tamil Nadu',
+            completion: '55% Complete',
+            floors: 15,
+            budget: '₹18M',
+            completionYear: '2024',
+            progress: 55,
+            status: 'On Schedule',
+            type: 'construction',
+            images: ['construction-5a.jpg', 'construction-5b.jpg', 'construction-5c.jpg']
+        },
+        {
+            id: 6,
+            name: 'Royal Gardens',
+            image: 'Royal Gardens',
+            location: 'Visakhapatnam, Andhra Pradesh',
+            completion: '60% Complete',
+            units: 90,
+            budget: '₹25M',
+            completionYear: '2025',
+            progress: 60,
+            status: 'On Schedule',
+            type: 'construction',
+            images: ['construction-6a.jpg', 'construction-6b.jpg', 'construction-6c.jpg']
+        },
+        {
+            id: 7,
+            name: 'Skyline Towers',
+            image: 'Skyline Towers',
+            location: 'Trivandrum, Kerala',
+            completion: '40% Complete',
+            floors: 25,
+            budget: '₹30M',
+            completionYear: '2026',
+            progress: 40,
+            status: 'On Schedule',
+            type: 'construction',
+            images: ['construction-7a.jpg', 'construction-7b.jpg', 'construction-7c.jpg']
+        },
+        {
+            id: 8,
+            name: 'Prestige Residences',
+            image: 'Prestige Residences',
+            location: 'Mysore, Karnataka',
+            completion: '75% Complete',
+            units: 60,
+            budget: '₹20M',
+            completionYear: '2024',
+            progress: 75,
+            status: 'On Schedule',
+            type: 'construction',
+            images: ['construction-8a.jpg', 'construction-8b.jpg', 'construction-8c.jpg']
+        },
+        {
+            id: 9,
+            name: 'Lakeside Villas',
+            image: 'Lakeside Villas',
+            location: 'Pondicherry',
+            completion: '65% Complete',
+            units: 50,
+            budget: '₹15M',
+            completionYear: '2025',
+            progress: 65,
+            status: 'On Schedule',
+            type: 'construction',
+            images: ['construction-9a.jpg', 'construction-9b.jpg', 'construction-9c.jpg']
+        },
+        {
+            id: 10,
+            name: 'Emerald Heights',
+            image: 'Emerald Heights',
+            location: 'Madurai, Tamil Nadu',
+            completion: '50% Complete',
+            floors: 18,
+            budget: '₹28M',
+            completionYear: '2026',
+            progress: 50,
+            status: 'On Schedule',
+            type: 'construction',
+            images: ['construction-10a.jpg', 'construction-10b.jpg', 'construction-10c.jpg']
+        },
+        {
+            id: 11,
+            name: 'Sunrise Apartments',
+            image: 'Sunrise Apartments',
+            location: 'Vijayawada, Andhra Pradesh',
+            completion: '70% Complete',
+            units: 100,
+            budget: '₹32M',
+            completionYear: '2025',
+            progress: 70,
+            status: 'On Schedule',
+            type: 'construction',
+            images: ['construction-11a.jpg', 'construction-11b.jpg', 'construction-11c.jpg']
+        },
+        {
+            id: 12,
+            name: 'Silver Springs',
+            image: 'Silver Springs',
+            location: 'Tiruchirappalli, Tamil Nadu',
+            completion: '55% Complete',
+            floors: 22,
+            budget: '₹24M',
+            completionYear: '2024',
+            progress: 55,
+            status: 'On Schedule',
+            type: 'construction',
+            images: ['construction-12a.jpg', 'construction-12b.jpg', 'construction-12c.jpg']
+        },
+        {
+            id: 13,
+            name: 'Blue Horizon',
+            image: 'Blue Horizon',
+            location: 'Mangalore, Karnataka',
+            completion: '60% Complete',
+            units: 75,
+            budget: '₹26M',
+            completionYear: '2025',
+            progress: 60,
+            status: 'On Schedule',
+            type: 'construction',
+            images: ['construction-13a.jpg', 'construction-13b.jpg', 'construction-13c.jpg']
+        },
+        {
+            id: 14,
+            name: 'Golden Palms',
+            image: 'Golden Palms',
+            location: 'Thrissur, Kerala',
+            completion: '65% Complete',
+            floors: 20,
+            budget: '₹30M',
+            completionYear: '2026',
+            progress: 65,
+            status: 'On Schedule',
+            type: 'construction',
+            images: ['construction-14a.jpg', 'construction-14b.jpg', 'construction-14c.jpg']
+        },
+        {
+            id: 15,
+            name: 'Royal Orchid',
+            image: 'Royal Orchid',
+            location: 'Salem, Tamil Nadu',
+            completion: '50% Complete',
+            units: 85,
+            budget: '₹22M',
+            completionYear: '2025',
+            progress: 50,
+            status: 'On Schedule',
+            type: 'construction',
+            images: ['construction-15a.jpg', 'construction-15b.jpg', 'construction-15c.jpg']
+        }
+                    ];
+        
+                    // Render projects
+                    function renderProjects(projectsToRender) {
+                        const projectsContainer = document.getElementById('projectsContainer');
+                        projectsContainer.innerHTML = '';
+        
+                        projectsToRender.forEach(project => {
+                            const projectCard = document.createElement('div');
+                            projectCard.className = 'project-card';
+        
+                            // Create project image section (using text as placeholder)
+                            const projectImageSection = document.createElement('div');
+                            projectImageSection.className = 'project-image-placeholder';
+                            projectImageSection.textContent = project.image;
+                            projectImageSection.style.height = '120px';
+                            projectImageSection.style.background = '#e0e0e0';
+                            projectImageSection.style.display = 'flex';
+                            projectImageSection.style.alignItems = 'center';
+                            projectImageSection.style.justifyContent = 'center';
+                            projectImageSection.style.color = '#666';
+        
+                            // Create project header
+                            const projectHeader = document.createElement('div');
+                            projectHeader.className = 'project-header';
+        
+                            const projectTitle = document.createElement('h3');
+                            projectTitle.textContent = project.name;
+        
+                            const projectLocation = document.createElement('div');
+                            projectLocation.className = 'project-location';
+                            projectLocation.innerHTML = `<span class="location-icon">📍</span> ${project.location}`;
+        
+                            const projectCompletion = document.createElement('div');
+                            projectCompletion.className = 'project-completion';
+                            projectCompletion.textContent = project.completion;
+        
+                            projectHeader.appendChild(projectTitle);
+                            projectHeader.appendChild(projectLocation);
+                            projectHeader.appendChild(projectCompletion);
+        
+                            // Create project stats
+                            const projectStats = document.createElement('div');
+                            projectStats.className = 'project-stats';
+        
+                            // First stat (floors or units)
+                            const statOneDiv = document.createElement('div');
+                            statOneDiv.className = 'project-stat';
+        
+                            const statOneValue = document.createElement('div');
+                            statOneValue.className = 'project-stat-value';
+                            statOneValue.textContent = project.floors || project.units;
+        
+                            const statOneLabel = document.createElement('div');
+                            statOneLabel.className = 'project-stat-label';
+                            statOneLabel.textContent = project.floors ? 'Floors' : 'Units';
+        
+                            statOneDiv.appendChild(statOneValue);
+                            statOneDiv.appendChild(statOneLabel);
+        
+                            // Budget stat
+                            const budgetDiv = document.createElement('div');
+                            budgetDiv.className = 'project-stat';
+        
+                            const budgetValue = document.createElement('div');
+                            budgetValue.className = 'project-stat-value';
+                            budgetValue.textContent = project.budget;
+        
+                            const budgetLabel = document.createElement('div');
+                            budgetLabel.className = 'project-stat-label';
+                            budgetLabel.textContent = 'Budget';
+        
+                            budgetDiv.appendChild(budgetValue);
+                            budgetDiv.appendChild(budgetLabel);
+        
+                            // Completion year stat
+                            const completionDiv = document.createElement('div');
+                            completionDiv.className = 'project-stat';
+        
+                            const completionValue = document.createElement('div');
+                            completionValue.className = 'project-stat-value';
+                            completionValue.textContent = project.completionYear;
+        
+                            const completionLabel = document.createElement('div');
+                            completionLabel.className = 'project-stat-label';
+                            completionLabel.textContent = 'Completion';
+        
+                            completionDiv.appendChild(completionValue);
+                            completionDiv.appendChild(completionLabel);
+        
+                            projectStats.appendChild(statOneDiv);
+                            projectStats.appendChild(budgetDiv);
+                            projectStats.appendChild(completionDiv);
+        
+                            // Create progress section
+                            const progressSection = document.createElement('div');
+                            progressSection.className = 'project-progress';
+        
+                            const progressTitle = document.createElement('div');
+                            progressTitle.className = 'progress-title';
+                            progressTitle.textContent = 'Construction Progress';
+        
+                            const progressBarContainer = document.createElement('div');
+                            progressBarContainer.className = 'progress-bar-container';
+        
+                            const progressBar = document.createElement('div');
+                            progressBar.className = 'progress-bar';
+                            progressBar.style.width = `${project.progress}%`;
+        
+                            progressBarContainer.appendChild(progressBar);
+        
+                            progressSection.appendChild(progressTitle);
+                            progressSection.appendChild(progressBarContainer);
+        
+                            // Create footer
+                            const projectFooter = document.createElement('div');
+                            projectFooter.className = 'project-footer';
+        
+                            const projectStatus = document.createElement('div');
+                            projectStatus.className = 'project-status';
+                            projectStatus.innerHTML = `<span class="status-dot"></span> ${project.status}`;
+        
+                            const projectDetailsBtn = document.createElement('a');
+                            projectDetailsBtn.className = 'project-details-btn';
+                            projectDetailsBtn.href = '#';
+                            projectDetailsBtn.textContent = 'View Details';
+                            projectDetailsBtn.innerHTML += ' →';
+        
+                            projectFooter.appendChild(projectStatus);
+                            projectFooter.appendChild(projectDetailsBtn);
+        
+                            // Assemble project card
+                            projectCard.appendChild(projectImageSection);
+                            projectCard.appendChild(projectHeader);
+                            projectCard.appendChild(projectStats);
+                            projectCard.appendChild(progressSection);
+                            projectCard.appendChild(projectFooter);
+        
+                            projectsContainer.appendChild(projectCard);
+                        });
+                    }
+        
+                    // Filter functionality
+                    const filterButtons = document.querySelectorAll('.filter-btn');
+                    let currentFilter = 'all';
+        
+                    filterButtons.forEach(button => {
+                        button.addEventListener('click', function() {
+                            const filter = this.getAttribute('data-filter');
+                            currentFilter = filter;
+        
+                            // Update active button
+                            filterButtons.forEach(btn => btn.classList.remove('active'));
+                            this.classList.add('active');
+        
+                            // Filter projects
+                            let filteredProjects;
+        
+                            if (filter === 'all') {
+                                filteredProjects = projects;
+                            } else {
+                                filteredProjects = projects.filter(project => project.type === filter);
+                            }
+        
+                            renderProjects(filteredProjects);
+                        });
+                    });
+        
+                    // View details functionality with slideshow
+                    document.addEventListener('click', function(e) {
+                        if (e.target.classList.contains('project-details-btn') || e.target.parentElement.classList.contains('project-details-btn')) {
+                            e.preventDefault();
+        
+                            // Find the project card element
+                            const projectCard = e.target.closest('.project-card');
+                            const projectName = projectCard.querySelector('h3').textContent;
+        
+                            // Find the project data
+                            const project = projects.find(p => p.name === projectName);
+        
+                            if (project) {
+                                // Create modal overlay
+                                const modalOverlay = document.createElement('div');
+                                modalOverlay.className = 'modal-overlay';
+        
+                                // Create modal content
+                                const modalContent = document.createElement('div');
+                                modalContent.className = 'modal-content';
+        
+                                // Create close button
+                                const closeButton = document.createElement('button');
+                                closeButton.className = 'modal-close';
+                                closeButton.innerHTML = '&times;';
+                                closeButton.addEventListener('click', function() {
+                                    document.body.removeChild(modalOverlay);
+                                });
+        
+                                // Create slideshow container
+                                const slideshowContainer = document.createElement('div');
+                                slideshowContainer.className = 'slideshow-container';
+        
+                                // Create slides
+                                let slidesHTML = '';
+                                project.images.forEach((image, index) => {
+                                    slidesHTML += `
+                                        <div class="slide" style="${index === 0 ? '' : 'display: none;'}">
+                                            <div class="image-placeholder">${project.name} - Image ${index + 1}</div>
+                                        </div>
+                                    `;
+                                });
+        
+                                // Add navigation buttons
+                                slidesHTML += `
+                                    <button class="slide-nav prev">&#10094;</button>
+                                    <button class="slide-nav next">&#10095;</button>
+                                    <div class="slide-indicators">
+                                        ${project.images.map((_, i) => `<span class="indicator${i === 0 ? ' active' : ''}" data-index="${i}"></span>`).join('')}
+                                    </div>
+                                `;
+        
+                                slideshowContainer.innerHTML = slidesHTML;
+        
+                                // Create abbreviated details
+                                const detailsContainer = document.createElement('div');
+                                detailsContainer.className = 'details-container';
+                                detailsContainer.innerHTML = `
+                                    <h2>${project.name}</h2>
+                                    <p class="location"><i class="fas fa-map-marker-alt"></i> ${project.location}</p>
+                                    <div class="detail-stats">
+                                        <div class="detail-stat">
+                                            <span class="label">Status:</span>
+                                            <span class="value">${project.status}</span>
+                                        </div>
+                                        <div class="detail-stat">
+                                            <span class="label">Completion:</span>
+                                            <span class="value">${project.completion}</span>
+                                        </div>
+                                        <div class="detail-stat">
+                                            <span class="label">${project.floors ? 'Floors' : 'Units'}:</span>
+                                            <span class="value">${project.floors || project.units}</span>
+                                        </div>
+                                        <div class="detail-stat">
+                                            <span class="label">Budget:</span>
+                                            <span class="value">${project.budget}</span>
+                                        </div>
+                                        <div class="detail-stat">
+                                            <span class="label">Completion Year:</span>
+                                            <span class="value">${project.completionYear}</span>
+                                        </div>
+                                    </div>
+                                    <div class="progress-container">
+                                        <h3>Construction Progress</h3>
+                                        <div class="progress-bar-container">
+                                            <div class="progress-bar" style="width: ${project.progress}%"></div>
+                                            <span class="progress-label">${project.progress}%</span>
+                                        </div>
+                                    </div>
+                                `;
+        
+                                // Assemble modal
+                                modalContent.appendChild(closeButton);
+                                modalContent.appendChild(slideshowContainer);
+                                modalContent.appendChild(detailsContainer);
+                                modalOverlay.appendChild(modalContent);
+                                document.body.appendChild(modalOverlay);
+        
+                                // Slideshow functionality
+                                let currentSlide = 0;
+                                const slides = slideshowContainer.querySelectorAll('.slide');
+                                const indicators = slideshowContainer.querySelectorAll('.indicator');
+        
+                                function showSlide(n) {
+                                    // Hide all slides
+                                    slides.forEach(slide => slide.style.display = 'none');
+                                    indicators.forEach(indicator => indicator.classList.remove('active'));
+        
+                                    // Reset index if out of bounds
+                                    currentSlide = (n + slides.length) % slides.length;
+        
+                                    // Show the current slide
+                                    slides[currentSlide].style.display = 'block';
+                                    indicators[currentSlide].classList.add('active');
+                                }
+        
+                                // Next/previous controls
+                                slideshowContainer.querySelector('.prev').addEventListener('click', function() {
+                                    showSlide(currentSlide - 1);
+                                });
+        
+                                slideshowContainer.querySelector('.next').addEventListener('click', function() {
+                                    showSlide(currentSlide + 1);
+                                });
+        
+                                // Indicator clicks
+                                indicators.forEach(indicator => {
+                                    indicator.addEventListener('click', function() {
+                                        showSlide(parseInt(this.getAttribute('data-index')));
+                                    });
+                                });
+                            }
+                        }
+                    });
+        
+                    // Initial render
+                    renderProjects(projects);
+                });
+            </script>
+</body>
+</html>

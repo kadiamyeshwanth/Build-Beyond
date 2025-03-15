@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build & Beyond</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333333;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        /* Color Variables */
+        :root {
+            --primary-color: #3a7bd5;
+            --primary-light: #5a9bff;
+            --primary-dark: #2856a3;
+            --accent-color: #ff6b6b;
+            --accent-hover: #ff8e8e;
+            --background-light: #f5f5f5;
+            --background-white: #ffffff;
+            --background-card: #ffffff;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --text-light: #888888;
+            --border-color: #e0e0e0;
+            --success-color: #4caf50;
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+        }
+
+        /* Container */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--background-white);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-md);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            color: var(--primary-color);
+            font-size: 24px;
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 1px;
+        }
+
+        /* Favorites Button in Header */
+        .favorites-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            margin-right: 20px;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .favorites-btn:hover {
+            color: var(--accent-color);
+            transform: scale(1.1);
+        }
+
+        .favorites-btn.active {
+            color: var(--accent-color);
+        }
+
+        /* Dropdown Menu */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            justify-content: center;
+        }
+
+        .dropdown-button {
+            background-color: black;
+            color: white;
+            padding: 10px 18px;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-button:hover {
+            background-color: orange;
+            transform: translateY(-2px);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--background-white);
+            min-width: 180px;
+            box-shadow: var(--shadow-lg);
+            z-index: 1;
+            border-radius: var(--radius-md);
+            margin-top: 8px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .dropdown-content button {
+            color: orange;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            background: none;
+            border: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            font-size: 15px;
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-content button:hover {
+            background-color: #f8f8f8;
+            color: orange;
+        }
+
+        .dropdown-content button.active {
+            background-color: orange;
+            color: white;
+        }
+
+        .show {
+            display: block;
+        }
+
+        /* Main Content Styles */
+        main {
+            padding: 40px 0;
+            display: flex;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .main-content {
+            flex: 1;
+            transition: all 0.3s ease;
+        }
+
+        .section {
+            margin-bottom: 60px;
+            scroll-margin-top: 100px;
+        }
+
+        .section-heading {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            position: relative;
+            display: inline-block;
+            font-weight: 600;
+        }
+
+        .section-heading:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background-color: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .section-description {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            max-width: 800px;
+            font-size: 17px;
+        }
+
+        /* Image Grid */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 25px;
+        }
+
+        @media (min-width: 768px) {
+            .image-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 992px) {
+            .image-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .main-content.with-favorites {
+                margin-right: 300px;
+            }
+        }
+
+        .design-card {
+            background-color: var(--background-card);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .design-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-image-container {
+            position: relative;
+            overflow: hidden;
+            height: 220px;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .design-card:hover .card-image {
+            transform: scale(1.05);
+        }
+        
+        /* Love/Favorite Button on Cards */
+        .love-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 5;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .love-btn:hover {
+            background-color: white;
+            transform: scale(1.1);
+        }
+        
+        .love-icon {
+            font-size: 20px;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+        
+        .love-btn.active .love-icon {
+            color: var(--accent-color);
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .card-description {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .card-status {
+            display: flex;
+            align-items: center;
+        }
+
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            background-color: var(--success-color);
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-text {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        /* Favorites Panel */
+        .favorites-panel {
+            position: fixed;
+            top: 80px;
+            right: -300px;
+            width: 300px;
+            height: calc(100vh - 80px);
+            background-color: var(--background-white);
+            box-shadow: var(--shadow-lg);
+            overflow-y: auto;
+            z-index: 900;
+            transition: right 0.3s ease;
+            border-left: 1px solid var(--border-color);
+        }
+        
+        .favorites-panel.active {
+            right: 0;
+        }
+        
+        .favorites-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .favorites-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .close-favorites {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            color: var(--text-secondary);
+        }
+        
+        .favorites-list {
+            padding: 15px;
+        }
+        
+        .favorites-item {
+            margin-bottom: 20px;
+            background-color: var(--background-light);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+        }
+        
+        .favorite-img {
+            width: 100%;
+            height: 130px;
+            object-fit: cover;
+        }
+        
+        .favorite-info {
+            padding: 10px;
+        }
+        
+        .favorite-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .favorite-category {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        .remove-favorite {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .empty-favorites {
+            padding: 30px 15px;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: var(--primary-dark);
+            padding: 40px 0;
+            margin-top: 50px;
+            color: white;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .footer-logo .logo-icon {
+            color: white;
+        }
+
+        .footer-logo .logo-text {
+            color: white;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 15px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .footer-link:hover {
+            color: var(--accent-color);
+        }
+
+        .footer-bottom {
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .copyright {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            color: rgba(255, 255, 255, 0.8);
+            transition: all 0.3s;
+            font-size: 18px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .social-link:hover {
+            color: white;
+            background-color: var(--accent-color);
+            transform: translateY(-3px);
+        }
+
+        /* Helper for smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            background-color: #0d1a44;
+            color: white;
+            height: 70px;
+            position: relative;
+            width: 100%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+        
+        .logo:hover {
+            color: #e9c46a;
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+        
+        .nav-item {
+            margin: 0 15px;
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 0 5px;
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-link:hover {
+            color: #e9c46a;
+        }
+        
+        .dropdown {
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 220px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            left: 0;
+            top: 70px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        
+        .dropdown-item {
+            color: #333;
+            padding: 14px 20px;
+            text-decoration: none;
+            display: block;
+            border-left: 3px solid transparent;
+        }
+        
+        .dropdown-item:hover {
+            background-color: #f1f1f1;
+            color: #0d1a44;
+            border-left: 3px solid #e9c46a;
+        }
+        
+        .right-section {
+            display: flex;
+            align-items: center;
+        }
+        
+        .notification-icon, .profile-icon {
+            margin-left: 25px;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .notification-dot {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 10px;
+            height: 10px;
+            background-color: #ff4d4f;
+            border-radius: 50%;
+            border: 2px solid #0d1a44;
+        }
+        
+        .notification-panel {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 70px;
+            width: 340px;
+            background-color: #fff;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            color: #333;
+        }
+        
+        .notification-panel.show {
+            display: block;
+        }
+        
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .notification-title {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .mark-read {
+            color: #0d1a44;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .notification-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .notification-item:before {
+            content: "•";
+            color: #e9c46a;
+            font-size: 24px;
+            margin-right: 12px;
+            line-height: 20px;
+        }
+        
+        .notification-read:before {
+            color: #ccc;
+        }
+        
+        .notification-content {
+            flex: 1;
+        }
+        
+        .notification-text {
+            font-size: 14px;
+            margin-bottom: 4px;
+            line-height: 1.4;
+        }
+        
+        .notification-time {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .notification-footer {
+            text-align: center;
+            padding: 15px;
+        }
+        
+        .view-all {
+            color: #0d1a44;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        /* Dropdown arrow */
+        .dropdown .nav-link {
+            display: flex;
+            align-items: center;
+        }
+        
+        .dropdown .nav-link:after {
+            content: '▼';
+            margin-left: 6px;
+            font-size: 10px;
+            transition: all 0.6s ease-in;
+        }
+        .dropdown:hover .nav-link:after {
+            transform: rotate(180deg); /* Rotate the arrow on hover */
+        } 
+        
+        .hero-section {
+            position: relative;
+            height: 400px;
+            background-image: url('/api/placeholder/1400/400');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0 40px;
+        }
+        
+        .hero-section:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to right, rgba(13, 26, 68, 0.8), rgba(13, 26, 68, 0.4));
+        }
+        
+        .hero-text {
+            position: relative;
+            z-index: 1;
+            color: white;
+            font-size: 42px;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 20px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .logo {
+                font-size: 20px;
+            }
+            
+            .hero-text {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="home.html" class="logo">BUILD & BEYOND</a>
+        <div class="nav-links">
+            <div class="nav-item">
+                <a href="home.html" class="nav-link">HOME</a>
+            </div>
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link">SERVICES</a>
+                <div class="dropdown-content">
+                    <a href="services/construction.html" class="dropdown-item">Construction</a>
+                    <a href="services/architect.html" class="dropdown-item">Architect</a>
+                    <a href="services/interior_designer.html" class="dropdown-item">Interior Designer</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="ongoing_projects.html" class="nav-link">ONGOING PROJECTS</a>
+            </div>
+            <div class="nav-item">
+                <a href="bidspace.html" class="nav-link">BIDSPACE</a>
+            </div>
+            <div class="nav-item">
+                <a href="design_ideas.html" class="nav-link">DESIGN IDEAS</a>
+            </div>
+        </div>
+        <div class="right-section">
+            <div class="notification-icon" id="notificationIcon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                </svg>
+                <div class="notification-dot"></div>
+                
+                <div class="notification-panel" id="notificationPanel">
+                    <div class="notification-header">
+                        <div class="notification-title">Notifications</div>
+                        <div class="mark-read">Mark all as read</div>
+                    </div>
+                    
+                    <div class="notification-item">
+                        <div class="notification-content">
+                            <div class="notification-text">Your bid for Project XYZ has been accepted!</div>
+                            <div class="notification-time">2 hours ago</div>
+                        </div>
+                    </div>
+                    
+                    <div class="notification-item">
+                        <div class="notification-content">
+                            <div class="notification-text">New design templates available for modern kitchens</div>
+                            <div class="notification-time">5 hours ago</div>
+                        </div>
+                    </div>
+                    
+                    <div class="notification-item notification-read">
+                        <div class="notification-content">
+                            <div class="notification-text">Weekly report for your ongoing projects is ready</div>
+                            <div class="notification-time">Yesterday</div>
+                        </div>
+                    </div>
+                    
+                    <div class="notification-footer">
+                        <a href="#" class="view-all">View all notifications</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="profile-icon">
+                <a href ="settings.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon">●</span>
+                    <span class="logo-text">Build & Beyond</span>
+                </div>
+                
+                <div style="display: flex; align-items: center;">
+                    <button id="favoritesBtn" class="favorites-btn">
+                        <span class="love-icon">♥</span>
+                    </button>
+                    
+                    <div class="dropdown">
+                        <button class="dropdown-button" id="dropdownBtn">
+                            <span id="activeCategory">Living Room</span>
+                            <span style="margin-left: 5px;">▼</span>
+                        </button>
+                        <div id="dropdownContent" class="dropdown-content">
+                            <button class="category-btn active" data-category="LivingRoom">Living Room</button>
+                            <button class="category-btn" data-category="Balcony">Balcony</button>
+                            <button class="category-btn" data-category="Bedroom">Bedroom</button>
+                            <button class="category-btn" data-category="Bathroom">Bathroom</button>
+                            <button class="category-btn" data-category="Kitchen">Kitchen</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <div class="main-content" id="mainContent">
+                <!-- Living Room Section -->
+                <section id="LivingRoom" class="section">
+                    <h2 class="section-heading">Living Room Designs</h2>
+                    <p class="section-description">Explore our stunning collection of living room designs that blend style, functionality, and elegance.</p>
+                    
+                    <div class="image-grid" id="LivingRoomGrid">
+                        <!-- Images will be added via JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Balcony Section -->
+                <section id="Balcony" class="section">
+                    <h2 class="section-heading">Balcony Designs</h2>
+                    <p class="section-description">Explore our stunning collection of balcony designs that blend style, functionality, and elegance.</p>
+                    
+                    <div class="image-grid" id="BalconyGrid">
+                        <!-- Images will be added via JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Bedroom Section -->
+                <section id="Bedroom" class="section">
+                    <h2 class="section-heading">Bedroom Designs</h2>
+                    <p class="section-description">Explore our stunning collection of bedroom designs that blend style, functionality, and elegance.</p>
+                    
+                    <div class="image-grid" id="BedroomGrid">
+                        <!-- Images will be added via JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Bathroom Section -->
+                <section id="Bathroom" class="section">
+                    <h2 class="section-heading">Bathroom Designs</h2>
+                    <p class="section-description">Explore our stunning collection of bathroom designs that blend style, functionality, and elegance.</p>
+                    
+                    <div class="image-grid" id="BathroomGrid">
+                        <!-- Images will be added via JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Kitchen Section -->
+                <section id="Kitchen" class="section">
+                    <h2 class="section-heading">Kitchen Designs</h2>
+                    <p class="section-description">Explore our stunning collection of kitchen designs that blend style, functionality, and elegance.</p>
+                    
+                    <div class="image-grid" id="KitchenGrid">
+                        <!-- Images will be added via JavaScript -->
+                    </div>
+                </section>
+            </div>
+        </div>
+        
+        <!-- Favorites Panel -->
+        <div class="favorites-panel" id="favoritesPanel">
+            <div class="favorites-header">
+                <h3 class="favorites-title">My Favorites</h3>
+                <button class="close-favorites" id="closeFavorites">×</button>
+            </div>
+            <div class="favorites-list" id="favoritesList">
+                <div class="empty-favorites">No favorites added yet. Click the ♥ on any design to add it to your favorites.</div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-top">
+                    <div class="footer-logo">
+                        <span class="logo-icon">●</span>
+                        <span class="logo-text">LIVSPACE</span>
+                    </div>
+                    <div class="footer-links">
+                        <button class="footer-link" data-category="LivingRoom">Living Room</button>
+                        <button class="footer-link" data-category="Balcony">Balcony</button>
+                        <button class="footer-link" data-category="Bedroom">Bedroom</button>
+                        <button class="footer-link" data-category="Bathroom">Bathroom</button>
+                        <button class="footer-link" data-category="Kitchen">Kitchen</button>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <div class="copyright">© 2025 LIVSPACE. All rights reserved.</div>
+                    <div class="social-links">
+                        <button class="social-link">✉</button>
+                        <button class="social-link">♯</button>
+                        <button class="social-link">♥</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const dropdownBtn = document.getElementById('dropdownBtn');
+        const dropdownContent = document.getElementById('dropdownContent');
+        const activeCategory = document.getElementById('activeCategory');
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        const footerLinks = document.querySelectorAll('.footer-link');
+        const favoritesBtn = document.getElementById('favoritesBtn');
+        const favoritesPanel = document.getElementById('favoritesPanel');
+        const closeFavorites = document.getElementById('closeFavorites');
+        const favoritesList = document.getElementById('favoritesList');
+        const mainContent = document.getElementById('mainContent');
+        
+        // Categories
+        const categories = ['LivingRoom', 'Balcony', 'Bedroom', 'Bathroom', 'Kitchen'];
+        
+        // Image links data structure
+        const imageLinks = {
+            LivingRoom: [
+                'https://cdn.mos.cms.futurecdn.net/DGtgx67LZm6Aq6A25C9Frf-1024-80.jpg.webp',
+                'https://cdn.mos.cms.futurecdn.net/c9yLJYyaRv24CJ75Etz23R-1024-80.jpg.webp',
+                'https://cdn.mos.cms.futurecdn.net/GbCwmjB8phaUAk8kCG5AtU-1024-80.jpg.webp',
+                'https://cdn.mos.cms.futurecdn.net/F7fJUYdc5qeZAvDFMSwtcT-1024-80.jpg.webp',
+                'https://cdn.mos.cms.futurecdn.net/KT8za8ufhVBv3wZkTKHGtF-1024-80.jpg.webp',
+                'https://cdn.mos.cms.futurecdn.net/jEhSgifoGz9UVj9N47f7Xf-1024-80.jpg.webp',
+            ],
+            Balcony: [
+                'https://bonito.in/wp-content/uploads/2022/03/Blog-Detail-15-1.jpg',
+                'https://www.orientbell.com/blog/wp-content/uploads/2024/08/850x450-Pix_7-3.jpg',
+                'https://www.orientbell.com/blog/wp-content/uploads/2024/08/850x450-Pix_12-2.jpg',
+                'https://www.orientbell.com/blog/wp-content/uploads/2024/08/850x450-Pix_6-3.jpg',
+                'https://i.pinimg.com/736x/69/e1/56/69e156866d4027459363280a5ebd1e69.jpg',
+                'http://i.pinimg.com/564x/91/79/32/9179328dea1c181fef13eb358afb644b.jpg',
+            ],
+            Bedroom: [
+                'https://www.livehome3d.com/assets/img/articles/bedroom-design-ideas/bedroom-with-70-aesthetic@2x.jpg',
+                'http://livehome3d.com/assets/img/articles/bedroom-design-ideas/bedroom-with-unusual-color-combinations@2x.jpg',
+                'https://www.livehome3d.com/assets/img/articles/bedroom-design-ideas/bedroom-in-light-colors@2x.jpg',
+                'https://www.livehome3d.com/assets/img/articles/bedroom-design-ideas/elegant-bedroom-design@2x.jpg',
+                'http://livehome3d.com/assets/img/articles/bedroom-design-ideas/bedroom-with-elegant-photos@2x.jpg',
+                'https://www.livehome3d.com/assets/img/articles/bedroom-design-ideas/bedroom-design-with-creative-artwork@2x.jpg',
+            ],
+            Bathroom: [
+                'https://www.thespruce.com/thmb/j6DaUnI4Pu0V83v0c8XHVDdOQ3M=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/AJ_1150_0374copy-2101982162114cde9836313b13944dce.jpg',
+                'https://www.thespruce.com/thmb/oZfwjDAHWDTOn4P9-8PCD3_DUQQ=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/AJ_1150_0492copy-56b03205e1e84bd6815bdd7795c56998.jpg',
+                'https://www.thespruce.com/thmb/5EHK9l5ADLPauS_3rqY3LAU2FCM=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/EastValley-21-b-f4e24523d2f84f20b0c93b1e5b740f94.jpg',
+                'https://www.thespruce.com/thmb/oSoiYzKOJk2nsNCNrt4GM9bsk2M=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/mindy-gayer-napa-farmhouse-a-5-b85b593fa26d47818a11e14ae98bf62d.jpg',
+                'https://www.thespruce.com/thmb/Fa-f23U-JOUnoMAtStVZHbSRUdk=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/PhotoOct0934649PM1-d7012084a3c44319a104b1d275018b99.jpg',
+                'https://www.thespruce.com/thmb/UN3ynSbpqTTC7h9IzCtOFyHO2jE=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/Bathroom-9-49a167f8e282489ab1c92e4fbf49f092.jpg',
+            ],
+            Kitchen: [
+                'https://hips.hearstapps.com/hmg-prod/images/peach-pine-interiors-ph-joseph-bradshaw1-6762de44d651b.jpg?crop=0.8333333333333333xw:1xh;center,top&resize=980:*',
+                'https://hips.hearstapps.com/hmg-prod/images/ht24-samanthastathis-phkirstenfrancis-e76th-247-672b8ef41a1a7.jpg?crop=0.9996296296296295xw:1xh;center,top&resize=980:*',
+                'https://hips.hearstapps.com/hmg-prod/images/wh24-kelsey-leigh-design-phbrie-williams-hbx110124wh-kitchen-001-672b8f4cea460.jpg?crop=0.9380863039399625xw:1xh;center,top&resize=980:*',
+                'https://hips.hearstapps.com/hmg-prod/images/winsome-nagshead2023-00096-1-6682d9031c96c.jpg?crop=0.457xw:1.00xh;0.0697xw,0&resize=980:*',
+                'https://hips.hearstapps.com/hmg-prod/images/hbx070124ritachan-004-66a7a627434b2.jpg?crop=1xw:1xh;center,top&resize=980:*',
+                'https://hips.hearstapps.com/hmg-prod/images/hbx070124cover-001-66a7a5e94483f.jpg?crop=0.888888888888889xw:1xh;center,top&resize=980:*',
+            ]
+        };
+        
+        // Favorites Storage (using localStorage)
+        let favorites = JSON.parse(localStorage.getItem('designFavorites')) || [];
+        
+        // Toggle favorites panel
+        favoritesBtn.addEventListener('click', function() {
+            favoritesPanel.classList.toggle('active');
+            favoritesBtn.classList.toggle('active');
+            
+            if (favoritesPanel.classList.contains('active')) {
+                mainContent.classList.add('with-favorites');
+            } else {
+                mainContent.classList.remove('with-favorites');
+            }
+        });
+        
+        // Close favorites panel
+        closeFavorites.addEventListener('click', function() {
+            favoritesPanel.classList.remove('active');
+            favoritesBtn.classList.remove('active');
+            mainContent.classList.remove('with-favorites');
+        });
+
+        // Toggle dropdown on button click
+        dropdownBtn.addEventListener('click', function() {
+            dropdownContent.classList.toggle('show');
+        });
+
+        // Close dropdown when clicking elsewhere
+        window.addEventListener('click', function(event) {
+            if (!event.target.matches('.dropdown-button') && !event.target.parentElement?.matches('.dropdown-button')) {
+                if (dropdownContent.classList.contains('show')) {
+                    dropdownContent.classList.remove('show');
+                }
+            }
+        });
+
+        // Handle category selection from dropdown
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const category = this.getAttribute('data-category');
+                setActiveCategory(category);
+                scrollToSection(category);
+                dropdownContent.classList.remove('show');
+            });
+        });
+
+        // Handle category selection from footer links
+        footerLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                const category = this.getAttribute('data-category');
+                setActiveCategory(category);
+                scrollToSection(category);
+            });
+        });
+
+        // Set active category
+        function setActiveCategory(category) {
+            activeCategory.textContent = category.replace(/([A-Z])/g, ' $1').trim();
+            categoryBtns.forEach(btn => {
+                if (btn.getAttribute('data-category') === category) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+    // Scroll to selected section
+    function scrollToSection(category) {
+        const section = document.getElementById(category);
+        if (section) {
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    // Create design card
+    function createDesignCard(imageUrl, category, index) {
+        const card = document.createElement('div');
+        card.className = 'design-card';
+        card.setAttribute('data-id', `${category}-${index}`);
+        
+        const isFavorite = favorites.some(fav => fav.id === `${category}-${index}`);
+        
+        card.innerHTML = `
+            <div class="card-image-container">
+                <img src="${imageUrl}" alt="${category} Design" class="card-image">
+                <button class="love-btn ${isFavorite ? 'active' : ''}" data-id="${category}-${index}">
+                    <span class="love-icon">♥</span>
+                </button>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">${category.replace(/([A-Z])/g, ' $1').trim()} Design ${index + 1}</h3>
+                <p class="card-description">Beautiful and functional ${category.toLowerCase()} design with modern aesthetics.</p>
+                <div class="card-status">
+                    <span class="status-indicator"></span>
+                    <span class="status-text">Available for Consultation</span>
+                </div>
+            </div>
+        `;
+        
+        return card;
+    }
+    
+    // Add design cards to grids
+    function populateDesignGrids() {
+        categories.forEach(category => {
+            const grid = document.getElementById(`${category}Grid`);
+            if (grid) {
+                grid.innerHTML = ''; // Clear existing items
+                
+                imageLinks[category].forEach((imageUrl, index) => {
+                    const card = createDesignCard(imageUrl, category, index);
+                    grid.appendChild(card);
+                });
+            }
+        });
+        
+        // Add event listeners to new love buttons
+        document.querySelectorAll('.love-btn').forEach(btn => {
+            btn.addEventListener('click', toggleFavorite);
+        });
+    }
+    
+    // Toggle favorite status
+    function toggleFavorite(e) {
+        e.preventDefault();
+        const btn = e.currentTarget;
+        const id = btn.getAttribute('data-id');
+        const [category, indexStr] = id.split('-');
+        const index = parseInt(indexStr);
+        
+        btn.classList.toggle('active');
+        
+        if (btn.classList.contains('active')) {
+            // Add to favorites if not already present
+            if (!favorites.some(fav => fav.id === id)) {
+                favorites.push({
+                    id: id,
+                    category: category,
+                    index: index,
+                    imageUrl: imageLinks[category][index],
+                    title: `${category.replace(/([A-Z])/g, ' $1').trim()} Design ${index + 1}`
+                });
+            }
+        } else {
+            // Remove from favorites
+            favorites = favorites.filter(fav => fav.id !== id);
+        }
+        
+        // Update localStorage
+        localStorage.setItem('designFavorites', JSON.stringify(favorites));
+        
+        // Update favorites panel
+        updateFavoritesPanel();
+        
+        // Update all instances of this design card
+        document.querySelectorAll(`.love-btn[data-id="${id}"]`).forEach(button => {
+            if (button !== btn) {
+                button.classList.toggle('active', btn.classList.contains('active'));
+            }
+        });
+    }
+    
+    // Update favorites panel
+    function updateFavoritesPanel() {
+        if (favorites.length === 0) {
+            favoritesList.innerHTML = '<div class="empty-favorites">No favorites added yet. Click the ♥ on any design to add it to your favorites.</div>';
+            return;
+        }
+        
+        favoritesList.innerHTML = '';
+        
+        favorites.forEach(fav => {
+            const favoriteItem = document.createElement('div');
+            favoriteItem.className = 'favorites-item';
+            
+            favoriteItem.innerHTML = `
+                <img src="${fav.imageUrl}" alt="${fav.title}" class="favorite-img">
+                <button class="remove-favorite" data-id="${fav.id}">×</button>
+                <div class="favorite-info">
+                    <h4 class="favorite-title">${fav.title}</h4>
+                    <p class="favorite-category">${fav.category.replace(/([A-Z])/g, ' $1').trim()}</p>
+                </div>
+            `;
+            
+            favoritesList.appendChild(favoriteItem);
+        });
+        
+        // Add event listeners for remove buttons
+        document.querySelectorAll('.remove-favorite').forEach(btn => {
+            btn.addEventListener('click', removeFavorite);
+        });
+    }
+    
+    // Remove item from favorites
+    function removeFavorite(e) {
+        const id = e.currentTarget.getAttribute('data-id');
+        
+        // Remove from favorites array
+        favorites = favorites.filter(fav => fav.id !== id);
+        
+        // Update localStorage
+        localStorage.setItem('designFavorites', JSON.stringify(favorites));
+        
+        // Update favorites panel
+        updateFavoritesPanel();
+        
+        // Update all love buttons for this design
+        document.querySelectorAll(`.love-btn[data-id="${id}"]`).forEach(btn => {
+            btn.classList.remove('active');
+        });
+    }
+    
+    // Initialize the app
+    function initApp() {
+        // Show only first category initially
+        categories.forEach((category, index) => {
+            const section = document.getElementById(category);
+            if (section) {
+                if (index !== 0) {
+                    section.style.display = 'none';
+                }
+            }
+        });
+        
+        // Populate design grids
+        populateDesignGrids();
+        
+        // Update favorites panel
+        updateFavoritesPanel();
+        
+        // Add scroll event listener to track active section
+        window.addEventListener('scroll', function() {
+            const scrollPosition = window.scrollY;
+            
+            // Determine which section is currently in view
+            categories.forEach(category => {
+                const section = document.getElementById(category);
+                if (section && section.style.display !== 'none') {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.offsetHeight;
+                    
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                        setActiveCategory(category);
+                    }
+                }
+            });
+        });
+    }
+    
+    // Show all sections when a specific category is chosen
+    function showAllSections() {
+        categories.forEach(category => {
+            const section = document.getElementById(category);
+            if (section) {
+                section.style.display = 'block';
+            }
+        });
+    }
+    
+    // Handle category change
+    function handleCategoryChange(category) {
+        showAllSections();
+        setActiveCategory(category);
+        scrollToSection(category);
+    }
+    
+    // Add event handlers to category buttons
+    categoryBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const category = this.getAttribute('data-category');
+            handleCategoryChange(category);
+        });
+    });
+    
+    footerLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            const category = this.getAttribute('data-category');
+            handleCategoryChange(category);
+        });
+    });
+    
+    // Initialize the application
+    initApp();
+</script>
+</body>
+</html>
