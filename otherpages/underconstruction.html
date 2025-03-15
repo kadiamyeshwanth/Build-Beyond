@@ -571,7 +571,6 @@
             <div class="developer-info">
                 <div style="font-weight: bold;">Sreshta Infra</div>
                 <p style="color: var(--text-secondary);">
-                    Developer description goes here.
                 </p>
             </div>
         </div>
@@ -665,9 +664,6 @@
             <h3>About Developer</h3>
             <div class="developer-info">
                 <div style="font-weight: bold;">SUN SIRI PROJECTS PVT LTD</div>
-                <p style="color: var(--text-secondary);">
-                    Developer description goes here.
-                </p>
             </div>
         </div>
     </div>
@@ -758,9 +754,6 @@
             <h3>About Developer</h3>
             <div class="developer-info">
                 <div style="font-weight: bold;">Green Constructions Ltd</div>
-                <p style="color: var(--text-secondary);">
-                    Developer description goes here.
-                </p>
             </div>
         </div>
     </div>
@@ -851,9 +844,6 @@
             <h3>About Developer</h3>
             <div class="developer-info">
                 <div style="font-weight: bold;">Palm Estate Developers</div>
-                <p style="color: var(--text-secondary);">
-                    Developer description goes here.
-                </p>
             </div>
         </div>
     </div>
@@ -944,9 +934,6 @@
             <h3>About Developer</h3>
             <div class="developer-info">
                 <div style="font-weight: bold;">Sunshine Developers</div>
-                <p style="color: var(--text-secondary);">
-                    Developer description goes here.
-                </p>
             </div>
         </div>
     </div>
@@ -1037,9 +1024,6 @@
             <h3>About Developer</h3>
             <div class="developer-info">
                 <div style="font-weight: bold;">Marina Builders</div>
-                <p style="color: var(--text-secondary);">
-                    Developer description goes here.
-                </p>
             </div>
         </div>
     </div>
@@ -1130,16 +1114,10 @@
             <h3>About Developer</h3>
             <div class="developer-info">
                 <div style="font-weight: bold;">Tropical Homes</div>
-                <p style="color: var(--text-secondary);">
-                    Developer description goes here.
-                </p>
             </div>
         </div>
     </div>
 </div>
-
-                
-                <!-- Add more property cards here -->
             </div>
 
             <div class="sidebar">
@@ -1150,7 +1128,6 @@
             </div>
         </div>
     </div>
-
     <script>
         function toggleExpand(button) {
             const content = button.nextElementSibling;
@@ -1161,8 +1138,6 @@
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polyline points="18 15 12 9 6 15"></polyline>
                     </svg>`;
-                
-                // Add smooth scroll after content is expanded
                 setTimeout(() => {
                     content.scrollIntoView({ 
                         behavior: 'smooth',
@@ -1207,15 +1182,12 @@
             const buttons = document.querySelectorAll('.filter-button');
             const properties = document.querySelectorAll('.property-card');
             
-            // Update active button
             buttons.forEach(button => {
                 button.classList.remove('active');
                 if (button.getAttribute('data-filter') === status) {
                     button.classList.add('active');
                 }
             });
-            
-            // Show/hide properties based on status
             properties.forEach(property => {
                 if (status === 'all' || property.getAttribute('data-status') === status) {
                     property.style.display = 'block';
@@ -1254,8 +1226,6 @@
                 dot.classList.toggle('active', i === index);
             });
         }
-
-        // Close share menus when clicking outside
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.share-button') && !e.target.closest('.share-menu')) {
                 document.querySelectorAll('.share-menu').forEach(menu => {
