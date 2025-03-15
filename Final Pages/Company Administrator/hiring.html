@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build&Beyond - Worker Hiring Dashboard</title>
+    <style>
+        :root {
+            --dark-blue: #151C54;
+            --light-blue: #2A3580;
+            --accent: #FFB800;
+            --gray-light: #f5f5f5;
+            --gray: #e0e0e0;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #f9f9f9;
+            color: var(--text-dark);
+        }
+        .navbar {
+            background-color: var(--dark-blue);
+            color: var(--text-light);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        .logo span {
+            color: var(--accent);
+        }
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+        .profile-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-blue);
+            font-weight: bold;
+        }
+        .main-content {
+            padding: 2rem;
+        }       
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }       
+        .dashboard-title {
+            font-size: 1.8rem;
+            color: var(--dark-blue);
+        }       
+        .search-bar {
+            position: relative;
+            width: 300px;
+        }       
+        .search-bar input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 30px;
+            border: 1px solid var(--gray);
+            outline: none;
+            padding-left: 40px;
+        }       
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }       
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--gray);
+            margin-bottom: 2rem;
+        }      
+        .tab {
+            padding: 1rem 2rem;
+            cursor: pointer;
+            font-weight: 500;
+            color: #777;
+            position: relative;
+        }      
+        .tab.active {
+            color: var(--dark-blue);
+            font-weight: 600;
+        }      
+        .tab.active::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -1px;
+            width: 100%;
+            height: 3px;
+            background-color: var(--dark-blue);
+        }        
+        .filter-section {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }       
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }       
+        .filter-field {
+            flex: 1;
+            min-width: 200px;
+        }      
+        .filter-field label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #555;
+        }      
+        .filter-field select, .filter-field input {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 4px;
+            border: 1px solid var(--gray);
+            background-color: white;
+        }       
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }       
+        .btn-primary {
+            background-color: var(--dark-blue);
+            color: white;
+        }     
+        .btn-primary:hover {
+            background-color: var(--light-blue);
+        }     
+        .btn-secondary {
+            background-color: white;
+            color: var(--dark-blue);
+            border: 1px solid var(--dark-blue);
+        }      
+        .btn-secondary:hover {
+            background-color: var(--gray-light);
+        }      
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }      
+        .sort-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }     
+        .result-count {
+            color: #555;
+        }      
+        .sort-by {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }      
+        .sort-by select {
+            padding: 0.5rem;
+            border-radius: 4px;
+            border: 1px solid var(--gray);
+        }     
+        .workers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }    
+        .worker-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }    
+        .worker-card:hover {
+            transform: translateY(-5px);
+        }    
+        .worker-banner {
+            height: 80px;
+            background-color: var(--light-blue);
+            position: relative;
+        }    
+        .worker-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            border: 4px solid white;
+            position: absolute;
+            bottom: -40px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-blue);
+            font-weight: bold;
+            font-size: 1.5rem;
+        }     
+        .worker-info {
+            padding: 2.5rem 1.5rem 1.5rem;
+        }    
+        .worker-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        } 
+        .worker-title {
+            color: #777;
+            margin-bottom: 1rem;
+        }  
+        .worker-stats {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-top: 1px solid var(--gray);
+            color: #555;
+            font-size: 0.9rem;
+        }   
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .badge-blue {
+            background-color: rgba(21, 28, 84, 0.1);
+            color: var(--dark-blue);
+        }
+        .badge-orange {
+            background-color: rgba(255, 184, 0, 0.1);
+            color: #C07800;
+        }
+        .card-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .card-actions button {
+            flex: 1;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .request-list {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        .request-item {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--gray);
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        .request-item:last-child {
+            border-bottom: none;
+        }
+        .request-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--light-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        .request-details {
+            flex: 1;
+        }
+        .request-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        .request-title {
+            color: #555;
+            margin-bottom: 0.5rem;
+        }
+        .request-meta {
+            display: flex;
+            gap: 1.5rem;
+            color: #777;
+            font-size: 0.9rem;
+        }
+        .request-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        .page-item {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            border: 1px solid var(--gray);
+            margin: 0 0.25rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .page-item.active {
+            background-color: var(--dark-blue);
+            color: white;
+            border-color: var(--dark-blue);
+        }
+        .page-item:hover:not(.active) {
+            background-color: var(--gray-light);
+        }
+        @media (max-width: 992px) {
+            .main-content {
+                margin-left: 80px;
+            }
+        }
+        @media (max-width: 768px) {
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            .search-bar {
+                width: 100%;
+            }
+            .filter-row {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .action-buttons {
+                justify-content: flex-start;
+                margin-top: 1rem;
+            }
+            .sort-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="dashboard-header">
+            <h1 class="dashboard-title">Hire Workers</h1>
+            <div class="search-bar">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="Search workers...">
+            </div>
+        </div>
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab active" data-tab="find-workers">Find Workers</div>
+            <div class="tab" data-tab="worker-requests">Worker Requests</div>
+        </div>
+        <!-- Find Workers Tab -->
+        <div class="tab-content active" id="find-workers">
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <div class="filter-row">
+                    <div class="filter-field">
+                        <label>Location</label>
+                        <select>
+                            <option>All Locations</option>
+                            <option>Mumbai</option>
+                            <option>Hyderabad</option>
+                            <option>Chennai</option>
+                            <option>Kolkata</option>
+                        </select>
+                    </div>
+                    <div class="filter-field">
+                        <label>Skill</label>
+                        <select>
+                            <option>All Skills</option>
+                            <option>Masonry</option>
+                            <option>Carpentry</option>
+                            <option>Plumbing</option>
+                            <option>Electrical</option>
+                            <option>Painting</option>
+                        </select>
+                    </div>
+                    <div class="filter-field">
+                        <label>Experience</label>
+                        <select>
+                            <option>Any Experience</option>
+                            <option>1-3 years</option>
+                            <option>3-5 years</option>
+                            <option>5-10 years</option>
+                            <option>10+ years</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="filter-row">
+                    <div class="filter-field">
+                        <label>Rate Range</label>
+                        <select>
+                            <option>Any Rate</option>
+                            <option>₹500-₹750/hr</option>
+                            <option>₹750-₹1000/hr</option>
+                            <option>₹1000-₹1500/hr</option>
+                            <option>₹1500+/hr</option>
+                        </select>
+                    </div>
+                    <div class="filter-field">
+                        <label>Contract Type</label>
+                        <select>
+                            <option>All Types</option>
+                            <option>Full-time</option>
+                            <option>Part-time</option>
+                            <option>Contract</option>
+                            <option>Project-based</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-secondary">Reset Filters</button>
+                    <button class="btn btn-primary">Apply Filters</button>
+                </div>
+            </div>
+            <!-- Sort and Results -->
+            <div class="sort-container">
+                <div class="result-count">Showing 6 of 6 workers</div>
+                <div class="sort-by">
+                    <span>Sort by:</span>
+                    <select>
+                        <option>Relevance</option>
+                        <option>Experience: High to Low</option>
+                        <option>Rate: Low to High</option>
+                        <option>Rate: High to Low</option>
+                        <option>Availability</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Workers Grid -->
+            <div class="workers-grid">
+                <!-- Worker Card 1 -->
+                <div class="worker-card">
+                    <div class="worker-banner">
+                        <div class="worker-avatar">KD</div>
+                    </div>
+                    <div class="worker-info">
+                        <h3 class="worker-name">Kedhar Jadhav</h3>
+                        <p class="worker-title">Master Carpenter | Kolkata</p>
+                        <div>
+                            <span class="badge badge-blue">Carpentry</span>
+                            <span class="badge badge-blue">Woodworking</span>
+                            <span class="badge badge-orange">10+ years</span>
+                        </div>
+                        <div class="worker-stats">
+                            <div>₹1200/hr</div>
+                            <div>Available Now</div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn btn-secondary">View Profile</button>
+                            <button class="btn btn-primary">Hire</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Worker Card 2 -->
+                <div class="worker-card">
+                    <div class="worker-banner">
+                        <div class="worker-avatar">AS</div>
+                    </div>
+                    <div class="worker-info">
+                        <h3 class="worker-name">Arjun Suresh</h3>
+                        <p class="worker-title">Electrical Engineer | Hyderabad</p>
+                        <div>
+                            <span class="badge badge-blue">Electrical</span>
+                            <span class="badge badge-blue">Wiring</span>
+                            <span class="badge badge-orange">5-10 years</span>
+                        </div>
+                        <div class="worker-stats">
+                            <div>₹1000/hr</div>
+                            <div>In 1 week</div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn btn-secondary">View Profile</button>
+                            <button class="btn btn-primary">Hire</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Worker Card 3 -->
+                <div class="worker-card">
+                    <div class="worker-banner">
+                        <div class="worker-avatar">RJ</div>
+                    </div>
+                    <div class="worker-info">
+                        <h3 class="worker-name">Ravindra Josh</h3>
+                        <p class="worker-title">Master Plumber | Mumbai</p>
+                        <div>
+                            <span class="badge badge-blue">Plumbing</span>
+                            <span class="badge badge-blue">Piping</span>
+                            <span class="badge badge-orange">3-5 years</span>
+                        </div>
+                        <div class="worker-stats">
+                            <div>₹1300/hr</div>
+                            <div>Available Now</div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn btn-secondary">View Profile</button>
+                            <button class="btn btn-primary">Hire</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Worker Card 4 -->
+                <div class="worker-card">
+                    <div class="worker-banner">
+                        <div class="worker-avatar">MK</div>
+                    </div>
+                    <div class="worker-info">
+                        <h3 class="worker-name">Mahesh Krishna</h3>
+                        <p class="worker-title">Master Mason | Ahmedabad</p>
+                        <div>
+                            <span class="badge badge-blue">Masonry</span>
+                            <span class="badge badge-blue">Stonework</span>
+                            <span class="badge badge-orange">10+ years</span>
+                        </div>
+                        <div class="worker-stats">
+                            <div>₹1100/hr</div>
+                            <div>In 2 weeks</div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn btn-secondary">View Profile</button>
+                            <button class="btn btn-primary">Hire</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Worker Card 5 -->
+                <div class="worker-card">
+                    <div class="worker-banner">
+                        <div class="worker-avatar">SK</div>
+                    </div>
+                    <div class="worker-info">
+                        <h3 class="worker-name">Suresh karthik</h3>
+                        <p class="worker-title">Professional Painter | Hyderabad</p>
+                        <div>
+                            <span class="badge badge-blue">Painting</span>
+                            <span class="badge badge-blue">Finishing</span>
+                            <span class="badge badge-orange">3-5 years</span>
+                        </div>
+                        <div class="worker-stats">
+                            <div>₹1500/hr</div>
+                            <div>Available Now</div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn btn-secondary">View Profile</button>
+                            <button class="btn btn-primary">Hire</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Worker Card 6 -->
+                <div class="worker-card">
+                    <div class="worker-banner">
+                        <div class="worker-avatar">TG</div>
+                    </div>
+                    <div class="worker-info">
+                        <h3 class="worker-name">Tharun Ganesh</h3>
+                        <p class="worker-title">HVAC Specialist | Delhi</p>
+                        <div>
+                            <span class="badge badge-blue">HVAC</span>
+                            <span class="badge badge-blue">Installation</span>
+                            <span class="badge badge-orange">5-10 years</span>
+                        </div>
+                        <div class="worker-stats">
+                            <div>₹1450/hr</div>
+                            <div>In 1 week</div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn btn-secondary">View Profile</button>
+                            <button class="btn btn-primary">Hire</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Pagination -->
+            <div class="pagination">
+                <div class="page-item active">1</div>
+                <div class="page-item">2</div>
+                <div class="page-item">3</div>
+                <div class="page-item">4</div>
+                <div class="page-item">5</div>
+                <div class="page-item">→</div>
+            </div>
+        </div>
+        <!-- Worker Requests Tab -->
+        <div class="tab-content" id="worker-requests">
+            <div class="request-list">
+                <!-- Request Item 1 -->
+                <div class="request-item">
+                    <div class="request-avatar">KM</div>
+                    <div class="request-details">
+                        <h3 class="request-name">Karthik Mahvash</h3>
+                        <p class="request-title">Concrete Specialist | Gandhinagar</p>
+                        <div class="request-meta">
+                            <span>₹950/hr</span>
+                            <span>Available Immediately</span>
+                            <span>8+ years experience</span>
+                        </div>
+                    </div>
+                    <div class="request-actions">
+                        <button class="btn btn-secondary">View Profile</button>
+                        <button class="btn btn-primary">Accept</button>
+                    </div>
+                </div>
+                <!-- Request Item 2 -->
+                <div class="request-item">
+                    <div class="request-avatar">LD</div>
+                    <div class="request-details">
+                        <h3 class="request-name">Laksh Dev</h3>
+                        <p class="request-title">Architectural Drafter | Meerut</p>
+                        <div class="request-meta">
+                            <span>₹1500/hr</span>
+                            <span>Available in 1 week</span>
+                            <span>5 years experience</span>
+                        </div>
+                    </div>
+                    <div class="request-actions">
+                        <button class="btn btn-secondary">View Profile</button>
+                        <button class="btn btn-primary">Accept</button>
+                    </div>
+                </div>
+                <!-- Request Item 3 -->
+                <div class="request-item">
+                    <div class="request-avatar">PH</div>
+                    <div class="request-details">
+                        <h3 class="request-name">Patil Harish</h3>
+                        <p class="request-title">Heavy Equipment Operator | Mumbai</p>
+                        <div class="request-meta">
+                            <span>₹1200/hr</span>
+                            <span>Available Immediately</span>
+                            <span>10+ years experience</span>
+                        </div>
+                    </div>
+                    <div class="request-actions">
+                        <button class="btn btn-secondary">View Profile</button>
+                        <button class="btn btn-primary">Accept</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        // Simple tab switching functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs
+                    tabs.forEach(t => t.classList.remove('active'));
+                    // Add active class to clicked tab
+                    tab.classList.add('active');
+                    // Hide all tab contents
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    // Show selected tab content
+                    const tabId = tab.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
