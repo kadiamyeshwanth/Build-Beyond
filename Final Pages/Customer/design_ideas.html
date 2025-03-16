@@ -4,23 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Build & Beyond</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        /* Reset and Base Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Poppins', 'Arial', sans-serif;
         }
-
         body {
             background-color: #f5f5f5;
             color: #333333;
             line-height: 1.6;
-            position: relative;
         }
-
-        /* Color Variables */
         :root {
             --primary-color: #3a7bd5;
             --primary-light: #5a9bff;
@@ -41,505 +42,6 @@
             --radius-sm: 4px;
             --radius-md: 8px;
             --radius-lg: 12px;
-        }
-
-        /* Container */
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header Styles */
-        header {
-            background-color: var(--background-white);
-            padding: 15px 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: var(--shadow-md);
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-        }
-
-        .logo-icon {
-            color: var(--primary-color);
-            font-size: 24px;
-            margin-right: 10px;
-        }
-
-        .logo-text {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--text-primary);
-            letter-spacing: 1px;
-        }
-
-        /* Favorites Button in Header */
-        .favorites-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 24px;
-            margin-right: 20px;
-            color: var(--text-secondary);
-            transition: all 0.3s ease;
-        }
-
-        .favorites-btn:hover {
-            color: var(--accent-color);
-            transform: scale(1.1);
-        }
-
-        .favorites-btn.active {
-            color: var(--accent-color);
-        }
-
-        /* Dropdown Menu */
-        .dropdown {
-            position: relative;
-            display: inline-block;
-            justify-content: center;
-        }
-
-        .dropdown-button {
-            background-color: black;
-            color: white;
-            padding: 10px 18px;
-            border: none;
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            font-size: 16px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .dropdown-button:hover {
-            background-color: orange;
-            transform: translateY(-2px);
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            right: 0;
-            background-color: var(--background-white);
-            min-width: 180px;
-            box-shadow: var(--shadow-lg);
-            z-index: 1;
-            border-radius: var(--radius-md);
-            margin-top: 8px;
-            border: 1px solid var(--border-color);
-            overflow: hidden;
-        }
-
-        .dropdown-content button {
-            color: orange;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            background: none;
-            border: none;
-            width: 100%;
-            text-align: left;
-            cursor: pointer;
-            font-size: 15px;
-            transition: all 0.2s ease;
-        }
-
-        .dropdown-content button:hover {
-            background-color: #f8f8f8;
-            color: orange;
-        }
-
-        .dropdown-content button.active {
-            background-color: orange;
-            color: white;
-        }
-
-        .show {
-            display: block;
-        }
-
-        /* Main Content Styles */
-        main {
-            padding: 40px 0;
-            display: flex;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .main-content {
-            flex: 1;
-            transition: all 0.3s ease;
-        }
-
-        .section {
-            margin-bottom: 60px;
-            scroll-margin-top: 100px;
-        }
-
-        .section-heading {
-            font-size: 32px;
-            margin-bottom: 20px;
-            color: var(--text-primary);
-            position: relative;
-            display: inline-block;
-            font-weight: 600;
-        }
-
-        .section-heading:after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 60px;
-            height: 4px;
-            background-color: var(--accent-color);
-            border-radius: 2px;
-        }
-
-        .section-description {
-            color: var(--text-secondary);
-            margin-bottom: 30px;
-            max-width: 800px;
-            font-size: 17px;
-        }
-
-        /* Image Grid */
-        .image-grid {
-            display: grid;
-            grid-template-columns: repeat(1, 1fr);
-            gap: 25px;
-        }
-
-        @media (min-width: 768px) {
-            .image-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (min-width: 992px) {
-            .image-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            
-            .main-content.with-favorites {
-                margin-right: 300px;
-            }
-        }
-
-        .design-card {
-            background-color: var(--background-card);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            box-shadow: var(--shadow-sm);
-            transition: transform 0.3s, box-shadow 0.3s;
-            border: 1px solid var(--border-color);
-            position: relative;
-        }
-
-        .design-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .card-image-container {
-            position: relative;
-            overflow: hidden;
-            height: 220px;
-        }
-
-        .card-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
-        }
-
-        .design-card:hover .card-image {
-            transform: scale(1.05);
-        }
-        
-        /* Love/Favorite Button on Cards */
-        .love-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 5;
-            border: none;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-        }
-        
-        .love-btn:hover {
-            background-color: white;
-            transform: scale(1.1);
-        }
-        
-        .love-icon {
-            font-size: 20px;
-            color: var(--text-secondary);
-            transition: all 0.3s ease;
-        }
-        
-        .love-btn.active .love-icon {
-            color: var(--accent-color);
-        }
-
-        .card-content {
-            padding: 20px;
-        }
-
-        .card-title {
-            font-size: 18px;
-            margin-bottom: 8px;
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-
-        .card-description {
-            color: var(--text-secondary);
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
-
-        .card-status {
-            display: flex;
-            align-items: center;
-        }
-
-        .status-indicator {
-            width: 10px;
-            height: 10px;
-            background-color: var(--success-color);
-            border-radius: 50%;
-            margin-right: 8px;
-        }
-
-        .status-text {
-            font-size: 14px;
-            color: var(--text-light);
-        }
-
-        /* Favorites Panel */
-        .favorites-panel {
-            position: fixed;
-            top: 80px;
-            right: -300px;
-            width: 300px;
-            height: calc(100vh - 80px);
-            background-color: var(--background-white);
-            box-shadow: var(--shadow-lg);
-            overflow-y: auto;
-            z-index: 900;
-            transition: right 0.3s ease;
-            border-left: 1px solid var(--border-color);
-        }
-        
-        .favorites-panel.active {
-            right: 0;
-        }
-        
-        .favorites-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .favorites-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-        
-        .close-favorites {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 20px;
-            color: var(--text-secondary);
-        }
-        
-        .favorites-list {
-            padding: 15px;
-        }
-        
-        .favorites-item {
-            margin-bottom: 20px;
-            background-color: var(--background-light);
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            box-shadow: var(--shadow-sm);
-            position: relative;
-        }
-        
-        .favorite-img {
-            width: 100%;
-            height: 130px;
-            object-fit: cover;
-        }
-        
-        .favorite-info {
-            padding: 10px;
-        }
-        
-        .favorite-title {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        
-        .favorite-category {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-        
-        .remove-favorite {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            border: none;
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-        
-        .empty-favorites {
-            padding: 30px 15px;
-            text-align: center;
-            color: var(--text-secondary);
-        }
-
-        /* Footer Styles */
-        footer {
-            background-color: var(--primary-dark);
-            padding: 40px 0;
-            margin-top: 50px;
-            color: white;
-        }
-
-        .footer-content {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .footer-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-
-        .footer-logo {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .footer-logo .logo-icon {
-            color: white;
-        }
-
-        .footer-logo .logo-text {
-            color: white;
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .footer-link {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            transition: color 0.3s;
-            font-size: 15px;
-            background: none;
-            border: none;
-            cursor: pointer;
-        }
-
-        .footer-link:hover {
-            color: var(--accent-color);
-        }
-
-        .footer-bottom {
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .copyright {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 15px;
-        }
-
-        .social-link {
-            color: rgba(255, 255, 255, 0.8);
-            transition: all 0.3s;
-            font-size: 18px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .social-link:hover {
-            color: white;
-            background-color: var(--accent-color);
-            transform: translateY(-3px);
-        }
-
-        /* Helper for smooth scrolling */
-        html {
-            scroll-behavior: smooth;
         }
         .navbar {
             display: flex;
@@ -605,14 +107,16 @@
         .dropdown-content {
             display: none;
             position: absolute;
-            background-color: white;
-            min-width: 220px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-            left: 0;
-            top: 70px;
-            border-radius: 4px;
+            right: 0;
+            background-color: var(--background-white);
+            min-width: 180px;
+            box-shadow: var(--shadow-lg);
+            z-index: 1001; /* Increased z-index */
+            border-radius: var(--radius-md);
+            margin-top: 8px;
+            border: 1px solid var(--border-color);
             overflow: hidden;
+            top: 60px; /* Increased from 50px to 60px */
         }
         
         .dropdown:hover .dropdown-content {
@@ -802,6 +306,204 @@
                 font-size: 32px;
             }
         }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            justify-content: center;
+        }
+        .dropdown-button {
+            background-color: black;
+            color: white;
+            padding: 10px 18px;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            top : 50 px;
+        }
+        .dropdown-button:hover {
+            background-color: orange;
+            transform: translateY(-2px);
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--background-white);
+            min-width: 180px;
+            box-shadow: var(--shadow-lg);
+            z-index: 1;
+            border-radius: var(--radius-md);
+            margin-top: 8px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+        .dropdown-content button {
+            color: orange;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            background: none;
+            border: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            font-size: 15px;
+            transition: all 0.2s ease;
+        }
+        .dropdown-content button:hover {
+            background-color: #f8f8f8;
+            color: orange;
+        }
+        .dropdown-content button.active {
+            background-color: orange;
+            color: white;
+        }
+        .show {
+            display: block;
+        }
+        main {
+            padding: 40px 0;
+        }
+        .section {
+            margin-bottom: 60px;
+            scroll-margin-top: 100px;
+        }
+        .section-heading {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            position: relative;
+            display: inline-block;
+            font-weight: 600;
+        }
+        .section-heading:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background-color: var(--accent-color);
+            border-radius: 2px;
+        }
+        .section-description {
+            color: var(--text-secondary);
+            margin: 30px 0px;
+            max-width: 800px;
+            font-size: 17px;
+        }
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 25px;
+        }
+        @media (min-width: 768px) {
+            .image-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (min-width: 992px) {
+            .image-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        .design-card {
+            background-color: var(--background-card);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--border-color);
+        }
+        .design-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        .card-image-container {
+            position: relative;
+            overflow: hidden;
+            height: 220px;
+        }
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        .design-card:hover .card-image {
+            transform: scale(1.05);
+        }
+        .card-content {
+            padding: 20px;
+        }
+        .card-title {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        .card-description {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        .card-status {
+            display: flex;
+            align-items: center;
+        }
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            background-color: var(--success-color);
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-text {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .section-heading-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-heading {
+            font-size: 32px;
+            color: var(--text-primary);
+            position: relative;
+            display: inline-block;
+            font-weight: 600;
+            margin: 0; /* Remove default margin */
+        }
+
+        .section-heading:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background-color: var(--accent-color);
+            border-radius: 2px;
+        }
     </style>
 </head>
 <body>
@@ -880,134 +582,155 @@
             </div>
         </div>
     </div>
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <span class="logo-icon">●</span>
-                    <span class="logo-text">Build & Beyond</span>
-                </div>
-                
-                <div style="display: flex; align-items: center;">
-                    <button id="favoritesBtn" class="favorites-btn">
-                        <span class="love-icon">♥</span>
-                    </button>
-                    
-                    <div class="dropdown">
-                        <button class="dropdown-button" id="dropdownBtn">
-                            <span id="activeCategory">Living Room</span>
-                            <span style="margin-left: 5px;">▼</span>
-                        </button>
-                        <div id="dropdownContent" class="dropdown-content">
-                            <button class="category-btn active" data-category="LivingRoom">Living Room</button>
-                            <button class="category-btn" data-category="Balcony">Balcony</button>
-                            <button class="category-btn" data-category="Bedroom">Bedroom</button>
-                            <button class="category-btn" data-category="Bathroom">Bathroom</button>
-                            <button class="category-btn" data-category="Kitchen">Kitchen</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-
     <!-- Main Content -->
     <main>
         <div class="container">
-            <div class="main-content" id="mainContent">
-                <!-- Living Room Section -->
-                <section id="LivingRoom" class="section">
-                    <h2 class="section-heading">Living Room Designs</h2>
-                    <p class="section-description">Explore our stunning collection of living room designs that blend style, functionality, and elegance.</p>
-                    
-                    <div class="image-grid" id="LivingRoomGrid">
-                        <!-- Images will be added via JavaScript -->
+            <!-- Living Room Section -->
+            <section id="LivingRoom" class="section">
+                <h2 class="section-heading">Living Room Designs</h2>
+                <div class="dropdown" style="position: absolute; top: 110px; right: 450px; z-index: 1000;">
+                    <button class="dropdown-button" id="dropdownBtn">
+                        <span id="activeCategory">Living Room</span>
+                        <span style="margin-left: 5px;">▼</span>
+                    </button>
+                    <div id="dropdownContent" class="dropdown-content">
+                        <button class="category-btn active" data-category="LivingRoom">Living Room</button>
+                        <button class="category-btn" data-category="Balcony">Balcony</button>
+                        <button class="category-btn" data-category="Bedroom">Bedroom</button>
+                        <button class="category-btn" data-category="Bathroom">Bathroom</button>
+                        <button class="category-btn" data-category="Kitchen">Kitchen</button>
                     </div>
-                </section>
+                </div>
+                <p class="section-description">Explore our stunning collection of living room designs that blend style, functionality, and elegance.</p>
+                
+                <div class="image-grid" id="LivingRoomGrid"><div class="design-card">
+                <a href="https://example.com/designs/livingroom/1" style="text-decoration: none; color: inherit;">
+                    <div class="card-image-container">
+                        <img src="https://cdn.mos.cms.futurecdn.net/DGtgx67LZm6Aq6A25C9Frf-1024-80.jpg.webp" alt="LivingRoom Design 1" class="card-image">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Living Room Design 1</h3>
+                        <p class="card-description">Modern design with stylish elements</p>
+                        <div class="card-status">
+                            <span class="status-indicator"></span>
+                            <span class="status-text">Available</span>
+                        </div>
+                    </div>
+                </a>
+            </div><div class="design-card">
+                <a href="https://example.com/designs/livingroom/2" style="text-decoration: none; color: inherit;">
+                    <div class="card-image-container">
+                        <img src="https://cdn.mos.cms.futurecdn.net/c9yLJYyaRv24CJ75Etz23R-1024-80.jpg.webp" alt="LivingRoom Design 2" class="card-image">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Living Room Design 2</h3>
+                        <p class="card-description">Modern design with stylish elements</p>
+                        <div class="card-status">
+                            <span class="status-indicator"></span>
+                            <span class="status-text">Available</span>
+                        </div>
+                    </div>
+                </a>
+            </div><div class="design-card">
+                <a href="https://example.com/designs/livingroom/3" style="text-decoration: none; color: inherit;">
+                    <div class="card-image-container">
+                        <img src="https://cdn.mos.cms.futurecdn.net/GbCwmjB8phaUAk8kCG5AtU-1024-80.jpg.webp" alt="LivingRoom Design 3" class="card-image">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Living Room Design 3</h3>
+                        <p class="card-description">Modern design with stylish elements</p>
+                        <div class="card-status">
+                            <span class="status-indicator"></span>
+                            <span class="status-text">Available</span>
+                        </div>
+                    </div>
+                </a>
+            </div><div class="design-card">
+                <a href="https://example.com/designs/livingroom/4" style="text-decoration: none; color: inherit;">
+                    <div class="card-image-container">
+                        <img src="https://cdn.mos.cms.futurecdn.net/F7fJUYdc5qeZAvDFMSwtcT-1024-80.jpg.webp" alt="LivingRoom Design 4" class="card-image">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Living Room Design 4</h3>
+                        <p class="card-description">Modern design with stylish elements</p>
+                        <div class="card-status">
+                            <span class="status-indicator"></span>
+                            <span class="status-text">Available</span>
+                        </div>
+                    </div>
+                </a>
+            </div><div class="design-card">
+                <a href="https://example.com/designs/livingroom/5" style="text-decoration: none; color: inherit;">
+                    <div class="card-image-container">
+                        <img src="https://cdn.mos.cms.futurecdn.net/KT8za8ufhVBv3wZkTKHGtF-1024-80.jpg.webp" alt="LivingRoom Design 5" class="card-image">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Living Room Design 5</h3>
+                        <p class="card-description">Modern design with stylish elements</p>
+                        <div class="card-status">
+                            <span class="status-indicator"></span>
+                            <span class="status-text">Available</span>
+                        </div>
+                    </div>
+                </a>
+            </div><div class="design-card">
+                <a href="https://example.com/designs/livingroom/6" style="text-decoration: none; color: inherit;">
+                    <div class="card-image-container">
+                        <img src="https://cdn.mos.cms.futurecdn.net/jEhSgifoGz9UVj9N47f7Xf-1024-80.jpg.webp" alt="LivingRoom Design 6" class="card-image">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Living Room Design 6</h3>
+                        <p class="card-description">Modern design with stylish elements</p>
+                        <div class="card-status">
+                            <span class="status-indicator"></span>
+                            <span class="status-text">Available</span>
+                        </div>
+                    </div>
+                </a>
+            </div></div>
+            </section>
 
-                <!-- Balcony Section -->
-                <section id="Balcony" class="section">
-                    <h2 class="section-heading">Balcony Designs</h2>
-                    <p class="section-description">Explore our stunning collection of balcony designs that blend style, functionality, and elegance.</p>
-                    
-                    <div class="image-grid" id="BalconyGrid">
-                        <!-- Images will be added via JavaScript -->
-                    </div>
-                </section>
+            <!-- Balcony Section -->
+            <section id="Balcony" class="section">
+                <h2 class="section-heading">Balcony Designs</h2>
+                <p class="section-description">Explore our stunning collection of balcony designs that blend style, functionality, and elegance.</p>
+                
+                <div class="image-grid" id="BalconyGrid">
+                    <!-- Images will be added via JavaScript -->
+                </div>
+            </section>
 
-                <!-- Bedroom Section -->
-                <section id="Bedroom" class="section">
-                    <h2 class="section-heading">Bedroom Designs</h2>
-                    <p class="section-description">Explore our stunning collection of bedroom designs that blend style, functionality, and elegance.</p>
-                    
-                    <div class="image-grid" id="BedroomGrid">
-                        <!-- Images will be added via JavaScript -->
-                    </div>
-                </section>
+            <!-- Bedroom Section -->
+            <section id="Bedroom" class="section">
+                <h2 class="section-heading">Bedroom Designs</h2>
+                <p class="section-description">Explore our stunning collection of bedroom designs that blend style, functionality, and elegance.</p>
+                
+                <div class="image-grid" id="BedroomGrid">
+                    <!-- Images will be added via JavaScript -->
+                </div>
+            </section>
 
-                <!-- Bathroom Section -->
-                <section id="Bathroom" class="section">
-                    <h2 class="section-heading">Bathroom Designs</h2>
-                    <p class="section-description">Explore our stunning collection of bathroom designs that blend style, functionality, and elegance.</p>
-                    
-                    <div class="image-grid" id="BathroomGrid">
-                        <!-- Images will be added via JavaScript -->
-                    </div>
-                </section>
+            <!-- Bathroom Section -->
+            <section id="Bathroom" class="section">
+                <h2 class="section-heading">Bathroom Designs</h2>
+                <p class="section-description">Explore our stunning collection of bathroom designs that blend style, functionality, and elegance.</p>
+                
+                <div class="image-grid" id="BathroomGrid">
+                    <!-- Images will be added via JavaScript -->
+                </div>
+            </section>
 
-                <!-- Kitchen Section -->
-                <section id="Kitchen" class="section">
-                    <h2 class="section-heading">Kitchen Designs</h2>
-                    <p class="section-description">Explore our stunning collection of kitchen designs that blend style, functionality, and elegance.</p>
-                    
-                    <div class="image-grid" id="KitchenGrid">
-                        <!-- Images will be added via JavaScript -->
-                    </div>
-                </section>
-            </div>
-        </div>
-        
-        <!-- Favorites Panel -->
-        <div class="favorites-panel" id="favoritesPanel">
-            <div class="favorites-header">
-                <h3 class="favorites-title">My Favorites</h3>
-                <button class="close-favorites" id="closeFavorites">×</button>
-            </div>
-            <div class="favorites-list" id="favoritesList">
-                <div class="empty-favorites">No favorites added yet. Click the ♥ on any design to add it to your favorites.</div>
-            </div>
+            <!-- Kitchen Section -->
+            <section id="Kitchen" class="section">
+                <h2 class="section-heading">Kitchen Designs</h2>
+                <p class="section-description">Explore our stunning collection of kitchen designs that blend style, functionality, and elegance.</p>
+                
+                <div class="image-grid" id="KitchenGrid">
+                    <!-- Images will be added via JavaScript -->
+                </div>
+            </section>
         </div>
     </main>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-top">
-                    <div class="footer-logo">
-                        <span class="logo-icon">●</span>
-                        <span class="logo-text">LIVSPACE</span>
-                    </div>
-                    <div class="footer-links">
-                        <button class="footer-link" data-category="LivingRoom">Living Room</button>
-                        <button class="footer-link" data-category="Balcony">Balcony</button>
-                        <button class="footer-link" data-category="Bedroom">Bedroom</button>
-                        <button class="footer-link" data-category="Bathroom">Bathroom</button>
-                        <button class="footer-link" data-category="Kitchen">Kitchen</button>
-                    </div>
-                </div>
-                <div class="footer-bottom">
-                    <div class="copyright">© 2025 LIVSPACE. All rights reserved.</div>
-                    <div class="social-links">
-                        <button class="social-link">✉</button>
-                        <button class="social-link">♯</button>
-                        <button class="social-link">♥</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
 
     <script>
         // DOM Elements
@@ -1016,11 +739,6 @@
         const activeCategory = document.getElementById('activeCategory');
         const categoryBtns = document.querySelectorAll('.category-btn');
         const footerLinks = document.querySelectorAll('.footer-link');
-        const favoritesBtn = document.getElementById('favoritesBtn');
-        const favoritesPanel = document.getElementById('favoritesPanel');
-        const closeFavorites = document.getElementById('closeFavorites');
-        const favoritesList = document.getElementById('favoritesList');
-        const mainContent = document.getElementById('mainContent');
         
         // Categories
         const categories = ['LivingRoom', 'Balcony', 'Bedroom', 'Bathroom', 'Kitchen'];
@@ -1068,28 +786,6 @@
                 'https://hips.hearstapps.com/hmg-prod/images/hbx070124cover-001-66a7a5e94483f.jpg?crop=0.888888888888889xw:1xh;center,top&resize=980:*',
             ]
         };
-        
-        // Favorites Storage (using localStorage)
-        let favorites = JSON.parse(localStorage.getItem('designFavorites')) || [];
-        
-        // Toggle favorites panel
-        favoritesBtn.addEventListener('click', function() {
-            favoritesPanel.classList.toggle('active');
-            favoritesBtn.classList.toggle('active');
-            
-            if (favoritesPanel.classList.contains('active')) {
-                mainContent.classList.add('with-favorites');
-            } else {
-                mainContent.classList.remove('with-favorites');
-            }
-        });
-        
-        // Close favorites panel
-        closeFavorites.addEventListener('click', function() {
-            favoritesPanel.classList.remove('active');
-            favoritesBtn.classList.remove('active');
-            mainContent.classList.remove('with-favorites');
-        });
 
         // Toggle dropdown on button click
         dropdownBtn.addEventListener('click', function() {
@@ -1136,223 +832,85 @@
             });
         }
 
-    // Scroll to selected section
-    function scrollToSection(category) {
-        const section = document.getElementById(category);
-        if (section) {
-            section.scrollIntoView({ behavior: 'smooth' });
-        }
-    }
-
-    // Create design card
-    function createDesignCard(imageUrl, category, index) {
-        const card = document.createElement('div');
-        card.className = 'design-card';
-        card.setAttribute('data-id', `${category}-${index}`);
-        
-        const isFavorite = favorites.some(fav => fav.id === `${category}-${index}`);
-        
-        card.innerHTML = `
-            <div class="card-image-container">
-                <img src="${imageUrl}" alt="${category} Design" class="card-image">
-                <button class="love-btn ${isFavorite ? 'active' : ''}" data-id="${category}-${index}">
-                    <span class="love-icon">♥</span>
-                </button>
-            </div>
-            <div class="card-content">
-                <h3 class="card-title">${category.replace(/([A-Z])/g, ' $1').trim()} Design ${index + 1}</h3>
-                <p class="card-description">Beautiful and functional ${category.toLowerCase()} design with modern aesthetics.</p>
-                <div class="card-status">
-                    <span class="status-indicator"></span>
-                    <span class="status-text">Available for Consultation</span>
-                </div>
-            </div>
-        `;
-        
-        return card;
-    }
-    
-    // Add design cards to grids
-    function populateDesignGrids() {
-        categories.forEach(category => {
-            const grid = document.getElementById(`${category}Grid`);
-            if (grid) {
-                grid.innerHTML = ''; // Clear existing items
-                
-                imageLinks[category].forEach((imageUrl, index) => {
-                    const card = createDesignCard(imageUrl, category, index);
-                    grid.appendChild(card);
-                });
-            }
-        });
-        
-        // Add event listeners to new love buttons
-        document.querySelectorAll('.love-btn').forEach(btn => {
-            btn.addEventListener('click', toggleFavorite);
-        });
-    }
-    
-    // Toggle favorite status
-    function toggleFavorite(e) {
-        e.preventDefault();
-        const btn = e.currentTarget;
-        const id = btn.getAttribute('data-id');
-        const [category, indexStr] = id.split('-');
-        const index = parseInt(indexStr);
-        
-        btn.classList.toggle('active');
-        
-        if (btn.classList.contains('active')) {
-            // Add to favorites if not already present
-            if (!favorites.some(fav => fav.id === id)) {
-                favorites.push({
-                    id: id,
-                    category: category,
-                    index: index,
-                    imageUrl: imageLinks[category][index],
-                    title: `${category.replace(/([A-Z])/g, ' $1').trim()} Design ${index + 1}`
-                });
-            }
-        } else {
-            // Remove from favorites
-            favorites = favorites.filter(fav => fav.id !== id);
-        }
-        
-        // Update localStorage
-        localStorage.setItem('designFavorites', JSON.stringify(favorites));
-        
-        // Update favorites panel
-        updateFavoritesPanel();
-        
-        // Update all instances of this design card
-        document.querySelectorAll(`.love-btn[data-id="${id}"]`).forEach(button => {
-            if (button !== btn) {
-                button.classList.toggle('active', btn.classList.contains('active'));
-            }
-        });
-    }
-    
-    // Update favorites panel
-    function updateFavoritesPanel() {
-        if (favorites.length === 0) {
-            favoritesList.innerHTML = '<div class="empty-favorites">No favorites added yet. Click the ♥ on any design to add it to your favorites.</div>';
-            return;
-        }
-        
-        favoritesList.innerHTML = '';
-        
-        favorites.forEach(fav => {
-            const favoriteItem = document.createElement('div');
-            favoriteItem.className = 'favorites-item';
-            
-            favoriteItem.innerHTML = `
-                <img src="${fav.imageUrl}" alt="${fav.title}" class="favorite-img">
-                <button class="remove-favorite" data-id="${fav.id}">×</button>
-                <div class="favorite-info">
-                    <h4 class="favorite-title">${fav.title}</h4>
-                    <p class="favorite-category">${fav.category.replace(/([A-Z])/g, ' $1').trim()}</p>
-                </div>
-            `;
-            
-            favoritesList.appendChild(favoriteItem);
-        });
-        
-        // Add event listeners for remove buttons
-        document.querySelectorAll('.remove-favorite').forEach(btn => {
-            btn.addEventListener('click', removeFavorite);
-        });
-    }
-    
-    // Remove item from favorites
-    function removeFavorite(e) {
-        const id = e.currentTarget.getAttribute('data-id');
-        
-        // Remove from favorites array
-        favorites = favorites.filter(fav => fav.id !== id);
-        
-        // Update localStorage
-        localStorage.setItem('designFavorites', JSON.stringify(favorites));
-        
-        // Update favorites panel
-        updateFavoritesPanel();
-        
-        // Update all love buttons for this design
-        document.querySelectorAll(`.love-btn[data-id="${id}"]`).forEach(btn => {
-            btn.classList.remove('active');
-        });
-    }
-    
-    // Initialize the app
-    function initApp() {
-        // Show only first category initially
-        categories.forEach((category, index) => {
+        // Scroll to section
+        function scrollToSection(category) {
             const section = document.getElementById(category);
             if (section) {
-                if (index !== 0) {
-                    section.style.display = 'none';
-                }
+                section.scrollIntoView({ behavior: 'smooth' });
             }
-        });
-        
-        // Populate design grids
-        populateDesignGrids();
-        
-        // Update favorites panel
-        updateFavoritesPanel();
-        
-        // Add scroll event listener to track active section
-        window.addEventListener('scroll', function() {
-            const scrollPosition = window.scrollY;
+        }
+
+        // Create design card with error handling
+        function createDesignCard(category, index) {
+            const card = document.createElement('div');
+            card.className = 'design-card';
             
-            // Determine which section is currently in view
+            // Check if the category exists in imageLinks and if the index is valid
+            const imageSrc = imageLinks[category] && imageLinks[category][index-1] 
+                ? imageLinks[category][index-1]
+                : 'https://via.placeholder.com/400x250?text=Image+Not+Found'; // Fallback image
+            
+            const designLink = `https://example.com/designs/${category.toLowerCase()}/${index}`;
+            
+            card.innerHTML = `
+                <a href="${designLink}" style="text-decoration: none; color: inherit;">
+                    <div class="card-image-container">
+                        <img src="${imageSrc}" alt="${category} Design ${index}" class="card-image">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">${category.replace(/([A-Z])/g, ' $1').trim()} Design ${index}</h3>
+                        <p class="card-description">Modern design with stylish elements</p>
+                        <div class="card-status">
+                            <span class="status-indicator"></span>
+                            <span class="status-text">Available</span>
+                        </div>
+                    </div>
+                </a>
+            `;
+            return card;
+        }
+
+        // Generate design cards
+        function generateDesignCards() {
             categories.forEach(category => {
-                const section = document.getElementById(category);
-                if (section && section.style.display !== 'none') {
-                    const sectionTop = section.offsetTop;
-                    const sectionHeight = section.offsetHeight;
-                    
-                    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-                        setActiveCategory(category);
-                    }
+                const grid = document.getElementById(`${category}Grid`);
+                if (!grid) return;
+                
+                grid.innerHTML = '';
+                
+                // Get the number of cards to create (based on available images or default to 6)
+                const cardCount = imageLinks[category] ? Math.min(imageLinks[category].length, 6) : 6;
+                
+                for (let i = 1; i <= cardCount; i++) {
+                    const card = createDesignCard(category, i);
+                    grid.appendChild(card);
                 }
             });
+        }
+
+        // Initialize the page
+        function init() {
+            generateDesignCards();
+            // Set LivingRoom as the default active category
+            setActiveCategory('LivingRoom');
+        }
+
+        // Run initialization when DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', init);
+        const notificationIcon = document.getElementById('notificationIcon');
+        const notificationPanel = document.getElementById('notificationPanel');
+        
+        notificationIcon.addEventListener('click', function(e) {
+            e.stopPropagation();
+            notificationPanel.classList.toggle('show');
         });
-    }
-    
-    // Show all sections when a specific category is chosen
-    function showAllSections() {
-        categories.forEach(category => {
-            const section = document.getElementById(category);
-            if (section) {
-                section.style.display = 'block';
+        
+        document.addEventListener('click', function(e) {
+            if (!notificationPanel.contains(e.target) && !notificationIcon.contains(e.target)) {
+                notificationPanel.classList.remove('show');
             }
         });
-    }
-    
-    // Handle category change
-    function handleCategoryChange(category) {
-        showAllSections();
-        setActiveCategory(category);
-        scrollToSection(category);
-    }
-    
-    // Add event handlers to category buttons
-    categoryBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const category = this.getAttribute('data-category');
-            handleCategoryChange(category);
-        });
-    });
-    
-    footerLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            const category = this.getAttribute('data-category');
-            handleCategoryChange(category);
-        });
-    });
-    
-    // Initialize the application
-    initApp();
-</script>
+        
+    </script>
 </body>
 </html>

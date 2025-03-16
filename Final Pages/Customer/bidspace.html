@@ -856,6 +856,19 @@
     function createNewBid() {
       console.log("Create new bid button clicked");
     }
+    const notificationIcon = document.getElementById('notificationIcon');
+        const notificationPanel = document.getElementById('notificationPanel');
+        
+        notificationIcon.addEventListener('click', function(e) {
+            e.stopPropagation();
+            notificationPanel.classList.toggle('show');
+        });
+        
+        document.addEventListener('click', function(e) {
+            if (!notificationPanel.contains(e.target) && !notificationIcon.contains(e.target)) {
+                notificationPanel.classList.remove('show');
+            }
+        });
   </script>
 </body>
 </html>
