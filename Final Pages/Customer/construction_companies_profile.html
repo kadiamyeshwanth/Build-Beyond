@@ -5,38 +5,279 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Construction Company Website</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
-      rel="stylesheet"
-    />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
   <style>
+    /* Combined Styles */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Arial', sans-serif;
+      font-family: 'Poppins', sans-serif;
     }
-    
+
     body {
-      overflow: hidden;
       background-color: #f5f5f5;
+      overflow: hidden;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       height: 100vh;
-      padding: 20px;
     }
-    
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 40px;
+      background-color: #0d1a44;
+      color: white;
+      height: 70px;
+      position: relative;
+      width: 100%;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+      text-decoration: none;
+      letter-spacing: 1px;
+    }
+
+    .logo:hover {
+      color: #e9c46a;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      height: 100%;
+    }
+
+    .nav-item {
+      margin: 0 15px;
+      position: relative;
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      padding: 0 5px;
+      position: relative;
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-link:hover {
+      color: #e9c46a;
+    }
+
+    .dropdown {
+      position: relative;
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: white;
+      min-width: 220px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+      left: 0;
+      top: 70px;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-item {
+      color: #333;
+      padding: 14px 20px;
+      text-decoration: none;
+      display: block;
+      border-left: 3px solid transparent;
+    }
+
+    .dropdown-item:hover {
+      background-color: #f1f1f1;
+      color: #0d1a44;
+      border-left: 3px solid #e9c46a;
+    }
+
+    .navbar-right-section {
+      display: flex;
+      align-items: center;
+    }
+
+    .notification-icon, .profile-icon {
+      margin-left: 25px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .notification-dot {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      width: 10px;
+      height: 10px;
+      background-color: #ff4d4f;
+      border-radius: 50%;
+      border: 2px solid #0d1a44;
+    }
+
+    .notification-panel {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 70px;
+      width: 340px;
+      background-color: #fff;
+      border-radius: 4px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      z-index: 1000;
+      color: #333;
+    }
+
+    .notification-panel.show {
+      display: block;
+    }
+
+    .notification-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .notification-title {
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .mark-read {
+      color: #0d1a44;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .notification-item {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .notification-item:before {
+      content: "•";
+      color: #e9c46a;
+      font-size: 24px;
+      margin-right: 12px;
+      line-height: 20px;
+    }
+
+    .notification-read:before {
+      color: #ccc;
+    }
+
+    .notification-content {
+      flex: 1;
+    }
+
+    .notification-text {
+      font-size: 14px;
+      margin-bottom: 4px;
+      line-height: 1.4;
+    }
+
+    .notification-time {
+      font-size: 12px;
+      color: #888;
+    }
+
+    .notification-footer {
+      text-align: center;
+      padding: 15px;
+    }
+
+    .view-all {
+      color: #0d1a44;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .dropdown .nav-link {
+      display: flex;
+      align-items: center;
+    }
+
+    .dropdown .nav-link:after {
+      content: '▼';
+      margin-left: 6px;
+      font-size: 10px;
+      transition: all 0.6s ease-in;
+    }
+
+    .dropdown:hover .nav-link:after {
+      transform: rotate(180deg);
+    }
+
+    .hero-section {
+      position: relative;
+      height: 400px;
+      background-image: url('/api/placeholder/1400/400');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 0 40px;
+    }
+
+    .hero-section:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to right, rgba(13, 26, 68, 0.8), rgba(13, 26, 68, 0.4));
+    }
+
+    .hero-text {
+      position: relative;
+      z-index: 1;
+      color: white;
+      font-size: 42px;
+      font-weight: bold;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+    }
+
     .container {
       display: flex;
       max-width: 1400px;
       width: 90%;
-      height: 95vh;
+      height: calc(95vh - 70px);
       box-shadow: 0 10px 30px rgba(0,0,0,0.1);
       border-radius: 12px;
       overflow: hidden;
+      margin: 20px auto;
     }
-    
+
     .left-section {
       flex: 2;
       overflow-y: auto;
@@ -44,26 +285,27 @@
       background-color: white;
       border-right: 1px solid #e0e0e0;
     }
-    
-    .right-section {
+
+    .right-section-details {
       flex: 1;
-      padding: 30px 25px;
+      padding: 0px 25px;
       background-color: #f0f4f8;
       color: #1a3c64;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       min-width: 350px;
-      max-height: 95vh;
+      max-height: calc(95vh - 70px);
       overflow: hidden;
+      
     }
-    
+
     .company-header {
       display: flex;
       align-items: center;
       margin-bottom: 30px;
     }
-    
+
     .company-logo {
       width: 80px;
       height: 80px;
@@ -77,7 +319,7 @@
       font-size: 24px;
       font-weight: bold;
     }
-    
+
     .right-logo {
       width: 70px;
       height: 70px;
@@ -91,30 +333,30 @@
       font-size: 24px;
       font-weight: bold;
     }
-    
+
     h1, h2 {
       margin-bottom: 20px;
       color: #1a3c64;
     }
-    
-    .right-section h1 {
+
+    .right-section-details h1 {
       font-size: 24px;
       margin-bottom: 10px;
       color: #1a3c64;
     }
-    
-    .right-section h2 {
+
+    .right-section-details h2 {
       font-size: 18px;
       margin-top: 15px;
       margin-bottom: 10px;
       border-bottom: 1px solid rgba(26,60,100,0.2);
       padding-bottom: 5px;
     }
-    
+
     .section {
       margin-bottom: 40px;
     }
-    
+
     .team-member {
       display: flex;
       margin-bottom: 20px;
@@ -122,7 +364,7 @@
       border-radius: 8px;
       background-color: #f9f9f9;
     }
-    
+
     .team-member img {
       width: 80px;
       height: 80px;
@@ -130,41 +372,41 @@
       object-fit: cover;
       margin-right: 15px;
     }
-    
+
     .rating {
       color: #ffc107;
       margin-top: 5px;
     }
-    
+
     .projects {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 20px;
     }
-    
+
     .project-card {
       border-radius: 8px;
       overflow: hidden;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
-    
+
     .project-card img {
       width: 100%;
       height: 200px;
       object-fit: cover;
     }
-    
+
     .project-info {
       padding: 15px;
       background-color: white;
     }
-    
+
     .services-list {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 15px;
     }
-    
+
     .service-item {
       padding: 15px;
       background-color: #f9f9f9;
@@ -172,19 +414,19 @@
       display: flex;
       align-items: center;
     }
-    
+
     .service-item i {
       margin-right: 10px;
       font-size: 24px;
       color: #1a3c64;
     }
-    
+
     .certifications {
       display: flex;
       flex-wrap: wrap;
       gap: 15px;
     }
-    
+
     .cert-badge {
       padding: 10px 15px;
       background-color: #e9f5ff;
@@ -192,7 +434,7 @@
       color: #1a3c64;
       font-weight: bold;
     }
-    
+
     .testimonial {
       padding: 20px;
       background-color: #f9f9f9;
@@ -200,7 +442,7 @@
       margin-bottom: 20px;
       position: relative;
     }
-    
+
     .testimonial::before {
       content: '"';
       font-size: 60px;
@@ -209,39 +451,39 @@
       top: 10px;
       left: 10px;
     }
-    
+
     .testimonial-content {
       padding-left: 30px;
       position: relative;
       z-index: 1;
     }
-    
+
     .tagline {
       font-style: italic;
       margin-bottom: 15px;
       font-size: 16px;
     }
-    
+
     .core-stats {
       margin-bottom: 15px;
     }
-    
+
     .stat-item {
       margin-bottom: 8px;
       display: flex;
       align-items: center;
     }
-    
+
     .stat-item i {
       font-size: 18px;
       min-width: 25px;
     }
-    
+
     .stat-item span {
       margin-left: 10px;
       font-size: 14px;
     }
-    
+
     .book-now-btn {
       background-color: #ff6b35;
       color: white;
@@ -255,50 +497,50 @@
       margin-top: 15px;
       width: 100%;
     }
-    
+
     .book-now-btn:hover {
       background-color: #e55a2b;
     }
-    
+
     .quality-item {
       display: flex;
       align-items: center;
       margin-bottom: 12px;
     }
-    
+
     .quality-item i {
       color: #48c774;
       margin-right: 10px;
       font-size: 18px;
     }
-    
+
     .progress-container {
       width: 100%;
       background-color: rgba(26,60,100,0.1);
       border-radius: 10px;
       margin-bottom: 10px;
     }
-    
+
     .progress-bar {
       height: 8px;
       border-radius: 10px;
       background-color: #48c774;
     }
-    
+
     .progress-label {
       display: flex;
       justify-content: space-between;
       margin-bottom: 3px;
       font-size: 14px;
     }
-    
+
     .right-footer {
       font-size: 11px;
       text-align: center;
       margin-top: 10px;
       opacity: 0.7;
     }
-    
+
     .quick-fact {
       background-color: #f9f9f9;
       padding: 12px;
@@ -307,76 +549,162 @@
       display: flex;
       align-items: center;
     }
-    
+
     .quick-fact i {
       margin-right: 10px;
       font-size: 18px;
       color: #1a3c64;
     }
-    
-    /* Custom scrollbar for both sections */
+
     .left-section::-webkit-scrollbar {
       width: 8px;
     }
-    
+
     .left-section::-webkit-scrollbar-track {
       background: #f1f1f1;
     }
-    
+
     .left-section::-webkit-scrollbar-thumb {
       background: #c9c9c9;
       border-radius: 10px;
     }
-    
+
     .left-section::-webkit-scrollbar-thumb:hover {
       background: #a8a8a8;
     }
-    
+
     .quality-metrics {
       margin-bottom: 15px;
     }
-    
+
     .quality-metric {
       margin-bottom: 8px;
     }
-    
-    /* Responsive adjustments */
+
     @media (max-width: 1100px) {
       .container {
         flex-direction: column;
         height: auto;
       }
-      
-      .left-section, .right-section {
+
+      .left-section, .right-section-details {
         width: 100%;
       }
-      
-      .right-section {
+
+      .right-section-details {
         min-height: 500px;
         max-height: none;
         overflow-y: auto;
       }
-      
-      .right-section::-webkit-scrollbar {
+
+      .right-section-details::-webkit-scrollbar {
         width: 8px;
       }
-      
-      .right-section::-webkit-scrollbar-track {
+
+      .right-section-details::-webkit-scrollbar-track {
         background: #f1f1f1;
       }
-      
-      .right-section::-webkit-scrollbar-thumb {
+
+      .right-section-details::-webkit-scrollbar-thumb {
         background: #a8c3e1;
         border-radius: 10px;
       }
-      
-      .right-section::-webkit-scrollbar-thumb:hover {
+
+      .right-section-details::-webkit-scrollbar-thumb:hover {
         background: #a8a8a8;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 0 20px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .logo {
+        font-size: 20px;
+      }
+
+      .hero-text {
+        font-size: 32px;
       }
     }
   </style>
 </head>
 <body>
+  <div class="navbar">
+    <a href="home.html" class="logo">BUILD & BEYOND</a>
+    <div class="nav-links">
+      <div class="nav-item">
+        <a href="home.html" class="nav-link">HOME</a>
+      </div>
+      <div class="nav-item dropdown">
+        <a href="#" class="nav-link">SERVICES</a>
+        <div class="dropdown-content">
+          <a href="construction_comanies_list.html" class="dropdown-item">Construction</a>
+          <a href="architect.html" class="dropdown-item">Architect</a>
+          <a href="interior_designer.html" class="dropdown-item">Interior Designer</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="ongoing_projects.html" class="nav-link">ONGOING PROJECTS</a>
+      </div>
+      <div class="nav-item">
+        <a href="bidspace.html" class="nav-link">BIDSPACE</a>
+      </div>
+      <div class="nav-item">
+        <a href="design_ideas.html" class="nav-link">DESIGN IDEAS</a>
+      </div>
+    </div>
+    <div class="navbar-right-section">
+      <div class="notification-icon" id="notificationIcon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        </svg>
+        <div class="notification-dot"></div>
+        <div class="notification-panel" id="notificationPanel">
+          <div class="notification-header">
+            <div class="notification-title">Notifications</div>
+            <div class="mark-read">Mark all as read</div>
+          </div>
+          <div class="notification-item">
+            <div class="notification-content">
+              <div class="notification-text">Your bid for Project XYZ has been accepted!</div>
+              <div class="notification-time">2 hours ago</div>
+            </div>
+          </div>
+          <div class="notification-item">
+            <div class="notification-content">
+              <div class="notification-text">New design templates available for modern kitchens</div>
+              <div class="notification-time">5 hours ago</div>
+            </div>
+          </div>
+          <div class="notification-item notification-read">
+            <div class="notification-content">
+              <div class="notification-text">Weekly report for your ongoing projects is ready</div>
+              <div class="notification-time">Yesterday</div>
+            </div>
+          </div>
+          <div class="notification-footer">
+            <a href="#" class="view-all">View all notifications</a>
+          </div>
+        </div>
+      </div>
+      <div class="profile-icon">
+        <a href="settings.html">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
   <div class="container">
     <!-- Left Section (Scrollable) -->
     <div class="left-section">
@@ -590,7 +918,7 @@
     </div>
     
     <!-- Right Section (Fixed) -->
-    <div class="right-section">
+    <div class="right-section-details">
       <div>
         <div class="right-logo">
           BC
@@ -654,10 +982,26 @@
       </div>
       
       <div>
-        <button class="book-now-btn">BOOK A CONSULTATION</button>
+        <a href="constructionform.html"><button class="book-now-btn">BOOK A CONSULTATION</button></a>
         <p class="right-footer">Licensed & Insured • All Major Projects Bonded</p>
       </div>
     </div>
   </div>
+
+  <script>
+    const notificationIcon = document.getElementById('notificationIcon');
+    const notificationPanel = document.getElementById('notificationPanel');
+    
+    notificationIcon.addEventListener('click', function(e) {
+      e.stopPropagation();
+      notificationPanel.classList.toggle('show');
+    });
+    
+    document.addEventListener('click', function(e) {
+      if (!notificationPanel.contains(e.target) && !notificationIcon.contains(e.target)) {
+        notificationPanel.classList.remove('show');
+      }
+    });
+  </script>
 </body>
 </html>

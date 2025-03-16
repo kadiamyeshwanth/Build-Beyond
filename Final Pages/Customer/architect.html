@@ -638,7 +638,7 @@
             </div>
             
             <div class="book-now-container">
-                <button class="book-now-btn" id="bookNowBtn">Book Now</button>
+                <a href="architecht_form.html"><button class="book-now-btn" id="bookNowBtn">Book Now</button></a>
             </div>
         </div>
     </div>
@@ -1018,8 +1018,6 @@
                 if (activeCard) {
                     const architectId = parseInt(activeCard.dataset.id);
                     const architect = architects.find(a => a.id === architectId);
-                    
-                    alert(`Thank you for your interest in booking ${architect.name}. A representative will contact you shortly to discuss your project needs.`);
                 } else {
                     alert('Please select an architect before booking.');
                 }
