@@ -252,10 +252,11 @@
             color: #e74c3c;
         }
 
-        .view-details {
+        .details-button {
             background-color: #3498db;
             color: white;
             border: none;
+            margin: 3px;
             border-radius: 4px;
             padding: 8px 16px;
             cursor: pointer;
@@ -263,7 +264,7 @@
             transition: background-color 0.3s;
         }
 
-        .view-details:hover {
+        .details-button:hover {
             background-color: #2980b9;
         }
 
@@ -424,8 +425,8 @@
                 align-items: flex-start;
             }
             
-            .view-details {
-                margin-top: 12px;
+            .details-button {
+                margin: 12px;
                 width: 100%;
             }
             
@@ -713,7 +714,8 @@
                             </div>
                         </div>
                     </div>
-                    <button class="view-details">View Details</button>
+                    <button class="details-button">View Details</button>
+                    <button class="details-button">Edit</button>
                 `;
                 
                 projectsList.appendChild(projectCard);
@@ -762,7 +764,7 @@
             
             // Project details button
             projectsList.addEventListener('click', event => {
-                if (event.target.classList.contains('view-details')) {
+                if (event.target.classList.contains('details-button')) {
                     const projectId = parseInt(event.target.dataset.id);
                     showProjectDetails(projectId);
                 }
@@ -872,7 +874,6 @@
             return string.charAt(0).toUpperCase() + string.slice(1);
         }
 
-        // Initialize the dashboard when the DOM is fully loaded
         document.addEventListener('DOMContentLoaded', initDashboard);
     </script>
 </body>
