@@ -289,9 +289,7 @@
             <div class="settings-sidebar">
                 <ul class="settings-nav">
                     <li><a href="#profile" class="active"><i class="fas fa-user"></i> Profile</a></li>
-                    <li><a href="#appearance"><i class="fas fa-paint-brush"></i> Appearance</a></li>
                     <li><a href="#security"><i class="fas fa-lock"></i> Security</a></li>
-                    <li><a href="#payments"><i class="fas fa-credit-card"></i> Payments</a></li>
                     <li><a href="#help-center"><i class="fas fa-question-circle"></i> Help Center</a></li>
                     <li><a href="#logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                 </ul>
@@ -349,24 +347,6 @@
                         <button type="submit" class="btn">Save Changes</button>
                     </form>
                 </div>
-                <!-- Appearance -->
-                <div id="appearance" class="settings-section">
-                    <h2>Appearance Settings</h2>
-                    <form>
-                        <div class="form-group">
-                            <label>Theme</label>
-                            <div class="form-check">
-                                <input type="radio" name="theme" id="themeLight" checked>
-                                <label for="themeLight">Light Mode</label>
-                            </div>
-                            <div class="form-check">
-                                <input type="radio" name="theme" id="themeDark">
-                                <label for="themeDark">Dark Mode</label>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn">Apply</button>
-                    </form>
-                </div>
                 <!-- Security -->
                 <div id="security" class="settings-section">
                     <h2>Security Settings</h2>
@@ -386,54 +366,6 @@
                         <button type="submit" class="btn">Update Password</button>
                         <hr style="margin: 2rem 0;">
                     </form>
-                </div>
-                
-                <!-- Payments -->
-                <div id="payments" class="settings-section">
-                    <h2>Payment Settings</h2>
-                    <div>
-                        <h3 style="margin-bottom: 1rem; color: #555;">Invoices</h3>
-                        <table style="width: 100%; border-collapse: collapse;">
-                            <thead>
-                                <tr style="border-bottom: 2px solid var(--border-color);">
-                                    <th style="text-align: left; padding: 0.75rem;">Invoice #</th>
-                                    <th style="text-align: left; padding: 0.75rem;">Date</th>
-                                    <th style="text-align: left; padding: 0.75rem;">Amount</th>
-                                    <th style="text-align: left; padding: 0.75rem;">Status</th>
-                                    <th style="text-align: left; padding: 0.75rem;"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr style="border-bottom: 1px solid var(--border-color);">
-                                    <td style="padding: 0.75rem;">INV-2025-001</td>
-                                    <td style="padding: 0.75rem;">Mar 05, 2025</td>
-                                    <td style="padding: 0.75rem;">₹10,250.00</td>
-                                    <td style="padding: 0.75rem; color: var(--success-color);">Paid</td>
-                                    <td style="padding: 0.75rem;">
-                                        <a href="payment_document.pdf" style="color: var(--primary-color);">Download</a>
-                                    </td>
-                                </tr>
-                                <tr style="border-bottom: 1px solid var(--border-color);">
-                                    <td style="padding: 0.75rem;">INV-2025-002</td>
-                                    <td style="padding: 0.75rem;">Feb 20, 2025</td>
-                                    <td style="padding: 0.75rem;">₹25,500.00</td>
-                                    <td style="padding: 0.75rem; color: var(--success-color);">Paid</td>
-                                    <td style="padding: 0.75rem;">
-                                        <a href="payment_document.pdf" style="color: var(--primary-color);">Download</a>
-                                    </td>
-                                </tr>
-                                <tr style="border-bottom: 1px solid var(--border-color);">
-                                    <td style="padding: 0.75rem;">INV-2025-003</td>
-                                    <td style="padding: 0.75rem;">Feb 05, 2025</td>
-                                    <td style="padding: 0.75rem;">₹1,00,800.00</td>
-                                    <td style="padding: 0.75rem; color: var(--success-color);">Paid</td>
-                                    <td style="padding: 0.75rem;">
-                                        <a href="payment_document.pdf" style="color: var(--primary-color);">Download</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
                 </div>
                 <!-- Help Center -->
                 <div id="help-center" class="settings-section">
