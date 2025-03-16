@@ -1,38 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Property Listings</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ongoing Projects</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
-    <style>
-        :root {
-            --primary-color: #5c3dff;
-            --primary-light: #7d62ff;
-            --primary-dark: #4a31cc;
-            --background-light: #f5f5f5;
-            --background-white: #ffffff;
-            --text-primary: #333333;
-            --text-secondary: #666666;
-            --border-color: #e0e0e0;
-            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
-            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
-            --radius: 8px;
-        }
-        * {
+  <style>
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
+      font-family: "Poppins", sans-serif;
     }
     
     body {
-      background-color: #f8f9fa;
+      background-color: #f5f5f5;
     }
     
     .navbar {
@@ -44,10 +31,11 @@
             height: 60px;
             color: #343a40;
             position: sticky;
-            top: 0; 
-            width: 100%; 
+            top: 0; /* Ensure it sticks to the top */
+            width: 100%; /* Make it span the full width */
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            z-index: 1000; }
+            z-index: 1000; /* Ensures it's above other elements */
+    }
     
     .brand {
       font-size: 1.5rem;
@@ -71,11 +59,11 @@
       color: #212529;
     }
     
-    .settings-container {
+    .nav_settings-container {
       position: relative;
     }
     
-    .settings-btn {
+    .nav_settings-btn {
       background: none;
       border: none;
       padding: 0.5rem;
@@ -87,11 +75,11 @@
       transition: background-color 0.3s ease;
     }
     
-    .settings-btn:hover {
+    .nav_settings-btn:hover {
       background-color: rgba(0, 0, 0, 0.05);
     }
     
-    .settings-icon {
+    .nav_settings-icon {
       width: 32px;
       height: 32px;
       border-radius: 50%;
@@ -101,1141 +89,506 @@
       justify-content: center;
     }
     
-    .settings-svg {
+    .nav_settings-svg {
       width: 18px;
       height: 18px;
       fill: #495057;
     }
-         
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .header h1 {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+    }
+    
+    .add-project-btn {
+      background-color: #4361ee;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+    
+    .add-project-btn:hover {
+      background-color: #3a56d4;
+    }
+    
+    .dashboard-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+    
+    .metric-card {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+    }
+    
+    .metric-title {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+    
+    .metric-value {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #333;
+    }
+    
+    .content-wrapper {
+      display: flex;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    
+    .left-section {
+      width: 75%;
+      display: flex;
+      flex-direction: column;
+      background-color: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    
+    .project-display {
+      display: flex;
+      border-bottom: 1px solid #eee;
+      height: 240px; /* Reduced height */
+    }
+    
+    .project-image {
+      width: 40%;
+      border-right: 1px solid #eee;
+      padding: 0;
+    }
+    
+    .project-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    
+    .project-details {
+      width: 60%;
+      padding: 20px;
+      position: relative;
+    }
+    
+    .right-section {
+      width: 25%;
+    }
+    
+    .filter-properties {
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    
+    .filter-properties h2 {
+      margin-bottom: 20px;
+      color: #333;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    
+    .filter-button {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 10px;
+      text-align: center;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .filter-button.active {
+      background-color: #6a3de8;
+      color: white;
+    }
+    
+    .filter-button.inactive {
+      background-color: #f0f0f0;
+      color: #333;
+    }
+    
+    .filter-button.inactive:hover {
+      background-color: #e5e5e5;
+    }
 
-        body {
-            background-color: var(--background-light);
-            color: var(--text-primary);
-            line-height: 1.6;
-        } 
+    .project-details h2 {
+      margin-bottom: 10px;
+      color: #333;
+      font-size: 20px;
+    }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
+    .project-details p {
+      margin-bottom: 10px;
+      color: #666;
+      line-height: 1.5;
+    }
 
-        .title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            color: var(--text-primary);
-        }
+    .project-details .location {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      color: #777;
+      font-size: 14px;
+    }
+    
+    .project-tag {
+      display: inline-block;
+      padding: 4px 10px;
+      background-color: #e9efff;
+      color: #4361ee;
+      border-radius: 20px;
+      font-size: 12px;
+      margin-right: 8px;
+      margin-bottom: 10px;
+    }
+    
+    .status-tag {
+      display: inline-block;
+      padding: 4px 10px;
+      background-color: #fff8e1;
+      color: #ff9800;
+      border-radius: 20px;
+      font-size: 12px;
+      margin-right: 8px;
+    }
+    
+    .progress-container {
+      margin-top: 15px;
+      margin-bottom: 10px;
+    }
+    
+    .progress-bar {
+      height: 6px;
+      background-color: #e0e0e0;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background-color: #4caf50;
+      width: 65%;
+    }
+    
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #888;
+      margin-top: 5px;
+    }
+    
+    .milestone-container {
+      display: flex;
+      margin-top: 10px;
+      font-size: 12px;
+    }
+    
+    .milestone {
+      display: flex;
+      align-items: center;
+      margin-right: 15px;
+    }
+    
+    .milestone-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 5px;
+    }
+    
+    .milestone-complete {
+      background-color: #4caf50;
+    }
+    
+    .milestone-current {
+      background-color: #ff9800;
+    }
+    
+    .milestone-pending {
+      background-color: #e0e0e0;
+    }
 
-        .content-wrapper {
-            display: flex;
-            gap: 2rem;
-        }
+    /* View Details Section */
+    .view-details {
+      display: none;
+      padding: 20px;
+      border-top: 1px solid #eee;
+    }
 
-        .property-list {
-            flex: 1;
-            max-width: 75%;
-        }
+    .view-details.active {
+      display: block;
+    }
 
-        .property-card {
-            background: var(--background-white);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-md);
-            margin-bottom: 2rem;
-            margin-left:3rem;
-            overflow: hidden;
-            position: relative;
-            width: 95%;
-        }
+    .view-details h3 {
+      font-size: 18px;
+      color: #333;
+      margin-bottom: 15px;
+    }
 
-        .property-content {
-            padding: 1.5rem;
-        }
+    .view-details .images {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
 
-        .property-image {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            border-radius: var(--radius);
-        }
+    .view-details .images img {
+      width: 150px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
 
-        .property-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin: 1rem 0;
-        }
+    .view-details .recent-updates {
+      margin-bottom: 20px;
+    }
 
-        .price {
-            font-size: 1.75rem;
-            font-weight: bold;
-            color: var(--primary-color);
-        }
+    .view-details .update {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
 
-        .rera-badge {
-            background: #e8f5e9;
-            color: #2e7d32;
-            padding: 0.25rem 0.5rem;
-            border-radius: var(--radius);
-            font-size: 0.875rem;
-        }
+    .view-details .update img {
+      width: 100px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
 
-        .property-name {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
+    .view-details .update p {
+      flex: 1;
+      color: #666;
+      line-height: 1.5;
+    }
 
-        .developer {
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-        }
+    .view-details .edit-btn {
+      background-color: #4361ee;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+    }
 
-        .detail-box {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            background: var(--background-light);
-            padding: 1.5rem;
-            border-radius: var(--radius);
-            margin: 1.5rem 0;
-        }
+    .view-details .edit-btn:hover {
+      background-color: #3a56d4;
+    }
 
-        .detail-item {
-            text-align: center;
-        }
+    /* New Styles for Buttons in Left Card */
+    .project-details .action-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
 
-        .detail-label {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            margin-bottom: 0.5rem;
-        }
+    .project-details .view-details-btn {
+      background-color: #4361ee;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
 
-        .detail-value {
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
+    .project-details .view-details-btn:hover {
+      background-color: #3a56d4;
+    }
 
-        .action-buttons {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            display: flex;
-            gap: 0.5rem;
-            z-index: 10;
-        }
+    .project-details .edit-btn {
+      background-color: #6a3de8;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
 
-        .share-button,
-        .favorite-button {
-            background: white;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.2s;
-            font-size: 1.25rem;
-        }
-
-        .share-button:hover,
-        .favorite-button:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .favorite-button.active {
-            color: #e53935;
-        }
-
-        .share-menu {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background: white;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-md);
-            padding: 1rem;
-            min-width: 200px;
-            display: none;
-            z-index: 20;
-        }
-
-        .share-menu.active {
-            display: block;
-        }
-
-        .share-menu-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem;
-            cursor: pointer;
-            border-radius: var(--radius);
-            transition: background 0.2s;
-        }
-
-        .share-menu-item:hover {
-            background: var(--background-light);
-        }
-
-        .expand-button {
-            width: 100%;
-            padding: 1rem;
-            background: none;
-            border: none;
-            color: var(--primary-color);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            font-weight: 500;
-            font-size: 1.1rem;
-            margin-top: 1rem;
-        }
-
-        .expanded-content {
-            display: none;
-            padding: 1.5rem;
-            background: var(--background-light);
-            border-top: 1px solid var(--border-color);
-            margin-top: 1rem;
-        }
-
-        .expanded-content.active {
-            display: block;
-            animation: slideDown 0.3s ease-out;
-        }
-
-        .expanded-content h3 {
-            color: var(--text-primary);
-            margin: 1.5rem 0 1rem;
-            font-size: 1.25rem;
-        }
-
-        .expanded-content h3:first-child {
-            margin-top: 0;
-        }
-
-        .sidebar {
-            width: 25%;
-            position: sticky;
-            top: 5rem;
-            height: fit-content;
-            background: var(--background-white);
-            padding: 1.5rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-md);
-        }
-
-        .sidebar-title {
-            font-size: 1.25rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .filter-button {
-            width: 100%;
-            padding: 0.75rem;
-            margin-bottom: 0.75rem;
-            border: none;
-            border-radius: var(--radius);
-            background: var(--background-light);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .filter-button.active {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .filter-button:hover {
-            background: var(--primary-light);
-            color: white;
-        }
-
-        /* Gallery Styles */
-        .gallery-container {
-            position: relative;
-            width: 100%;
-            margin: 1rem 0;
-            border-radius: var(--radius);
-            overflow: hidden;
-        }
-
-        .gallery-images {
-            display: flex;
-            transition: transform 0.3s ease;
-        }
-
-        .gallery-image {
-            width: 100%;
-            min-width: 100%;
-            height: 400px;
-            object-fit: cover;
-        }
-
-        .gallery-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.9);
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: var(--shadow-md);
-            z-index: 5;
-        }
-
-        .gallery-nav:hover {
-            background: white;
-        }
-
-        .gallery-prev {
-            left: 1rem;
-        }
-
-        .gallery-next {
-            right: 1rem;
-        }
-
-        .gallery-dots {
-            position: absolute;
-            bottom: 1rem;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .gallery-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.5);
-            cursor: pointer;
-            border: none;
-            padding: 0;
-        }
-
-        .gallery-dot.active {
-            background: white;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @media (max-width: 1024px) {
-            .content-wrapper {
-                flex-direction: column;
-            }
-            .property-list,
-            .sidebar {
-                width: 100%;
-                max-width: 100%;
-            }
-            .property-image {
-                height: 300px;
-            }
-        }
-    </style>
+    .project-details .edit-btn:hover {
+      background-color: #5a2fc7;
+    }
+  </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="brand">Build & Beyond</div>
-        
-        <div class="nav-links">
-            <a href="dashboard.html">Dashboard</a>
-            <a href="bids.html">Bids</a>
-            <a href="ongoing_projects.html">Ongoing Projects</a>
-            <a href="clients.html">Clients</a>
-            <a href="revenue.html">Revenue</a>
-            <a href="hiring.html">Hire Now</a>
-        </div>
-        
-        <div class="settings-container">
-          <a href="settings.html" class="settings-btn">
-            <div class="settings-icon">
-              <svg class="settings-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
-              </svg>
-            </div>
-          </a>
-        </div>
-      </nav
-    <div class="container">
-        <h6 class="title">Property Listings</h6>
-        <div class="content-wrapper">
-            <div class="property-list">
-                
-<div class="property-card" data-status="under-construction">
-    <div class="action-buttons">
-        <button class="share-button" onclick="toggleShare('share-1')">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="18" cy="5" r="3"></circle>
-                <circle cx="6" cy="12" r="3"></circle>
-                <circle cx="18" cy="19" r="3"></circle>
-                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-            </svg>
-        </button>
-        <button class="favorite-button" onclick="toggleFavorite(this)">♡</button>
-        <div class="share-menu" id="share-1">
-            <div class="share-menu-item" onclick="shareVia('facebook')">Facebook</div>
-            <div class="share-menu-item" onclick="shareVia('twitter')">Twitter</div>
-            <div class="share-menu-item" onclick="shareVia('email')">Email</div>
-        </div>
+  <nav class="navbar">
+    <div class="brand">Build & Beyond</div>
+    
+    <div class="nav-links">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="bids.html">Bids</a>
+      <a href="ongoing_projects.html">Ongoing Projects</a>
+      <a href="clients.html">Clients</a>
+      <a href="revenue.html">Revenue</a>
+      <a href="hiring.html">Hire Now</a>
     </div>
-
-    <img src="https://website-data-pluckwalk.s3.ap-south-1.amazonaws.com/blogs-images/38h6fE1nuT49Zt2Za3kKhw.webp" alt="Sreshta Adhiroha" class="property-image">
-
-    <div class="property-content">
-        <div class="property-header">
-            <div class="price">₹1.3 Cr - 1.4 Cr</div>
-            <span class="rera-badge">RERA ✓</span>
+  
+    <div class="nav_settings-container">
+      <a href="settings.html" class="nav_settings-btn">
+        <div class="nav_settings-icon">
+          <svg class="nav_settings-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+          </svg>
         </div>
-
-        <h2 class="property-name">Sreshta Adhiroha</h2>
-        <p class="developer">By Sreshta Infra</p>
-
-        <div class="detail-box">
-            <div class="detail-item">
-                <div class="detail-label">POSSESSION DATE</div>
-                <div class="detail-value">May, 2026</div>
+      </a>
+    </div>
+  </nav>
+  <div class="container">
+    <!-- Company Dashboard -->
+    <div class="header">
+      <h1>Company Dashboard</h1>
+      <button class="add-project-btn">+ Add New Project</button>
+    </div>
+    
+    <div class="dashboard-metrics">
+      <div class="metric-card">
+        <div class="metric-title">Total Active Projects</div>
+        <div class="metric-value">10</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-title">Monthly Revenue</div>
+        <div class="metric-value">₹4.8 Cr</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-title">Customer Satisfaction</div>
+        <div class="metric-value">4.7/5</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-title">Projects On Schedule</div>
+        <div class="metric-value">85%</div>
+      </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="content-wrapper">
+      <div class="left-section">
+        <div class="project-display">
+          <div class="project-image">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqjSRsiV4Q22mOElSnkcct2oZmd-1iVrNOcQ&s" alt="Project Image">
+          </div>
+          <div class="project-details">
+            <h2>Sunset Hills Residences</h2>
+            <div class="location">
+              <span>📍 Westview District, Los Angeles</span>
             </div>
-            <div class="detail-item">
-                <div class="detail-label">AVERAGE PRICE</div>
-                <div class="detail-value">₹6.8 K/sq.ft</div>
-            </div>
-            <div class="detail-item">
-                <div class="detail-label">STATUS</div>
-                <div class="detail-value">Under Construction</div>
-            </div>
-        </div>
-
-        <button class="expand-button" onclick="toggleExpand(this)">
-            Show More Details
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-        </button>
-
-        <div class="expanded-content">
-            <div class="gallery-container">
-                <div class="gallery-images" id="gallery-property1" data-position="0">
-                    <img src="gallery-image-1.jpg" class="gallery-image" alt="Property view">
-                    <img src="gallery-image-2.jpg" class="gallery-image" alt="Property view">
-                    <img src="gallery-image-3.jpg" class="gallery-image" alt="Property view">
-                </div>
-                <button class="gallery-nav gallery-prev" onclick="moveGallery('property1', -1)">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="15 18 9 12 15 6"></polyline>
-                    </svg>
-                </button>
-                <button class="gallery-nav gallery-next" onclick="moveGallery('property1', 1)">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="9 18 15 12 9 6"></polyline>
-                    </svg>
-                </button>
-                <div class="gallery-dots" id="dots-property1">
-                    <button class="gallery-dot active" onclick="jumpToImage('property1', 0)"></button>
-                    <button class="gallery-dot" onclick="jumpToImage('property1', 1)"></button>
-                    <button class="gallery-dot" onclick="jumpToImage('property1', 2)"></button>
-                </div>
-            </div>
-            
-            <h3>Location Advantages</h3>
             <div>
-                <div>🏫 Allen School - 0.1 km away</div>
-                <div>🏥 Apollo Hospital - 1 km away</div>
-                <div>🏥 Vijaya Hospital - 1.5 km away</div>
-            </div>
-
-            <h3>About Developer</h3>
-            <div class="developer-info">
-                <div style="font-weight: bold;">Sreshta Infra</div>
-                <p style="color: var(--text-secondary);">
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Property 2: The Rise Sunsiri Projects -->
-<div class="property-card" data-status="under-construction">
-    <div class="action-buttons">
-        <button class="share-button" onclick="toggleShare('share-2')">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="18" cy="5" r="3"></circle>
-                <circle cx="6" cy="12" r="3"></circle>
-                <circle cx="18" cy="19" r="3"></circle>
-                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-            </svg>
-        </button>
-        <button class="favorite-button" onclick="toggleFavorite(this)">♡</button>
-        <div class="share-menu" id="share-2">
-            <div class="share-menu-item" onclick="shareVia('facebook')">Facebook</div>
-            <div class="share-menu-item" onclick="shareVia('twitter')">Twitter</div>
-            <div class="share-menu-item" onclick="shareVia('email')">Email</div>
-        </div>
-    </div>
-
-    <img src="https://static.vecteezy.com/system/resources/previews/033/831/865/non_2x/new-multistory-apartment-buildings-under-construction-photo.JPG" alt="The Rise Sunsiri Projects" class="property-image">
-
-    <div class="property-content">
-        <div class="property-header">
-            <div class="price">₹48.49 L - 62.41 L</div>
-            <span class="rera-badge">RERA ✓</span>
-        </div>
-
-        <h2 class="property-name">The Rise Sunsiri Projects</h2>
-        <p class="developer">By SUN SIRI PROJECTS PVT LTD</p>
-
-        <div class="detail-box">
-            <div class="detail-item">
-                <div class="detail-label">POSSESSION DATE</div>
-                <div class="detail-value">Jan, 2025</div>
-            </div>
-            <div class="detail-item">
-                <div class="detail-label">AVERAGE PRICE</div>
-                <div class="detail-value">2.67k/sq.yd</div>
-            </div>
-            <div class="detail-item">
-                <div class="detail-label">STATUS</div>
-                <div class="detail-value">Under Construction</div>
-            </div>
-        </div>
-
-        <button class="expand-button" onclick="toggleExpand(this)">
-            Show More Details
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-        </button>
-
-        <div class="expanded-content">
-            <div class="gallery-container">
-                <div class="gallery-images" id="gallery-property2" data-position="0">
-                    <img src="gallery-image-1.jpg" class="gallery-image" alt="Property view">
-                    <img src="gallery-image-2.jpg" class="gallery-image" alt="Property view">
-                    <img src="gallery-image-3.jpg" class="gallery-image" alt="Property view">
-                </div>
-                <button class="gallery-nav gallery-prev" onclick="moveGallery('property2', -1)">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="15 18 9 12 15 6"></polyline>
-                    </svg>
-                </button>
-                <button class="gallery-nav gallery-next" onclick="moveGallery('property2', 1)">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="9 18 15 12 9 6"></polyline>
-                    </svg>
-                </button>
-                <div class="gallery-dots" id="dots-property2">
-                    <button class="gallery-dot active" onclick="jumpToImage('property2', 0)"></button>
-                    <button class="gallery-dot" onclick="jumpToImage('property2', 1)"></button>
-                    <button class="gallery-dot" onclick="jumpToImage('property2', 2)"></button>
-                </div>
+              <span class="project-tag">Luxury</span>
+              <span class="status-tag">Under Construction</span>
             </div>
             
-            <h3>Location Advantages</h3>
-            <div>
-                <div>🏫 National Public School - 0.1 km away</div>
-                <div>🏥 Fortis Hospital - 0.1 km away</div>
-                <div>🏫 Christ University - 1.2 km away</div>
-            </div>
-
-            <h3>About Developer</h3>
-            <div class="developer-info">
-                <div style="font-weight: bold;">SUN SIRI PROJECTS PVT LTD</div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="property-card" data-status="under-construction">
-    <div class="action-buttons">
-        <button class="share-button" onclick="toggleShare('share-4')">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="18" cy="5" r="3"></circle>
-                <circle cx="6" cy="12" r="3"></circle>
-                <circle cx="18" cy="19" r="3"></circle>
-                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-            </svg>
-        </button>
-        <button class="favorite-button" onclick="toggleFavorite(this)">♡</button>
-        <div class="share-menu" id="share-4">
-            <div class="share-menu-item" onclick="shareVia('facebook')">Facebook</div>
-            <div class="share-menu-item" onclick="shareVia('twitter')">Twitter</div>
-            <div class="share-menu-item" onclick="shareVia('email')">Email</div>
-        </div>
-    </div>
-
-    <img src="https://imgk.timesnownews.com/story/Realestate.jpg" alt="Greenwood Residences" class="property-image">
-
-    <div class="property-content">
-        <div class="property-header">
-            <div class="price">₹82.5 L - 95.6 L</div>
-            <span class="rera-badge">RERA ✓</span>
-        </div>
-
-        <h2 class="property-name">Greenwood Residences</h2>
-        <p class="developer">By Green Constructions Ltd</p>
-
-        <div class="detail-box">
-            <div class="detail-item">
-                <div class="detail-label">POSSESSION DATE</div>
-                <div class="detail-value">Dec, 2025</div>
-            </div>
-            <div class="detail-item">
-                <div class="detail-label">AVERAGE PRICE</div>
-                <div class="detail-value">₹7.2 K/sq.ft</div>
-            </div>
-            <div class="detail-item">
-                <div class="detail-label">STATUS</div>
-                <div class="detail-value">Under Construction</div>
-            </div>
-        </div>
-
-        <button class="expand-button" onclick="toggleExpand(this)">
-            Show More Details
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-        </button>
-
-        <div class="expanded-content">
-            <div class="gallery-container">
-                <div class="gallery-images" id="gallery-property4" data-position="0">
-                    <img src="gallery-image-1.jpg" class="gallery-image" alt="Property view">
-                    <img src="gallery-image-2.jpg" class="gallery-image" alt="Property view">
-                    <img src="gallery-image-3.jpg" class="gallery-image" alt="Property view">
-                </div>
-                <button class="gallery-nav gallery-prev" onclick="moveGallery('property4', -1)">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="15 18 9 12 15 6"></polyline>
-                    </svg>
-                </button>
-                <button class="gallery-nav gallery-next" onclick="moveGallery('property4', 1)">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="9 18 15 12 9 6"></polyline>
-                    </svg>
-                </button>
-                <div class="gallery-dots" id="dots-property4">
-                    <button class="gallery-dot active" onclick="jumpToImage('property4', 0)"></button>
-                    <button class="gallery-dot" onclick="jumpToImage('property4', 1)"></button>
-                    <button class="gallery-dot" onclick="jumpToImage('property4', 2)"></button>
-                </div>
+            <div class="progress-container">
+              <div class="progress-bar">
+                <div class="progress-fill"></div>
+              </div>
+              <div class="progress-text">
+                <span>Project Completion: 65%</span>
+                <span>Target: June 2025</span>
+              </div>
             </div>
             
-            <h3>Location Advantages</h3>
-            <div>
-                <div>🏫 Delhi Public School - 0.5 km away</div>
-                <div>🏥 CARE Hospital - 1.2 km away</div>
-                <div>🏫 BITS Hyderabad - 3 km away</div>
-            </div>
-
-            <h3>About Developer</h3>
-            <div class="developer-info">
-                <div style="font-weight: bold;">Green Constructions Ltd</div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="property-card" data-status="under-construction">
-    <div class="action-buttons">
-        <button class="share-button" onclick="toggleShare('share-5')">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="18" cy="5" r="3"></circle>
-                <circle cx="6" cy="12" r="3"></circle>
-                <circle cx="18" cy="19" r="3"></circle>
-                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-            </svg>
-        </button>
-        <button class="favorite-button" onclick="toggleFavorite(this)">♡</button>
-        <div class="share-menu" id="share-5">
-            <div class="share-menu-item" onclick="shareVia('facebook')">Facebook</div>
-            <div class="share-menu-item" onclick="shareVia('twitter')">Twitter</div>
-            <div class="share-menu-item" onclick="shareVia('email')">Email</div>
-        </div>
-    </div>
-
-    <img src="https://3.imimg.com/data3/BW/VC/MY-14377259/apartment-construction-500x500.jpg" alt="Palm Grove Villas" class="property-image">
-
-    <div class="property-content">
-        <div class="property-header">
-            <div class="price">₹2.5 Cr - 3.1 Cr</div>
-            <span class="rera-badge">RERA ✓</span>
-        </div>
-
-        <h2 class="property-name">Palm Grove Villas</h2>
-        <p class="developer">By Palm Estate Developers</p>
-
-        <div class="detail-box">
-            <div class="detail-item">
-                <div class="detail-label">POSSESSION DATE</div>
-                <div class="detail-value">Aug, 2025</div>
-            </div>
-            <div class="detail-item">
-                <div class="detail-label">AVERAGE PRICE</div>
-                <div class="detail-value">₹12.8 K/sq.ft</div>
-            </div>
-            <div class="detail-item">
-                <div class="detail-label">STATUS</div>
-                <div class="detail-value">Under Construction</div>
-            </div>
-        </div>
-
-        <button class="expand-button" onclick="toggleExpand(this)">
-            Show More Details
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-        </button>
-
-        <div class="expanded-content">
-            <div class="gallery-container">
-                <div class="gallery-images" id="gallery-property5" data-position="0">
-                    <img src="gallery-image-1.jpg" class="gallery-image" alt="Property view">
-                    <img src="gallery-image-2.jpg" class="gallery-image" alt="Property view">
-                    <img src="gallery-image-3.jpg" class="gallery-image" alt="Property view">
-                </div>
-                <button class="gallery-nav gallery-prev" onclick="moveGallery('property5', -1)">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="15 18 9 12 15 6"></polyline>
-                    </svg>
-                </button>
-                <button class="gallery-nav gallery-next" onclick="moveGallery('property5', 1)">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="9 18 15 12 9 6"></polyline>
-                    </svg>
-                </button>
-                <div class="gallery-dots" id="dots-property5">
-                    <button class="gallery-dot active" onclick="jumpToImage('property5', 0)"></button>
-                    <button class="gallery-dot" onclick="jumpToImage('property5', 1)"></button>
-                    <button class="gallery-dot" onclick="jumpToImage('property5', 2)"></button>
-                </div>
+            <div class="milestone-container">
+              <div class="milestone">
+                <div class="milestone-dot milestone-complete"></div>
+                <span>Foundation</span>
+              </div>
+              <div class="milestone">
+                <div class="milestone-dot milestone-complete"></div>
+                <span>Structure</span>
+              </div>
+              <div class="milestone">
+                <div class="milestone-dot milestone-current"></div>
+                <span>Interiors</span>
+              </div>
+              <div class="milestone">
+                <div class="milestone-dot milestone-pending"></div>
+                <span>Finishing</span>
+              </div>
             </div>
             
-            <h3>Location Advantages</h3>
-            <div>
-                <div>🏫 PSG Institute - 1.5 km away</div>
-                <div>🏥 KG Hospital - 2 km away</div>
-                <div>🏫 Coimbatore Medical College - 3.5 km away</div>
+            <p>Current phase: Interior work</p>
+            <div class="action-buttons">
+              <button class="view-details-btn">View Details</button>
+              <button class="edit-btn">Edit</button>
             </div>
-
-            <h3>About Developer</h3>
-            <div class="developer-info">
-                <div style="font-weight: bold;">Palm Estate Developers</div>
-            </div>
+          </div>
         </div>
+        <div class="view-details">
+          <h3>All Images</h3>
+          <div class="images">
+            <img src="https://via.placeholder.com/150" alt="Project Image 1">
+            <img src="https://via.placeholder.com/150" alt="Project Image 2">
+            <img src="https://via.placeholder.com/150" alt="Project Image 3">
+          </div>
+          <h3>Recent Updates</h3>
+          <div class="recent-updates">
+            <div class="update">
+              <img src="https://via.placeholder.com/100" alt="Update Image 1">
+              <p>Interior work is progressing as planned. The living room and kitchen areas are nearing completion.</p>
+              <button class="edit-btn">Edit</button>
+            </div>
+            <div class="update">
+              <img src="https://via.placeholder.com/100" alt="Update Image 2">
+              <p>Exterior painting has started. The color scheme has been finalized and approved by the clients.</p>
+              <button class="edit-btn">Edit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="right-section">
+        <div class="filter-properties">
+          <h2>Filter Properties</h2>
+          <button class="filter-button active">All Properties</button>
+          <button class="filter-button inactive">Under Construction</button>
+          <button class="filter-button inactive">Ready to Move</button>
+        </div>
+      </div>
     </div>
-</div>
-<div class="property-card" data-status="under-construction">
-    <div class="action-buttons">
-        <button class="share-button" onclick="toggleShare('share-6')">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="18" cy="5" r="3"></circle>
-                <circle cx="6" cy="12" r="3"></circle>
-                <circle cx="18" cy="19" r="3"></circle>
-                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-            </svg>
-        </button>
-        <button class="favorite-button" onclick="toggleFavorite(this)">♡</button>
-        <div class="share-menu" id="share-6">
-            <div class="share-menu-item" onclick="shareVia('facebook')">Facebook</div>
-            <div class="share-menu-item" onclick="shareVia('twitter')">Twitter</div>
-            <div class="share-menu-item" onclick="shareVia('email')">Email</div>
-        </div>
-    </div>
+  </div>
 
-    <img src="https://images.unsplash.com/photo-1621511075938-f03482369feb?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8YnVpbGRpbmclMjBjb25zdHJ1Y3Rpb258ZW58MHx8MHx8fDA%3D" alt="Sunshine Heights" class="property-image">
+  <script>
+    // Toggle View Details Section
+    const viewDetailsBtn = document.querySelector('.view-details-btn');
+    const viewDetailsSection = document.querySelector('.view-details');
 
-    <div class="property-content">
-        <div class="property-header">
-            <div class="price">₹95.2 L - 1.1 Cr</div>
-            <span class="rera-badge">RERA ✓</span>
-        </div>
-
-        <h2 class="property-name">Sunshine Heights</h2>
-        <p class="developer">By Sunshine Developers</p>
-
-        <div class="detail-box">
-            <div class="detail-item">
-                <div class="detail-label">POSSESSION DATE</div>
-                <div class="detail-value">June, 2026</div>
-            </div>
-            <div class="detail-item">
-                <div class="detail-label">AVERAGE PRICE</div>
-                <div class="detail-value">₹9.5 K/sq.ft</div>
-            </div>
-            <div class="detail-item">
-                <div class="detail-label">STATUS</div>
-                <div class="detail-value">Under Construction</div>
-            </div>
-        </div>
-
-        <button class="expand-button" onclick="toggleExpand(this)">
-            Show More Details
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-        </button>
-
-        <div class="expanded-content">
-            <div class="gallery-container">
-                <div class="gallery-images" id="gallery-property6" data-position="0">
-                    <img src="gallery-image-1.jpg" class="gallery-image" alt="Property view">
-                    <img src="gallery-image-2.jpg" class="gallery-image" alt="Property view">
-                    <img src="gallery-image-3.jpg" class="gallery-image" alt="Property view">
-                </div>
-                <button class="gallery-nav gallery-prev" onclick="moveGallery('property6', -1)">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="15 18 9 12 15 6"></polyline>
-                    </svg>
-                </button>
-                <button class="gallery-nav gallery-next" onclick="moveGallery('property6', 1)">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="9 18 15 12 9 6"></polyline>
-                    </svg>
-                </button>
-                <div class="gallery-dots" id="dots-property6">
-                    <button class="gallery-dot active" onclick="jumpToImage('property6', 0)"></button>
-                    <button class="gallery-dot" onclick="jumpToImage('property6', 1)"></button>
-                    <button class="gallery-dot" onclick="jumpToImage('property6', 2)"></button>
-                </div>
-            </div>
-            
-            <h3>Location Advantages</h3>
-            <div>
-                <div>🏫 Oakridge International - 0.8 km away</div>
-                <div>🏥 Apollo Hospital - 2.1 km away</div>
-                <div>🏫 ISB Hyderabad - 5 km away</div>
-            </div>
-
-            <h3>About Developer</h3>
-            <div class="developer-info">
-                <div style="font-weight: bold;">Sunshine Developers</div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="property-card" data-status="completed">
-    <div class="action-buttons">
-        <button class="share-button" onclick="toggleShare('share-6')">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="18" cy="5" r="3"></circle>
-                <circle cx="6" cy="12" r="3"></circle>
-                <circle cx="18" cy="19" r="3"></circle>
-                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-            </svg>
-        </button>
-        <button class="favorite-button" onclick="toggleFavorite(this)">♡</button>
-        <div class="share-menu" id="share-6">
-            <div class="share-menu-item" onclick="shareVia('facebook')">Facebook</div>
-            <div class="share-menu-item" onclick="shareVia('twitter')">Twitter</div>
-            <div class="share-menu-item" onclick="shareVia('email')">Email</div>
-        </div>
-    </div>
-
-    <img src="https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg" alt="Marina Heights" class="property-image">
-
-    <div class="property-content">
-        <div class="property-header">
-            <div class="price">₹1.1 Cr - 1.5 Cr</div>
-            <span class="rera-badge">RERA ✓</span>
-        </div>
-
-        <h2 class="property-name">Marina Heights</h2>
-        <p class="developer">By Marina Builders</p>
-
-        <div class="detail-box">
-            <div class="detail-item">
-                <div class="detail-label">POSSESSION DATE</div>
-                <div class="detail-value">Ready to Move</div>
-            </div>
-            <div class="detail-item">
-                <div class="detail-label">AVERAGE PRICE</div>
-                <div class="detail-value">₹8.2 K/sq.ft</div>
-            </div>
-            <div class="detail-item">
-                <div class="detail-label">STATUS</div>
-                <div class="detail-value">Completed</div>
-            </div>
-        </div>
-
-        <button class="expand-button" onclick="toggleExpand(this)">
-            Show More Details
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-        </button>
-
-        <div class="expanded-content">
-            <div class="gallery-container">
-                <div class="gallery-images" id="gallery-property6" data-position="0">
-                    <img src="gallery-image-1.jpg" class="gallery-image" alt="Property view">
-                    <img src="gallery-image-2.jpg" class="gallery-image" alt="Property view">
-                    <img src="gallery-image-3.jpg" class="gallery-image" alt="Property view">
-                </div>
-                <button class="gallery-nav gallery-prev" onclick="moveGallery('property6', -1)">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="15 18 9 12 15 6"></polyline>
-                    </svg>
-                </button>
-                <button class="gallery-nav gallery-next" onclick="moveGallery('property6', 1)">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="9 18 15 12 9 6"></polyline>
-                    </svg>
-                </button>
-                <div class="gallery-dots" id="dots-property6">
-                    <button class="gallery-dot active" onclick="jumpToImage('property6', 0)"></button>
-                    <button class="gallery-dot" onclick="jumpToImage('property6', 1)"></button>
-                    <button class="gallery-dot" onclick="jumpToImage('property6', 2)"></button>
-                </div>
-            </div>
-            
-            <h3>Location Advantages</h3>
-            <div>
-                <div>🏫 Loyola College - 1 km away</div>
-                <div>🏥 Apollo Hospitals - 1.5 km away</div>
-                <div>🏫 IIT Madras - 4 km away</div>
-            </div>
-
-            <h3>About Developer</h3>
-            <div class="developer-info">
-                <div style="font-weight: bold;">Marina Builders</div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="property-card" data-status="completed">
-    <div class="action-buttons">
-        <button class="share-button" onclick="toggleShare('share-7')">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="18" cy="5" r="3"></circle>
-                <circle cx="6" cy="12" r="3"></circle>
-                <circle cx="18" cy="19" r="3"></circle>
-                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-            </svg>
-        </button>
-        <button class="favorite-button" onclick="toggleFavorite(this)">♡</button>
-        <div class="share-menu" id="share-7">
-            <div class="share-menu-item" onclick="shareVia('facebook')">Facebook</div>
-            <div class="share-menu-item" onclick="shareVia('twitter')">Twitter</div>
-            <div class="share-menu-item" onclick="shareVia('email')">Email</div>
-        </div>
-    </div>
-
-    <img src="https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg" alt="Coconut Grove Residency" class="property-image">
-
-    <div class="property-content">
-        <div class="property-header">
-            <div class="price">₹75 L - 95 L</div>
-            <span class="rera-badge">RERA ✓</span>
-        </div>
-
-        <h2 class="property-name">Coconut Grove Residency</h2>
-        <p class="developer">By Tropical Homes</p>
-
-        <div class="detail-box">
-            <div class="detail-item">
-                <div class="detail-label">POSSESSION DATE</div>
-                <div class="detail-value">Ready to Move</div>
-            </div>
-            <div class="detail-item">
-                <div class="detail-label">AVERAGE PRICE</div>
-                <div class="detail-value">₹6.9 K/sq.ft</div>
-            </div>
-            <div class="detail-item">
-                <div class="detail-label">STATUS</div>
-                <div class="detail-value">Completed</div>
-            </div>
-        </div>
-
-        <button class="expand-button" onclick="toggleExpand(this)">
-            Show More Details
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-        </button>
-
-        <div class="expanded-content">
-            <div class="gallery-container">
-                <div class="gallery-images" id="gallery-property7" data-position="0">
-                    <img src="gallery-image-1.jpg" class="gallery-image" alt="Property view">
-                    <img src="gallery-image-2.jpg" class="gallery-image" alt="Property view">
-                    <img src="gallery-image-3.jpg" class="gallery-image" alt="Property view">
-                </div>
-                <button class="gallery-nav gallery-prev" onclick="moveGallery('property7', -1)">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="15 18 9 12 15 6"></polyline>
-                    </svg>
-                </button>
-                <button class="gallery-nav gallery-next" onclick="moveGallery('property7', 1)">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="9 18 15 12 9 6"></polyline>
-                    </svg>
-                </button>
-                <div class="gallery-dots" id="dots-property7">
-                    <button class="gallery-dot active" onclick="jumpToImage('property7', 0)"></button>
-                    <button class="gallery-dot" onclick="jumpToImage('property7', 1)"></button>
-                    <button class="gallery-dot" onclick="jumpToImage('property7', 2)"></button>
-                </div>
-            </div>
-            
-            <h3>Location Advantages</h3>
-            <div>
-                <div>🏫 Cochin University - 2 km away</div>
-                <div>🏥 Lakeshore Hospital - 1.2 km away</div>
-                <div>🏫 Rajagiri School - 3 km away</div>
-            </div>
-
-            <h3>About Developer</h3>
-            <div class="developer-info">
-                <div style="font-weight: bold;">Tropical Homes</div>
-            </div>
-        </div>
-    </div>
-</div>
-            </div>
-
-            <div class="sidebar">
-                <h2 class="sidebar-title">Filter Properties</h2>
-                <button class="filter-button active" data-filter="all" onclick="filterProperties('all')">All Properties</button>
-                <button class="filter-button" data-filter="under-construction" onclick="filterProperties('under-construction')">Under Construction</button>
-                <button class="filter-button" data-filter="completed" onclick="filterProperties('completed')">Ready to Move</button>
-            </div>
-        </div>
-    </div>
-    <script>
-        function toggleExpand(button) {
-            const content = button.nextElementSibling;
-            content.classList.toggle('active');
-            
-            if (content.classList.contains('active')) {
-                button.innerHTML = `Show Less Details
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="18 15 12 9 6 15"></polyline>
-                    </svg>`;
-                setTimeout(() => {
-                    content.scrollIntoView({ 
-                        behavior: 'smooth',
-                        block: 'nearest'
-                    });
-                }, 100);
-            } else {
-                button.innerHTML = `Show More Details
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="6 9 12 15 18 9"></polyline>
-                    </svg>`;
-            }
-        }
-
-        function toggleShare(menuId) {
-            const menu = document.getElementById(menuId);
-            const allMenus = document.querySelectorAll('.share-menu');
-            
-            allMenus.forEach(m => {
-                if (m.id !== menuId) {
-                    m.classList.remove('active');
-                }
-            });
-            
-            menu.classList.toggle('active');
-        }
-
-        function toggleFavorite(button) {
-            button.classList.toggle('active');
-            if (button.classList.contains('active')) {
-                button.innerHTML = '❤️';
-            } else {
-                button.innerHTML = '♡';
-            }
-        }
-
-        function shareVia(platform) {
-            alert(`Sharing via ${platform}`);
-        }
-
-        function filterProperties(status) {
-            const buttons = document.querySelectorAll('.filter-button');
-            const properties = document.querySelectorAll('.property-card');
-            
-            buttons.forEach(button => {
-                button.classList.remove('active');
-                if (button.getAttribute('data-filter') === status) {
-                    button.classList.add('active');
-                }
-            });
-            properties.forEach(property => {
-                if (status === 'all' || property.getAttribute('data-status') === status) {
-                    property.style.display = 'block';
-                } else {
-                    property.style.display = 'none';
-                }
-            });
-        }
-
-        function moveGallery(propertyId, direction) {
-            const gallery = document.getElementById(`gallery-${propertyId}`);
-            const dots = document.querySelectorAll(`#dots-${propertyId} .gallery-dot`);
-            const currentPosition = parseInt(gallery.dataset.position || 0);
-            const totalImages = dots.length;
-
-            let newPosition = currentPosition + direction;
-            if (newPosition >= totalImages) newPosition = 0;
-            if (newPosition < 0) newPosition = totalImages - 1;
-
-            gallery.style.transform = `translateX(-${newPosition * 100}%)`;
-            gallery.dataset.position = newPosition;
-
-            dots.forEach((dot, i) => {
-                dot.classList.toggle('active', i === newPosition);
-            });
-        }
-
-        function jumpToImage(propertyId, index) {
-            const gallery = document.getElementById(`gallery-${propertyId}`);
-            const dots = document.querySelectorAll(`#dots-${propertyId} .gallery-dot`);
-
-            gallery.style.transform = `translateX(-${index * 100}%)`;
-            gallery.dataset.position = index;
-
-            dots.forEach((dot, i) => {
-                dot.classList.toggle('active', i === index);
-            });
-        }
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.share-button') && !e.target.closest('.share-menu')) {
-                document.querySelectorAll('.share-menu').forEach(menu => {
-                    menu.classList.remove('active');
-                });
-            }
-        });
-    </script>
+    viewDetailsBtn.addEventListener('click', () => {
+      viewDetailsSection.classList.toggle('active');
+    });
+  </script>
 </body>
 </html>
-=======
->>>>>>> 52de941620fc62f15d5c15a802d33c2e785b8bdb

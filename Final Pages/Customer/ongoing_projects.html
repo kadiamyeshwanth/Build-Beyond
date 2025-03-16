@@ -1,1064 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real Estate Projects</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Poppins", sans-serif;
+    }
+    
+    body {
+      background-color: #f5f5f5;
+    }
+    
+    .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            background-color: #0d1a44;
+            color: white;
+            height: 70px;
+            position: relative;
+            width: 100%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+        
+        .logo:hover {
+            color: #e9c46a;
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+        
+        .nav-item {
+            margin: 0 15px;
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 0 5px;
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-link:hover {
+            color: #e9c46a;
+        }
+        
+        .dropdown {
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 220px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            left: 0;
+            top: 70px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        
+        .dropdown-item {
+            color: #333;
+            padding: 14px 20px;
+            text-decoration: none;
+            display: block;
+            border-left: 3px solid transparent;
+        }
+        
+        .dropdown-item:hover {
+            background-color: #f1f1f1;
+            color: #0d1a44;
+            border-left: 3px solid #e9c46a;
+        }
+        
+        .right-section {
+            display: flex;
+            align-items: center;
+        }
+        
+        .notification-icon, .profile-icon {
+            margin-left: 25px;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .notification-dot {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 10px;
+            height: 10px;
+            background-color: #ff4d4f;
+            border-radius: 50%;
+            border: 2px solid #0d1a44;
+        }
+        
+        .notification-panel {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 70px;
+            width: 340px;
+            background-color: #fff;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            color: #333;
+        }
+        
+        .notification-panel.show {
+            display: block;
+        }
+        
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .notification-title {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .mark-read {
+            color: #0d1a44;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .notification-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .notification-item:before {
+            content: "•";
+            color: #e9c46a;
+            font-size: 24px;
+            margin-right: 12px;
+            line-height: 20px;
+        }
+        
+        .notification-read:before {
+            color: #ccc;
+        }
+        
+        .notification-content {
+            flex: 1;
+        }
+        
+        .notification-text {
+            font-size: 14px;
+            margin-bottom: 4px;
+            line-height: 1.4;
+        }
+        
+        .notification-time {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .notification-footer {
+            text-align: center;
+            padding: 15px;
+        }
+        
+        .view-all {
+            color: #0d1a44;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        /* Dropdown arrow */
+        .dropdown .nav-link {
+            display: flex;
+            align-items: center;
+        }
+        
+        .dropdown .nav-link:after {
+            content: '▼';
+            margin-left: 6px;
+            font-size: 10px;
+            transition: all 0.6s ease-in;
+        }
+        .dropdown:hover .nav-link:after {
+            transform: rotate(180deg); /* Rotate the arrow on hover */
+        } 
+        
+        .hero-section {
+            position: relative;
+            height: 400px;
+            background-image: url('/api/placeholder/1400/400');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0 40px;
+        }
+        
+        .hero-section:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to right, rgba(13, 26, 68, 0.8), rgba(13, 26, 68, 0.4));
+        }
+        
+        .hero-text {
+            position: relative;
+            z-index: 1;
+            color: white;
+            font-size: 42px;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
 
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Construction Company Dashboard</title>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-            <style>
-                * {
-                    margin: 0;
-                    padding: 0;
-                    box-sizing: border-box;
-                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                }
-        
-                body {
-                    background-color: #f5f7fa;
-                }
-        
-                .dashboard-container {
-                    max-width: 1200px;
-                    margin: 0 auto;
-                    padding: 20px;
-                }
-        
-                header {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    margin-bottom: 20px;
-                }
-        
-                h1 {
-                    color: #333;
-                    font-size: 24px;
-                }
-        
-                .add-project-btn {
-                    background-color: #4153ef;
-                    color: white;
-                    border: none;
-                    padding: 8px 16px;
-                    border-radius: 4px;
-                    cursor: pointer;
-                    display: flex;
-                    align-items: center;
-                    gap: 5px;
-                }
-        
-                .stats-container {
-                    display: grid;
-                    grid-template-columns: repeat(4, 1fr);
-                    gap: 20px;
-                    margin-bottom: 30px;
-                }
-        
-                .stat-card {
-                    background-color: white;
-                    border-radius: 8px;
-                    padding: 20px;
-                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-                }
-        
-                .stat-title {
-                    color: #777;
-                    font-size: 14px;
-                    margin-bottom: 10px;
-                }
-        
-                .stat-value {
-                    font-size: 28px;
-                    font-weight: 600;
-                    margin-bottom: 10px;
-                }
-        
-                .stat-change {
-                    font-size: 12px;
-                    display: flex;
-                    align-items: center;
-                    gap: 5px;
-                }
-        
-                .increase {
-                    color: #4caf50;
-                }
-        
-                .decrease {
-                    color: #f44336;
-                }
-        
-                .main-content {
-                    display: flex;
-                    gap: 20px;
-                }
-        
-                .projects-section {
-                    flex: 1;
-                }
-        
-                .projects-section h2 {
-                    margin-bottom: 20px;
-                    color: #333;
-                }
-        
-                .projects-container {
-                    padding-right: 10px;
-                }
-        
-                .project-card {
-                    background-color: white;
-                    border-radius: 8px;
-                    margin-bottom: 20px;
-                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-                    overflow: hidden;
-                }
-        
-                .project-image {
-                    width: 100%;
-                    height: 160px;
-                    object-fit: cover;
-                }
-        
-                .project-header {
-                    padding: 15px;
-                    position: relative;
-                }
-        
-                .project-header h3 {
-                    color: #4153ef;
-                    margin-bottom: 5px;
-                }
-        
-                .project-location {
-                    display: flex;
-                    align-items: center;
-                    gap: 5px;
-                    color: #777;
-                    font-size: 13px;
-                }
-        
-                .project-completion {
-                    position: absolute;
-                    top: 15px;
-                    right: 15px;
-                    background-color: #333;
-                    color: white;
-                    padding: 5px 10px;
-                    border-radius: 15px;
-                    font-size: 12px;
-                }
-        
-                .project-stats {
-                    display: flex;
-                    justify-content: space-between;
-                    padding: 15px;
-                    border-top: 1px solid #eee;
-                    border-bottom: 1px solid #eee;
-                }
-        
-                .project-stat {
-                    text-align: center;
-                }
-        
-                .project-stat-value {
-                    font-size: 18px;
-                    font-weight: bold;
-                    color: #4153ef;
-                    margin-bottom: 5px;
-                }
-        
-                .project-stat-label {
-                    font-size: 12px;
-                    color: #777;
-                }
-        
-                .project-progress {
-                    padding: 15px;
-                }
-        
-                .progress-title {
-                    color: #333;
-                    margin-bottom: 10px;
-                    font-size: 14px;
-                }
-        
-                .progress-bar-container {
-                    background-color: #eee;
-                    height: 8px;
-                    border-radius: 4px;
-                    overflow: hidden;
-                    margin-bottom: 10px;
-                }
-        
-                .progress-bar {
-                    height: 100%;
-                    background-color: #4153ef;
-                    border-radius: 4px;
-                }
-        
-                .project-footer {
-                    display: flex;
-                    justify-content: space-between;
-                    padding: 15px;
-                }
-        
-                .project-status {
-                    display: flex;
-                    align-items: center;
-                    gap: 5px;
-                    color: #4caf50;
-                    font-size: 14px;
-                }
-        
-                .project-status .status-dot {
-                    width: 8px;
-                    height: 8px;
-                    background-color: #4caf50;
-                    border-radius: 50%;
-                }
-        
-                .project-details-btn {
-                    color: #4153ef;
-                    text-decoration: none;
-                    font-size: 14px;
-                    display: flex;
-                    align-items: center;
-                    gap: 5px;
-                }
-        
-                .filter-section {
-                    width: 250px;
-                }
-        
-                .filter-section h3 {
-                    margin-bottom: 15px;
-                    color: #333;
-                }
-        
-                .filter-buttons {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 10px;
-                }
-        
-                .filter-btn {
-                    background-color: white;
-                    border: 1px solid #ddd;
-                    padding: 12px;
-                    border-radius: 4px;
-                    cursor: pointer;
-                    text-align: center;
-                    transition: all 0.2s;
-                }
-        
-                .filter-btn.active {
-                    background-color: #5b42f3;
-                    color: white;
-                    border-color: #5b42f3;
-                }
-        
-                @media (max-width: 1024px) {
-                    .stats-container {
-                        grid-template-columns: repeat(2, 1fr);
-                    }
-        
-                    .main-content {
-                        flex-direction: column;
-                    }
-        
-                    .filter-section {
-                        width: 100%;
-                    }
-        
-                    .filter-buttons {
-                        flex-direction: row;
-                    }
-        
-                    .filter-btn {
-                        flex: 1;
-                    }
-                }
-        
-                @media (max-width: 768px) {
-                    header {
-                        flex-direction: column;
-                        align-items: flex-start;
-                        gap: 10px;
-                    }
-        
-                    .stats-container {
-                        grid-template-columns: 1fr;
-                    }
-                }
-        
-                /* Modal overlay */
-                .modal-overlay {
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background-color: rgba(0, 0, 0, 0.7);
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    z-index: 1000;
-                }
-        
-                .modal-content {
-                    background-color: white;
-                    width: 90%;
-                    max-width: 900px;
-                    max-height: 90vh;
-                    border-radius: 8px;
-                    position: relative;
-                    display: flex;
-                    flex-direction: column;
-                    overflow: hidden;
-                }
-        
-                .modal-close {
-                    position: absolute;
-                    top: 10px;
-                    right: 10px;
-                    background: white;
-                    border: none;
-                    width: 30px;
-                    height: 30px;
-                    border-radius: 50%;
-                    font-size: 20px;
-                    cursor: pointer;
-                    z-index: 10;
-                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                }
-        
-                /* Slideshow container */
-                .slideshow-container {
-                    position: relative;
-                    height: 300px;
-                    background-color: #f5f5f5;
-                }
-        
-                .slide {
-                    width: 100%;
-                    height: 100%;
-                }
-        
-                .image-placeholder {
-                    width: 100%;
-                    height: 100%;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    font-size: 18px;
-                    color: #666;
-                    background-color: #e0e0e0;
-                }
-        
-                .slide-nav {
-                    position: absolute;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    background-color: rgba(0, 0, 0, 0.5);
-                    color: white;
-                    border: none;
-                    width: 40px;
-                    height: 40px;
-                    border-radius: 50%;
-                    font-size: 18px;
-                    cursor: pointer;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                }
-        
-                .prev {
-                    left: 20px;
-                }
-        
-                .next {
-                    right: 20px;
-                }
-        
-                .slide-indicators {
-                    position: absolute;
-                    bottom: 20px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    display: flex;
-                    gap: 10px;
-                }
-        
-                .indicator {
-                    width: 12px;
-                    height: 12px;
-                    background-color: rgba(255, 255, 255, 0.5);
-                    border-radius: 50%;
-                    cursor: pointer;
-                }
-        
-                .indicator.active {
-                    background-color: white;
-                }
-        
-                /* Details container */
-                .details-container {
-                    padding: 20px;
-                    overflow-y: auto;
-                }
-        
-                .details-container h2 {
-                    color: #4153ef;
-                    margin-bottom: 10px;
-                }
-        
-                .location {
-                    display: flex;
-                    align-items: center;
-                    gap: 5px;
-                    color: #777;
-                    margin-bottom: 20px;
-                }
-        
-                .detail-stats {
-                    display: grid;
-                    grid-template-columns: repeat(3, 1fr);
-                    gap: 15px;
-                    margin-bottom: 20px;
-                }
-        
-                .detail-stat {
-                    background-color: #f5f7fa;
-                    padding: 10px;
-                    border-radius: 5px;
-                }
-        
-                .detail-stat .label {
-                    color: #777;
-                    font-size: 13px;
-                    display: block;
-                    margin-bottom: 5px;
-                }
-        
-                .detail-stat .value {
-                    font-weight: 600;
-                    color: #333;
-                }
-        
-                .progress-container h3 {
-                    margin-bottom: 10px;
-                    font-size: 16px;
-                }
-        
-                .progress-container .progress-bar-container {
-                    position: relative;
-                    height: 10px;
-                }
-        
-                .progress-container .progress-bar {
-                    height: 100%;
-                }
-        
-                .progress-label {
-                    position: absolute;
-                    top: -20px;
-                    right: 0;
-                    font-weight: 600;
-                    color: #4153ef;
-                }
-        
-                @media (max-width: 768px) {
-                    .detail-stats {
-                        grid-template-columns: 1fr 1fr;
-                    }
-                }
-        
-                @media (max-width: 480px) {
-                    .detail-stats {
-                        grid-template-columns: 1fr;
-                    }
-        
-                    .slideshow-container {
-                        height: 200px;
-                    }
-                }
-            </style>
-        </head>
-        <body>
-            <div class="dashboard-container">
-                <header>
-                    <h1>Company Dashboard</h1>
-                    <button class="add-project-btn">
-                        <i class="fas fa-plus"></i> Add New Project
-                    </button>
-                </header>
-        
-                <div class="stats-container">
-                    <div class="stat-card">
-                        <p class="stat-title">Total Active Projects</p>
-                        <h2 class="stat-value">10</h2>
-                        <p class="stat-change increase"><i class="fas fa-arrow-up"></i> 12% from last month</p>
-                    </div>
-                    <div class="stat-card">
-                        <p class="stat-title">Monthly Revenue</p>
-                        <h2 class="stat-value">₹4.8 Cr</h2>
-                        <p class="stat-change increase"><i class="fas fa-arrow-up"></i> 8.5% from last month</p>
-                    </div>
-                    <div class="stat-card">
-                        <p class="stat-title">Customer Satisfaction</p>
-                        <h2 class="stat-value">4.7/5</h2>
-                        <p class="stat-change increase"><i class="fas fa-arrow-up"></i> 0.3 points from last quarter</p>
-                    </div>
-                    <div class="stat-card">
-                        <p class="stat-title">Projects On Schedule</p>
-                        <h2 class="stat-value">85%</h2>
-                        <p class="stat-change decrease"><i class="fas fa-arrow-down"></i> 3% from last month</p>
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 20px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .logo {
+                font-size: 20px;
+            }
+            
+            .hero-text {
+                font-size: 32px;
+            }
+        }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .header h1 {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+    }
+    
+    .add-project-btn {
+      background-color: #4361ee;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+    
+    .add-project-btn:hover {
+      background-color: #3a56d4;
+    }
+    
+    .dashboard-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+    
+    .metric-card {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+    }
+    
+    .metric-title {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+    
+    .metric-value {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #333;
+    }
+    
+    .content-wrapper {
+      display: flex;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    
+    .left-section {
+      width: 75%;
+      display: flex;
+      flex-direction: column;
+      background-color: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    
+    .project-display {
+      display: flex;
+      border-bottom: 1px solid #eee;
+      height: 240px; /* Reduced height */
+    }
+    
+    .project-image {
+      width: 40%;
+      border-right: 1px solid #eee;
+      padding: 0;
+    }
+    
+    .project-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    
+    .project-details {
+      width: 60%;
+      padding: 20px;
+      position: relative;
+    }
+    
+    .filter-properties {
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    
+    .filter-properties h2 {
+      margin-bottom: 20px;
+      color: #333;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    
+    .filter-button {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 10px;
+      text-align: center;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .filter-button.active {
+      background-color: #6a3de8;
+      color: white;
+    }
+    
+    .filter-button.inactive {
+      background-color: #f0f0f0;
+      color: #333;
+    }
+    
+    .filter-button.inactive:hover {
+      background-color: #e5e5e5;
+    }
+
+    .project-details h2 {
+      margin-bottom: 10px;
+      color: #333;
+      font-size: 20px;
+    }
+
+    .project-details p {
+      margin-bottom: 10px;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    .project-details .location {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      color: #777;
+      font-size: 14px;
+    }
+    
+    .project-tag {
+      display: inline-block;
+      padding: 4px 10px;
+      background-color: #e9efff;
+      color: #4361ee;
+      border-radius: 20px;
+      font-size: 12px;
+      margin-right: 8px;
+      margin-bottom: 10px;
+    }
+    
+    .status-tag {
+      display: inline-block;
+      padding: 4px 10px;
+      background-color: #fff8e1;
+      color: #ff9800;
+      border-radius: 20px;
+      font-size: 12px;
+      margin-right: 8px;
+    }
+    
+    .progress-container {
+      margin-top: 15px;
+      margin-bottom: 10px;
+    }
+    
+    .progress-bar {
+      height: 6px;
+      background-color: #e0e0e0;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background-color: #4caf50;
+      width: 65%;
+    }
+    
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #888;
+      margin-top: 5px;
+    }
+    
+    .milestone-container {
+      display: flex;
+      margin-top: 10px;
+      font-size: 12px;
+    }
+    
+    .milestone {
+      display: flex;
+      align-items: center;
+      margin-right: 15px;
+    }
+    
+    .milestone-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 5px;
+    }
+    
+    .milestone-complete {
+      background-color: #4caf50;
+    }
+    
+    .milestone-current {
+      background-color: #ff9800;
+    }
+    
+    .milestone-pending {
+      background-color: #e0e0e0;
+    }
+
+    /* View Details Section */
+    .view-details {
+      display: none;
+      padding: 20px;
+      border-top: 1px solid #eee;
+    }
+
+    .view-details.active {
+      display: block;
+    }
+
+    .view-details h3 {
+      font-size: 18px;
+      color: #333;
+      margin-bottom: 15px;
+    }
+
+    .view-details .images {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .view-details .images img {
+      width: 150px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    .view-details .recent-updates {
+      margin-bottom: 20px;
+    }
+
+    .view-details .update {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .view-details .update img {
+      width: 100px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    .view-details .update p {
+      flex: 1;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    /* New Styles for Buttons in Left Card */
+    .project-details .action-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .project-details .view-details-btn {
+      background-color: #4361ee;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .project-details .view-details-btn:hover {
+      background-color: #3a56d4;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <a href="home.html" class="logo">BUILD & BEYOND</a>
+    <div class="nav-links">
+        <div class="nav-item">
+            <a href="home.html" class="nav-link">HOME</a>
+        </div>
+        <div class="nav-item dropdown">
+            <a href="#" class="nav-link">SERVICES</a>
+            <div class="dropdown-content">
+                <a href="construction_companies_list.html" class="dropdown-item">Construction</a>
+                <a href="architect.html" class="dropdown-item">Architect</a>
+                <a href="interior_designer.html" class="dropdown-item">Interior Designer</a>
+            </div>
+        </div>
+        <div class="nav-item">
+            <a href="ongoing_projects.html" class="nav-link">ONGOING PROJECTS</a>
+        </div>
+        <div class="nav-item">
+            <a href="bidspace.html" class="nav-link">BIDSPACE</a>
+        </div>
+        <div class="nav-item">
+            <a href="design_ideas.html" class="nav-link">DESIGN IDEAS</a>
+        </div>
+    </div>
+    <div class="right-section">
+        <div class="notification-icon" id="notificationIcon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+            <div class="notification-dot"></div>
+            
+            <div class="notification-panel" id="notificationPanel">
+                <div class="notification-header">
+                    <div class="notification-title">Notifications</div>
+                    <div class="mark-read">Mark all as read</div>
+                </div>
+                
+                <div class="notification-item">
+                    <div class="notification-content">
+                        <div class="notification-text">Your bid for Project XYZ has been accepted!</div>
+                        <div class="notification-time">2 hours ago</div>
                     </div>
                 </div>
-        
-                <div class="main-content">
-                    <div class="projects-section">
-                        <h2>Ongoing Construction Projects</h2>
-                        <div class="projects-container" id="projectsContainer">
-                            <!-- Project cards will be dynamically added here -->
-                        </div>
+                
+                <div class="notification-item">
+                    <div class="notification-content">
+                        <div class="notification-text">New design templates available for modern kitchens</div>
+                        <div class="notification-time">5 hours ago</div>
                     </div>
-                    <div class="filter-section">
-                        <h3>Filter Properties</h3>
-                        <div class="filter-buttons">
-                            <button class="filter-btn active" data-filter="all">All Properties</button>
-                            <button class="filter-btn" data-filter="construction">Under Construction</button>
-                            <button class="filter-btn" data-filter="ready">Ready to Move</button>
-                        </div>
+                </div>
+                
+                <div class="notification-item notification-read">
+                    <div class="notification-content">
+                        <div class="notification-text">Weekly report for your ongoing projects is ready</div>
+                        <div class="notification-time">Yesterday</div>
                     </div>
+                </div>
+                
+                <div class="notification-footer">
+                    <a href="#" class="view-all">View all notifications</a>
                 </div>
             </div>
+        </div>
         
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    // Project data
-                    const projects = [
-                    {
-            id: 1,
-            name: 'Urban Heights Tower',
-            image: 'Urban Heights Tower',
-            location: 'Chennai, Tamil Nadu',
-            completion: '45% Complete',
-            floors: 32,
-            budget: '₹42M',
-            completionYear: '2026',
-            progress: 45,
-            status: 'On Schedule',
-            type: 'construction',
-            images: ['construction-1a.jpg', 'construction-1b.jpg', 'construction-1c.jpg']
-        },
-        {
-            id: 2,
-            name: 'Riverside Development',
-            image: 'Riverside Development',
-            location: 'Bangalore, Karnataka',
-            completion: '65% Complete',
-            units: 127,
-            budget: '₹28M',
-            completionYear: '2025',
-            progress: 65,
-            status: 'On Schedule',
-            type: 'construction',
-            images: ['construction-2a.jpg', 'construction-2b.jpg', 'construction-2c.jpg']
-        },
-        {
-            id: 3,
-            name: 'Golden Residency',
-            image: 'Golden Residency',
-            location: 'Hyderabad, Telangana',
-            completion: '50% Complete',
-            floors: 20,
-            budget: '₹35M',
-            completionYear: '2024',
-            progress: 50,
-            status: 'On Schedule',
-            type: 'construction',
-            images: ['construction-3a.jpg', 'construction-3b.jpg', 'construction-3c.jpg']
-        },
-        {
-            id: 4,
-            name: 'Ocean View Apartments',
-            image: 'Ocean View Apartments',
-            location: 'Kochi, Kerala',
-            completion: '70% Complete',
-            units: 80,
-            budget: '₹22M',
-            completionYear: '2025',
-            progress: 70,
-            status: 'On Schedule',
-            type: 'construction',
-            images: ['construction-4a.jpg', 'construction-4b.jpg', 'construction-4c.jpg']
-        },
-        {
-            id: 5,
-            name: 'Green Valley Homes',
-            image: 'Green Valley Homes',
-            location: 'Coimbatore, Tamil Nadu',
-            completion: '55% Complete',
-            floors: 15,
-            budget: '₹18M',
-            completionYear: '2024',
-            progress: 55,
-            status: 'On Schedule',
-            type: 'construction',
-            images: ['construction-5a.jpg', 'construction-5b.jpg', 'construction-5c.jpg']
-        },
-        {
-            id: 6,
-            name: 'Royal Gardens',
-            image: 'Royal Gardens',
-            location: 'Visakhapatnam, Andhra Pradesh',
-            completion: '60% Complete',
-            units: 90,
-            budget: '₹25M',
-            completionYear: '2025',
-            progress: 60,
-            status: 'On Schedule',
-            type: 'construction',
-            images: ['construction-6a.jpg', 'construction-6b.jpg', 'construction-6c.jpg']
-        },
-        {
-            id: 7,
-            name: 'Skyline Towers',
-            image: 'Skyline Towers',
-            location: 'Trivandrum, Kerala',
-            completion: '40% Complete',
-            floors: 25,
-            budget: '₹30M',
-            completionYear: '2026',
-            progress: 40,
-            status: 'On Schedule',
-            type: 'construction',
-            images: ['construction-7a.jpg', 'construction-7b.jpg', 'construction-7c.jpg']
-        },
-        {
-            id: 8,
-            name: 'Prestige Residences',
-            image: 'Prestige Residences',
-            location: 'Mysore, Karnataka',
-            completion: '75% Complete',
-            units: 60,
-            budget: '₹20M',
-            completionYear: '2024',
-            progress: 75,
-            status: 'On Schedule',
-            type: 'construction',
-            images: ['construction-8a.jpg', 'construction-8b.jpg', 'construction-8c.jpg']
-        },
-        {
-            id: 9,
-            name: 'Lakeside Villas',
-            image: 'Lakeside Villas',
-            location: 'Pondicherry',
-            completion: '65% Complete',
-            units: 50,
-            budget: '₹15M',
-            completionYear: '2025',
-            progress: 65,
-            status: 'On Schedule',
-            type: 'construction',
-            images: ['construction-9a.jpg', 'construction-9b.jpg', 'construction-9c.jpg']
-        },
-        {
-            id: 10,
-            name: 'Emerald Heights',
-            image: 'Emerald Heights',
-            location: 'Madurai, Tamil Nadu',
-            completion: '50% Complete',
-            floors: 18,
-            budget: '₹28M',
-            completionYear: '2026',
-            progress: 50,
-            status: 'On Schedule',
-            type: 'construction',
-            images: ['construction-10a.jpg', 'construction-10b.jpg', 'construction-10c.jpg']
-        },
-        {
-            id: 11,
-            name: 'Sunrise Apartments',
-            image: 'Sunrise Apartments',
-            location: 'Vijayawada, Andhra Pradesh',
-            completion: '70% Complete',
-            units: 100,
-            budget: '₹32M',
-            completionYear: '2025',
-            progress: 70,
-            status: 'On Schedule',
-            type: 'construction',
-            images: ['construction-11a.jpg', 'construction-11b.jpg', 'construction-11c.jpg']
-        },
-        {
-            id: 12,
-            name: 'Silver Springs',
-            image: 'Silver Springs',
-            location: 'Tiruchirappalli, Tamil Nadu',
-            completion: '55% Complete',
-            floors: 22,
-            budget: '₹24M',
-            completionYear: '2024',
-            progress: 55,
-            status: 'On Schedule',
-            type: 'construction',
-            images: ['construction-12a.jpg', 'construction-12b.jpg', 'construction-12c.jpg']
-        },
-        {
-            id: 13,
-            name: 'Blue Horizon',
-            image: 'Blue Horizon',
-            location: 'Mangalore, Karnataka',
-            completion: '60% Complete',
-            units: 75,
-            budget: '₹26M',
-            completionYear: '2025',
-            progress: 60,
-            status: 'On Schedule',
-            type: 'construction',
-            images: ['construction-13a.jpg', 'construction-13b.jpg', 'construction-13c.jpg']
-        },
-        {
-            id: 14,
-            name: 'Golden Palms',
-            image: 'Golden Palms',
-            location: 'Thrissur, Kerala',
-            completion: '65% Complete',
-            floors: 20,
-            budget: '₹30M',
-            completionYear: '2026',
-            progress: 65,
-            status: 'On Schedule',
-            type: 'construction',
-            images: ['construction-14a.jpg', 'construction-14b.jpg', 'construction-14c.jpg']
-        },
-        {
-            id: 15,
-            name: 'Royal Orchid',
-            image: 'Royal Orchid',
-            location: 'Salem, Tamil Nadu',
-            completion: '50% Complete',
-            units: 85,
-            budget: '₹22M',
-            completionYear: '2025',
-            progress: 50,
-            status: 'On Schedule',
-            type: 'construction',
-            images: ['construction-15a.jpg', 'construction-15b.jpg', 'construction-15c.jpg']
-        }
-                    ];
+        <div class="profile-icon">
+            <a href ="settings.html">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+            </a>
+        </div>
+    </div>
+</div>
+  <div class="container">
+    <!-- Company Dashboard -->
+    <div class="header">
+      <h1>Company Dashboard</h1>
+      <button class="add-project-btn">+ Add New Project</button>
+    </div>
+    
+    <div class="dashboard-metrics">
+      <div class="metric-card">
+        <div class="metric-title">Total Active Projects</div>
+        <div class="metric-value">10</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-title">Monthly Revenue</div>
+        <div class="metric-value">₹4.8 Cr</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-title">Customer Satisfaction</div>
+        <div class="metric-value">4.7/5</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-title">Projects On Schedule</div>
+        <div class="metric-value">85%</div>
+      </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="content-wrapper">
+      <div class="left-section">
+        <div class="project-display">
+          <div class="project-image">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqjSRsiV4Q22mOElSnkcct2oZmd-1iVrNOcQ&s" alt="Project Image">
+          </div>
+          <div class="project-details">
+            <h2>Sunset Hills Residences</h2>
+            <div class="location">
+              <span>📍 Westview District, Los Angeles</span>
+            </div>
+            <div>
+              <span class="project-tag">Luxury</span>
+              <span class="status-tag">Under Construction</span>
+            </div>
+            
+            <div class="progress-container">
+              <div class="progress-bar">
+                <div class="progress-fill"></div>
+              </div>
+              <div class="progress-text">
+                <span>Project Completion: 65%</span>
+                <span>Target: June 2025</span>
+              </div>
+            </div>
+            
+            <div class="milestone-container">
+              <div class="milestone">
+                <div class="milestone-dot milestone-complete"></div>
+                <span>Foundation</span>
+              </div>
+              <div class="milestone">
+                <div class="milestone-dot milestone-complete"></div>
+                <span>Structure</span>
+              </div>
+              <div class="milestone">
+                <div class="milestone-dot milestone-current"></div>
+                <span>Interiors</span>
+              </div>
+              <div class="milestone">
+                <div class="milestone-dot milestone-pending"></div>
+                <span>Finishing</span>
+              </div>
+            </div>
+            
+            <p>Current phase: Interior work</p>
+            <div class="action-buttons">
+              <button class="view-details-btn">View Details</button>
+            </div>
+          </div>
+        </div>
+        <div class="view-details">
+          <h3>All Images</h3>
+          <div class="images">
+            <img src="https://via.placeholder.com/150" alt="Project Image 1">
+            <img src="https://via.placeholder.com/150" alt="Project Image 2">
+            <img src="https://via.placeholder.com/150" alt="Project Image 3">
+          </div>
+          <h3>Recent Updates</h3>
+          <div class="recent-updates">
+            <div class="update">
+              <img src="https://via.placeholder.com/100" alt="Update Image 1">
+              <p>Interior work is progressing as planned. The living room and kitchen areas are nearing completion.</p>
+            </div>
+            <div class="update">
+              <img src="https://via.placeholder.com/100" alt="Update Image 2">
+              <p>Exterior painting has started. The color scheme has been finalized and approved by the clients.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="right-section">
+        <div class="filter-properties">
+          <h2>Filter Properties</h2>
+          <button class="filter-button active">All Properties</button>
+          <button class="filter-button inactive">Under Construction</button>
+          <button class="filter-button inactive">Ready to Move</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Toggle View Details Section
+    const viewDetailsBtn = document.querySelector('.view-details-btn');
+    const viewDetailsSection = document.querySelector('.view-details');
+
+    viewDetailsBtn.addEventListener('click', () => {
+      viewDetailsSection.classList.toggle('active');
+    });
+    const notificationIcon = document.getElementById('notificationIcon');
+        const notificationPanel = document.getElementById('notificationPanel');
         
-                    // Render projects
-                    function renderProjects(projectsToRender) {
-                        const projectsContainer = document.getElementById('projectsContainer');
-                        projectsContainer.innerHTML = '';
+        notificationIcon.addEventListener('click', function(e) {
+            e.stopPropagation();
+            notificationPanel.classList.toggle('show');
+        });
         
-                        projectsToRender.forEach(project => {
-                            const projectCard = document.createElement('div');
-                            projectCard.className = 'project-card';
-        
-                            // Create project image section (using text as placeholder)
-                            const projectImageSection = document.createElement('div');
-                            projectImageSection.className = 'project-image-placeholder';
-                            projectImageSection.textContent = project.image;
-                            projectImageSection.style.height = '120px';
-                            projectImageSection.style.background = '#e0e0e0';
-                            projectImageSection.style.display = 'flex';
-                            projectImageSection.style.alignItems = 'center';
-                            projectImageSection.style.justifyContent = 'center';
-                            projectImageSection.style.color = '#666';
-        
-                            // Create project header
-                            const projectHeader = document.createElement('div');
-                            projectHeader.className = 'project-header';
-        
-                            const projectTitle = document.createElement('h3');
-                            projectTitle.textContent = project.name;
-        
-                            const projectLocation = document.createElement('div');
-                            projectLocation.className = 'project-location';
-                            projectLocation.innerHTML = `<span class="location-icon">📍</span> ${project.location}`;
-        
-                            const projectCompletion = document.createElement('div');
-                            projectCompletion.className = 'project-completion';
-                            projectCompletion.textContent = project.completion;
-        
-                            projectHeader.appendChild(projectTitle);
-                            projectHeader.appendChild(projectLocation);
-                            projectHeader.appendChild(projectCompletion);
-        
-                            // Create project stats
-                            const projectStats = document.createElement('div');
-                            projectStats.className = 'project-stats';
-        
-                            // First stat (floors or units)
-                            const statOneDiv = document.createElement('div');
-                            statOneDiv.className = 'project-stat';
-        
-                            const statOneValue = document.createElement('div');
-                            statOneValue.className = 'project-stat-value';
-                            statOneValue.textContent = project.floors || project.units;
-        
-                            const statOneLabel = document.createElement('div');
-                            statOneLabel.className = 'project-stat-label';
-                            statOneLabel.textContent = project.floors ? 'Floors' : 'Units';
-        
-                            statOneDiv.appendChild(statOneValue);
-                            statOneDiv.appendChild(statOneLabel);
-        
-                            // Budget stat
-                            const budgetDiv = document.createElement('div');
-                            budgetDiv.className = 'project-stat';
-        
-                            const budgetValue = document.createElement('div');
-                            budgetValue.className = 'project-stat-value';
-                            budgetValue.textContent = project.budget;
-        
-                            const budgetLabel = document.createElement('div');
-                            budgetLabel.className = 'project-stat-label';
-                            budgetLabel.textContent = 'Budget';
-        
-                            budgetDiv.appendChild(budgetValue);
-                            budgetDiv.appendChild(budgetLabel);
-        
-                            // Completion year stat
-                            const completionDiv = document.createElement('div');
-                            completionDiv.className = 'project-stat';
-        
-                            const completionValue = document.createElement('div');
-                            completionValue.className = 'project-stat-value';
-                            completionValue.textContent = project.completionYear;
-        
-                            const completionLabel = document.createElement('div');
-                            completionLabel.className = 'project-stat-label';
-                            completionLabel.textContent = 'Completion';
-        
-                            completionDiv.appendChild(completionValue);
-                            completionDiv.appendChild(completionLabel);
-        
-                            projectStats.appendChild(statOneDiv);
-                            projectStats.appendChild(budgetDiv);
-                            projectStats.appendChild(completionDiv);
-        
-                            // Create progress section
-                            const progressSection = document.createElement('div');
-                            progressSection.className = 'project-progress';
-        
-                            const progressTitle = document.createElement('div');
-                            progressTitle.className = 'progress-title';
-                            progressTitle.textContent = 'Construction Progress';
-        
-                            const progressBarContainer = document.createElement('div');
-                            progressBarContainer.className = 'progress-bar-container';
-        
-                            const progressBar = document.createElement('div');
-                            progressBar.className = 'progress-bar';
-                            progressBar.style.width = `${project.progress}%`;
-        
-                            progressBarContainer.appendChild(progressBar);
-        
-                            progressSection.appendChild(progressTitle);
-                            progressSection.appendChild(progressBarContainer);
-        
-                            // Create footer
-                            const projectFooter = document.createElement('div');
-                            projectFooter.className = 'project-footer';
-        
-                            const projectStatus = document.createElement('div');
-                            projectStatus.className = 'project-status';
-                            projectStatus.innerHTML = `<span class="status-dot"></span> ${project.status}`;
-        
-                            const projectDetailsBtn = document.createElement('a');
-                            projectDetailsBtn.className = 'project-details-btn';
-                            projectDetailsBtn.href = '#';
-                            projectDetailsBtn.textContent = 'View Details';
-                            projectDetailsBtn.innerHTML += ' →';
-        
-                            projectFooter.appendChild(projectStatus);
-                            projectFooter.appendChild(projectDetailsBtn);
-        
-                            // Assemble project card
-                            projectCard.appendChild(projectImageSection);
-                            projectCard.appendChild(projectHeader);
-                            projectCard.appendChild(projectStats);
-                            projectCard.appendChild(progressSection);
-                            projectCard.appendChild(projectFooter);
-        
-                            projectsContainer.appendChild(projectCard);
-                        });
-                    }
-        
-                    // Filter functionality
-                    const filterButtons = document.querySelectorAll('.filter-btn');
-                    let currentFilter = 'all';
-        
-                    filterButtons.forEach(button => {
-                        button.addEventListener('click', function() {
-                            const filter = this.getAttribute('data-filter');
-                            currentFilter = filter;
-        
-                            // Update active button
-                            filterButtons.forEach(btn => btn.classList.remove('active'));
-                            this.classList.add('active');
-        
-                            // Filter projects
-                            let filteredProjects;
-        
-                            if (filter === 'all') {
-                                filteredProjects = projects;
-                            } else {
-                                filteredProjects = projects.filter(project => project.type === filter);
-                            }
-        
-                            renderProjects(filteredProjects);
-                        });
-                    });
-        
-                    // View details functionality with slideshow
-                    document.addEventListener('click', function(e) {
-                        if (e.target.classList.contains('project-details-btn') || e.target.parentElement.classList.contains('project-details-btn')) {
-                            e.preventDefault();
-        
-                            // Find the project card element
-                            const projectCard = e.target.closest('.project-card');
-                            const projectName = projectCard.querySelector('h3').textContent;
-        
-                            // Find the project data
-                            const project = projects.find(p => p.name === projectName);
-        
-                            if (project) {
-                                // Create modal overlay
-                                const modalOverlay = document.createElement('div');
-                                modalOverlay.className = 'modal-overlay';
-        
-                                // Create modal content
-                                const modalContent = document.createElement('div');
-                                modalContent.className = 'modal-content';
-        
-                                // Create close button
-                                const closeButton = document.createElement('button');
-                                closeButton.className = 'modal-close';
-                                closeButton.innerHTML = '&times;';
-                                closeButton.addEventListener('click', function() {
-                                    document.body.removeChild(modalOverlay);
-                                });
-        
-                                // Create slideshow container
-                                const slideshowContainer = document.createElement('div');
-                                slideshowContainer.className = 'slideshow-container';
-        
-                                // Create slides
-                                let slidesHTML = '';
-                                project.images.forEach((image, index) => {
-                                    slidesHTML += `
-                                        <div class="slide" style="${index === 0 ? '' : 'display: none;'}">
-                                            <div class="image-placeholder">${project.name} - Image ${index + 1}</div>
-                                        </div>
-                                    `;
-                                });
-        
-                                // Add navigation buttons
-                                slidesHTML += `
-                                    <button class="slide-nav prev">&#10094;</button>
-                                    <button class="slide-nav next">&#10095;</button>
-                                    <div class="slide-indicators">
-                                        ${project.images.map((_, i) => `<span class="indicator${i === 0 ? ' active' : ''}" data-index="${i}"></span>`).join('')}
-                                    </div>
-                                `;
-        
-                                slideshowContainer.innerHTML = slidesHTML;
-        
-                                // Create abbreviated details
-                                const detailsContainer = document.createElement('div');
-                                detailsContainer.className = 'details-container';
-                                detailsContainer.innerHTML = `
-                                    <h2>${project.name}</h2>
-                                    <p class="location"><i class="fas fa-map-marker-alt"></i> ${project.location}</p>
-                                    <div class="detail-stats">
-                                        <div class="detail-stat">
-                                            <span class="label">Status:</span>
-                                            <span class="value">${project.status}</span>
-                                        </div>
-                                        <div class="detail-stat">
-                                            <span class="label">Completion:</span>
-                                            <span class="value">${project.completion}</span>
-                                        </div>
-                                        <div class="detail-stat">
-                                            <span class="label">${project.floors ? 'Floors' : 'Units'}:</span>
-                                            <span class="value">${project.floors || project.units}</span>
-                                        </div>
-                                        <div class="detail-stat">
-                                            <span class="label">Budget:</span>
-                                            <span class="value">${project.budget}</span>
-                                        </div>
-                                        <div class="detail-stat">
-                                            <span class="label">Completion Year:</span>
-                                            <span class="value">${project.completionYear}</span>
-                                        </div>
-                                    </div>
-                                    <div class="progress-container">
-                                        <h3>Construction Progress</h3>
-                                        <div class="progress-bar-container">
-                                            <div class="progress-bar" style="width: ${project.progress}%"></div>
-                                            <span class="progress-label">${project.progress}%</span>
-                                        </div>
-                                    </div>
-                                `;
-        
-                                // Assemble modal
-                                modalContent.appendChild(closeButton);
-                                modalContent.appendChild(slideshowContainer);
-                                modalContent.appendChild(detailsContainer);
-                                modalOverlay.appendChild(modalContent);
-                                document.body.appendChild(modalOverlay);
-        
-                                // Slideshow functionality
-                                let currentSlide = 0;
-                                const slides = slideshowContainer.querySelectorAll('.slide');
-                                const indicators = slideshowContainer.querySelectorAll('.indicator');
-        
-                                function showSlide(n) {
-                                    // Hide all slides
-                                    slides.forEach(slide => slide.style.display = 'none');
-                                    indicators.forEach(indicator => indicator.classList.remove('active'));
-        
-                                    // Reset index if out of bounds
-                                    currentSlide = (n + slides.length) % slides.length;
-        
-                                    // Show the current slide
-                                    slides[currentSlide].style.display = 'block';
-                                    indicators[currentSlide].classList.add('active');
-                                }
-        
-                                // Next/previous controls
-                                slideshowContainer.querySelector('.prev').addEventListener('click', function() {
-                                    showSlide(currentSlide - 1);
-                                });
-        
-                                slideshowContainer.querySelector('.next').addEventListener('click', function() {
-                                    showSlide(currentSlide + 1);
-                                });
-        
-                                // Indicator clicks
-                                indicators.forEach(indicator => {
-                                    indicator.addEventListener('click', function() {
-                                        showSlide(parseInt(this.getAttribute('data-index')));
-                                    });
-                                });
-                            }
-                        }
-                    });
-        
-                    // Initial render
-                    renderProjects(projects);
-                });
-            </script>
+        document.addEventListener('click', function(e) {
+            if (!notificationPanel.contains(e.target) && !notificationIcon.contains(e.target)) {
+                notificationPanel.classList.remove('show');
+            }
+        });
+  </script>
 </body>
 </html>
