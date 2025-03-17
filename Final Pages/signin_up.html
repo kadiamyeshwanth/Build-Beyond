@@ -1084,14 +1084,17 @@
         // Function to handle signup form submission
         document.getElementById('register-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    
+
     const userType = document.getElementById('user-type').value;
+    const name = document.getElementById('customer-name')?.value || 
+                 document.getElementById('company-name')?.value || 
+                 document.getElementById('worker-name')?.value; // Get Name
     const email = document.getElementById('customer-email')?.value || 
                   document.getElementById('company-email')?.value || 
                   document.getElementById('worker-email')?.value;
     const password = document.getElementById('reg-password').value;
 
-    if (!email || !password || !userType) {
+    if (!name || !email || !password || !userType) {
         alert("Please fill in all required fields.");
         return;
     }
@@ -1099,19 +1102,20 @@
     fetch('http://localhost:4000/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, role: userType })
+        body: JSON.stringify({ name, email, password, role: userType }) // Send name
     })
     .then(response => response.json())
     .then(data => {
         if (data.message === "Signup successful") {
             alert('Signup successful! Please login.');
-            document.getElementById('show-login').click(); // Switches back to login form
+            document.getElementById('show-login').click(); // Switch to login form
         } else {
             alert(data.message);
         }
     })
     .catch(error => console.error('Error:', error));
 });
+
 
     </script>
 </body>
