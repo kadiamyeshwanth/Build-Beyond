@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Platform Administrator Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>Admin Panel</h2>
+            </div>
+            <nav class="nav-menu">
+                <ul>
+                    <li class="active"><a href="#dashboard" data-section="dashboard"><i class="icon-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#payments" data-section="payments"><i class="icon-payments"></i> Payments</a></li>
+                    <li><a href="#projects" data-section="projects"><i class="icon-projects"></i> Projects</a></li>
+                    <li><a href="#users" data-section="users"><i class="icon-users"></i> Users</a></li>
+                    <li><a href="#settings" data-section="settings"><i class="icon-settings"></i> Settings</a></li>
+                </ul>
+            </nav>
+            <div class="user-info">
+                <div class="user-avatar">
+                    <img src="avatar-placeholder.jpg" alt="Admin">
+                </div>
+                <div class="user-details">
+                    <h4>Admin Name</h4>
+                    <p>Platform Administrator</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="content-section active">
+                <h1>Dashboard Overview</h1>
+                <div class="stats-cards">
+                    <div class="stat-card">
+                        <div class="stat-icon users"></div>
+                        <div class="stat-info">
+                            <h3>Total Users</h3>
+                            <p class="stat-number">2,540</p>
+                            <span class="stat-change positive">+12%</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon messages"></div>
+                        <div class="stat-info">
+                            <h3>New Messages</h3>
+                            <p class="stat-number">158</p>
+                            <span class="stat-change positive">+5%</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon payments"></div>
+                        <div class="stat-info">
+                            <h3>Total Payments</h3>
+                            <p class="stat-number">₹43,7500</p>
+                            <span class="stat-change positive">+8%</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon commission"></div>
+                        <div class="stat-info">
+                            <h3>Platform Commission</h3>
+                            <p class="stat-number">₹5,2800</p>
+                            <span class="stat-change positive">+10%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-widgets">
+                    <div class="widget recent-messages">
+                        <div class="widget-header">
+                            <h3>Recent Messages</h3>
+                            <a href="#messages" class="view-all">View All</a>
+                        </div>
+                        <div class="widget-content">
+                            <ul class="messages-list">
+                                <li class="message-item unread">
+                                    <div class="message-sender">
+                                        <img src="avatar-placeholder.jpg" alt="User">
+                                        <div class="sender-info">
+                                            <h4>Prudhvi</h4>
+                                            <span class="sender-type company">Company</span>
+                                        </div>
+                                    </div>
+                                    <div class="message-preview">Payment confirmation required for project...</div>
+                                    <div class="message-time">10:30 AM</div>
+                                </li>
+                                <li class="message-item">
+                                    <div class="message-sender">
+                                        <img src="avatar-placeholder.jpg" alt="User">
+                                        <div class="sender-info">
+                                            <h4>Sara</h4>
+                                            <span class="sender-type customer">Customer</span>
+                                        </div>
+                                    </div>
+                                    <div class="message-preview">When will the service be completed? I need...</div>
+                                    <div class="message-time">Yesterday</div>
+                                </li>
+                                <li class="message-item">
+                                    <div class="message-sender">
+                                        <img src="avatar-placeholder.jpg" alt="User">
+                                        <div class="sender-info">
+                                            <h4>Mike Johnson</h4>
+                                            <span class="sender-type worker">Worker</span>
+                                        </div>
+                                    </div>
+                                    <div class="message-preview">Payment not received for completed work...</div>
+                                    <div class="message-time">2 days ago</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="widget payment-activity">
+                        <div class="widget-header">
+                            <h3>Recent Payment Activity</h3>
+                            <a href="#payments" class="view-all">View All</a>
+                        </div>
+                        <div class="widget-content">
+                            <ul class="payment-list">
+                                <li class="payment-item">
+                                    <div class="payment-info">
+                                        <div class="payment-user">
+                                            <img src="avatar-placeholder.jpg" alt="User">
+                                            <div class="payment-user-info">
+                                                <h4>Project: Home Redesign</h4>
+                                                <p>Customer: Pranav</p>
+                                            </div>
+                                        </div>
+                                        <div class="payment-details">
+                                            <span class="payment-amount">₹1,2500</span>
+                                            <span class="payment-status completed">Completed</span>
+                                        </div>
+                                    </div>
+                                    <div class="payment-breakdown">
+                                        <div class="breakdown-item">
+                                            <span>Customer Paid:</span>
+                                            <span>₹1,250</span>
+                                        </div>
+                                        <div class="breakdown-item">
+                                            <span>Platform Fee (10%):</span>
+                                            <span>₹125</span>
+                                        </div>
+                                        <div class="breakdown-item">
+                                            <span>Company Received:</span>
+                                            <span>₹1,125</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="payment-item">
+                                    <div class="payment-info">
+                                        <div class="payment-user">
+                                            <img src="avatar-placeholder.jpg" alt="User">
+                                            <div class="payment-user-info">
+                                                <h4>Project: Commercial plot construction</h4>
+                                                <p>Customer: Pranavi</p>
+                                            </div>
+                                        </div>
+                                        <div class="payment-details">
+                                            <span class="payment-amount">₹3,500</span>
+                                            <span class="payment-status pending">Pending</span>
+                                        </div>
+                                    </div>
+                                    <div class="payment-breakdown">
+                                        <div class="breakdown-item">
+                                            <span>Customer Paid:</span>
+                                            <span>₹3,500</span>
+                                        </div>
+                                        <div class="breakdown-item">
+                                            <span>Platform Fee (10%):</span>
+                                            <span>₹350</span>
+                                        </div>
+                                        <div class="breakdown-item">
+                                            <span>Company Pending:</span>
+                                            <span>₹3,150</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Payments Section -->
+            <section id="payments" class="content-section">
+                <h1>Payment Management</h1>
+                <div class="payment-summary">
+                    <div class="summary-card">
+                        <h3>Total Transactions</h3>
+                        <p class="summary-amount">₹45,780</p>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Platform Commission</h3>
+                        <p class="summary-amount">₹5,280</p>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Paid to Companies</h3>
+                        <p class="summary-amount">₹32,500</p>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Paid to Workers</h3>
+                        <p class="summary-amount">₹8,000</p>
+                    </div>
+                </div>
+
+                <div class="payment-table-container">
+                    <table class="payment-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Project</th>
+                                <th>Customer</th>
+                                <th>Company/Worker</th>
+                                <th>Amount</th>
+                                <th>Commission</th>
+                                <th>Received</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>PAY-1089</td>
+                                <td>Home Redesign</td>
+                                <td>Emily Davis</td>
+                                <td>TechSolutions Inc.</td>
+                                <td>₹1,250.00</td>
+                                <td>₹125.00</td>
+                                <td>₹1,125.00</td>
+                                <td>Mar 15, 2025</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-icon" title="View Details"><i class="icon-eye"></i></button>
+                                        <button class="btn-icon" title="Download Invoice"><i class="icon-download"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>PAY-1088</td>
+                                <td>Commercial space development</td>
+                                <td>Rob Stark</td>
+                                <td>App Creators LLC</td>
+                                <td>₹3,500.00</td>
+                                <td>₹350.00</td>
+                                <td>₹3,150.00</td>
+                                <td>Mar 14, 2025</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-icon" title="View Details"><i class="icon-eye"></i></button>
+                                        <button class="btn-icon" title="Approve Payment"><i class="icon-check"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>PAY-1087</td>
+                                <td>Home construction</td>
+                                <td>Prudhvi</td>
+                                <td>Sanjana (Worker)</td>
+                                <td>₹450.00</td>
+                                <td>₹45.00</td>
+                                <td>₹405.00</td>
+                                <td>Mar 13, 2025</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-icon" title="View Details"><i class="icon-eye"></i></button>
+                                        <button class="btn-icon" title="Download Invoice"><i class="icon-download"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>PAY-1086</td>
+                                <td>SEO Construction</td>
+                                <td>Laura</td>
+                                <td>SEO Experts Co.</td>
+                                <td>₹850.00</td>
+                                <td>₹85.00</td>
+                                <td>₹765.00</td>
+                                <td>Mar 12, 2025</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-icon" title="View Details"><i class="icon-eye"></i></button>
+                                        <button class="btn-icon" title="Retry Payment"><i class="icon-refresh"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Projects Section -->
+            <section id="projects" class="content-section">
+                <h1>Project Management</h1>
+                
+
+                <div class="user-tabs">
+                    <button class="tab-btn active" data-tab="active-projects">Active Projects</button>
+                    <button class="tab-btn" data-tab="completed-projects">Completed Projects</button>
+                    <button class="tab-btn" data-tab="pending-projects">Pending Projects</button>
+                </div>
+
+                <div class="tab-content active" id="active-projects-tab">
+                    <table class="users-table">
+                        <thead>
+                            <tr>
+                                <th>Project Name</th>
+                                <th>Customer</th>
+                                <th>Company/Worker</th>
+                                <th>Customer Email</th>
+                                <th>Compnay Email</th>
+                                <th>Received Money</th>
+                                <th>Pending Money</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Home Cosntruction</td>
+                                <td>Emily</td>
+                                <td>ConstroSolutions Inc.</td>
+                                <<td>company@gmail.com</td>
+                                <td>cutomer@gmial.com</td>
+                                <td>₹200000</td>
+                                <td>₹100000</td>
+                                <td><i class="fas fa-comment"></i> Chat</td>
+                            </tr>
+                            <tr>
+                                <td>Mobile App Development</td>
+                                <td>Robert Wilson</td>
+                                <td>App Creators LLC</td>
+                                <td>company@gmail.com</td>
+                                <td>cutomer@gmial.com</td>
+                                <td>₹200000</td>
+                                <td>₹100000</td>
+                                <td><i class="fas fa-comment"></i> Chat</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="tab-content" id="completed-projects-tab">
+                    <table class="users-table">
+                        <thead>
+                            <tr>
+                                <th>Project Name</th>
+                                <th>Customer</th>
+                                <th>Company/Worker</th>
+                                <th>Customer Email</th>
+                                <th>Compnay Email</th>
+                                <th>Received Money</th>
+                                <th>Pending Money</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>SEO Construction</td>
+                                <td>Laura</td>
+                                <td>SEO Experts Co.</td>
+                                <td>company@gmail.com</td>
+                                <td>cutomer@gmial.com</td>
+                                <td>₹200000</td>
+                                <td>₹100000</td>
+                                <td><i class="fas fa-comment"></i> Chat</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="tab-content" id="pending-projects-tab">
+                    <table class="users-table">
+                        <thead>
+                            <tr>
+                                <th>Project Name</th>
+                                <th>Customer</th>
+                                <th>Company/Worker</th>
+                                <th>Customer Email</th>
+                                <th>Compnay Email</th>
+                                <th>Received Money</th>
+                                <th>Pending Money</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Architect</td>
+                                <td>Michael </td>
+                                <td>Jhon Snow (Worker)</td>
+                                <td>company@gmail.com</td>
+                                <td>cutomer@gmial.com</td>
+                                <td>₹200000</td>
+                                <td>₹100000</td>
+                                <td><i class="fas fa-comment"></i> Chat</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Users Section -->
+            <section id="users" class="content-section">
+                <h1>User Management</h1>
+                <div class="users-actions">
+                    <div class="user-search">
+                        <input type="text" placeholder="Search users...">
+                        <button class="btn-search"><i class="icon-search"></i></button>
+                    </div>
+                    <div class="user-filters">
+                        <select id="user-type-filter">
+                            <option value="all">All User Types</option>
+                            <option value="company">Companies</option>
+                            <option value="customer">Customers</option>
+                            <option value="worker">Workers</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="user-tabs">
+                    <button class="tab-btn active" data-tab="companies">Companies</button>
+                    <button class="tab-btn" data-tab="customers">Customers</button>
+                    <button class="tab-btn" data-tab="workers">Workers</button>
+                </div>
+
+                <div class="tab-content active" id="companies-tab">
+                    <table class="users-table">
+                        <thead>
+                            <tr>
+                                <th>Company Name</th>
+                                <th>Contact Person</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Projects</th>
+                                <th>Total Revenue</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="user-info-cell">
+                                        <img src="avatar-placeholder.jpg" alt="Company">
+                                        <span>TechSolutions Inc.</span>
+                                    </div>
+                                </td>
+                                <td>John Snow</td>
+                                <td>john@techsolutions.com</td>
+                                <td>+91 123456789</td>
+                                <td>15</td>
+                                <td>₹24,500</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-icon" title="View Details"><i class="icon-eye"></i></button>
+                                        <button class="btn-icon" title="Edit"><i class="icon-edit"></i></button>
+                                        <button class="btn-icon" title="More Options"><i class="icon-more-vertical"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-info-cell">
+                                        <img src="avatar-placeholder.jpg" alt="Company">
+                                        <span>Home Creators LLC</span>
+                                    </div>
+                                </td>
+                                <td>Sarah</td>
+                                <td>sarah@homecreators.com</td>
+                                <td>+91 123456789</td>
+                                <td>8</td>
+                                <td>₹18,750</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-icon" title="View Details"><i class="icon-eye"></i></button>
+                                        <button class="btn-icon" title="Edit"><i class="icon-edit"></i></button>
+                                        <button class="btn-icon" title="More Options"><i class="icon-more-vertical"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-info-cell">
+                                        <img src="avatar-placeholder.jpg" alt="Company">
+                                        <span>SEO Experts Co.</span>
+                                    </div>
+                                </td>
+                                <td>Michael</td>
+                                <td>michael@seoexperts.com</td>
+                                <td>+91 1234567889</td>
+                                <td>12</td>
+                                <td>₹10,250</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-icon" title="View Details"><i class="icon-eye"></i></button>
+                                        <button class="btn-icon" title="Edit"><i class="icon-edit"></i></button>
+                                        <button class="btn-icon" title="More Options"><i class="icon-more-vertical"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="tab-content" id="customers-tab">
+                    <table class="users-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Company</th>
+                                <th>Projects</th>
+                                <th>Total Spent</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="user-info-cell">
+                                        <img src="avatar-placeholder.jpg" alt="Customer">
+                                        <span>Emily</span>
+                                    </div>
+                                </td>
+                                <td>emily@example.com</td>
+                                <td>+91 123456789</td>
+                                <td>Davis Construction</td>
+                                <td>5</td>
+                                <td>₹7,850</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-icon" title="View Details"><i class="icon-eye"></i></button>
+                                        <button class="btn-icon" title="Edit"><i class="icon-edit"></i></button>
+                                        <button class="btn-icon" title="More Options"><i class="icon-more-vertical"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-info-cell">
+                                        <img src="avatar-placeholder.jpg" alt="Customer">
+                                        <span>Robert Wilson</span>
+                                    </div>
+                                </td>
+                                <td>robert.wilson@example.com</td>
+                                <td>+91 123456789</td>
+                                <td>Wilson Home Group</td>
+                                <td>3</td>
+                                <td>₹5,250</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-icon" title="View Details"><i class="icon-eye"></i></button>
+                                        <button class="btn-icon" title="Edit"><i class="icon-edit"></i></button>
+                                        <button class="btn-icon" title="More Options"><i class="icon-more-vertical"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-info-cell">
+                                        <img src="avatar-placeholder.jpg" alt="Customer">
+                                        <span>Laura </span>
+                                    </div>
+                                </td>
+                                <td>laura@example.com</td>
+                                <td>+91 122456789</td>
+                                <td>Martinez Creative</td>
+                                <td>2</td>
+                                <td>₹1,850</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-icon" title="View Details"><i class="icon-eye"></i></button>
+                                        <button class="btn-icon" title="Edit"><i class="icon-edit"></i></button>
+                                        <button class="btn-icon" title="More Options"><i class="icon-more-vertical"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="tab-content" id="workers-tab">
+                    <table class="users-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Specialization</th>
+                                <th>Projects</th>
+                                <th>Total Earned</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="user-info-cell">
+                                        <img src="avatar-placeholder.jpg" alt="Worker">
+                                        <span>Mike</span>
+                                    </div>
+                                </td>
+                                <td>mike@example.com</td>
+                                <td>+91 123456789</td>
+                                <td>Plot Development</td>
+                                <td>8</td>
+                                <td>₹12,500</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-icon" title="View Details"><i class="icon-eye"></i></button>
+                                        <button class="btn-icon" title="Edit"><i class="icon-edit"></i></button>
+                                        <button class="btn-icon" title="More Options"><i class="icon-more-vertical"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-info-cell">
+                                        <img src="avatar-placeholder.jpg" alt="Worker">
+                                        <span>Jane</span>
+                                    </div>
+                                </td>
+                                <td>jane.writer@example.com</td>
+                                <td>+91 123456789</td>
+                                <td>Architect</td>
+                                <td>15</td>
+                                <td>₹8,750</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-icon" title="View Details"><i class="icon-eye"></i></button>
+                                        <button class="btn-icon" title="Edit"><i class="icon-edit"></i></button>
+                                        <button class="btn-icon" title="More Options"><i class="icon-more-vertical"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-info-cell">
+                                        <img src="avatar-placeholder.jpg" alt="Worker">
+                                        <span>David Designer</span>
+                                    </div>
+                                </td>
+                                <td>david.designer@example.com</td>
+                                <td>+91 123456789</td>
+                                <td>Home Design</td>
+                                <td>6</td>
+                                <td>₹9,200</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-icon" title="View Details"><i class="icon-eye"></i></button>
+                                        <button class="btn-icon" title="Edit"><i class="icon-edit"></i></button>
+                                        <button class="btn-icon" title="More Options"><i class="icon-more-vertical"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings" class="content-section">
+                <h1>Platform Settings</h1>
+                <div class="settings-container">
+                    <div class="settings-sidebar">
+                        <ul class="settings-nav">
+                            <li class="settings-nav-item active" data-settings="general">General Settings</li>
+                            <li class="settings-nav-item" data-settings="payment">Payment Settings</li>
+                            <li class="settings-nav-item" data-settings="security">Security Settings</li>
+                            <li class="settings-nav-item" data-settings="api">API & Integration</li>
+                        </ul>
+                    </div>
+                    <div class="settings-content">
+                        <div class="settings-panel active" id="general-settings">
+                            <h2>General Settings</h2>
+                            <div class="settings-form">
+                                <div class="form-group">
+                                    <label for="platform-name">Platform Name</label>
+                                    <input type="text" id="platform-name" value="WorkConnect Platform">
+                                </div>
+                                <div class="form-group">
+                                    <label for="platform-email">Platform Email</label>
+                                    <input type="email" id="platform-email" value="admin@workconnect.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="platform-contact">Support Contact Number</label>
+                                    <input type="tel" id="platform-contact" value="+1 (555) 123-4567">
+                                </div>
+                                <div class="form-group">
+                                    <label for="timezone">Default Timezone</label>
+                                    <select id="timezone">
+                                        <option value="UTC-8">Pacific Time (UTC-8)</option>
+                                        <option value="UTC-5">Eastern Time (UTC-5)</option>
+                                        <option value="UTC+0">Greenwich Mean Time (UTC+0)</option>
+                                        <option value="UTC+1">Central European Time (UTC+1)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>System Maintenance</label>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="maintenance-mode">
+                                        <label for="maintenance-mode">Maintenance Mode</label>
+                                    </div>
+                                    <p class="help-text">Enabling maintenance mode will make the platform inaccessible to all users except administrators.</p>
+                                </div>
+                                <div class="form-actions">
+                                    <button class="btn btn-primary">Save Changes</button>
+                                    <button class="btn btn-secondary">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-panel" id="payment-settings">
+                            <h2>Payment Settings</h2>
+                            <div class="settings-form">
+                                <div class="form-group">
+                                    <label>Platform Commission</label>
+                                    <div class="input-group">
+                                        <input type="number" id="commission-rate" value="10">
+                                        <span class="input-group-text">%</span>
+                                    </div>
+                                    <p class="help-text">The percentage fee the platform charges on each transaction.</p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="payment-processor">Payment Processor</label>
+                                    <select id="payment-processor">
+                                        <option value="stripe">Stripe</option>
+                                        <option value="paypal">PayPal</option>
+                                        <option value="square">Square</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="payment-api-key">API Key</label>
+                                    <input type="password" id="payment-api-key" value="sk_live_****************************************">
+                                </div>
+                                <div class="form-group">
+                                    <label>Payment Methods</label>
+                                    <div class="checkbox-group">
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="payment-credit" checked>
+                                            <label for="payment-credit">Credit Card</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="payment-debit" checked>
+                                            <label for="payment-debit">Debit Card</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="payment-bank" checked>
+                                            <label for="payment-bank">Bank Transfer</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="payment-digital">
+                                            <label for="payment-digital">Digital Wallets</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Automatic Payouts</label>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="auto-payout" checked>
+                                        <label for="auto-payout">Enable Automatic Payouts</label>
+                                    </div>
+                                    <p class="help-text">Automatically process payouts to service providers when projects are completed.</p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="payout-schedule">Payout Schedule</label>
+                                    <select id="payout-schedule">
+                                        <option value="immediate">Immediate</option>
+                                        <option value="daily" selected>Daily</option>
+                                        <option value="weekly">Weekly</option>
+                                        <option value="biweekly">Bi-weekly</option>
+                                        <option value="monthly">Monthly</option>
+                                    </select>
+                                </div>
+                                <div class="form-actions">
+                                    <button class="btn btn-primary">Save Changes</button>
+                                    <button class="btn btn-secondary">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
