@@ -413,45 +413,6 @@
                 transform: translateY(0);
             }
         }
-
-        @media (max-width: 992px) {
-            .job-dashboard {
-                flex-direction: column;
-            }
-
-            .job-list-panel {
-                max-width: 100%;
-                max-height: 400px;
-                margin-bottom: 20px;
-            }
-
-            .details-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .job-details-panel {
-                padding: 20px 15px;
-            }
-
-            .details-header {
-                flex-direction: column;
-            }
-
-            .details-header-right {
-                text-align: left;
-                margin-top: 15px;
-            }
-
-            .reference-images {
-                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            }
-
-            .job-action-buttons {
-                flex-direction: column;
-            }
-        }
     </style>
 </head>
 <body>
@@ -498,12 +459,12 @@
                 id: 1,
                 title: "Modern Hillside Residence",
                 type: "residential",
-                budget: "$500,000 - $750,000",
+                budget: "₹5k - ₹10k",
                 summary: "Design a contemporary 3-bedroom home with panoramic views, sustainable features, and indoor-outdoor living spaces.",
                 customerDetails: {
-                    fullName: "Sarah Johnson",
-                    contactNumber: "(555) 123-4567",
-                    email: "sarah.johnson@example.com",
+                    fullName: "Krishna",
+                    contactNumber: "123456789",
+                    email: "krishna@gmail.com",
                     address: {
                         street: "425 Highland Drive",
                         city: "Ooty",
@@ -531,21 +492,21 @@
                 id: 2,
                 title: "Downtown Boutique Shop Renovation",
                 type: "commercial",
-                budget: "$150,000 - $200,000",
+                budget: "₹15k - ₹20k",
                 summary: "Convert an existing 1920s building into a modern boutique clothing store while preserving historical elements.",
                 customerDetails: {
-                    fullName: "Marcus Chen",
-                    contactNumber: "(555) 987-6543",
-                    email: "marcus.chen@stylehaus.com",
+                    fullName: "Balaji",
+                    contactNumber: "123456789",
+                    email: "balaji@gmail.com",
                     address: {
-                        street: "1200 Fashion Avenue",
+                        street: "1200 luluu mall",
                         city: "Metropolitan",
-                        state: "NY",
-                        zipCode: "10019"
+                        state: "Karnataka",
+                        zipCode: "54002"
                     }
                 },
                 plotInfo: {
-                    location: "342 Main Street, Metropolitan, NY 10019",
+                    location: "1200 luluu mall, Metropolitan, Karnataka 54002",
                     size: "1,800 sq.ft",
                     orientation: "East",
                     floors: 1,
@@ -563,21 +524,21 @@
                 id: 3,
                 title: "Urban Park Redesign",
                 type: "landscape",
-                budget: "$300,000 - $450,000",
+                budget: "₹4k - ₹9k",
                 summary: "Revitalize a 2-acre urban park with sustainable landscaping, recreational areas, and community gathering spaces.",
                 customerDetails: {
-                    fullName: "City of Greenfield",
-                    contactNumber: "(555) 789-0123",
-                    email: "parks@greenfield.gov",
+                    fullName: "Palvash",
+                    contactNumber: "123456789",
+                    email: "palvash@gmail.com",
                     address: {
-                        street: "100 City Hall Plaza",
-                        city: "Greenfield",
-                        state: "WA",
+                        street: "100 City Plaza",
+                        city: "New Delhi",
+                        state: "Delhi",
                         zipCode: "98103"
                     }
                 },
                 plotInfo: {
-                    location: "Elm Street & 4th Avenue, Greenfield, WA 98103",
+                    location: "Elm Street & 4th Avenue, New Delhi, Delhi 98103",
                     size: "87,120 sq.ft (2 acres)",
                     orientation: "Open layout",
                     floors: "N/A",
@@ -595,21 +556,21 @@
                 id: 4,
                 title: "Tech Company Headquarters",
                 type: "mixed-use",
-                budget: "$5,000,000 - $7,000,000",
+                budget: "₹5k - ₹7k",
                 summary: "Design a modern headquarters for a growing tech company with office spaces, retail areas, and residential units.",
                 customerDetails: {
                     fullName: "InnovateTech Inc.",
-                    contactNumber: "(555) 234-5678",
+                    contactNumber: "123456789",
                     email: "facilities@innovatetech.com",
                     address: {
-                        street: "888 Tech Boulevard",
-                        city: "Silicon Valley",
-                        state: "CA",
+                        street: "888 amilpur",
+                        city: "Hyderabad",
+                        state: "Telengana",
                         zipCode: "94025"
                     }
                 },
                 plotInfo: {
-                    location: "400 Innovation Drive, Silicon Valley, CA 94025",
+                    location: "400 Innovation Drive, Hyderabad, Telengana 94025",
                     size: "65,000 sq.ft",
                     orientation: "South",
                     floors: 6,
@@ -627,21 +588,21 @@
                 id: 5,
                 title: "Advanced Manufacturing Facility",
                 type: "industrial",
-                budget: "$3,500,000 - $4,200,000",
+                budget: "₹3.5k - ₹9k",
                 summary: "Design an efficient, modern manufacturing facility for precision medical devices with clean rooms and office space.",
                 customerDetails: {
                     fullName: "MediPrecision Manufacturing",
-                    contactNumber: "(555) 456-7890",
+                    contactNumber: "123456789",
                     email: "operations@mediprecision.com",
                     address: {
-                        street: "2200 Industrial Parkway",
-                        city: "Medford",
-                        state: "MA",
+                        street: "2200 brodipet",
+                        city: "guntur",
+                        state: "Andhra Pradesh",
                         zipCode: "02155"
                     }
                 },
                 plotInfo: {
-                    location: "75 Technology Park, Medford, MA 02155",
+                    location: "75 Technology Park, guntur, AndhraPradesh 02155",
                     size: "40,000 sq.ft",
                     orientation: "North",
                     floors: 1,
@@ -658,11 +619,11 @@
                 id: 6,
                 title: "Luxury Beachfront Villa",
                 type: "residential",
-                budget: "$1,200,000 - $1,500,000",
+                budget: "₹12k - ₹15k",
                 summary: "Design a luxurious 5-bedroom beachfront villa with modern amenities and breathtaking ocean views.",
                 customerDetails: {
                     fullName: "Rajesh Kumar",
-                    contactNumber: "(555) 111-2222",
+                    contactNumber: "123456789",
                     email: "rajesh.kumar@example.com",
                     address: {
                         street: "12 Palm Beach Road",
@@ -690,11 +651,11 @@
                 id: 7,
                 title: "Heritage Hotel Restoration",
                 type: "commercial",
-                budget: "$2,000,000 - $2,500,000",
+                budget: "₹9k - ₹12k",
                 summary: "Restore a 19th-century heritage building into a luxury boutique hotel while preserving its historical charm.",
                 customerDetails: {
                     fullName: "Ananya Desai",
-                    contactNumber: "(555) 333-4444",
+                    contactNumber: "123456789",
                     email: "ananya.desai@heritagehotels.com",
                     address: {
                         street: "45 Heritage Lane",
@@ -722,7 +683,7 @@
                 id: 8,
                 title: "Eco-Friendly Farmhouse",
                 type: "residential",
-                budget: "$400,000 - $600,000",
+                budget: "₹4k - ₹10k",
                 summary: "Design a sustainable farmhouse with eco-friendly materials and energy-efficient systems.",
                 customerDetails: {
                     fullName: "Priya Reddy",
@@ -754,11 +715,11 @@
                 id: 9,
                 title: "Modern Art Gallery",
                 type: "commercial",
-                budget: "$1,000,000 - $1,200,000",
+                budget: "₹7k - ₹12k",
                 summary: "Design a modern art gallery with flexible exhibition spaces, a cafe, and a rooftop event area.",
                 customerDetails: {
                     fullName: "Arjun Menon",
-                    contactNumber: "(555) 777-8888",
+                    contactNumber: "123456789",
                     email: "arjun.menon@artgallery.com",
                     address: {
                         street: "23 Art Street",
@@ -786,11 +747,11 @@
                 id: 10,
                 title: "Community Health Center",
                 type: "public",
-                budget: "$800,000 - $1,000,000",
+                budget: "₹8k - ₹10k",
                 summary: "Design a community health center with consultation rooms, a pharmacy, and a wellness area.",
                 customerDetails: {
                     fullName: "Dr. Meera Nair",
-                    contactNumber: "(555) 999-0000",
+                    contactNumber: "123456789",
                     email: "meera.nair@healthcenter.com",
                     address: {
                         street: "34 Wellness Lane",
