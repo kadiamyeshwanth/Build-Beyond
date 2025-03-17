@@ -276,19 +276,19 @@
             const summaryPaid = document.getElementById('summaryPaid');
             const summaryPending = document.getElementById('summaryPending');
             
-            // Function to format number as currency
+ 
             function formatCurrency(amount) {
                 return ' ₹' + parseInt(amount).toLocaleString();
             }
             
-            // Function to update summary
+ 
             function updateSummary() {
                 summaryTotal.textContent = formatCurrency(totalCostInput.value);
                 summaryPaid.textContent = formatCurrency(receivedInput.value);
                 summaryPending.textContent = formatCurrency(pendingInput.value);
             }
             
-            // Calculate pending amount when total or received changes
+ 
             function calculatePending() {
                 const total = parseInt(totalCostInput.value) || 0;
                 const received = parseInt(receivedInput.value) || 0;
@@ -296,28 +296,26 @@
                 updateSummary();
             }
             
-            // Add event listeners
+ 
             totalCostInput.addEventListener('input', calculatePending);
             receivedInput.addEventListener('input', calculatePending);
             pendingInput.addEventListener('input', function() {
                 updateSummary();
             });
             
-            // Form submission
+ 
             document.getElementById('paymentForm').addEventListener('submit', function(e) {
                 e.preventDefault();
                 
-                // Here you would typically send data to server
+ 
                 alert('Payment details submitted successfully!\n' +
                       'Total Cost: ' + formatCurrency(totalCostInput.value) + '\n' +
                       'Amount Received: ' + formatCurrency(receivedInput.value) + '\n' +
                       'Amount Pending: ' + formatCurrency(pendingInput.value));
-                
-                // In a real application, you'd submit the form to the server here
-                // this.submit();
+ 
             });
             
-            // Initial update
+ 
             updateSummary();
         });
     </script>

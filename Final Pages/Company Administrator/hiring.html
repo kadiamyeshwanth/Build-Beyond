@@ -487,7 +487,7 @@
         background-color: var(--light-grey);
     }
 
-        
+
 </style>
 </head>
 <body>
@@ -514,7 +514,7 @@
         </div>
         
       </nav>
-    <!-- Main Content -->
+ 
     <main class="main-content">
         <div class="dashboard-header">
             <h1 class="dashboard-title">Hire Workers</h1>
@@ -523,14 +523,14 @@
                 <input type="text" placeholder="Search workers...">
             </div>
         </div>
-        <!-- Tabs -->
+  
         <div class="tabs">
             <div class="tab active" data-tab="find-workers">Find Workers</div>
             <div class="tab" data-tab="worker-requests">Worker Requests</div>
         </div>
-        <!-- Find Workers Tab -->
+ 
         <div class="tab-content active" id="find-workers">
-            <!-- Filter Section -->
+ 
             <div class="filter-section">
                 <div class="filter-row">
                     <div class="filter-field">
@@ -592,7 +592,7 @@
                     <button class="btn btn-primary">Apply Filters</button>
                 </div>
             </div>
-            <!-- Sort and Results -->
+ 
             <div class="sort-container">
                 <div class="result-count">Showing 6 of 6 workers</div>
                 <div class="sort-by">
@@ -606,9 +606,9 @@
                     </select>
                 </div>
             </div>
-            <!-- Workers Grid -->
+ 
             <div class="workers-grid">
-                <!-- Worker Card 1 -->
+ 
                 <div class="worker-card">
                     <div class="worker-banner">
                         <div class="worker-avatar">KD</div>
@@ -631,7 +631,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Worker Card 2 -->
+ 
                 <div class="worker-card">
                     <div class="worker-banner">
                         <div class="worker-avatar">AS</div>
@@ -654,7 +654,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Worker Card 3 -->
+ 
                 <div class="worker-card">
                     <div class="worker-banner">
                         <div class="worker-avatar">RJ</div>
@@ -677,7 +677,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Worker Card 4 -->
+ 
                 <div class="worker-card">
                     <div class="worker-banner">
                         <div class="worker-avatar">MK</div>
@@ -700,7 +700,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Worker Card 5 -->
+ 
                 <div class="worker-card">
                     <div class="worker-banner">
                         <div class="worker-avatar">SK</div>
@@ -723,7 +723,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Worker Card 6 -->
+ 
                 <div class="worker-card">
                     <div class="worker-banner">
                         <div class="worker-avatar">TG</div>
@@ -747,7 +747,7 @@
                     </div>
                 </div>
             </div>
-            <!-- Pagination -->
+ 
             <div class="pagination">
                 <div class="page-item active">1</div>
                 <div class="page-item">2</div>
@@ -757,10 +757,10 @@
                 <div class="page-item">→</div>
             </div>
         </div>
-        <!-- Worker Requests Tab -->
+ 
         <div class="tab-content" id="worker-requests">
             <div class="request-list">
-                <!-- Request Item 1 -->
+ 
                 <div class="request-item">
                     <div class="request-avatar">KM</div>
                     <div class="request-details">
@@ -777,7 +777,7 @@
                         <button class="btn btn-primary">Accept</button>
                     </div>
                 </div>
-                <!-- Request Item 2 -->
+ 
                 <div class="request-item">
                     <div class="request-avatar">LD</div>
                     <div class="request-details">
@@ -794,7 +794,7 @@
                         <button class="btn btn-primary">Accept</button>
                     </div>
                 </div>
-                <!-- Request Item 3 -->
+ 
                 <div class="request-item">
                     <div class="request-avatar">PH</div>
                     <div class="request-details">
@@ -815,19 +815,19 @@
         </div>
     </main>
     <script>
-        // Simple tab switching functionality
+ 
         document.addEventListener('DOMContentLoaded', function() {
             const tabs = document.querySelectorAll('.tab');
             const tabContents = document.querySelectorAll('.tab-content');
             tabs.forEach(tab => {
                 tab.addEventListener('click', () => {
-                    // Remove active class from all tabs
+ 
                     tabs.forEach(t => t.classList.remove('active'));
-                    // Add active class to clicked tab
+ 
                     tab.classList.add('active');
-                    // Hide all tab contents
+ 
                     tabContents.forEach(content => content.classList.remove('active'));
-                    // Show selected tab content
+ 
                     const tabId = tab.getAttribute('data-tab');
                     document.getElementById(tabId).classList.add('active');
                 });

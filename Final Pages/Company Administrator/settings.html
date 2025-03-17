@@ -256,7 +256,7 @@
         </div>
         
       </nav>
-    <!--existing header/navigation will go here -->
+ 
     <div class="settings-container">
         <div class="settings-header">
             <h1>Account Settings</h1>
@@ -272,7 +272,7 @@
                 </ul>
             </div>
             <div class="settings-content">
-                <!-- Profile Section -->
+ 
                 <div id="profile" class="settings-section active">
                     <h2>Profile Information</h2>
                     <div id="profile-display">
@@ -324,7 +324,7 @@
                         <button type="submit" class="btn">Save Changes</button>
                     </form>
                 </div>
-                <!-- Security -->
+ 
                 <div id="security" class="settings-section">
                     <h2>Security Settings</h2>
                     <form>
@@ -344,7 +344,7 @@
                         <hr style="margin: 2rem 0;">
                     </form>
                 </div>
-                <!-- Help Center -->
+ 
                 <div id="help-center" class="settings-section">
                 <h2>Help Center</h2>
                     <div style="margin-bottom: 2rem;">
@@ -373,7 +373,7 @@
                         <button class="btn" style="margin-right: 1rem;">Contact Support</button>
                     </div>
                 </div>
-                <!-- Logout -->
+ 
                 <div id="logout" class="settings-section">
                     <h2>Logout</h2>
                     <div style="margin-bottom: 2rem;">
@@ -385,25 +385,25 @@
         </div>
     </div>
     <script>
-        // Simple JavaScript to handle tab switching
+ 
         document.addEventListener('DOMContentLoaded', function() {
             const navLinks = document.querySelectorAll('.settings-nav a');
             const sections = document.querySelectorAll('.settings-section');
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
-                    // Remove active class from all links and sections
+ 
                     navLinks.forEach(link => link.classList.remove('active'));
                     sections.forEach(section => section.classList.remove('active'));
-                    // Add active class to clicked link
+ 
                     this.classList.add('active');
-                    // Show corresponding section
+ 
                     const targetId = this.getAttribute('href').substring(1);
                     document.getElementById(targetId).classList.add('active');
                 });
             });
         });
-        // Profile edit functionality
+ 
         const editProfileBtn=document.getElementById('edit-profile-btn');
         const cancelEditBtn=document.getElementById('cancel-edit-btn');
         const profileDisplay=document.getElementById('profile-display');
@@ -421,9 +421,9 @@
             cancelEditBtn.addEventListener('click', function() {
                 profileDisplay.style.display='block';
                 profileEdit.style.display='none';
-                // Reset the form values (optional)
+ 
                 document.getElementById('profile-edit').reset();
-                // Hide verify button
+ 
                 verifyEmailBtn.style.display='none';
             });
         }
