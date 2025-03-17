@@ -153,7 +153,6 @@
         <h1>Add Construction Project</h1>
         
         <form id="constructionProjectForm">
-            <!-- Basic Project Information -->
             <div class="form-group">
                 <label for="projectName">Project Name</label>
                 <input type="text" id="projectName" name="projectName"" required>
@@ -164,7 +163,6 @@
                 <input type="text" id="location" name="location" required>
             </div>
             
-            <!-- Project Tags -->
             <div class="form-group">
                 <label>Project Tags</label>
                 <div class="tag-container">
@@ -187,7 +185,6 @@
                 </div>
             </div>
             
-            <!-- Project Completion -->
             <div class="form-group">
                 <label for="completionPercentage">Project Completion Percentage</label>
                 <div class="progress-container">
@@ -240,7 +237,6 @@
                 
             </div>
             
-            <!-- Form Buttons -->
             <div class="btn-container">
                 <button type="submit" class="btn btn-primary">Save Project</button>
                 <button type="button" class="btn btn-secondary">Cancel</button>
@@ -253,11 +249,9 @@
             document.getElementById('progressValue').innerText = value + '%';
         }
         
-        // Set default date to June 2025
         window.onload = function() {
             const targetDateField = document.getElementById('targetCompletionDate');
             
-            // Form submission handler
             document.getElementById('constructionProjectForm').addEventListener('submit', function(e) {
                 e.preventDefault();
                 alert('Form submitted successfully! In a real application, this would save the project details.');

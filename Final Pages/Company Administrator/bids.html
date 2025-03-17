@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bidding System</title>
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Navigation Menu */
+.nav-menu {
+    display: flex;
+    margin-bottom: 20px;
+    background-color: #f8f8f8;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.nav-item {
+    padding: 15px 25px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    font-weight: 500;
+}
+
+.nav-item:hover {
+    background-color: #eaeaea;
+}
+
+.nav-item.active {
+    background-color: #3498db;
+    color: #fff;
+}
+
+/* Main Content */
+.main-content {
+    position: relative;
+}
+
+.content-section {
+    display: none;
+}
+
+.content-section.active {
+    display: block;
+}
+
+.section-container {
+    display: flex;
+    gap: 20px;
+}
+
+/* Left Section - Bid Options */
+.left-section {
+    flex: 1;
+    background-color: #f9f9f9;
+    border-radius: 6px;
+    padding: 20px;
+}
+
+.left-section h2 {
+    margin-bottom: 15px;
+    color: #2c3e50;
+}
+
+.bid-item {
+    background-color: #fff;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid #eee;
+}
+
+.bid-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.bid-item.active {
+    border-left: 4px solid #3498db;
+}
+
+.bid-title {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.bid-price {
+    color: #3498db;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.bid-description {
+    color: #666;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.bid-date {
+    color: #999;
+    font-size: 14px;
+}
+
+/* Right Section - Bid Details */
+.right-section {
+    flex: 1;
+    background-color: #f9f9f9;
+    border-radius: 6px;
+    padding: 20px;
+    min-height: 400px;
+}
+
+.bid-details-placeholder {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-style: italic;
+}
+
+.bid-details-content h2 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.detail-price {
+    color: #3498db;
+    font-weight: 600;
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.detail-description {
+    color: #666;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.detail-date {
+    color: #999;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.additional-info {
+    background-color: #fff;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.additional-info h3 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.info-item {
+    margin-bottom: 8px;
+}
+
+.bid-form {
+    background-color: #fff;
+    border-radius: 6px;
+    padding: 15px;
+}
+
+.bid-form h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.btn-primary {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+}
+
+/* Bid Status Section */
+.bid-status-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.status-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 6px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.status-title {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.status-price {
+    color: #3498db;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.status-description {
+    color: #666;
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+.status-date {
+    color: #999;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.your-bid {
+    font-weight: 600;
+    margin-top: 10px;
+    color: #2c3e50;
+}
+
+.status-badge {
+    padding: 8px 16px;
+    border-radius: 50px;
+    color: #fff;
+    font-weight: 500;
+    min-width: 100px;
+    text-align: center;
+}
+
+.status-badge.pending {
+    background-color: #f39c12;
+}
+
+.status-badge.accepted {
+    background-color: #2ecc71;
+}
+
+.status-badge.rejected {
+    background-color: #e74c3c;
+}
+* {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+    
+    body {
+      background-color: #f8f9fa;
+    }
+    
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: white;
+      height: 60px;
+      color: #343a40;
+      position: relative;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .brand {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #343a40;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+    
+    .nav-links a {
+      color: #495057;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+    
+    .nav-links a:hover {
+      color: #212529;
+    }
+    
+    .settings-container {
+      position: relative;
+    }
+    
+    .settings-btn {
+      background: none;
+      border: none;
+      padding: 0.5rem;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s ease;
+    }
+    
+    .settings-btn:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+    
+    .settings-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: #e9ecef;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .settings-svg {
+      width: 18px;
+      height: 18px;
+      fill: #495057;}
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="brand">Build & Beyond</div>
+        
+        <div class="nav-links">
+          <a href="dashboard.html">Dashboard</a>
+          <a href="bids.html">Bids</a>
+          <a href="ongoing_projects.html">Ongoing Projects</a>
+          <a href="clients.html">Clients</a>
+          <a href="revenue.html">Revenue</a>
+          <a href="hiring.html">Hire Now</a>
+        </div>
+        
+        <div class="nav_settings-container">
+          <a href="settings.html" class="nav_settings-btn">
+            <div class="nav_settings-icon">
+              <svg class="nav_settings-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+              </svg>
+            </div>
+          </a>
+        </div>
+        
+      </nav>
+    <div class="container">
+        <!-- Navigation Menu -->
+        <div class="nav-menu">
+            <div class="nav-item active" data-section="place-bid">Place a Bid</div>
+            <div class="nav-item" data-section="bid-status">Bid Status</div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Place a Bid Section -->
+            <div id="place-bid" class="content-section active">
+                <div class="section-container">
+                    <!-- Left Section - Bid Options -->
+                    <div class="left-section">
+                        <h2>Available Projects</h2>
+                        <div class="bid-options">
+                            <div class="bid-item" data-bid-id="1">
+                                <div class="bid-title">Kitchen Renovation</div>
+                                <div class="bid-price">₹12,00,000 - ₹16,00,000</div>
+                                <div class="bid-description">Complete kitchen remodel including cabinets, countertops, and appliances</div>
+                                <div class="bid-date">Posted: March 8, 2025</div>
+                            </div>
+                            <div class="bid-item" data-bid-id="2">
+                                <div class="bid-title">Bathroom Remodeling</div>
+                                <div class="bid-price">₹8,00,000 - ₹10,00,000</div>
+                                <div class="bid-description">Full bathroom renovation with new fixtures and tiling</div>
+                                <div class="bid-date">Posted: March 10, 2025</div>
+                            </div>
+                            <div class="bid-item" data-bid-id="3">
+                                <div class="bid-title">Living Room Makeover</div>
+                                <div class="bid-price">₹5,00,000 - ₹7,00,000</div>
+                                <div class="bid-description">Complete living room redesign with new flooring and paint</div>
+                                <div class="bid-date">Posted: March 12, 2025</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Right Section - Bid Details -->
+                    <div class="right-section">
+                        <div class="bid-details-placeholder">
+                            <p>Click on a project to view details and place your bid</p>
+                        </div>
+                        <div class="bid-details-content" style="display: none;">
+                            <h2 id="detail-title"></h2>
+                            <div class="detail-price" id="detail-price"></div>
+                            <div class="detail-description" id="detail-description"></div>
+                            <div class="detail-date" id="detail-date"></div>
+                            
+                            <div class="additional-info">
+                                <h3>Additional Information</h3>
+                                <div class="info-item">
+                                    <strong>Timeline:</strong> <span id="detail-timeline"></span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>Location:</strong> <span id="detail-location"></span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>Client Requirements:</strong> <span id="detail-requirements"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="bid-form">
+                                <h3>Place Your Bid</h3>
+                                <div class="form-group">
+                                    <label for="bid-amount">Your Bid Amount (₹):</label>
+                                    <input type="number" id="bid-amount" min="0" step="10000">
+                                </div>
+                                <button id="submit-bid" class="btn-primary">Submit Bid</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bid Status Section -->
+            <div id="bid-status" class="content-section">
+                <h2>Your Bid Status</h2>
+                <div class="bid-status-container">
+                    <div class="status-item">
+                        <div class="status-info">
+                            <div class="status-title">Kitchen Renovation</div>
+                            <div class="status-price">₹12,00,000 - ₹16,00,000</div>
+                            <div class="status-description">Complete kitchen remodel including cabinets, countertops, and appliances</div>
+                            <div class="status-date">Posted: March 8, 2025</div>
+                            <div class="your-bid">Your Bid: ₹13,50,000</div>
+                        </div>
+                        <div class="status-badge pending">Pending</div>
+                    </div>
+                    
+                    <div class="status-item">
+                        <div class="status-info">
+                            <div class="status-title">Bathroom Remodeling</div>
+                            <div class="status-price">₹8,00,000 - ₹10,00,000</div>
+                            <div class="status-description">Full bathroom renovation with new fixtures and tiling</div>
+                            <div class="status-date">Posted: March 10, 2025</div>
+                            <div class="your-bid">Your Bid: ₹9,25,000</div>
+                        </div>
+                        <div class="status-badge accepted">Accepted</div>
+                    </div>
+                    
+                    <div class="status-item">
+                        <div class="status-info">
+                            <div class="status-title">Living Room Makeover</div>
+                            <div class="status-price">₹5,00,000 - ₹7,00,000</div>
+                            <div class="status-description">Complete living room redesign with new flooring and paint</div>
+                            <div class="status-date">Posted: March 12, 2025</div>
+                            <div class="your-bid">Your Bid: ₹4,75,000</div>
+                        </div>
+                        <div class="status-badge rejected">Rejected</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Navigation Menu
+    const navItems = document.querySelectorAll('.nav-item');
+    const contentSections = document.querySelectorAll('.content-section');
+
+    navItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const targetSection = this.getAttribute('data-section');
+            
+            // Update active nav item
+            navItems.forEach(navItem => navItem.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Show target content section
+            contentSections.forEach(section => {
+                section.classList.remove('active');
+                if (section.id === targetSection) {
+                    section.classList.add('active');
+                }
+            });
+        });
+    });
+
+    // Bid Item Selection
+    const bidItems = document.querySelectorAll('.bid-item');
+    const bidDetailsPlaceholder = document.querySelector('.bid-details-placeholder');
+    const bidDetailsContent = document.querySelector('.bid-details-content');
+    
+    // Store the currently selected bid ID
+    let currentBidId = null;
+
+    const bidDetailsData = {
+        "1": {
+            title: "Kitchen Renovation",
+            price: "₹12,00,000 - ₹16,00,000",
+            description: "Complete kitchen remodel including cabinets, countertops, and appliances",
+            date: "Posted: March 8, 2025",
+            timeline: "4-6 weeks",
+            location: "Mumbai, Maharashtra",
+            requirements: "Modern design with granite countertops, stainless steel appliances, and custom cabinetry. Must include island and breakfast bar.",
+            minBid: 1200000,
+            maxBid: 1600000
+        },
+        "2": {
+            title: "Bathroom Remodeling",
+            price: "₹8,00,000 - ₹10,00,000",
+            description: "Full bathroom renovation with new fixtures and tiling",
+            date: "Posted: March 10, 2025",
+            timeline: "3-4 weeks",
+            location: "Delhi NCR",
+            requirements: "Luxury fixtures, marble flooring, jacuzzi tub, and walk-in shower with glass enclosure.",
+            minBid: 800000,
+            maxBid: 1000000
+        },
+        "3": {
+            title: "Living Room Makeover",
+            price: "₹5,00,000 - ₹7,00,000",
+            description: "Complete living room redesign with new flooring and paint",
+            date: "Posted: March 12, 2025",
+            timeline: "2-3 weeks",
+            location: "Bangalore, Karnataka",
+            requirements: "Open concept design, hardwood flooring, accent wall, and custom lighting fixtures.",
+            minBid: 500000,
+            maxBid: 700000
+        }
+    };
+
+    bidItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const bidId = this.getAttribute('data-bid-id');
+            currentBidId = bidId;
+            const bidData = bidDetailsData[bidId];
+            
+            // Update active bid item
+            bidItems.forEach(bidItem => bidItem.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Hide placeholder and show content
+            bidDetailsPlaceholder.style.display = 'none';
+            bidDetailsContent.style.display = 'block';
+            
+            // Populate bid details
+            document.getElementById('detail-title').textContent = bidData.title;
+            document.getElementById('detail-price').textContent = bidData.price;
+            document.getElementById('detail-description').textContent = bidData.description;
+            document.getElementById('detail-date').textContent = bidData.date;
+            document.getElementById('detail-timeline').textContent = bidData.timeline;
+            document.getElementById('detail-location').textContent = bidData.location;
+            document.getElementById('detail-requirements').textContent = bidData.requirements;
+            
+            // Set min and max attributes for bid amount input
+            const bidAmountInput = document.getElementById('bid-amount');
+            bidAmountInput.setAttribute('min', bidData.minBid);
+            bidAmountInput.setAttribute('max', bidData.maxBid);
+            bidAmountInput.setAttribute('placeholder', `Enter amount between ₹${formatCurrency(bidData.minBid)} and ₹${formatCurrency(bidData.maxBid)}`);
+        });
+    });
+
+    // Submit Bid Form
+    const submitBidButton = document.getElementById('submit-bid');
+    
+    submitBidButton.addEventListener('click', function() {
+        if (!currentBidId) {
+            alert('Please select a project first');
+            return;
+        }
+        
+        const bidAmount = parseInt(document.getElementById('bid-amount').value.replace(/,/g, ''));
+        
+        if (!bidAmount) {
+            alert('Please enter a bid amount');
+            return;
+        }
+        
+        const bidData = bidDetailsData[currentBidId];
+        
+        // Validate bid amount is within the expected range
+        if (bidAmount < bidData.minBid || bidAmount > bidData.maxBid) {
+            alert(`Your bid must be between ₹${formatCurrency(bidData.minBid)} and ₹${formatCurrency(bidData.maxBid)}`);
+            return;
+        }
+        
+        // Here you would typically send the bid to a server
+        // For this example, we'll just display a success message
+        alert(`Your bid of ₹${formatCurrency(bidAmount)} has been submitted successfully!`);
+        
+        // Reset form
+        document.getElementById('bid-amount').value = '';
+        
+        // Navigate to bid status page
+        document.querySelector('.nav-item[data-section="bid-status"]').click();
+        
+        // In a real application, you would add the new bid to the status list
+        // For this example, we'll just use the static list
+    });
+
+    // Add validation for bid amount input
+    const bidAmountInput = document.getElementById('bid-amount');
+    bidAmountInput.addEventListener('input', function() {
+        // Format the input as currency if needed
+        const value = this.value;
+        if (value && !isNaN(value)) {
+            // Remove any existing error messages
+            const errorMessage = document.getElementById('bid-amount-error');
+            if (errorMessage) {
+                errorMessage.remove();
+            }
+            
+            // Optional: Format as currency
+            // this.value = formatCurrency(value);
+        }
+    });
+
+    bidAmountInput.addEventListener('blur', function() {
+        if (!currentBidId) return;
+        
+        const bidData = bidDetailsData[currentBidId];
+        const bidAmount = parseInt(this.value.replace(/,/g, ''));
+        
+        // Remove any existing error messages
+        const existingError = document.getElementById('bid-amount-error');
+        if (existingError) {
+            existingError.remove();
+        }
+        
+        // Validate bid amount if there is a value
+        if (bidAmount) {
+            if (bidAmount < bidData.minBid || bidAmount > bidData.maxBid) {
+                const errorMessage = document.createElement('div');
+                errorMessage.id = 'bid-amount-error';
+                errorMessage.style.color = 'red';
+                errorMessage.style.fontSize = '14px';
+                errorMessage.style.marginTop = '5px';
+                errorMessage.textContent = `Bid amount must be between ₹${formatCurrency(bidData.minBid)} and ₹${formatCurrency(bidData.maxBid)}`;
+                this.parentNode.appendChild(errorMessage);
+            }
+        }
+    });
+
+    // Helper function to format currency
+    function formatCurrency(amount) {
+        return parseFloat(amount).toLocaleString('en-IN', {
+            maximumFractionDigits: 0
+        });
+    }
+
+    // Status badge functionality
+    const statusBadges = document.querySelectorAll('.status-badge');
+    statusBadges.forEach(badge => {
+        // Add hover effect
+        badge.addEventListener('mouseenter', function() {
+            const status = this.classList.contains('pending') ? 'pending' : 
+                          this.classList.contains('accepted') ? 'accepted' : 'rejected';
+            
+            let statusMessage = '';
+            switch(status) {
+                case 'pending':
+                    statusMessage = 'Your bid is under review';
+                    break;
+                case 'accepted':
+                    statusMessage = 'Congratulations! Your bid was accepted';
+                    break;
+                case 'rejected':
+                    statusMessage = 'Sorry, your bid was not accepted';
+                    break;
+            }
+            
+            this.setAttribute('title', statusMessage);
+        });
+    });
+
+    // Initial setup - show first section
+    document.querySelector('.nav-item').click();
+});
+    </script>
+</body>
+</html>

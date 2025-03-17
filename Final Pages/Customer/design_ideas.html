@@ -111,12 +111,12 @@
             background-color: var(--background-white);
             min-width: 180px;
             box-shadow: var(--shadow-lg);
-            z-index: 1001; /* Increased z-index */
+            z-index: 1001; 
             border-radius: var(--radius-md);
             margin-top: 8px;
             border: 1px solid var(--border-color);
             overflow: hidden;
-            top: 60px; /* Increased from 50px to 60px */
+            top: 60px; 
         }
         
         .dropdown:hover .dropdown-content {
@@ -254,7 +254,7 @@
             transition: all 0.6s ease-in;
         }
         .dropdown:hover .nav-link:after {
-            transform: rotate(180deg); /* Rotate the arrow on hover */
+            transform: rotate(180deg); 
         } 
         
         .hero-section {
@@ -288,24 +288,7 @@
             text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
 
-        /* Mobile responsiveness */
-        @media (max-width: 768px) {
-            .navbar {
-                padding: 0 20px;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-            
-            .logo {
-                font-size: 20px;
-            }
-            
-            .hero-text {
-                font-size: 32px;
-            }
-        }
+
         .container {
             width: 100%;
             max-width: 1200px;
@@ -491,7 +474,7 @@
             position: relative;
             display: inline-block;
             font-weight: 600;
-            margin: 0; /* Remove default margin */
+            margin: 0;
         }
 
         .section-heading:after {
@@ -582,10 +565,9 @@
             </div>
         </div>
     </div>
-    <!-- Main Content -->
+
     <main>
         <div class="container">
-            <!-- Living Room Section -->
             <section id="LivingRoom" class="section">
                 <h2 class="section-heading">Living Room Designs</h2>
                 <div class="dropdown" style="position: absolute; top: 110px; right: 450px; z-index: 1000;">
@@ -696,7 +678,7 @@
                 <p class="section-description">Explore our stunning collection of balcony designs that blend style, functionality, and elegance.</p>
                 
                 <div class="image-grid" id="BalconyGrid">
-                    <!-- Images will be added via JavaScript -->
+                    <!-- Image through js -->
                 </div>
             </section>
 
@@ -706,7 +688,7 @@
                 <p class="section-description">Explore our stunning collection of bedroom designs that blend style, functionality, and elegance.</p>
                 
                 <div class="image-grid" id="BedroomGrid">
-                    <!-- Images will be added via JavaScript -->
+                    <!-- Image through js -->
                 </div>
             </section>
 
@@ -716,7 +698,7 @@
                 <p class="section-description">Explore our stunning collection of bathroom designs that blend style, functionality, and elegance.</p>
                 
                 <div class="image-grid" id="BathroomGrid">
-                    <!-- Images will be added via JavaScript -->
+                    <!-- Image through js -->
                 </div>
             </section>
 
@@ -726,7 +708,7 @@
                 <p class="section-description">Explore our stunning collection of kitchen designs that blend style, functionality, and elegance.</p>
                 
                 <div class="image-grid" id="KitchenGrid">
-                    <!-- Images will be added via JavaScript -->
+                    <!-- Image through js -->
                 </div>
             </section>
         </div>
@@ -743,7 +725,6 @@
         // Categories
         const categories = ['LivingRoom', 'Balcony', 'Bedroom', 'Bathroom', 'Kitchen'];
         
-        // Image links data structure
         const imageLinks = {
             LivingRoom: [
                 'https://cdn.mos.cms.futurecdn.net/DGtgx67LZm6Aq6A25C9Frf-1024-80.jpg.webp',
@@ -787,12 +768,12 @@
             ]
         };
 
-        // Toggle dropdown on button click
+        // Toggle dropdown
         dropdownBtn.addEventListener('click', function() {
             dropdownContent.classList.toggle('show');
         });
 
-        // Close dropdown when clicking elsewhere
+        // Close dropdown
         window.addEventListener('click', function(event) {
             if (!event.target.matches('.dropdown-button') && !event.target.parentElement?.matches('.dropdown-button')) {
                 if (dropdownContent.classList.contains('show')) {
@@ -801,7 +782,6 @@
             }
         });
 
-        // Handle category selection from dropdown
         categoryBtns.forEach(btn => {
             btn.addEventListener('click', function() {
                 const category = this.getAttribute('data-category');
@@ -840,7 +820,7 @@
             }
         }
 
-        // Create design card with error handling
+        // Create design card 
         function createDesignCard(category, index) {
             const card = document.createElement('div');
             card.className = 'design-card';
@@ -848,8 +828,8 @@
             // Check if the category exists in imageLinks and if the index is valid
             const imageSrc = imageLinks[category] && imageLinks[category][index-1] 
                 ? imageLinks[category][index-1]
-                : 'https://via.placeholder.com/400x250?text=Image+Not+Found'; // Fallback image
-            
+                : 'https://via.placeholder.com/400x250?text=Image+Not+Found'; 
+                
             const designLink = `https://example.com/designs/${category.toLowerCase()}/${index}`;
             
             card.innerHTML = `
@@ -878,7 +858,6 @@
                 
                 grid.innerHTML = '';
                 
-                // Get the number of cards to create (based on available images or default to 6)
                 const cardCount = imageLinks[category] ? Math.min(imageLinks[category].length, 6) : 6;
                 
                 for (let i = 1; i <= cardCount; i++) {
@@ -888,14 +867,11 @@
             });
         }
 
-        // Initialize the page
         function init() {
             generateDesignCards();
-            // Set LivingRoom as the default active category
             setActiveCategory('LivingRoom');
         }
 
-        // Run initialization when DOM is fully loaded
         document.addEventListener('DOMContentLoaded', init);
         const notificationIcon = document.getElementById('notificationIcon');
         const notificationPanel = document.getElementById('notificationPanel');

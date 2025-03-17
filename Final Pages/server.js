@@ -7,6 +7,8 @@ const sqlite3 = require("sqlite3").verbose(); // Import SQLite
 const app = express();
 const PORT = 4000;
 
+app.set('view engine', 'ejs');
+
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -29,9 +31,21 @@ const predefinedUsers = {
     role: "admin",
     passKey: "platformpasskey", // Pass key for platform admin
   },
+  "test1@example.com": {
+    password: "platform123", // Password for platform admin
+    role: "customer"
+  },
+  "test2@example.com": {
+    password: "platform123", // Password for platform admin
+    role: "company"
+  },
+  "test3@example.com": {
+    password: "platform123", // Password for platform admin
+    role: "worker"
+  }
 };
 
-// Connect to SQLite database
+// Connecting to SQLite database
 const db = new sqlite3.Database(":memory:", (err) => {
   if (err) {
     console.error("Error connecting to SQLite database:", err.message);
@@ -52,20 +66,21 @@ app.use(express.json());
 
 // Signup Route
 app.post("/signup", (req, res) => {
-  const { email, password, role } = req.body;
+  const { name, email, password, role } = req.body;
 
-  if (!email || !password || !role) {
+  if (!name || !email || !password || !role) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
-  if (predefinedUsers[email] ||users[email]) {
+  if (predefinedUsers[email] || users[email]) {
     return res.status(400).json({ message: "User already exists" });
   }
 
   // Store user in memory
-  users[email] = { password, role };
+  users[email] = { name, password, role };
   res.json({ message: "Signup successful" });
 });
+
 
 // Admin Login Route
 app.post("/admin-login", (req, res) => {
@@ -99,7 +114,6 @@ app.post("/admin-login", (req, res) => {
   res.json({ message: "Login successful", redirect: redirectUrl });
 });
 
-// Login Route
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
 
@@ -107,33 +121,75 @@ app.post("/login", (req, res) => {
     return res.status(400).json({ message: "All fields are required" });
   }
 
-  const user = users[email];
+  // Check predefined users first
+  if (predefinedUsers[email]) {
+    const user = predefinedUsers[email];
+    if (user.password === password) {
+      req.session.user = { email, role: user.role };
+      
+      let redirectUrl = "/";
+      switch (user.role) {
+        case "company":
+        redirectUrl = "/FFSD/Final%20Pages/Company%20Administrator/dashboard.html";
+        break;
+      case "customer":
+        redirectUrl = "/FFSD/Final%20Pages/Customer/home.html";
+        break;
+      case "worker":
+        redirectUrl = "/FFSD/Final%20Pages/Individual%20Worker/dashboard.html";
+        break;
+        default:
+          redirectUrl = "/FFSD/Final%20Pages/combined_homepage.html";
+      }
 
-  if (!user || user.password !== password) {
-    return res.status(401).json({ message: "Invalid credentials" });
+      return res.json({ message: "Login successful", redirect: redirectUrl });
+    } else {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
   }
 
-  // Store user session
-  req.session.user = { email, role: user.role };
+  // Check in SQLite database for registered users
+  db.get("SELECT * FROM users WHERE email = ?", [email], (err, user) => {
+    if (err) {
+      console.error("Database error:", err.message);
+      return res.status(500).json({ message: "Internal server error" });
+    }
 
-  // Redirect based on role
-  let redirectUrl = "/";
-  switch (user.role) {
-    case "company":
-      redirectUrl = "/FFSD/Final%20Pages/Company%20Administrator/dashboard.html";
-      break;
-    case "customer":
-      redirectUrl = "/FFSD/Final%20Pages/Customer/home.html";
-      break;
-    case "worker":
-      redirectUrl = "/FFSD/Final%20Pages/Individual%20Worker/dashboard.html";
-      break;
-    default:
-      redirectUrl = "/FFSD/Final%20Pages/combined_homepage.html";
-  }
+    if (!user || user.password !== password) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
 
-  res.json({ message: "Login successful", redirect: redirectUrl });
+    // Store user session
+    req.session.user = { email, role: user.role };
+
+    // Redirect based on role
+    let redirectUrl = "/";
+    switch (user.role) {
+      case "company":
+        redirectUrl = "/FFSD/Final%20Pages/Company%20Administrator/dashboard.html";
+        break;
+      case "customer":
+        redirectUrl = "/FFSD/Final%20Pages/Customer/home.html";
+        break;
+      case "worker":
+        redirectUrl = "/FFSD/Final%20Pages/Individual%20Worker/dashboard.html";
+        break;
+      default:
+        redirectUrl = "/FFSD/Final%20Pages/combined_homepage.html";
+    }
+
+    res.json({ message: "Login successful", redirect: redirectUrl });
+  });
 });
+
+app.get("/profile", (req, res) => {
+  if (!req.session.user) {
+    return res.redirect("/login"); // Redirect to login if not authenticated
+  }
+
+  res.render("customer_settings.ejs", { user: req.session.user });
+});
+
 
 // Logout Route
 app.post("/logout", (req, res) => {
@@ -147,5 +203,5 @@ app.use(express.static("Final Pages"));
 
 // Start Server
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`Server running at http://localhost:${PORT}/login`);
 });
