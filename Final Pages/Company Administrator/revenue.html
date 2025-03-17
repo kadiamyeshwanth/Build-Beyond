@@ -491,7 +491,7 @@
             </div>
             <div class="revenue-card">
                 <h2>Total Revenue</h2>
-                <p class="revenue" id="total-revenue">$0</p>
+                <p class="revenue" id="total-revenue">₹0</p>
             </div>
         </section>
         
@@ -707,15 +707,15 @@
                         <div class="project-stats">
                             <div class="stat">
                                 <span class="stat-label">Total Cost</span>
-                                <span class="stat-value">$${formatNumber(project.totalCost)}</span>
+                                <span class="stat-value">₹${formatNumber(project.totalCost)}</span>
                             </div>
                             <div class="stat">
                                 <span class="stat-label">Received</span>
-                                <span class="stat-value received">$${formatNumber(project.receivedAmount)}</span>
+                                <span class="stat-value received">₹${formatNumber(project.receivedAmount)}</span>
                             </div>
                             <div class="stat">
                                 <span class="stat-label">Pending</span>
-                                <span class="stat-value pending">$${formatNumber(project.pendingAmount)}</span>
+                                <span class="stat-value pending">₹${formatNumber(project.pendingAmount)}</span>
                             </div>
                         </div>
                     </div>
@@ -739,7 +739,7 @@
                 return total + project.receivedAmount;
             }, 0);
             
-            totalRevenue.textContent = `$${formatNumber(totalRevenueValue)}`;
+            totalRevenue.textContent = `₹${formatNumber(totalRevenueValue)}`;
         }
 
         // Set up event listeners
@@ -826,17 +826,17 @@
                 
                 <div class="detail-row">
                     <div class="detail-label">Total Cost</div>
-                    <div class="detail-value">$${formatNumber(project.totalCost)}</div>
+                    <div class="detail-value">₹${formatNumber(project.totalCost)}</div>
                 </div>
                 
                 <div class="detail-row">
                     <div class="detail-label">Received Amount</div>
-                    <div class="detail-value">$${formatNumber(project.receivedAmount)} (${Math.round(project.receivedAmount / project.totalCost * 100)}%)</div>
+                    <div class="detail-value">₹${formatNumber(project.receivedAmount)} (${Math.round(project.receivedAmount / project.totalCost * 100)}%)</div>
                 </div>
                 
                 <div class="detail-row">
                     <div class="detail-label">Pending Amount</div>
-                    <div class="detail-value">$${formatNumber(project.pendingAmount)}</div>
+                    <div class="detail-value">₹${formatNumber(project.pendingAmount)}</div>
                 </div>
                 
                 <div class="detail-row">
