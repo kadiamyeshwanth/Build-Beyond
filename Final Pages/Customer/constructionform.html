@@ -205,13 +205,13 @@
                 </div>
                 
                 <div id="floorDetails">
-                    <!-- Floor details will be added here dynamically -->
+                    <!-- Floor details added here-->
                 </div>
                 
                 <button type="button" id="generateFloors" class="btn">Generate Floor Details</button>
             </div>
             
-            <!-- Additional Requirements Section -->
+            <!-- Additional Requirements -->
             <div class="form-section">
                 <h2>Additional Requirements</h2>
                 <div class="form-group">
@@ -317,7 +317,7 @@
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
-                // Validate required fields
+                // Validate  fields
                 const requiredFields = form.querySelectorAll('[required]');
                 let isValid = true;
                 
@@ -335,18 +335,11 @@
                     return;
                 }
                 
-                // In a real application, you would send the form data to a server here
                 alert('Form submitted successfully! In a real application, this would be sent to the server.');
                 
-                // For demonstration, log the form data
-                const formData = new FormData(form);
-                console.log('Form Data:');
-                for (let [key, value] of formData.entries()) {
-                    console.log(`${key}: ${value}`);
-                }
             });
             
-            // Add these functions to the global scope
+            // Add or remove floors
             window.removeFloor = function(floorNumber) {
                 const floorElement = document.getElementById(`floor-${floorNumber}`);
                 if (floorElement) {
