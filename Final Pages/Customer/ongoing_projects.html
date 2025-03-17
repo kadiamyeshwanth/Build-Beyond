@@ -231,7 +231,7 @@
             transition: all 0.6s ease-in;
         }
         .dropdown:hover .nav-link:after {
-            transform: rotate(180deg); /* Rotate the arrow on hover */
+            transform: rotate(180deg); 
         } 
         
         .hero-section {
@@ -265,25 +265,6 @@
             text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
 
-        /* Mobile responsiveness */
-        @media (max-width: 768px) {
-            .navbar {
-                padding: 0 20px;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-            
-            .logo {
-                font-size: 20px;
-            }
-            
-            .hero-text {
-                font-size: 32px;
-            }
-        }
-
     .container {
       max-width: 1200px;
       margin: 0 auto;
@@ -304,7 +285,7 @@
     }
     
     .add-project-btn {
-      background-color: #4361ee;
+      background-color: #dcc72a;
       color: white;
       border: none;
       padding: 10px 16px;
@@ -317,7 +298,7 @@
     }
     
     .add-project-btn:hover {
-      background-color: #3a56d4;
+      background-color: #c49c00;
     }
     
     .dashboard-metrics {
@@ -416,7 +397,7 @@
     }
     
     .filter-button.active {
-      background-color: #6a3de8;
+      background-color: #e7c659;
       color: white;
     }
     
@@ -484,7 +465,7 @@
     
     .progress-fill {
       height: 100%;
-      background-color: #4caf50;
+      background-color: #a3a8a3;
       width: 65%;
     }
     
@@ -494,37 +475,6 @@
       font-size: 12px;
       color: #888;
       margin-top: 5px;
-    }
-    
-    .milestone-container {
-      display: flex;
-      margin-top: 10px;
-      font-size: 12px;
-    }
-    
-    .milestone {
-      display: flex;
-      align-items: center;
-      margin-right: 15px;
-    }
-    
-    .milestone-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      margin-right: 5px;
-    }
-    
-    .milestone-complete {
-      background-color: #4caf50;
-    }
-    
-    .milestone-current {
-      background-color: #ff9800;
-    }
-    
-    .milestone-pending {
-      background-color: #e0e0e0;
     }
 
     /* View Details Section */
@@ -588,7 +538,7 @@
     }
 
     .project-details .view-details-btn {
-      background-color: #4361ee;
+      background-color: #e9c46a;
       color: white;
       border: none;
       padding: 10px 16px;
@@ -599,7 +549,7 @@
     }
 
     .project-details .view-details-btn:hover {
-      background-color: #3a56d4;
+      background-color:#dd9f05 ;
     }
   </style>
 </head>
@@ -731,26 +681,6 @@
                 <span>Target: June 2025</span>
               </div>
             </div>
-            
-            <div class="milestone-container">
-              <div class="milestone">
-                <div class="milestone-dot milestone-complete"></div>
-                <span>Foundation</span>
-              </div>
-              <div class="milestone">
-                <div class="milestone-dot milestone-complete"></div>
-                <span>Structure</span>
-              </div>
-              <div class="milestone">
-                <div class="milestone-dot milestone-current"></div>
-                <span>Interiors</span>
-              </div>
-              <div class="milestone">
-                <div class="milestone-dot milestone-pending"></div>
-                <span>Finishing</span>
-              </div>
-            </div>
-            
             <p>Current phase: Interior work</p>
             <div class="action-buttons">
               <button class="view-details-btn">View Details</button>

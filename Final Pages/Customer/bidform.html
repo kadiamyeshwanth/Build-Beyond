@@ -135,7 +135,6 @@
         <h1>Bid Creation Form</h1>
         
         <form id="constructionForm">
-            <!-- Personal Information Section -->
             <div class="form-section">
                 <h2>Customer Information</h2>
                 <div class="form-group">
@@ -154,7 +153,6 @@
                 </div>
             </div>
             
-            <!-- Project Details Section -->
             <div class="form-section">
                 <h2>Project Details</h2>
                 
@@ -196,7 +194,6 @@
                 </div>
             </div>
             
-            <!-- Floor Plans Section -->
             <div class="form-section">
                 <h2>Floor Plans</h2>
                 <div class="form-group">
@@ -205,13 +202,12 @@
                 </div>
                 
                 <div id="floorDetails">
-                    <!-- Floor details will be added here dynamically -->
+                    <!-- floor details -->
                 </div>
                 
                 <button type="button" id="generateFloors" class="btn">Generate Floor Details</button>
             </div>
             
-            <!-- Additional Requirements Section -->
             <div class="form-section">
                 <h2>Additional Requirements</h2>
                 <div class="form-group">
@@ -249,7 +245,6 @@
                 </div>
             </div>
             
-            <!-- Submit Section -->
             <div class="submit-section">
                 <button type="submit" class="btn submit-btn">Submit Project</button>
             </div>
@@ -335,18 +330,11 @@
                     return;
                 }
                 
-                // In a real application, you would send the form data to a server here
                 alert('Form submitted successfully! In a real application, this would be sent to the server.');
                 
-                // For demonstration, log the form data
-                const formData = new FormData(form);
-                console.log('Form Data:');
-                for (let [key, value] of formData.entries()) {
-                    console.log(`${key}: ${value}`);
-                }
             });
             
-            // Add these functions to the global scope
+            // Add or remove floor functions
             window.removeFloor = function(floorNumber) {
                 const floorElement = document.getElementById(`floor-${floorNumber}`);
                 if (floorElement) {

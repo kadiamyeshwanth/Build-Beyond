@@ -232,7 +232,7 @@
             transition: all 0.6s ease-in;
         }
         .dropdown:hover .nav-link:after {
-            transform: rotate(180deg); /* Rotate the arrow on hover */
+            transform: rotate(180deg);
         } 
         .heading{
             width: 2rem;
@@ -270,25 +270,6 @@
             text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
 
-        /* Mobile responsiveness */
-        @media (max-width: 768px) {
-            .navbar {
-                padding: 0 20px;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-            
-            .logo {
-                font-size: 20px;
-            }
-            
-            .hero-text {
-                font-size: 32px;
-            }
-        }
-        
         .container {
             display: flex;
             width: 90%;
@@ -487,7 +468,7 @@
         }
         
         .book-now-btn {
-            background-color: #1890ff;
+            background-color: #f0c776;
             color: white;
             border: none;
             padding: 12px 24px;
@@ -498,7 +479,7 @@
         }
         
         .book-now-btn:hover {
-            background-color: #096dd9;
+            background-color: #eac019;
             transform: translateY(-2px);
         }
         
@@ -613,15 +594,15 @@
     <h1 class="heading">Architects</h1>
     <div class="container">
         <div class="left-section" id="architectList">
-            <!-- Architect cards will be added here -->
+            <!-- cards here -->
         </div>
         
         <div class="right-section">
             <div class="right-content" id="architectDetails">
                 <div class="initial-message">
                     <div class="company-info">
-                        <h2>Welcome to DesignCraft Architects</h2>
-                        <p>DesignCraft Architects is a leading architectural firm dedicated to creating innovative and sustainable designs that inspire and transform communities. With over 20 years of experience, our team of talented architects and designers has delivered award-winning projects across the globe.</p>
+                        <h2>Welcome to Build & Beyond Architects</h2>
+                        <p>Build & Beyond Architects is a leading architectural firm dedicated to creating innovative and sustainable designs that inspire and transform communities. With over 20 years of experience, our team of talented architects and designers has delivered award-winning projects across the globe.</p>
                         <h3>Our Mission</h3>
                         <p>Our mission is to design spaces that enhance the quality of life, promote sustainability, and reflect the unique identity of our clients. We believe in the power of architecture to shape the future and create lasting impact.</p>
                         <h3>Our Services</h3>
@@ -658,28 +639,27 @@
                 notificationPanel.classList.remove('show');
             }
         });
-        // Sample architect data
         const architects = [
             {
                 id: 1,
-                name: "Sarah Johnson",
+                name: "Krishna",
                 title: "Principal Architect",
                 experience: "15 years",
                 image: "https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg",
                 rating: 4.7,
-                bio: "Sarah is an award-winning architect with expertise in sustainable design and urban development. She has worked on numerous high-profile projects across the globe.",
+                bio: "Krishna is an award-winning architect with expertise in sustainable design and urban development. He has worked on numerous high-profile projects across the globe.",
                 specialties: "Sustainable design, Urban planning, Residential architecture",
                 projects: [
                     {
                         name: "Eco Urban Center",
-                        location: "San Francisco, CA",
+                        location: "Guntur, Anddhra Pradesh",
                         year: "2022",
                         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZkV3_0Ft7onHGmmLz-TZbphv7KircKuOMqw&s",
                         description: "A LEED Platinum certified commercial complex featuring innovative green technologies and sustainable materials."
                     },
                     {
                         name: "Riverside Residences",
-                        location: "Portland, OR",
+                        location: "Tenkasi,Chennai",
                         year: "2020",
                         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZkV3_0Ft7onHGmmLz-TZbphv7KircKuOMqw&s",
                         description: "A luxury residential development that seamlessly integrates with its natural surroundings and maximizes river views."
@@ -687,37 +667,37 @@
                 ],
                 reviews: [
                     {
-                        customer: "John Doe",
-                        comment: "Sarah's designs are truly innovative and sustainable. She transformed our vision into reality!",
+                        customer: "Sankar",
+                        comment: "Krishna's designs are truly innovative and sustainable. He transformed our vision into reality!",
                         rating: 5
                     },
                     {
                         customer: "Jane Smith",
-                        comment: "Working with Sarah was a pleasure. Her attention to detail is unmatched.",
+                        comment: "Working with Krishna was a pleasure. His attention to detail is unmatched.",
                         rating: 4.5
                     }
                 ]
             },
             {
                 id: 2,
-                name: "Michael Chen",
+                name: "Balaji",
                 title: "Design Director",
                 experience: "12 years",
                 image: "https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg",
                 rating: 4.9,
-                bio: "Michael specializes in modern minimalist designs that blend functionality with aesthetic appeal. His work has been featured in Architectural Digest.",
+                bio: "Balaji specializes in modern minimalist designs that blend functionality with aesthetic appeal. His work has been featured in Architectural Digest.",
                 specialties: "Minimalist design, Commercial spaces, Interior architecture",
                 projects: [
                     {
                         name: "Glass Pavilion Gallery",
-                        location: "Chicago, IL",
+                        location: "Vijayawada,Andhra",
                         year: "2023",
                         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZkV3_0Ft7onHGmmLz-TZbphv7KircKuOMqw&s",
                         description: "A contemporary art gallery with expansive glass facades that create a seamless transition between indoor and outdoor spaces."
                     },
                     {
                         name: "Skyline Corporate Headquarters",
-                        location: "Seattle, WA",
+                        location: "Mumbai,kolkata",
                         year: "2021",
                         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZkV3_0Ft7onHGmmLz-TZbphv7KircKuOMqw&s",
                         description: "A sleek, modern office complex that optimizes workspace efficiency while prioritizing employee wellbeing."
@@ -725,37 +705,37 @@
                 ],
                 reviews: [
                     {
-                        customer: "Alice Brown",
-                        comment: "Michael's minimalist approach is breathtaking. He exceeded our expectations!",
+                        customer: "Sankar",
+                        comment: "Balaji's minimalist approach is breathtaking. He exceeded our expectations!",
                         rating: 5
                     },
                     {
-                        customer: "Bob White",
-                        comment: "The Glass Pavilion is a masterpiece. Michael is a true visionary.",
+                        customer: "Palvash",
+                        comment: "The Glass Pavilion is a masterpiece. Balaji is a true visionary.",
                         rating: 4.8
                     }
                 ]
             },
             {
                 id: 3,
-                name: "Elena Rodriguez",
+                name: "Prudhvi",
                 title: "Senior Architect",
                 experience: "10 years",
-                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6Hb5xzFZJCTW4cMqmPwsgfw-gILUV7QevvQ&s",
+                image: "https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg",
                 rating: 4.5,
-                bio: "Elena combines traditional architectural principles with cutting-edge technology. She has a passion for heritage conservation and adaptive reuse projects.",
+                bio: "Prudhvi combines traditional architectural principles with cutting-edge technology. He has a passion for heritage conservation and adaptive reuse projects.",
                 specialties: "Historic preservation, Cultural centers, Mixed-use developments",
                 projects: [
                     {
                         name: "Heritage Museum Expansion",
-                        location: "Boston, MA",
+                        location: "Rajyapalayam,Tamil Nasdu",
                         year: "2022",
                         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC7-RFA1xE4wTSP0DZJSJ1AJ8TitBYtkmEYA&s",
                         description: "A thoughtful expansion of a 19th-century museum that preserves historical elements while adding modern functionality."
                     },
                     {
                         name: "Arts District Revitalization",
-                        location: "Denver, CO",
+                        location:   "Kolkata",
                         year: "2019",
                         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC7-RFA1xE4wTSP0DZJSJ1AJ8TitBYtkmEYA&s",
                         description: "A mixed-use development that transformed abandoned industrial buildings into vibrant living, working, and cultural spaces."
@@ -763,75 +743,37 @@
                 ],
                 reviews: [
                     {
-                        customer: "Charlie Green",
-                        comment: "Elena's work on the Heritage Museum is exceptional. She respects history while embracing modernity.",
+                        customer: "Sanakr",
+                        comment: "Prudhvi's work on the Heritage Museum is exceptional. He respects history while embracing modernity.",
                         rating: 4.7
                     },
                     {
-                        customer: "Diana Black",
-                        comment: "The Arts District project is a game-changer. Elena is a brilliant architect.",
-                        rating: 4.6
-                    }
-                ]
-            },
-            {
-                id: 3,
-                name: "Elena Rodriguez",
-                title: "Senior Architect",
-                experience: "10 years",
-                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6Hb5xzFZJCTW4cMqmPwsgfw-gILUV7QevvQ&s",
-                rating: 4.5,
-                bio: "Elena combines traditional architectural principles with cutting-edge technology. She has a passion for heritage conservation and adaptive reuse projects.",
-                specialties: "Historic preservation, Cultural centers, Mixed-use developments",
-                projects: [
-                    {
-                        name: "Heritage Museum Expansion",
-                        location: "Boston, MA",
-                        year: "2022",
-                        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC7-RFA1xE4wTSP0DZJSJ1AJ8TitBYtkmEYA&s",
-                        description: "A thoughtful expansion of a 19th-century museum that preserves historical elements while adding modern functionality."
-                    },
-                    {
-                        name: "Arts District Revitalization",
-                        location: "Denver, CO",
-                        year: "2019",
-                        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC7-RFA1xE4wTSP0DZJSJ1AJ8TitBYtkmEYA&s",
-                        description: "A mixed-use development that transformed abandoned industrial buildings into vibrant living, working, and cultural spaces."
-                    }
-                ],
-                reviews: [
-                    {
-                        customer: "Charlie Green",
-                        comment: "Elena's work on the Heritage Museum is exceptional. She respects history while embracing modernity.",
-                        rating: 4.7
-                    },
-                    {
-                        customer: "Diana Black",
-                        comment: "The Arts District project is a game-changer. Elena is a brilliant architect.",
+                        customer: "Hema",
+                        comment: "The Arts District project is a game-changer. Prudhvi is a brilliant architect.",
                         rating: 4.6
                     }
                 ]
             },
             {
                 id: 4,
-                name: "Elena Rodriguez",
-                title: "Senior Architect",
+                name: "Palvash",
+                title: "Professional Architect",
                 experience: "10 years",
-                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6Hb5xzFZJCTW4cMqmPwsgfw-gILUV7QevvQ&s",
+                image: "https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg",
                 rating: 4.5,
-                bio: "Elena combines traditional architectural principles with cutting-edge technology. She has a passion for heritage conservation and adaptive reuse projects.",
+                bio: "Palvash combines traditional architectural principles with cutting-edge technology. He has a passion for heritage conservation and adaptive reuse projects.",
                 specialties: "Historic preservation, Cultural centers, Mixed-use developments",
                 projects: [
                     {
                         name: "Heritage Museum Expansion",
-                        location: "Boston, MA",
+                        location: "Delhi",
                         year: "2022",
                         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC7-RFA1xE4wTSP0DZJSJ1AJ8TitBYtkmEYA&s",
                         description: "A thoughtful expansion of a 19th-century museum that preserves historical elements while adding modern functionality."
                     },
                     {
                         name: "Arts District Revitalization",
-                        location: "Denver, CO",
+                        location: "Bengaluru",
                         year: "2019",
                         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC7-RFA1xE4wTSP0DZJSJ1AJ8TitBYtkmEYA&s",
                         description: "A mixed-use development that transformed abandoned industrial buildings into vibrant living, working, and cultural spaces."
@@ -839,37 +781,37 @@
                 ],
                 reviews: [
                     {
-                        customer: "Charlie Green",
-                        comment: "Elena's work on the Heritage Museum is exceptional. She respects history while embracing modernity.",
+                        customer: "Sankar",
+                        comment: "Palvash's work on the Heritage Museum is exceptional. He respects history while embracing modernity.",
                         rating: 4.7
                     },
                     {
-                        customer: "Diana Black",
-                        comment: "The Arts District project is a game-changer. Elena is a brilliant architect.",
+                        customer: "Balaji",
+                        comment: "The Arts District project is a game-changer. Palvash is a brilliant architect.",
                         rating: 4.6
                     }
                 ]
             },
             {
                 id: 5,
-                name: "Elena Rodriguez",
-                title: "Senior Architect",
+                name: "Yeshwanth",
+                title: "Experienced Architect",
                 experience: "10 years",
-                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6Hb5xzFZJCTW4cMqmPwsgfw-gILUV7QevvQ&s",
+                image: "https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg",
                 rating: 4.5,
-                bio: "Elena combines traditional architectural principles with cutting-edge technology. She has a passion for heritage conservation and adaptive reuse projects.",
+                bio: "Yeshwanth combines traditional architectural principles with cutting-edge technology. He has a passion for heritage conservation and adaptive reuse projects.",
                 specialties: "Historic preservation, Cultural centers, Mixed-use developments",
                 projects: [
                     {
                         name: "Heritage Museum Expansion",
-                        location: "Boston, MA",
+                        location: "Mumbai",
                         year: "2022",
                         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC7-RFA1xE4wTSP0DZJSJ1AJ8TitBYtkmEYA&s",
                         description: "A thoughtful expansion of a 19th-century museum that preserves historical elements while adding modern functionality."
                     },
                     {
                         name: "Arts District Revitalization",
-                        location: "Denver, CO",
+                        location: "Chennai",
                         year: "2019",
                         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC7-RFA1xE4wTSP0DZJSJ1AJ8TitBYtkmEYA&s",
                         description: "A mixed-use development that transformed abandoned industrial buildings into vibrant living, working, and cultural spaces."
@@ -877,20 +819,58 @@
                 ],
                 reviews: [
                     {
-                        customer: "Charlie Green",
-                        comment: "Elena's work on the Heritage Museum is exceptional. She respects history while embracing modernity.",
+                        customer: "Krishna",
+                        comment: "Yeshwanth's work on the Heritage Museum is exceptional. He respects history while embracing modernity.",
                         rating: 4.7
                     },
                     {
-                        customer: "Diana Black",
-                        comment: "The Arts District project is a game-changer. Elena is a brilliant architect.",
+                        customer: "Hema",
+                        comment: "The Arts District project is a game-changer. Yeshwanth is a brilliant architect.",
+                        rating: 4.6
+                    }
+                ]
+            },
+            {
+                id: 6,
+                name: "Manideep",
+                title: "Urban designs Architect",
+                experience: "10 years",
+                image: "https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg",
+                rating: 4.5,
+                bio: "Manideep combines traditional architectural principles with cutting-edge technology. He has a passion for heritage conservation and adaptive reuse projects.",
+                specialties: "Historic preservation, Cultural centers, Mixed-use developments",
+                projects: [
+                    {
+                        name: "Heritage Museum Expansion",
+                        location: "Kolkata",
+                        year: "2022",
+                        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC7-RFA1xE4wTSP0DZJSJ1AJ8TitBYtkmEYA&s",
+                        description: "A thoughtful expansion of a 19th-century museum that preserves historical elements while adding modern functionality."
+                    },
+                    {
+                        name: "Arts District Revitalization",
+                        location: "Mumbai",
+                        year: "2019",
+                        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC7-RFA1xE4wTSP0DZJSJ1AJ8TitBYtkmEYA&s",
+                        description: "A mixed-use development that transformed abandoned industrial buildings into vibrant living, working, and cultural spaces."
+                    }
+                ],
+                reviews: [
+                    {
+                        customer: "Avinash",
+                        comment: "Manideep's work on the Heritage Museum is exceptional. He respects history while embracing modernity.",
+                        rating: 4.7
+                    },
+                    {
+                        customer: "Sampreeth",
+                        comment: "The Arts District project is a game-changer. Manideep is a brilliant architect.",
                         rating: 4.6
                     }
                 ]
             }
         ];
 
-        // Function to render star rating
+        //render star rating
         function renderRating(rating) {
             const fullStars = Math.floor(rating);
             const halfStar = rating % 1 !== 0;
@@ -907,7 +887,7 @@
             return `<div class="rating">${starsHTML} <span>(${rating})</span></div>`;
         }
 
-        // Function to render customer reviews
+        //render customer reviews
         function renderReviews(reviews) {
             let reviewsHTML = '';
             reviews.forEach(review => {
@@ -922,7 +902,7 @@
             return reviewsHTML;
         }
         
-        // Function to render architect cards
+        //render architect cards
         function renderArchitectList() {
             const architectList = document.getElementById('architectList');
             
@@ -942,15 +922,12 @@
                 `;
                 
                 card.addEventListener('click', () => {
-                    // Remove active class from all cards
                     document.querySelectorAll('.architect-card').forEach(el => {
                         el.classList.remove('active');
                     });
                     
-                    // Add active class to clicked card
                     card.classList.add('active');
                     
-                    // Show architect details
                     showArchitectDetails(architect.id);
                 });
                 
@@ -958,7 +935,7 @@
             });
         }
         
-        // Function to show architect details
+        // show architect details
         function showArchitectDetails(architectId) {
             const architect = architects.find(a => a.id === architectId);
             const detailsContainer = document.getElementById('architectDetails');
@@ -1008,7 +985,7 @@
             }
         }
         
-        // Function to handle Book Now button
+        //  handle Book Now button
         function setupBookNowButton() {
             const bookNowBtn = document.getElementById('bookNowBtn');
             

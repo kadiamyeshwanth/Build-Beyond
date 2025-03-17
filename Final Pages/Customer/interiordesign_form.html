@@ -236,25 +236,6 @@
             margin-top: 20px;
         }
         
-        @media (max-width: 768px) {
-            .container {
-                margin: 20px;
-                padding: 15px;
-            }
-            
-            .room-option {
-                flex: 1 0 calc(50% - 10px);
-            }
-            
-            .dimension-inputs {
-                flex-direction: column;
-            }
-            
-            .dimension-inputs input, 
-            .dimension-inputs select {
-                width: 100%;
-            }
-        }
     </style>
 </head>
 <body>
@@ -415,7 +396,6 @@
             fileInput.addEventListener('change', function() {
                 // Check if files were selected
                 if (this.files.length > 0) {
-                    // Limit to max files
                     const remainingSlots = maxFiles - uploadedFiles.length;
                     const filesToAdd = Array.from(this.files).slice(0, remainingSlots);
                     
@@ -480,7 +460,6 @@
             reader.readAsDataURL(file);
         }
         
-        // Form submission
         const form = document.getElementById('designRequestForm');
         const successMessage = document.getElementById('successMessage');
         
@@ -525,15 +504,11 @@
                 
                 console.log('Design Preference:', formData.get('designPreference'));
                 console.log('Project Description:', formData.get('projectDescription'));
-                
-                // In a real application, you would send this data to a server
-                // For demonstration, just show success message
                 form.style.display = 'none';
                 successMessage.style.display = 'block';
             }
         });
         
-        // Synchronize unit selection
         const dimensionUnit = document.getElementById('dimensionUnit');
         const heightUnit = document.getElementById('heightUnit');
         

@@ -267,25 +267,6 @@
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
         }
 
-        /* Mobile Responsiveness */
-        @media (max-width: 768px) {
-            .navbar {
-                padding: 0 20px;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .logo {
-                font-size: 20px;
-            }
-
-            .hero-text {
-                font-size: 32px;
-            }
-        }
-
         /* Services Section */
         .services-section {
             max-width: 1200px;
@@ -841,24 +822,6 @@
             font-weight: bold;
             cursor: pointer;
         }
-
-        @media (max-width: 900px) {
-            .portfolio-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .highlight-box {
-                grid-column: auto;
-                grid-row: auto;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .portfolio-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
         .container-teams{
             margin-top: 1.5rem;
             margin-bottom: 2rem;
@@ -1246,7 +1209,7 @@
     <!-- How It Works Section -->
     <div class="container">
         <h2>HOW IT WORKS ?</h2>
-        <p style="margin: 9px auto;"><strong>Wehouse</strong> - has been using cutting-edge technology from the outset to address challenges faced by the regular house construction contractors.</p>
+        <p style="margin: 9px auto;"><strong>Build & Beyond</strong> - has been using cutting-edge technology from the outset to address challenges faced by the regular house construction contractors.</p>
         <div class="steps">
             <div class="step">
                 <img src="https://www.wehouse.in/new-assets/images/icon/requirement1.png" alt="Requirement">
@@ -1259,18 +1222,13 @@
                 <div class="step-title">Cost Estimation</div>
             </div>
             <div class="step">
-                <img src="https://www.wehouse.in/new-assets/images/icon/schedule1.png" alt="Schedule Visit">
-                <div class="step-number">3</div>
-                <div class="step-title">Schedule Visit</div>
-            </div>
-            <div class="step">
                 <img src="https://www.wehouse.in/new-assets/images/icon/excute1.png" alt="Work Execution">
-                <div class="step-number">4</div>
+                <div class="step-number">3</div>
                 <div class="step-title">Work Execution</div>
             </div>
             <div class="step">
                 <img src="https://www.wehouse.in/new-assets/images/icon/architecture1.png" alt="Satisfied Delivery">
-                <div class="step-number">5</div>
+                <div class="step-number">4</div>
                 <div class="step-title">Satisfied Delivery</div>
             </div>
         </div>
@@ -1279,8 +1237,8 @@
     <!-- Team Partnership Section -->
     <div class="container-teams">
         <div class="left">
-            <h1>Get true team partnership</h1>
-            <p>Our programs are designed to help you drive conversations, create new revenue streams, and grow your business.</p>
+            <h1>Build Your Dream Team</h1>
+            <p>Our platform connects you with trusted professionals to transform your vision into reality, simplify the building process, and enhance your property value</p>
         </div>
         <div class="right">
             <div class="timeline">
@@ -1288,29 +1246,29 @@
                 <div class="timeline-item">
                     <div class="icon">⭐</div>
                     <div class="content">
-                        <h2>Unlimited Potential</h2>
-                        <p>Together, we can put <br>your brand and your <br>products front and center <br>with thousands of growing <br>companies. Accelerate <br>your business growth.</p>
+                        <h2>Instant Connections</h2>
+                        <p>Browse our extensive network of verified contractors and specialists to find the perfect match for your home construction or renovation project</p>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="icon">🤝</div>
                     <div class="content">
-                        <h2>Flexible Programs</h2>
-                        <p>We make things easy by <br>allowing you to join one <br>of our standard partner <br>programs for quick <br>onboarding or build a <br>custom model.</p>
+                        <h2>Customized Solutions</h2>
+                        <p>View from our available designs or request for your own custom design to the company or individual you hire.</p>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="icon">🚀</div>
                     <div class="content">
-                        <h2>Accelerated Growth</h2>
-                        <p>Our platform provides <br>innovative solutions to <br>help you scale your <br>business and maximize <br>your potential faster.</p>
+                        <h2>Seamless Project Management</h2>
+                        <p>Seamlessly view your project updates and manage the details effectively.</p>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="icon">🏆</div>
                     <div class="content">
-                        <h2>Award-Winning Solutions</h2>
-                        <p>Trusted by thousands, <br>our services have been <br>recognized for their <br>quality, reliability, and <br>customer satisfaction.</p>
+                        <h2>Guaranteed Excellence</h2>
+                        <p>Join thousands of satisfied homeowners who have experienced superior craftsmanship,reasonable pricing.</p>
                     </div>
                 </div>
             </div>
@@ -1319,7 +1277,7 @@
 
     <!-- Footer Section -->
     <div class="footer">
-        <div>© 2022 Wehouse - home construction (formerly known as hocomoco- Home construction and monitoring company) All Right Reserved. Designed By Weblabs.</div>
+        <div>© 2022 Build & Beyond - home construction & Deigning .All Right Reserved.</div>
         <div class="footer-links">
             <a href="privacy-policy.html">Privacy Policy</a>
             <a href="terms-conditions.html">Terms & Conditions</a>
@@ -1344,10 +1302,10 @@
             }
         });
 
-        // Function to animate counting up
+        // animate counting up
         function animateCounter(element, target, duration) {
             let start = 0;
-            const increment = target / (duration / 16); // 16ms is roughly 60fps
+            const increment = target / (duration / 16);
             const timer = setInterval(() => {
                 start += increment;
                 if (start >= target) {
@@ -1359,7 +1317,7 @@
             }, 16);
         }
 
-        // Function to check if element is in viewport
+        //check if element is in viewport
         function isInViewport(element) {
             const rect = element.getBoundingClientRect();
             return (
@@ -1370,20 +1328,19 @@
             );
         }
 
-        // Function to handle scroll and initialize animations
+        //scroll and initialize animations
         function handleScroll() {
             const statItems = document.querySelectorAll('.stat-item');
 
             statItems.forEach(item => {
                 if (isInViewport(item) && !item.classList.contains('visible')) {
-                    // Add visible class for fade-in
                     item.classList.add('visible');
 
                     // Start counter animation
                     const numberElement = item.querySelector('.stat-number');
                     const targetValue = parseInt(numberElement.getAttribute('data-target'));
 
-                    // Adjust duration based on size of number for better visual effect
+                    // Adjust duration  on size of number
                     let duration = 2000;
                     if (targetValue > 10000) duration = 3000;
                     if (targetValue > 100000) duration = 4000;
@@ -1393,12 +1350,9 @@
             });
         }
 
-        // Initialize animations on page load
+        // Initialize animations
         document.addEventListener('DOMContentLoaded', () => {
-            // Initial check
             handleScroll();
-
-            // Check on scroll
             window.addEventListener('scroll', handleScroll);
         });
 
