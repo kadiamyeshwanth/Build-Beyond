@@ -216,6 +216,9 @@ app.get("/home.html", (req, res) => {
 app.get("/construction_comanies_list.html", (req, res) => {
   res.render("construction_companies_list");
 });
+app.get("/construction_companies_profile.html", (req, res) => {
+  res.render("construction_companies_profile");
+});
 app.get("/architect.html", (req, res) => {
   res.render("architect");
 });
