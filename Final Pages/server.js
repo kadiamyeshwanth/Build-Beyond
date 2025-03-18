@@ -97,6 +97,21 @@ app.post("/signup", (req, res) => {
           return res.status(500).json({ message: "Internal server error" });
         }
 
+        // Fetch the user data from the database using email as the key
+        db.get("SELECT * FROM users WHERE email = ?", [email], (err, newUser) => {
+          if (err) {
+            console.error("Error fetching new user:", err.message);
+          } else {
+            // Print user details from database to console
+            console.log('===== New User Signup Details (from DB) =====');
+            console.log('Name:', newUser.name);
+            console.log('Email:', newUser.email);
+            console.log('Role:', newUser.role);
+            console.log('Time:', new Date().toISOString());
+            console.log('============================================');
+          }
+        });
+        
         req.session.user = { name, email, role };
         req.session.save(() => {
           res.json({ message: "Signup successful" });
