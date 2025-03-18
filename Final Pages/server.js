@@ -8,12 +8,10 @@ const path = require('path');
 
 const app = express();
 const PORT = 4000;
-let saved_email=null;
-let saved_name=null;
 app.set("view engine", "ejs");
 
 // SQLite Database Connection
-const db = new sqlite3.Database("./database.sqlite", (err) => {
+const db = new sqlite3.Database(":memory:", (err) => {
   if (err) {
     console.error("Error connecting to SQLite database:", err.message);
   } else {
@@ -34,15 +32,14 @@ app.use(
     store: new SQLiteStore({ db: "sessions.sqlite", dir: "./" }),
     secret: "secretKey",
     resave: false,
-    saveUninitialized: false, // Ensures only active sessions are stored
-    cookie: { maxAge: 24 * 60 * 60 * 1000 }, // 1-day expiry
+    saveUninitialized: false,
+    cookie: { maxAge: 60 * 60 * 1000 }, 
   })
 );
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use(cors());
 app.use(express.json());
 
 // Debug Middleware to Check Session
@@ -73,8 +70,6 @@ const predefinedUsers = {
 // Signup Route
 app.post("/signup", (req, res) => {
   const { name, email, password, role } = req.body;
-  saved_email=email;
-  saved_name=name;
   if (!name || !email || !password || !role) {
     return res.status(400).json({ message: "All fields are required" });
   }
