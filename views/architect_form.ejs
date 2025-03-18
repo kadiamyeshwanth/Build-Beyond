@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architectural Design Request Form</title>
+    <style>
+        :root {
+            --primary-color: #3a6ea5;
+            --secondary-color: #004e89;
+            --accent-color: #ff6b35;
+            --light-bg: #f8f9fa;
+            --border-color: #dee2e6;
+            --text-color: #343a40;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border-color);
+        }
+        
+        .section {
+            margin-bottom: 25px;
+        }
+        
+        .section-title {
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            padding-left: 10px;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+            gap: 20px;
+        }
+        
+        .form-group {
+            flex: 1 1 300px;
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        select {
+            height: 42px;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(58, 110, 165, 0.2);
+        }
+        
+        .file-upload {
+            margin-top: 10px;
+        }
+        
+        .file-upload label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--light-bg);
+            border: 2px dashed var(--border-color);
+            border-radius: 4px;
+            padding: 30px 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+        
+        .file-upload label:hover {
+            background-color: rgba(58, 110, 165, 0.1);
+            border-color: var(--primary-color);
+        }
+        
+        .file-upload input {
+            display: none;
+        }
+        
+        .btn-submit {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto 0;
+            transition: background-color 0.2s ease;
+        }
+        
+        .btn-submit:hover {
+            background-color: #e85a29;
+        }
+        
+        /* Image preview styles */
+        .image-preview-container {
+            margin-top: 15px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+        }
+        
+        .image-preview {
+            position: relative;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+            height: 150px;
+        }
+        
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .image-preview .file-name {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 4px 8px;
+            font-size: 12px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .image-preview .remove-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(255, 0, 0, 0.7);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            font-size: 12px;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .pdf-preview {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #f5f5f5;
+        }
+        
+        .pdf-preview i {
+            font-size: 30px;
+            color: #d9534f;
+            margin-bottom: 5px;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .form-group {
+                flex: 1 1 100%;
+            }
+            
+            .image-preview-container {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+            
+            .image-preview {
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Architectural Design Request Form</h1>
+        
+        <form id="designRequestForm" enctype="multipart/form-data">
+            <!-- Customer Details -->
+            <div class="section">
+                <h2 class="section-title">Customer Details</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fullName">Full Name*</label>
+                        <input type="text" id="fullName" name="fullName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactNumber">Contact Number*</label>
+                        <input type="tel" id="contactNumber" name="contactNumber" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address*</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">Customer Address</h2>
+                <div class="form-group">
+                    <label for="streetAddress">Street Address*</label>
+                    <input type="text" id="streetAddress" name="streetAddress" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="city">City*</label>
+                        <input type="text" id="city" name="city" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State*</label>
+                        <input type="text" id="state" name="state" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="zipCode">Pincode/ZIP Code*</label>
+                        <input type="text" id="zipCode" name="zipCode" required>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Plot Information -->
+            <div class="section">
+                <h2 class="section-title">Plot Information</h2>
+                <div class="form-group">
+                    <label for="plotLocation">Plot Location/Address*</label>
+                    <input type="text" id="plotLocation" name="plotLocation" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="plotSize">Plot Size* (in sq.ft or sq.m)</label>
+                        <input type="text" id="plotSize" name="plotSize" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="plotOrientation">Plot Orientation*</label>
+                        <select id="plotOrientation" name="plotOrientation" required>
+                            <option value="">Select Orientation</option>
+                            <option value="North">North</option>
+                            <option value="South">South</option>
+                            <option value="East">East</option>
+                            <option value="West">West</option>
+                            <option value="North-East">North-East</option>
+                            <option value="North-West">North-West</option>
+                            <option value="South-East">South-East</option>
+                            <option value="South-West">South-West</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Design Requirements -->
+            <div class="section">
+                <h2 class="section-title">Design Requirements</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="designType">Type of Design*</label>
+                        <select id="designType" name="designType" required>
+                            <option value="">Select Design Type</option>
+                            <option value="Residential">Residential</option>
+                            <option value="Commercial">Commercial</option>
+                            <option value="Landscape">Landscape</option>
+                            <option value="Mixed-Use">Mixed-Use</option>
+                            <option value="Industrial">Industrial</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="numFloors">Number of Floors*</label>
+                        <select id="numFloors" name="numFloors" required>
+                            <option value="">Select Number</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5+">5+</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div id="floorRequirements">
+                    <!-- Added based on no.of floors -->
+                </div>
+                
+                <div class="form-group">
+                    <label for="specialFeatures">Special Features</label>
+                    <textarea id="specialFeatures" name="specialFeatures" placeholder="e.g., Balcony, Garden, Parking Space, Swimming Pool, Home Theater, etc."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="architecturalStyle">Preferred Architectural Style*</label>
+                    <select id="architecturalStyle" name="architecturalStyle" required>
+                        <option value="">Select Style</option>
+                        <option value="Modern">Modern</option>
+                        <option value="Traditional">Traditional</option>
+                        <option value="Contemporary">Contemporary</option>
+                        <option value="Minimalist">Minimalist</option>
+                        <option value="Mediterranean">Mediterranean</option>
+                        <option value="Victorian">Victorian</option>
+                        <option value="Colonial">Colonial</option>
+                        <option value="Industrial">Industrial</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">Additional Details</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="budget">Budget (if applicable)</label>
+                        <input type="text" id="budget" name="budget" placeholder="e.g., $50,000 - $100,000">
+                    </div>
+                    <div class="form-group">
+                        <label for="completionDate">Preferred Design Completion Date</label>
+                        <input type="date" id="completionDate" name="completionDate">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Reference Images/Sketches (if any)</label>
+                    <div class="file-upload">
+                        <label for="referenceImages">
+                            <span>Drop files here or click to upload<br>(JPG, PNG, PDF up to 10MB)</span>
+                        </label>
+                        <input type="file" id="referenceImages" name="referenceImages" multiple accept=".jpg, .jpeg, .png, .pdf">
+                    </div>
+                    <div id="imagePreviewContainer" class="image-preview-container"></div>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn-submit">Submit Design Request</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('numFloors').addEventListener('change', function() {
+            const numFloors = parseInt(this.value);
+            const floorRequirements = document.getElementById('floorRequirements');
+            floorRequirements.innerHTML = ''; 
+            if (!isNaN(numFloors)) {
+                const actualFloors = numFloors === 5 ? 5 : numFloors;
+                
+                for (let i = 1; i <= actualFloors; i++) {
+                    const floorDiv = document.createElement('div');
+                    floorDiv.className = 'form-group';
+                    floorDiv.innerHTML = `
+                        <label for="floor${i}">Floor ${i} Room Requirements*</label>
+                        <textarea id="floor${i}" name="floor${i}" placeholder="e.g., 2 Bedrooms, 1 Bathroom, Living Room, etc." required></textarea>
+                    `;
+                    floorRequirements.appendChild(floorDiv);
+                }
+            }
+        });
+
+        // File upload and preview functionality
+        document.getElementById('referenceImages').addEventListener('change', handleFileSelect);
+
+        function handleFileSelect(event) {
+            const files = event.target.files;
+            const previewContainer = document.getElementById('imagePreviewContainer');
+            
+            if (files.length > 0) {
+                previewContainer.innerHTML = '';
+                
+                // Create a preview for each selected file
+                Array.from(files).forEach((file, index) => {
+                    const reader = new FileReader();
+                    const previewElement = document.createElement('div');
+                    previewElement.className = 'image-preview';
+                    
+                    // Add a remove button
+                    const removeButton = document.createElement('button');
+                    removeButton.className = 'remove-btn';
+                    removeButton.textContent = '×';
+                    removeButton.setAttribute('data-index', index);
+                    removeButton.addEventListener('click', function() {
+                        // Remove the preview element
+                        previewContainer.removeChild(previewElement);
+                        
+                        // Update the file input (more complex in actual implementation)
+                        // Note: This is a placeholder - fully removing files from a file input requires special handling
+                        if (previewContainer.children.length === 0) {
+                            document.getElementById('referenceImages').value = '';
+                        }
+                    });
+                    
+                    // Add file name
+                    const fileName = document.createElement('div');
+                    fileName.className = 'file-name';
+                    fileName.textContent = file.name;
+                    
+                    previewElement.appendChild(removeButton);
+                    previewElement.appendChild(fileName);
+                    
+                    if (file.type.startsWith('image/')) {
+                        reader.onload = function(e) {
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            previewElement.appendChild(img);
+                        };
+                        reader.readAsDataURL(file);
+                    } else if (file.type === 'application/pdf') {
+                        // For PDFs, show an icon instead
+                        previewElement.classList.add('pdf-preview');
+                        
+                        // Create a PDF icon (text-based for simplicity)
+                        const pdfIcon = document.createElement('div');
+                        pdfIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#d9534f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M9 15h6"></path><path d="M9 11h6"></path></svg>';
+                        
+                        previewElement.appendChild(pdfIcon);
+                    }
+                    
+                    previewContainer.appendChild(previewElement);
+                });
+            }
+        }
+        
+        document.getElementById('designRequestForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // Validate form
+            if (this.checkValidity()) {
+                const formData = new FormData(this);
+                
+                console.log('Form submitted successfully!');
+                
+                alert('Design request submitted successfully! Our team will contact you shortly.');
+                
+                // this.reset();
+                // document.getElementById('imagePreviewContainer').innerHTML = '';
+                // document.getElementById('floorRequirements').innerHTML = '';
+            } else {
+                this.reportValidity();
+            }
+        });
+    </script>
+</body>
+</html>
