@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Construction Project Submission Form</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .form-section h2 {
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        .floor-container {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+        
+        .floor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .btn {
+            padding: 10px 15px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-remove {
+            background-color: #e74c3c;
+        }
+        
+        .btn-remove:hover {
+            background-color: #c0392b;
+        }
+        
+        .image-preview {
+            max-width: 100%;
+            max-height: 200px;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .submit-section {
+            text-align: center;
+        }
+        
+        .submit-btn {
+            padding: 12px 30px;
+            font-size: 18px;
+            background-color: #2ecc71;
+        }
+        
+        .submit-btn:hover {
+            background-color: #27ae60;
+        }
+        
+        .required:after {
+            content: " *";
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Construction Project Submission Form</h1>
+        
+        <form id="constructionForm">
+            <!-- Personal Information Section -->
+            <div class="form-section">
+                <h2>Customer Information</h2>
+                <div class="form-group">
+                    <label for="customerName" class="required">Full Name</label>
+                    <input type="text" id="customerName" name="customerName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="customerEmail" class="required">Email Address</label>
+                    <input type="email" id="customerEmail" name="customerEmail" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="customerPhone" class="required">Phone Number</label>
+                    <input type="tel" id="customerPhone" name="customerPhone" required>
+                </div>
+            </div>
+            
+            <!-- Project Details Section -->
+            <div class="form-section">
+                <h2>Project Details</h2>
+                
+                <div class="form-group">
+                    <label for="projectAddress" class="required">Project Address</label>
+                    <textarea id="projectAddress" name="projectAddress" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="projectLocation" class="required">Project Location Pincode </label>
+                    <input type="text" id="projectLocation" name="projectLocation" placeholder="e.g.,534260" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="totalArea" class="required">Total Building Area (square meters)</label>
+                    <input type="number" id="totalArea" name="totalArea" step="1" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="buildingType" class="required">Building Type</label>
+                    <select id="buildingType" name="buildingType" required>
+                        <option value="">Select Building Type</option>
+                        <option value="residential">Residential</option>
+                        <option value="commercial">Commercial</option>
+                        <option value="industrial">Industrial</option>
+                        <option value="mixedUse">Mixed Use</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="estimatedBudget">Estimated Budget ($)</label>
+                    <input type="number" id="estimatedBudget" name="estimatedBudget">
+                </div>
+                
+                <div class="form-group">
+                    <label for="projectTimeline">Expected Timeline (months)</label>
+                    <input type="number" id="projectTimeline" name="projectTimeline">
+                </div>
+            </div>
+            
+            <!-- Floor Plans Section -->
+            <div class="form-section">
+                <h2>Floor Plans</h2>
+                <div class="form-group">
+                    <label for="totalFloors" class="required">Number of Floors</label>
+                    <input type="number" id="totalFloors" name="totalFloors" min="1" required>
+                </div>
+                
+                <div id="floorDetails">
+                    <!-- Floor details added here-->
+                </div>
+                
+                <button type="button" id="generateFloors" class="btn">Generate Floor Details</button>
+            </div>
+            
+            <!-- Additional Requirements -->
+            <div class="form-section">
+                <h2>Additional Requirements</h2>
+                <div class="form-group">
+                    <label for="specialRequirements">Special Requirements or Considerations</label>
+                    <textarea id="specialRequirements" name="specialRequirements" placeholder="List any special requirements, materials, or design considerations"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="accessibilityNeeds">Accessibility Needs</label>
+                    <select id="accessibilityNeeds" name="accessibilityNeeds">
+                        <option value="">Select Options</option>
+                        <option value="wheelchair">Wheelchair Accessibility</option>
+                        <option value="elevators">Elevators</option>
+                        <option value="ramps">Ramps</option>
+                        <option value="other">Other</option>
+                        <option value="none">None</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="energyEfficiency">Energy Efficiency Goals</label>
+                    <select id="energyEfficiency" name="energyEfficiency">
+                        <option value="">Select Options</option>
+                        <option value="standard">Standard</option>
+                        <option value="leed">LEED Certified</option>
+                        <option value="passive">Passive House</option>
+                        <option value="netZero">Net Zero</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="siteFiles">Site Plans or Additional Documents</label>
+                    <input type="file" id="siteFiles" name="siteFiles" multiple>
+                </div>
+            </div>
+            
+            <!-- Submit Section -->
+            <div class="submit-section">
+                <button type="submit" class="btn submit-btn">Submit Project</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('constructionForm');
+            const generateFloorsBtn = document.getElementById('generateFloors');
+            const floorDetailsContainer = document.getElementById('floorDetails');
+            
+            // Generate floor details based on the number of floors
+            generateFloorsBtn.addEventListener('click', function() {
+                const totalFloors = parseInt(document.getElementById('totalFloors').value);
+                
+                if (isNaN(totalFloors) || totalFloors <= 0) {
+                    alert('Please enter a valid number of floors');
+                    return;
+                }
+                
+                floorDetailsContainer.innerHTML = '';
+                
+                for (let i = 1; i <= totalFloors; i++) {
+                    const floorDiv = document.createElement('div');
+                    floorDiv.className = 'floor-container';
+                    floorDiv.id = `floor-${i}`;
+                    
+                    floorDiv.innerHTML = `
+                        <div class="floor-header">
+                            <h3>Floor ${i}</h3>
+                            <button type="button" class="btn btn-remove" onclick="removeFloor(${i})">Remove</button>
+                        </div>
+                        <div class="form-group">
+                            <label for="floorType-${i}">Floor Type</label>
+                            <select id="floorType-${i}" name="floorType-${i}" required>
+                                <option value="">Select Floor Type</option>
+                                <option value="residential">Residential</option>
+                                <option value="commercial">Commercial</option>
+                                <option value="parking">Parking</option>
+                                <option value="mechanical">Mechanical/Utility</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="floorArea-${i}">Floor Area (sq meters)</label>
+                            <input type="number" id="floorArea-${i}" name="floorArea-${i}" step="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="floorDescription-${i}">Floor Description</label>
+                            <textarea id="floorDescription-${i}" name="floorDescription-${i}" placeholder="Describe the layout and purpose of this floor"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="floorImage-${i}">Floor Plan Image</label>
+                            <input type="file" id="floorImage-${i}" name="floorImage-${i}" accept="image/*" onchange="previewImage(this, 'imagePreview-${i}')">
+                            <img id="imagePreview-${i}" class="image-preview" src="#" alt="Floor Plan Preview">
+                        </div>
+                    `;
+                    
+                    floorDetailsContainer.appendChild(floorDiv);
+                }
+            });
+            
+            // Form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validate  fields
+                const requiredFields = form.querySelectorAll('[required]');
+                let isValid = true;
+                
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        isValid = false;
+                        field.style.borderColor = 'red';
+                    } else {
+                        field.style.borderColor = '#ddd';
+                    }
+                });
+                
+                if (!isValid) {
+                    alert('Please fill in all required fields');
+                    return;
+                }
+                
+                alert('Form submitted successfully! In a real application, this would be sent to the server.');
+                
+            });
+            
+            // Add or remove floors
+            window.removeFloor = function(floorNumber) {
+                const floorElement = document.getElementById(`floor-${floorNumber}`);
+                if (floorElement) {
+                    floorElement.remove();
+                }
+            };
+            
+            window.previewImage = function(input, previewId) {
+                const preview = document.getElementById(previewId);
+                if (input.files && input.files[0]) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        preview.src = e.target.result;
+                        preview.style.display = 'block';
+                    }
+                    
+                    reader.readAsDataURL(input.files[0]);
+                }
+            };
+        });
+    </script>
+</body>
+</html>

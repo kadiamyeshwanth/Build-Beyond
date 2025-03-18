@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+        :root {
+            --primary-green: #4D7A70;
+            --secondary-green: #6A9E8E;
+            --light-green: #A3C5BB;
+            --dark-grey: #363636;
+            --medium-grey: #5A5A5A;
+            --light-grey: #D0D0D0; /* Adjusted to a darker shade */
+            --white: #FFFFFF;
+            --black: #000000;
+        }
+    
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+    
+        body {
+            background-color: var(--white);
+            color: var(--black);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+    
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: var(--white);
+            height: 60px;
+            color: var(--dark-grey);
+            position: sticky;
+            top: 0;
+            width: 100%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+    
+        .brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--dark-grey);
+        }
+    
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+    
+        .nav-links a {
+            color: var(--medium-grey);
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+    
+        .nav-links a:hover {
+            color: var(--black);
+        }
+    
+        .settings-container {
+            position: relative;
+        }
+    
+        .settings-btn {
+            background: none;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+    
+        .settings-btn:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+    
+        .settings-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--light-grey);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    
+        .settings-svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--medium-grey);
+        }
+    
+        .main-container {
+            flex: 1;
+            padding: 2rem;
+            background-color: var(--light-grey); /* Updated background color */
+        }
+    
+        .page-title {
+            margin-bottom: 1.5rem;
+            color: var(--primary-green);
+            font-size: 1.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    
+        .clients-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+    
+        .client-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+        }
+    
+        .client-card:hover {
+            transform: translateY(-5px);
+        }
+    
+        .client-header {
+            background-color: #858585;
+            padding: 1rem;
+            border-bottom: 1px solid var(--light-grey); /* Updated border color */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    
+        .client-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dark-grey);
+        }
+    
+        .client-type {
+            font-size: 0.8rem;
+            padding: 4px 8px;
+            border-radius: 12px;
+            background-color: var(--primary-green);
+            color: var(--white);
+        }
+    
+        .client-body {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+        }
+    
+        .client-info {
+            margin-bottom: 0.5rem;
+        }
+    
+        .info-row {
+            display: flex;
+            margin-bottom: 0.5rem;
+        }
+    
+        .info-label {
+            width: 120px;
+            color: var(--medium-grey);
+            font-size: 0.9rem;
+        }
+    
+        .info-value {
+            flex: 1;
+            font-weight: 500;
+            color: var(--dark-grey);
+        }
+    
+        .project-section {
+            margin-top: 0.5rem;
+            border-top: 1px solid var(--light-grey); /* Updated border color */
+            padding-top: 0.5rem;
+        }
+    
+        .project-section h4 {
+            margin-bottom: 0.5rem;
+            color: var(--medium-grey);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+    
+        .project-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+    
+        .project-item {
+            background-color: var(--light-grey); /* Updated background color */
+            padding: 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: var(--dark-grey);
+        }
+    
+        .client-footer {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 1rem;
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+    
+        .client-status {
+            font-size: 0.9rem;
+            border-radius: 4px;
+            padding: 4px 8px;
+        }
+    
+        .status-ongoing {
+            background-color: var(--primary-green);
+            color: var(--white);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="brand">Build & Beyond</div> 
+        <div class="nav-links">
+        <a href="/companydashboard.html">Dashboard</a>
+        <a href="/companybids.html">Bids</a>
+        <a href="/companyongoing_projects.html">Ongoing Projects</a>
+        <a href="/companyclients.html">Clients</a>
+        <a href="/companyrevenue.html">Revenue</a>
+        <a href="/companyhiring.html">Hire Now</a>
+        </div>
+        <div class="settings-container">
+        <a href="/companysettings.html" class="settings-btn">
+            <div class="settings-icon">
+            <svg class="settings-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+            </svg>
+            </div>
+        </a>
+        </div>
+  </nav>
+    <div class="main-container">
+        <div class="page-title">
+            <h1>Clients</h1>
+        </div>
+        <div class="clients-grid">
+            <div class="client-card">
+                <div class="client-header">
+                    <div class="client-name">TechCorp Inc.</div>
+                    <div class="client-type">Corporate</div>
+                </div>
+                <div class="client-body">
+                    <div class="client-info">
+                        <div class="info-row">
+                            <div class="info-label">Contact:</div>
+                            <div class="info-value">Michael Stevens</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Phone:</div>
+                            <div class="info-value">(555) 123-4567</div>
+                        </div>
+                    </div>
+                    <div class="project-section">
+                        <h4>Projects</h4>
+                        <div class="project-list">
+                            <div class="project-item">Office Renovation</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="client-footer">
+                    <div class="client-status status-ongoing">Ongoing</div>
+                </div>
+            </div>
+            <div class="client-card">
+                <div class="client-header">
+                    <div class="client-name">Metro Housing Corp.</div>
+                    <div class="client-type">Development</div>
+                </div>
+                <div class="client-body">
+                    <div class="client-info">
+                        <div class="info-row">
+                            <div class="info-label">Contact:</div>
+                            <div class="info-value">Sarah Johnson</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Phone:</div>
+                            <div class="info-value">(555) 987-6543</div>
+                        </div>
+                    </div>       
+                    <div class="project-section">
+                        <h4>Projects</h4>
+                        <div class="project-list">
+                            <div class="project-item">Residential Complex</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="client-footer">
+                    <div class="client-status status-ongoing">Ongoing</div>
+                </div>
+            </div>
+            <div class="client-card">
+                <div class="client-header">
+                    <div class="client-name">Metro Housing Corp.</div>
+                    <div class="client-type">Development</div>
+                </div>
+                <div class="client-body">
+                    <div class="client-info">
+                        <div class="info-row">
+                            <div class="info-label">Contact:</div>
+                            <div class="info-value">Sarah Johnson</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Phone:</div>
+                            <div class="info-value">(555) 987-6543</div>
+                        </div>
+                    </div>
+                    <div class="project-section">
+                        <h4>Projects</h4>
+                        <div class="project-list">
+                            <div class="project-item">Residential Complex</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="client-footer">
+                    <div class="client-status status-ongoing">Ongoing</div>
+                </div>
+            </div>
+            <div class="client-card">
+                <div class="client-header">
+                    <div class="client-name">Metro Housing Corp.</div>
+                    <div class="client-type">Development</div>
+                </div>
+                <div class="client-body">
+                    <div class="client-info">
+                        <div class="info-row">
+                            <div class="info-label">Contact:</div>
+                            <div class="info-value">Sarah Johnson</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Phone:</div>
+                            <div class="info-value">(555) 987-6543</div>
+                        </div>
+                    </div>
+                    <div class="project-section">
+                        <h4>Projects</h4>
+                        <div class="project-list">
+                            <div class="project-item">Residential Complex</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="client-footer">
+                    <div class="client-status status-ongoing">Ongoing</div>
+                </div>
+            </div>
+            <div class="client-card">
+                <div class="client-header">
+                    <div class="client-name">Metro Housing Corp.</div>
+                    <div class="client-type">Development</div>
+                </div>
+                <div class="client-body">
+                    <div class="client-info">
+                        <div class="info-row">
+                            <div class="info-label">Contact:</div>
+                            <div class="info-value">Sarah Johnson</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Phone:</div>
+                            <div class="info-value">(555) 987-6543</div>
+                        </div>
+                    </div>
+                    <div class="project-section">
+                        <h4>Projects</h4>
+                        <div class="project-list">
+                            <div class="project-item">Residential Complex</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="client-footer">
+                    <div class="client-status status-ongoing">Ongoing</div>
+                </div>
+            </div>
+            <div class="client-card">
+                <div class="client-header">
+                    <div class="client-name">Metro Housing Corp.</div>
+                    <div class="client-type">Development</div>
+                </div>
+                <div class="client-body">
+                    <div class="client-info">
+                        <div class="info-row">
+                            <div class="info-label">Contact:</div>
+                            <div class="info-value">Sarah Johnson</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Phone:</div>
+                            <div class="info-value">(555) 987-6543</div>
+                        </div>
+                    </div>
+                    <div class="project-section">
+                        <h4>Projects</h4>
+                        <div class="project-list">
+                            <div class="project-item">Residential Complex</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="client-footer">
+                    <div class="client-status status-ongoing">Ongoing</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    lorem
+</body>
+</html>
+

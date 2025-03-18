@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Settings</title>
+    <title>Settings - Build & Beyond</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -11,17 +11,17 @@
       rel="stylesheet"
     />
     <style>
-        /* General Styles */
         :root {
-            --primary-color: #1a237e; 
-            --secondary-color: #e67e22; 
-            --light-color: #f9f9f9;
-            --dark-color: #333;
+            --primary-color:#4D7A70;
+            --secondary-color: #6A9E8E;
+            --light-color: #A3C5BB;
+            --dark-color: #363636;
             --border-color: #ddd;
             --success-color: #27ae60;
             --danger-color: #e74c3c;
         }
         * {
+            
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -33,65 +33,77 @@
             line-height: 1.6;
         }
         .navbar {
-            position: sticky;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 60px;
-            background-color: #121639;
-            color: white;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
+            padding: 1rem 2rem;
+            background-color: white;
+            height: 60px;
+            color: #343a40;
+            position: sticky;
+            top: 0; 
+            width: 100%; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000; 
         }
-
-        .navbar-left {
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-
-        .navbar-middle {
-            display: flex;
-            gap: 20px;
-        }
-
-        .navbar-middle a {
-            color: white;
-            text-decoration: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        .navbar-middle a:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .navbar-right {
-            display: flex;
-            align-items: center;
-        }
-
-        .profile-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #6c5ce7;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .profile-icon svg {
-            width: 24px;
-            height: 24px;
-            fill: white;
+    
+        .brand {
+            font-size: 1.5rem;
+            font-weight : bold;
+            color: #343a40;
         }
         
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: #495057;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #212529;
+        }
+        
+        .nav_settings-container {
+            position: relative;
+        }
+        
+        .nav_settings-btn {
+            background: none;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+        
+        .nav_settings-btn:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        
+        .nav_settings-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .nav_settings-svg {
+            width: 18px;
+            height: 18px;
+            fill: #495057;
+        }
         .settings-container {
             max-width: 1200px;
             margin: 2rem auto;
@@ -217,27 +229,34 @@
             background-color: #c0392b;
         }
     </style>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <nav class="navbar">
-        <div class="navbar-left">
-            Build & Beyond
+        <div class="brand">Build & Beyond</div>
+        
+        <div class="nav-links">
+          <a href="/companydashboard.html">Dashboard</a>
+          <a href="/companybids.html">Bids</a>
+          <a href="/companyongoing_projects.html">Ongoing Projects</a>
+          <a href="/companyclients.html">Clients</a>
+          <a href="/companyrevenue.html">Revenue</a>
+          <a href="/companyhiring.html">Hire Now</a>
         </div>
-        <div class="navbar-middle">
-            <a href="/workerdashboard.html">Dashboard</a>
-            <a href="/workerjobs.html">New Jobs</a>
-            <a href="/workerjoin_company.html">Join a Company</a>
-        </div>
-        <div class="navbar-right">
-            <div class="profile-icon">
-                <a href="settings.html">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z" fill="white"/>
-                </svg></a>
+        
+        <div class="nav_settings-container">
+          <a href="/companysettings.html" class="nav_settings-btn">
+            <div class="nav_settings-icon">
+              <svg class="nav_settings-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+              </svg>
             </div>
+          </a>
         </div>
-    </nav>
+        
+      </nav>
+ 
     <div class="settings-container">
         <div class="settings-header">
             <h1>Account Settings</h1>
@@ -253,12 +272,12 @@
                 </ul>
             </div>
             <div class="settings-content">
-                <!-- Profile Section -->
+ 
                 <div id="profile" class="settings-section active">
                     <h2>Profile Information</h2>
                     <div id="profile-display">
                         <div class="form-group">
-                            <label>Company Name</label>
+                            <label>Full Name</label>
                             <p>Aarav</p>
                         </div>
                         <div class="form-group">
@@ -274,14 +293,14 @@
                             <p>Avenue Road , Meerut</p>
                         </div>
                         <div class="form-group">
-                            <label>About Company</label>
+                            <label>About Me</label>
                             <p>I'm a homeowner looking to renovate my kitchen and add a deck to the back of my house.</p>
                         </div>
                         <button id="edit-profile-btn" class="btn">Edit Profile</button>
                     </div>
                     <form id="profile-edit" style="display: none;">
                         <div class="form-group">
-                            <label for="fullName">Company Name</label>
+                            <label for="fullName">Full Name</label>
                             <input type="text" id="fullName" class="form-control" value="Aarav">
                         </div>
                         <div class="form-group">
@@ -298,32 +317,14 @@
                             <textarea id="address" class="form-control" rows="3">Avenue Road , Meerut</textarea>
                         </div>
                         <div class="form-group">
-                            <label for="bio">About Company</label>
+                            <label for="bio">About Me</label>
                             <textarea id="bio" class="form-control" rows="5">I'm a homeowner looking to renovate my kitchen and add a deck to the back of my house.</textarea>
                         </div>
                         <button type="button" id="cancel-edit-btn" class="btn btn-secondary" style="margin-right: 1rem;">Cancel</button>
                         <button type="submit" class="btn">Save Changes</button>
                     </form>
                 </div>
-                <!-- Appearance -->
-                <div id="appearance" class="settings-section">
-                    <h2>Appearance Settings</h2>
-                    <form>
-                        <div class="form-group">
-                            <label>Theme</label>
-                            <div class="form-check">
-                                <input type="radio" name="theme" id="themeLight" checked>
-                                <label for="themeLight">Light Mode</label>
-                            </div>
-                            <div class="form-check">
-                                <input type="radio" name="theme" id="themeDark">
-                                <label for="themeDark">Dark Mode</label>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn">Apply</button>
-                    </form>
-                </div>
-                <!-- Security -->
+ 
                 <div id="security" class="settings-section">
                     <h2>Security Settings</h2>
                     <form>
@@ -343,55 +344,7 @@
                         <hr style="margin: 2rem 0;">
                     </form>
                 </div>
-                
-                <!-- Payments -->
-                <div id="payments" class="settings-section">
-                    <h2>Payment Settings</h2>
-                    <div>
-                        <h3 style="margin-bottom: 1rem; color: #555;">Invoices</h3>
-                        <table style="width: 100%; border-collapse: collapse;">
-                            <thead>
-                                <tr style="border-bottom: 2px solid var(--border-color);">
-                                    <th style="text-align: left; padding: 0.75rem;">Invoice #</th>
-                                    <th style="text-align: left; padding: 0.75rem;">Date</th>
-                                    <th style="text-align: left; padding: 0.75rem;">Amount</th>
-                                    <th style="text-align: left; padding: 0.75rem;">Status</th>
-                                    <th style="text-align: left; padding: 0.75rem;"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr style="border-bottom: 1px solid var(--border-color);">
-                                    <td style="padding: 0.75rem;">INV-2025-001</td>
-                                    <td style="padding: 0.75rem;">Mar 05, 2025</td>
-                                    <td style="padding: 0.75rem;">₹10,250.00</td>
-                                    <td style="padding: 0.75rem; color: var(--success-color);">Paid</td>
-                                    <td style="padding: 0.75rem;">
-                                        <a href="payment_document.pdf" style="color: var(--primary-color);">Download</a>
-                                    </td>
-                                </tr>
-                                <tr style="border-bottom: 1px solid var(--border-color);">
-                                    <td style="padding: 0.75rem;">INV-2025-002</td>
-                                    <td style="padding: 0.75rem;">Feb 20, 2025</td>
-                                    <td style="padding: 0.75rem;">₹25,500.00</td>
-                                    <td style="padding: 0.75rem; color: var(--success-color);">Paid</td>
-                                    <td style="padding: 0.75rem;">
-                                        <a href="payment_document.pdf" style="color: var(--primary-color);">Download</a>
-                                    </td>
-                                </tr>
-                                <tr style="border-bottom: 1px solid var(--border-color);">
-                                    <td style="padding: 0.75rem;">INV-2025-003</td>
-                                    <td style="padding: 0.75rem;">Feb 05, 2025</td>
-                                    <td style="padding: 0.75rem;">₹1,00,800.00</td>
-                                    <td style="padding: 0.75rem; color: var(--success-color);">Paid</td>
-                                    <td style="padding: 0.75rem;">
-                                        <a href="payment_document.pdf" style="color: var(--primary-color);">Download</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <!-- Help Center -->
+ 
                 <div id="help-center" class="settings-section">
                 <h2>Help Center</h2>
                     <div style="margin-bottom: 2rem;">
@@ -420,35 +373,37 @@
                         <button class="btn" style="margin-right: 1rem;">Contact Support</button>
                     </div>
                 </div>
-                <!-- Logout -->
+ 
                 <div id="logout" class="settings-section">
                     <h2>Logout</h2>
                     <div style="margin-bottom: 2rem;">
                         <p style="margin-bottom: 1.5rem;">Are you sure you want to log out of your account?</p>
-                        <button class="btn btn-danger">Logout</button>
+                        <a href="/logout"><button class="btn btn-danger">Logout</button></a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <script>
-        //handle tab switching
+ 
         document.addEventListener('DOMContentLoaded', function() {
             const navLinks = document.querySelectorAll('.settings-nav a');
             const sections = document.querySelectorAll('.settings-section');
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
+ 
                     navLinks.forEach(link => link.classList.remove('active'));
                     sections.forEach(section => section.classList.remove('active'));
-                    // Add active class
+ 
                     this.classList.add('active');
+ 
                     const targetId = this.getAttribute('href').substring(1);
                     document.getElementById(targetId).classList.add('active');
                 });
             });
         });
-        // Profile edit
+ 
         const editProfileBtn=document.getElementById('edit-profile-btn');
         const cancelEditBtn=document.getElementById('cancel-edit-btn');
         const profileDisplay=document.getElementById('profile-display');
@@ -466,9 +421,9 @@
             cancelEditBtn.addEventListener('click', function() {
                 profileDisplay.style.display='block';
                 profileEdit.style.display='none';
-                // form reset
+ 
                 document.getElementById('profile-edit').reset();
-                // Hide verify button
+ 
                 verifyEmailBtn.style.display='none';
             });
         }
