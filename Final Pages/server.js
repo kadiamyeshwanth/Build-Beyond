@@ -111,7 +111,7 @@ app.post("/signup", (req, res) => {
             console.log('============================================');
           }
         });
-        
+
         req.session.user = { name, email, role };
         req.session.save(() => {
           res.json({ message: "Signup successful" });
@@ -180,7 +180,7 @@ app.get("/",(req,res)=>{
   res.render("landing_page");
 });
 app.get("/signin_up.html", (req, res) => {
-  res.sendFile(path.join(__dirname,"signin_up.html"));
+  res.render("signin_up_");
 });
 app.get("/adminpage.html", (req, res) => {
   res.render("adminlogin");
