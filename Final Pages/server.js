@@ -196,7 +196,7 @@ app.get("/workerjoin_company.html", (req, res) => {
   res.render("workers_join_company");
 });
 app.get("/workersettings.html", (req, res) => {
-  res.render("worker_settings");
+  res.render("worker_settings", { user: req.session.user });
 });
 // Logout Route
 app.get("/logout", (req, res) => {
@@ -253,7 +253,7 @@ app.get("/architecht_form.html", (req, res) => {
   res.render("architect_form");
 });
 app.get("/customersettings.html", (req, res) => {
-  res.render("customer_settings");
+  res.render("customer_settings", { user: req.session.user });
 });
 app.get("/interiordesign_form.html", (req, res) => {
   res.render("interiordesign_form");
@@ -284,7 +284,7 @@ app.get("/companyhiring.html", (req, res) => {
   res.render("hiring");
 });
 app.get("/companysettings.html", (req, res) => {
-  res.render("company_settings");
+  res.render("company_settings", { user: req.session.user });
 });
 app.get("/revenue_form.html", (req, res) => {
   res.render("revenue_form");
