@@ -41,6 +41,7 @@ app.use(
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
 app.use(cors());
 app.use(express.json());
 
@@ -166,19 +167,114 @@ app.get("/",(req,res)=>{
 app.get("/signin_up.html", (req, res) => {
   res.sendFile(path.join(__dirname,"signin_up.html"));
 });
-// Logout Route
-app.post("/logout", (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      return res.status(500).json({ message: "Logout failed" });
-    }
-    res.json({ message: "Logged out successfully" });
-  });
+app.get("/adminpage.html", (req, res) => {
+  res.render("adminlogin");
 });
-
+// Worker Routes
+app.get("/workerdashboard.html", (req, res) => {
+  res.render("worker_dashboard");
+});
+app.get("/workerjobs.html", (req, res) => {
+  res.render("worker_jobs");
+});
+app.get("/workerjoin_company.html", (req, res) => {
+  res.render("workers_join_company");
+});
+app.get("/workersettings.html", (req, res) => {
+  res.render("worker_settings");
+});
+// Logout Route
+app.get("/logout", (req, res) => {
+  res.render("signin_up_");
+});
 // Serve Static Files
 app.use(express.static("Final Pages"));
+app.get("/companydashboard.html", (req, res) => {
+  res.render("company_dashboard");
+});
 
+app.get("/customerdashboard.html", (req, res) => {
+  res.render("customer_dashboard");
+});
+
+app.get("/workerdashboard.html", (req, res) => {
+  res.render("worker_dashboard");
+});
+
+app.get("/admindashboard.html", (req, res) => {
+  res.render("admin_dashboard");
+});
+
+app.get("/platformadmindashboard.html", (req, res) => {
+  res.render("platform_admin_dashboard");
+});
+
+// Customer Routes 
+app.get("/home.html", (req, res) => {
+  res.render("customer_dashboard");
+});
+app.get("/construction_comanies_list.html", (req, res) => {
+  res.render("construction_companies_list");
+});
+app.get("/architect.html", (req, res) => {
+  res.render("architect");
+});
+app.get("/interior_designer.html", (req, res) => {
+  res.render("interior_design");
+});
+app.get("/ongoing_projects.html", (req, res) => {
+  res.render("ongoing_projects");
+});
+app.get("/bidspace.html", (req, res) => {
+  res.render("bid_space");
+});
+app.get("/design_ideas.html", (req, res) => {
+  res.render("design_ideas");
+});
+app.get("/architecht_form.html", (req, res) => {
+  res.render("architect_form");
+});
+app.get("/customersettings.html", (req, res) => {
+  res.render("customer_settings");
+});
+app.get("/interiordesign_form.html", (req, res) => {
+  res.render("interiordesign_form");
+});
+app.get("/constructionform.html", (req, res) => {
+  res.render("construction_form");
+});
+app.get("/bidform.html", (req, res) => {
+  res.render("bid_form");
+});
+// Company routes
+// app.get("", (req, res) => {
+//   res.render("");
+// });
+app.get("/companybids.html", (req, res) => {
+  res.render("company_bids");
+});
+app.get("/companyongoing_projects.html", (req, res) => {
+  res.render("company_ongoing_projects");
+});
+app.get("/companyclients.html", (req, res) => {
+  res.render("clients");
+});
+app.get("/companyrevenue.html", (req, res) => {
+  res.render("revenue");
+});
+app.get("/companyhiring.html", (req, res) => {
+  res.render("hiring");
+});
+app.get("/companysettings.html", (req, res) => {
+  res.render("company_settings");
+});
+app.get("/revenue_form.html", (req, res) => {
+  res.render("revenue_form");
+});
+
+app.get("/addnewproject_form.html", (req, res) => {
+  res.render("addnewproject_form");
+});
 // Start Server
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
@@ -187,11 +283,11 @@ app.listen(PORT, () => {
 // Helper Function for Role-Based Redirection
 function getRedirectUrl(roleOrPassKey) {
   const redirectUrls = {
-    company: "/FFSD/Final%20Pages/Company%20Administrator/dashboard.html",
-    customer: "/FFSD/Final%20Pages/Customer/home.html",
-    worker: "/FFSD/Final%20Pages/Individual%20Worker/dashboard.html",
-    adminpasskey: "/FFSD/Final%20Pages/Admin%20Page/adminpage.html",
-    platformpasskey: "/FFSD/Final%20Pages/Platform%20Administrator/dashboard.html",
+    company: "/companydashboard.html",
+    customer: "/customerdashboard.html",
+    worker: "/workerdashboard.html",
+    adminpasskey: "/admindashboard.html",
+    platformpasskey: "platformadmindashboard.html",
   };
   return redirectUrls[roleOrPassKey] || "/FFSD/Final%20Pages/combined_homepage.html";
 }

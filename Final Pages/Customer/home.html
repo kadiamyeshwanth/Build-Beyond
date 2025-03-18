@@ -1379,6 +1379,14 @@
             line.style.height = totalHeight + "px";
             line.classList.add('scroll-effect');
         });
+        document.addEventListener('click', function () {
+        const profileSettingsButton = document.getElementById('profile_settings');
+        if (profileSettingsButton) {
+            profileSettingsButton.addEventListener('click', function () {
+                window.location.href = 'http://localhost:4000/profile';
+            });
+            }
+        });
     </script>
 </body>
 </html>
