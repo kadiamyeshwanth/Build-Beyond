@@ -3,29 +3,45 @@ const bodyParser = require("body-parser");
 const session = require("express-session");
 const SQLiteStore = require("connect-sqlite3")(session);
 const cors = require("cors");
-const sqlite3 = require("sqlite3").verbose();
 const path = require('path');
-
+const mongoose = require("mongoose");
 const app = express();
 const PORT = 4000;
 app.set("view engine", "ejs");
+// Replace with your MongoDB connection string
+const mongoURI = "mongodb+srv://isaimanideepp:Sai62818@cluster0.mng20.mongodb.net/Build&Beyond?retryWrites=true&w=majority";
+mongoose.connect(mongoURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(() => console.log("Connected to MongoDB Atlas"))
+  .catch(err => console.error("MongoDB Connection Error:", err));
+  const userSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    role: { type: String, enum: ["customer", "company", "worker"], required: true },
+    createdAt: { type: Date, default: Date.now },
+    profile: {
+      phone: String,
+      dob: Date,
+      address: String,
+      company: {
+        companyName: String,
+        contactPerson: String,
+        license: String,
+      },
+      worker: {
+        specialization: String,
+        experience: Number,
+        aadhar: String,
+        certificates: [String],
+      }
+    }
+  });
 
-// SQLite Database Connection
-const db = new sqlite3.Database(":memory:", (err) => {
-  if (err) {
-    console.error("Error connecting to SQLite database:", err.message);
-  } else {
-    console.log("Connected to SQLite database");
-    db.run(
-      `CREATE TABLE IF NOT EXISTS users (
-        email TEXT PRIMARY KEY,
-        password TEXT NOT NULL,
-        name TEXT NOT NULL,
-        role TEXT NOT NULL)`
-    );
-  }
-});
-
+const User = mongoose.model("User", userSchema);
+module.exports = User;
 // Session Middleware with Persistent Storage
 app.use(
   session({
@@ -68,52 +84,32 @@ const predefinedUsers = {
 };
 
 // Signup Route
-app.post("/signup", (req, res) => {
-  const { name, email, password, role } = req.body;
-  if (!name || !email || !password || !role) {
-    return res.status(400).json({ message: "All fields are required" });
-  }
+app.post('/signup', async (req, res) => {
+  const { name, email, password, role, profile } = req.body;
 
-  db.get("SELECT * FROM users WHERE email = ?", [email], (err, user) => {
-    if (err) {
-      console.error("Database error:", err.message);
-      return res.status(500).json({ message: "Internal server error" });
-    }
-
-    if (predefinedUsers[email] || user) {
+  try {
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    db.run("INSERT INTO users (email, password, name, role) VALUES (?, ?, ?, ?)", 
-      [email, password, name, role], 
-      (err) => {
-        if (err) {
-          console.error("Error inserting user:", err.message);
-          return res.status(500).json({ message: "Internal server error" });
-        }
+    // Create a new user (password is stored as plaintext)
+    const newUser = new User({
+      name,
+      email,
+      password, // Store password as plaintext
+      role,
+      profile,
+    });
 
-        // Fetch the user data from the database using email as the key
-        db.get("SELECT * FROM users WHERE email = ?", [email], (err, newUser) => {
-          if (err) {
-            console.error("Error fetching new user:", err.message);
-          } else {
-            // Print user details from database to console
-            console.log('===== New User Signup Details (from DB) =====');
-            console.log('Name:', newUser.name);
-            console.log('Email:', newUser.email);
-            console.log('Role:', newUser.role);
-            console.log('Time:', new Date().toISOString());
-            console.log('============================================');
-          }
-        });
+    await newUser.save();
 
-        req.session.user = { name, email, role };
-        req.session.save(() => {
-          res.json({ message: "Signup successful" });
-        });
-      }
-    );
-  });
+    res.status(201).json({ message: "Signup successful" });
+  } catch (err) {
+    console.error("Error during signup:", err);
+    res.status(500).json({ message: "Internal server error" });
+  }
 });
 
 // Admin Login Route
@@ -140,37 +136,30 @@ app.post("/admin-login", (req, res) => {
 });
 
 // General Login Route
-app.post("/login", (req, res) => {
+app.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
-  if (!email || !password) {
-    return res.status(400).json({ message: "All fields are required" });
-  }
-
-  if (predefinedUsers[email] && predefinedUsers[email].password === password) {
-    req.session.user = { name: predefinedUsers[email].name, email, role: predefinedUsers[email].role };
-    req.session.save(() => {
-      res.json({ message: "Login successful", redirect: getRedirectUrl(predefinedUsers[email].role) });
-    });
-    return;
-  }
-
-  db.get("SELECT * FROM users WHERE email = ?", [email], (err, user) => {
-    if (err) {
-      console.error("Database error:", err.message);
-      return res.status(500).json({ message: "Internal server error" });
-    }
-
-    if (!user || user.password !== password) {
+  try {
+    // Find the user by email
+    const user = await User.findOne({ email });
+    if (!user) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    req.session.user = { name: user.name, email: user.email, role: user.role };
-    req.session.save(() => {
-      res.json({ message: "Login successful", redirect: getRedirectUrl(user.role) });
-    });
-  });
+    // Compare passwords (plaintext comparison)
+    if (password !== user.password) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    // Set session or JWT token
+    req.session.user = { id: user._id, email: user.email, role: user.role };
+    res.json({ message: "Login successful", redirect: getRedirectUrl(user.role) });
+  } catch (err) {
+    console.error("Error during login:", err);
+    res.status(500).json({ message: "Internal server error" });
+  }
 });
+// Landing Route
 app.get("/",(req,res)=>{
   res.render("landing_page");
 });
@@ -182,16 +171,16 @@ app.get("/adminpage.html", (req, res) => {
 });
 // Worker Routes
 app.get("/workerdashboard.html", (req, res) => {
-  res.render("worker_dashboard");
+  res.render("worker/worker_dashboard");
 });
 app.get("/workerjobs.html", (req, res) => {
-  res.render("worker_jobs");
+  res.render("worker/worker_jobs");
 });
 app.get("/workerjoin_company.html", (req, res) => {
-  res.render("workers_join_company");
+  res.render("worker/workers_join_company");
 });
 app.get("/workersettings.html", (req, res) => {
-  res.render("worker_settings", { user: req.session.user });
+  res.render("worker/worker_settings", { user: req.session.user });
 });
 // Logout Route
 app.get("/logout", (req, res) => {
@@ -200,93 +189,93 @@ app.get("/logout", (req, res) => {
 // Serve Static Files
 app.use(express.static("Final Pages"));
 app.get("/companydashboard.html", (req, res) => {
-  res.render("company_dashboard");
+  res.render("company/company_dashboard");
 });
 
 app.get("/customerdashboard.html", (req, res) => {
-  res.render("customer_dashboard");
+  res.render("customer/customer_dashboard");
 });
 
 app.get("/workerdashboard.html", (req, res) => {
-  res.render("worker_dashboard");
+  res.render("worker/worker_dashboard");
 });
 
 app.get("/admindashboard.html", (req, res) => {
-  res.render("admin_dashboard");
+  res.render("admin/admin_dashboard");
 });
 
 app.get("/platformadmindashboard.html", (req, res) => {
-  res.render("platform_admin_dashboard");
+  res.render("platform_admin/platform_admin_dashboard");
 });
 
 // Customer Routes 
 app.get("/home.html", (req, res) => {
-  res.render("customer_dashboard");
+  res.render("customer/customer_dashboard");
 });
 app.get("/construction_comanies_list.html", (req, res) => {
-  res.render("construction_companies_list");
+  res.render("customer/construction_companies_list");
 });
 app.get("/construction_companies_profile.html", (req, res) => {
-  res.render("construction_companies_profile");
+  res.render("customer/construction_companies_profile");
 });
 app.get("/architect.html", (req, res) => {
-  res.render("architect");
+  res.render("customer/architect");
 });
 app.get("/interior_designer.html", (req, res) => {
-  res.render("interior_design");
+  res.render("customer/interior_design");
 });
 app.get("/ongoing_projects.html", (req, res) => {
-  res.render("ongoing_projects");
+  res.render("customer/ongoing_projects");
 });
 app.get("/bidspace.html", (req, res) => {
-  res.render("bid_space");
+  res.render("customer/bid_space");
 });
 app.get("/design_ideas.html", (req, res) => {
-  res.render("design_ideas");
+  res.render("customer/design_ideas");
 });
 app.get("/architecht_form.html", (req, res) => {
-  res.render("architect_form");
+  res.render("customer/architect_form");
 });
 app.get("/customersettings.html", (req, res) => {
-  res.render("customer_settings", { user: req.session.user });
+  res.render("customer/customer_settings", { user: req.session.user });
 });
 app.get("/interiordesign_form.html", (req, res) => {
-  res.render("interiordesign_form");
+  res.render("customer/interiordesign_form");
 });
 app.get("/constructionform.html", (req, res) => {
-  res.render("construction_form");
+  res.render("customer/construction_form");
 });
 app.get("/bidform.html", (req, res) => {
-  res.render("bid_form");
+  res.render("customer/bid_form");
 });
 // Company routes
 // app.get("", (req, res) => {
 //   res.render("");
 // });
 app.get("/companybids.html", (req, res) => {
-  res.render("company_bids");
+  res.render("company/company_bids");
 });
 app.get("/companyongoing_projects.html", (req, res) => {
-  res.render("company_ongoing_projects");
+  res.render("company/company_ongoing_projects");
 });
 app.get("/companyclients.html", (req, res) => {
-  res.render("clients");
+  res.render("company/clients");
 });
 app.get("/companyrevenue.html", (req, res) => {
-  res.render("revenue");
+  res.render("company/revenue");
 });
 app.get("/companyhiring.html", (req, res) => {
-  res.render("hiring");
+  res.render("company/hiring");
 });
 app.get("/companysettings.html", (req, res) => {
-  res.render("company_settings", { user: req.session.user });
+  res.render("company/company_settings", { user: req.session.user });
 });
 app.get("/revenue_form.html", (req, res) => {
-  res.render("revenue_form");
+  res.render("company/revenue_form");
 });
 
 app.get("/addnewproject_form.html", (req, res) => {
-  res.render("addnewproject_form");
+  res.render("company/addnewproject_form");
 });
 // Start Server
 app.listen(PORT, () => {
@@ -294,13 +283,12 @@ app.listen(PORT, () => {
 });
 
 // Helper Function for Role-Based Redirection
-function getRedirectUrl(roleOrPassKey) {
+function getRedirectUrl(role) {
   const redirectUrls = {
-    company: "/companydashboard.html",
     customer: "/customerdashboard.html",
+    company: "/companydashboard.html",
     worker: "/workerdashboard.html",
-    adminpasskey: "/admindashboard.html",
-    platformpasskey: "platformadmindashboard.html",
+    admin: "/admindashboard.html",
   };
-  return redirectUrls[roleOrPassKey] || "/FFSD/Final%20Pages/combined_homepage.html";
+  return redirectUrls[role] || "/";
 }
