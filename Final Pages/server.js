@@ -8,6 +8,10 @@ const mongoose = require("mongoose");
 const app = express();
 const PORT = 4000;
 app.set("view engine", "ejs");
+app.use(cors({
+  origin: 'http://localhost:4000',
+  credentials: true
+}));
 // Replace with your MongoDB connection string
 const mongoURI = "mongodb+srv://isaimanideepp:Sai62818@cluster0.mng20.mongodb.net/Build&Beyond?retryWrites=true&w=majority";
 mongoose.connect(mongoURI, {
@@ -74,7 +78,7 @@ const predefinedUsers = {
   "platformadmin@example.com": {
     name: "Platform Admin",
     password: "platform123",
-    role: "admin",
+    role: "platform_admin",
     passKey: "platformpasskey",
   },
   "test1@example.com": { name: "Test Customer", password: "platform123", role: "customer" },
@@ -125,11 +129,21 @@ app.post("/admin-login", (req, res) => {
     return res.status(401).json({ message: "Invalid credentials" });
   }
 
-  req.session.user = { name: user.name, email, role: user.role };
-  req.session.save(() => {
+  req.session.user = { 
+    name: user.name, 
+    email, 
+    role: user.role  // Make sure role is included
+  };
+  
+  // Save session before sending response
+  req.session.save((err) => {
+    if (err) {
+      console.error("Session save error:", err);
+      return res.status(500).json({ message: "Session error" });
+    }
     res.json({
       message: "Login successful",
-      redirect: getRedirectUrl(passKey),
+      redirect: getRedirectUrl(user.role)  // Pass role instead of passKey
     });
   });
 });
@@ -139,20 +153,42 @@ app.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Find the user by email
+    // First check predefined users
+    const predefinedUser = predefinedUsers[email];
+    if (predefinedUser && predefinedUser.password === password) {
+      req.session.user = { 
+        name: predefinedUser.name, 
+        email, 
+        role: predefinedUser.role 
+      };
+      return res.json({ 
+        message: "Login successful", 
+        redirect: getRedirectUrl(predefinedUser.role) 
+      });
+    }
+
+    // If not a predefined user, check MongoDB
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    // Compare passwords (plaintext comparison)
+    // Compare passwords (plaintext comparison - NOT RECOMMENDED)
     if (password !== user.password) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    // Set session or JWT token
-    req.session.user = { id: user._id, email: user.email, role: user.role };
-    res.json({ message: "Login successful", redirect: getRedirectUrl(user.role) });
+    // Set session for MongoDB user
+    req.session.user = { 
+      id: user._id, 
+      name: user.name,
+      email: user.email, 
+      role: user.role 
+    };
+    res.json({ 
+      message: "Login successful", 
+      redirect: getRedirectUrl(user.role) 
+    });
   } catch (err) {
     console.error("Error during login:", err);
     res.status(500).json({ message: "Internal server error" });
@@ -288,6 +324,7 @@ function getRedirectUrl(role) {
     company: "/companydashboard.html",
     worker: "/workerdashboard.html",
     admin: "/admindashboard.html",
+    platform_admin: "/platformadmindashboard.html"
   };
   return redirectUrls[role] || "/";
 }
