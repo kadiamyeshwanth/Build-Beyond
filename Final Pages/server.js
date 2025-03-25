@@ -60,7 +60,6 @@ app.use(express.json());
 
 // Debug Middleware to Check Session
 app.use((req, res, next) => {
-  console.log("Session Data:", req.session);
   next();
 });
 
