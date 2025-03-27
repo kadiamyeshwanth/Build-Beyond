@@ -1076,40 +1076,124 @@
         .catch(error => console.error('Error:', error));
         });
 
-        // Function to handle signup form submission
         document.getElementById('register-form').addEventListener('submit', function(e) {
-    e.preventDefault();
+        e.preventDefault();
 
-    const userType = document.getElementById('user-type').value;
-    const name = document.getElementById('customer-name')?.value || 
-                 document.getElementById('company-name')?.value || 
-                 document.getElementById('worker-name')?.value; // Get Name
-    const email = document.getElementById('customer-email')?.value || 
-                  document.getElementById('company-email')?.value || 
-                  document.getElementById('worker-email')?.value;
-    const password = document.getElementById('reg-password').value;
-
-    if (!name || !email || !password || !userType) {
-        alert("Please fill in all required fields.");
-        return;
-    }
-
-    fetch('http://localhost:4000/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password, role: userType }) // Send name
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.message === "Signup successful") {
-            alert('Signup successful! Please login.');
-            document.getElementById('show-login').click(); // Switch to login form
-        } else {
-            alert(data.message);
+        // Get user type
+        const userType = document.getElementById('user-type').value;
+        if (!userType) {
+            alert("Please select a user type.");
+            return;
         }
-    })
-    .catch(error => console.error('Error:', error));
-});
+
+        // Common fields for all user types
+        const password = document.getElementById('reg-password').value;
+        const confirmPassword = document.getElementById('confirm-password').value;
+        const termsAccepted = document.getElementById('terms').checked;
+
+        // Validate common fields
+        if (!password || !confirmPassword) {
+            alert("Please fill in all password fields.");
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            alert("Passwords do not match.");
+            return;
+        }
+
+        if (!termsAccepted) {
+            alert("You must accept the terms and conditions.");
+            return;
+        }
+
+        // Create base data object with common fields
+        const formData = {
+            role: userType,
+            password: password,
+            termsAccepted: termsAccepted
+        };
+
+        // Add fields based on user type
+        if (userType === 'customer') {
+            formData.name = document.getElementById('customer-name').value;
+            formData.email = document.getElementById('customer-email').value;
+            formData.dob = document.getElementById('customer-dob').value;
+            formData.phone = document.getElementById('customer-phone').value;
+        } 
+        else if (userType === 'company') {
+            formData.companyName = document.getElementById('company-name').value;
+            formData.contactPerson = document.getElementById('contact-person').value;
+            formData.email = document.getElementById('company-email').value;
+            formData.phone = document.getElementById('company-phone').value;
+            
+            // Handle file upload for company
+            const companyFiles = document.getElementById('company-documents').files;
+            if (companyFiles.length > 0) {
+                formData.companyDocuments = Array.from(companyFiles).map(file => file.name);
+                // Note: For actual file upload, you'll need FormData instead of JSON
+            }
+        } 
+        else if (userType === 'worker') {
+            formData.name = document.getElementById('worker-name').value;
+            formData.dob = document.getElementById('worker-dob').value;
+            formData.email = document.getElementById('worker-email').value;
+            formData.aadharNumber = document.getElementById('aadhar-number').value;
+            formData.phone = document.getElementById('worker-phone').value;
+            formData.specialization = document.getElementById('specialization').value;
+            formData.experience = document.getElementById('experience').value;
+            
+            // Handle file upload for worker
+            const workerFiles = document.getElementById('worker-documents').files;
+            if (workerFiles.length > 0) {
+                formData.workerDocuments = Array.from(workerFiles).map(file => file.name);
+                // Note: For actual file upload, you'll need FormData instead of JSON
+            }
+        }
+
+        // Validate required fields for the specific user type
+        let isValid = true;
+        if (userType === 'customer') {
+            if (!formData.name || !formData.email) {
+                isValid = false;
+            }
+        } else if (userType === 'company') {
+            if (!formData.companyName || !formData.contactPerson || !formData.email) {
+                isValid = false;
+            }
+        } else if (userType === 'worker') {
+            if (!formData.name || !formData.email || !formData.aadharNumber) {
+                isValid = false;
+            }
+        }
+
+        if (!isValid) {
+            alert("Please fill in all required fields.");
+            return;
+        }
+
+        // For file uploads, you would typically use FormData instead of JSON
+        // This example uses JSON for simplicity, but for actual file uploads see note below
+        
+        fetch('http://localhost:4000/signup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message === "Signup successful") {
+                alert('Signup successful! Please login.');
+                document.getElementById('show-login').click();
+            } else {
+                alert(data.message || 'Signup failed. Please try again.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred during signup. Please try again.');
+        });
+    });
     </script>
 </body>
 </html>
