@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ongoing Projects</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --primary-green: #4D7A70;
+      --secondary-green: #6A9E8E;
+      --light-green: #A3C5BB;
+      --dark-grey: #363636;
+      --medium-grey: #5A5A5A;
+      --light-grey: #E0E0E0;
+      --white: #FFFFFF;
+      --black: #000000;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: var(--white);
+      color: var(--black);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      background-color: var(--light-grey);
+      flex: 1;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .header h1 {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--primary-green);
+    }
+
+    .add-project-btn {
+      background-color: var(--primary-green);
+      color: var(--white);
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .add-project-btn:hover {
+      background-color: var(--secondary-green);
+    }
+
+    .dashboard-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .metric-card {
+      background-color: var(--white);
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .metric-title {
+      color: var(--medium-grey);
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .metric-value {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--primary-green);
+    }
+
+    .content-wrapper {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .left-section {
+      width: 75%;
+      background-color: var(--white);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .project-display {
+      display: flex;
+      border-bottom: 1px solid var(--light-grey);
+      padding: 1.5rem;
+    }
+
+    .project-image {
+      width: 40%;
+      border-right: 1px solid var(--light-grey);
+      padding: 0;
+    }
+
+    .project-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .project-details {
+      width: 60%;
+      padding: 1.5rem;
+    }
+
+    .project-details h2 {
+      margin-bottom: 1rem;
+      color: var(--dark-grey);
+      font-size: 1.5rem;
+    }
+
+    .project-details p {
+      margin-bottom: 1rem;
+      color: var(--medium-grey);
+      line-height: 1.5;
+    }
+
+    .project-details .location {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+      color: var(--medium-grey);
+      font-size: 0.9rem;
+    }
+
+    .project-tag {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      background-color: var(--light-grey);
+      color: var(--primary-green);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      margin-right: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .status-tag {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      background-color: #E5F4EF;
+      color: var(--primary-green);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      margin-right: 0.5rem;
+    }
+
+    .progress-container {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background-color: var(--light-grey);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background-color: var(--secondary-green);
+      width: 65%;
+    }
+
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--medium-grey);
+      margin-top: 0.5rem;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .view-details-btn, .edit-btn {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .view-details-btn {
+      background-color: var(--primary-green);
+      color: var(--white);
+    }
+
+    .view-details-btn:hover {
+      background-color: var(--secondary-green);
+    }
+
+    .edit-btn {
+      background-color: var(--light-grey);
+      color: var(--medium-grey);
+    }
+
+    .edit-btn:hover {
+      background-color: #D0D0D0;
+    }
+
+    .view-details {
+      display: none;
+      padding: 1.5rem;
+      border-top: 1px solid var(--light-grey);
+    }
+
+    .view-details.active {
+      display: block;
+    }
+
+    .view-details h3 {
+      font-size: 1.2rem;
+      color: var(--dark-grey);
+      margin-bottom: 1rem;
+    }
+
+    .view-details .images {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .view-details .images img {
+      width: 150px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    .view-details .recent-updates {
+      margin-bottom: 1.5rem;
+    }
+
+    .view-details .update {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .view-details .update img {
+      width: 100px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    .view-details .update p {
+      flex: 1;
+      color: var(--medium-grey);
+      line-height: 1.5;
+    }
+
+    .right-section {
+      width: 25%;
+    }
+
+    .filter-properties {
+      background-color: var(--white);
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .filter-properties h2 {
+      margin-bottom: 1rem;
+      color: var(--dark-grey);
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .filter-button {
+      display: block;
+      width: 100%;
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+      text-align: center;
+      border-radius: 4px;
+      border: none;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .filter-button.active {
+      background-color: var(--primary-green);
+      color: var(--white);
+    }
+
+    .filter-button.inactive {
+      background-color: var(--light-grey);
+      color: var(--medium-grey);
+    }
+
+    .filter-button.inactive:hover {
+      background-color: #D0D0D0;
+    }
+
+    
+  </style>
+</head>
+<body>
+  <%- include('navbar_company') %>
+  <div class="container">
+ 
+    <div class="header">
+      <h1>Company Dashboard</h1>
+      <a href="/addnewproject_form.html" style="text-decoration: none;"><button class="add-project-btn">+ Add New Project</button></a>
+    </div>
+    
+    <div class="dashboard-metrics">
+      <div class="metric-card">
+        <div class="metric-title">Total Active Projects</div>
+        <div class="metric-value">10</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-title">Monthly Revenue</div>
+        <div class="metric-value">₹4.8 Cr</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-title">Customer Satisfaction</div>
+        <div class="metric-value">4.7/5</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-title">Projects On Schedule</div>
+        <div class="metric-value">85%</div>
+      </div>
+    </div>
+    
+ 
+    <div class="content-wrapper">
+      <div class="left-section">
+        <div class="project-display">
+          <div class="project-image">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqjSRsiV4Q22mOElSnkcct2oZmd-1iVrNOcQ&s" alt="Project Image">
+          </div>
+          <div class="project-details">
+            <h2>Sunset Hills Residences</h2>
+            <div class="location">
+              <span>📍 Westview District, Los Angeles</span>
+            </div>
+            <div>
+              <span class="project-tag">Luxury</span>
+              <span class="status-tag">Under Construction</span>
+            </div>
+            
+            <div class="progress-container">
+              <div class="progress-bar">
+                <div class="progress-fill"></div>
+              </div>
+              <div class="progress-text">
+                <span>Project Completion: 65%</span>
+                <span>Target: June 2025</span>
+              </div>
+            </div>
+            
+            <p>Current phase: Interior work</p>
+            <div class="action-buttons">
+              <button class="view-details-btn">View Details</button>
+              <a href="addnewproject_form.html" style="text-decoration: none;"><button class="edit-btn">Edit</button></a>
+            </div>
+          </div>
+        </div>
+        <div class="view-details">
+          <h3>All Images</h3>
+          <div class="images">
+            <img src="https://via.placeholder.com/150" alt="Project Image 1">
+            <img src="https://via.placeholder.com/150" alt="Project Image 2">
+            <img src="https://via.placeholder.com/150" alt="Project Image 3">
+          </div>
+          <h3>Recent Updates</h3>
+          <div class="recent-updates">
+            <div class="update">
+              <img src="https://via.placeholder.com/100" alt="Update Image 1">
+              <p>Interior work is progressing as planned. The living room and kitchen areas are nearing completion.</p>
+              
+            </div>
+            <div class="update">
+              <img src="https://via.placeholder.com/100" alt="Update Image 2">
+              <p>Exterior painting has started. The color scheme has been finalized and approved by the clients.</p>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="right-section">
+        <div class="filter-properties">
+          <h2>Filter Properties</h2>
+          <button class="filter-button active">All Properties</button>
+          <button class="filter-button inactive">Under Construction</button>
+          <button class="filter-button inactive">Ready to Move</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+ 
+    const viewDetailsBtn = document.querySelector('.view-details-btn');
+    const viewDetailsSection = document.querySelector('.view-details');
+
+    viewDetailsBtn.addEventListener('click', () => {
+      viewDetailsSection.classList.toggle('active');
+    });
+  </script>
+</body>
+</html>
