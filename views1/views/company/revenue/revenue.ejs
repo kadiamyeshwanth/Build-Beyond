@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects Management Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+        :root {
+          --primary-green: #4D7A70;
+          --secondary-green: #6A9E8E;
+          --light-green: #A3C5BB;
+          --dark-grey: #363636;
+          --medium-grey: #5A5A5A;
+          --light-grey: #E0E0E0;
+          --white: #FFFFFF;
+          --black: #000000;
+        }
+    
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: 'Poppins', sans-serif;
+        }
+    
+        body {
+          background-color: var(--white);
+          color: var(--black);
+          display: flex;
+          flex-direction: column;
+          min-height: 100vh;
+        }
+        .container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 2rem;
+          flex: 1;
+        }
+    
+        header {
+          margin-bottom: 2rem;
+          text-align: center;
+        }
+    
+        header h1 {
+          color: var(--primary-green);
+          font-size: 1.8rem;
+          font-weight: bold;
+        }
+        .revenue-section {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+          gap: 1.5rem;
+          margin-bottom: 2rem;
+        }
+    
+        .revenue-card {
+          background-color: var(--white);
+          border-radius: 8px;
+          padding: 1.5rem;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          text-align: center;
+          transition: transform 0.3s, box-shadow 0.3s;
+        }
+    
+        .revenue-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+    
+        .revenue-card h2 {
+          font-size: 1rem;
+          margin-bottom: 0.5rem;
+          color: var(--medium-grey);
+        }
+    
+        .revenue-card .count {
+          font-size: 1.8rem;
+          font-weight: bold;
+          color: var(--primary-green);
+        }
+    
+        .revenue-card .revenue {
+          font-size: 1.8rem;
+          font-weight: bold;
+          color: var(--secondary-green);
+        }
+        .main-content {
+          display: grid;
+          grid-template-columns: 3fr 1fr;
+          gap: 1.5rem;
+        }
+        .projects-section {
+          background-color: var(--white);
+          border-radius: 8px;
+          padding: 1.5rem;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+    
+        .projects-section h2 {
+          margin-bottom: 1.5rem;
+          color: var(--dark-grey);
+          font-size: 1.2rem;
+        }
+    
+        .project-card {
+          background-color: var(--light-grey);
+          border-radius: 6px;
+          padding: 1rem;
+          margin-bottom: 1rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          transition: background-color 0.3s;
+        }
+    
+        .project-card:hover {
+          background-color: #E5F4EF;
+        }
+    
+        .project-info {
+          flex: 1;
+        }
+    
+        .project-info h3 {
+          margin-bottom: 0.5rem;
+          color: var(--dark-grey);
+          font-size: 1rem;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+    
+        .status-badge {
+          font-size: 0.8rem;
+          padding: 0.3rem 0.8rem;
+          border-radius: 100px;
+          text-transform: uppercase;
+          font-weight: 500;
+          letter-spacing: 0.5px;
+        }
+    
+        .status-ongoing {
+          background-color: rgba(77, 122, 112, 0.15);
+          color: var(--primary-green);
+          border: 1px solid rgba(77, 122, 112, 0.3);
+        }
+    
+        .status-completed {
+          background-color: rgba(106, 158, 142, 0.15);
+          color: var(--secondary-green);
+          border: 1px solid rgba(106, 158, 142, 0.3);
+        }
+    
+        .project-stats {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+        }
+    
+        .stat {
+          display: flex;
+          flex-direction: column;
+          margin-right: 1rem;
+        }
+    
+        .stat-label {
+          font-size: 0.8rem;
+          color: var(--medium-grey);
+          text-transform: uppercase;
+        }
+    
+        .stat-value {
+          font-weight: 600;
+          color: var(--dark-grey);
+        }
+    
+        .received {
+          color: var(--secondary-green);
+        }
+    
+        .pending {
+          color: #FF9800;
+        }
+    
+        .details-button {
+          background-color: var(--primary-green);
+          color: var(--white);
+          border: none;
+          border-radius: 10px;
+          padding: 0.5rem 1rem;
+          cursor: pointer;
+          font-weight: 500;
+          transition: background-color 0.3s;
+        }
+    
+        .details-button:hover {
+          background-color: var(--secondary-green);
+        }
+        .filter-section {
+          background-color: var(--white);
+          border-radius: 8px;
+          padding: 1.5rem;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+    
+        .filter-section h2 {
+          margin-bottom: 1.5rem;
+          color: var(--dark-grey);
+          font-size: 1.2rem;
+        }
+    
+        .filter-buttons {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+    
+        .filter-btn {
+          padding: 0.5rem 1rem;
+          border: 1px solid var(--light-grey);
+          background-color: var(--white);
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 0.9rem;
+          transition: all 0.3s;
+          text-align: left;
+        }
+    
+        .filter-btn:hover {
+          background-color: var(--light-grey);
+          border-color: var(--primary-green);
+        }
+    
+        .filter-btn.active {
+          background-color: var(--primary-green);
+          color: var(--white);
+          border-color: var(--primary-green);
+          font-weight: 500;
+        }
+    
+        .modal {
+          display: none;
+          position: fixed;
+          z-index: 100;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.6);
+        }
+    
+        .modal-content {
+          background-color: var(--white);
+          margin: 10% auto;
+          padding: 1.5rem;
+          width: 80%;
+          max-width: 700px;
+          border-radius: 8px;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+          position: relative;
+        }
+    
+        .close-modal {
+          position: absolute;
+          right: 1rem;
+          top: 1rem;
+          font-size: 1.5rem;
+          color: var(--medium-grey);
+          cursor: pointer;
+        }
+    
+        .close-modal:hover {
+          color: var(--dark-grey);
+        }
+    
+        #modal-project-name {
+          margin-bottom: 1.5rem;
+          color: var(--dark-grey);
+        }
+    
+        .detail-row {
+          display: flex;
+          margin-bottom: 1rem;
+          padding-bottom: 1rem;
+          border-bottom: 1px solid var(--light-grey);
+        }
+    
+        .detail-label {
+          width: 40%;
+          font-weight: 600;
+          color: var(--medium-grey);
+        }
+    
+        .detail-value {
+          width: 60%;
+          color: var(--dark-grey);
+        }
+    
+        .progress-bar-container {
+          width: 100%;
+          height: 8px;
+          background-color: var(--light-grey);
+          border-radius: 4px;
+          margin-top: 0.5rem;
+          overflow: hidden;
+        }
+    
+        .progress-bar {
+          height: 100%;
+          background-color: var(--secondary-green);
+          border-radius: 4px;
+          transition: width 0.5s ease-in-out;
+        }
+    
+        .no-projects {
+          padding: 1.5rem;
+          text-align: center;
+          color: var(--medium-grey);
+          font-style: italic;
+        }
+        @media (max-width: 900px) {
+          .revenue-section {
+            grid-template-columns: repeat(2, 1fr);
+          }
+    
+          .main-content {
+            grid-template-columns: 1fr;
+          }
+    
+          .filter-buttons {
+            flex-direction: row;
+            flex-wrap: wrap;
+          }
+    
+          .filter-btn {
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+          }
+        }
+    
+        @media (max-width: 600px) {
+          .revenue-section {
+            grid-template-columns: 1fr;
+          }
+    
+          .project-card {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+    
+          .details-button {
+            margin: 0.5rem 0;
+            width: 100%;
+          }
+    
+          .project-stats {
+            margin-top: 0.5rem;
+            width: 100%;
+          }
+    
+          .stat {
+            margin-bottom: 0.5rem;
+          }
+    
+          .modal-content {
+            width: 95%;
+            margin: 5% auto;
+            padding: 1rem;
+          }
+        }
+      </style>
+</head>
+<body>
+    <%- include('navbar_company') %>
+   <div class="container">
+        <header>
+            <h1>Revenue Management Dashboard</h1>
+        </header>
+        
+        <section class="revenue-section">
+            <div class="revenue-card">
+                <h2>Total Ongoing Projects</h2>
+                <p class="count" id="ongoing-count"><%= ongoingCount %></p>
+            </div>
+            <div class="revenue-card">
+                <h2>Total Completed Projects</h2>
+                <p class="count" id="completed-count"><%= completedCount %></p>
+            </div>
+            <div class="revenue-card">
+                <h2>Total Revenue</h2>
+                <p class="revenue" id="total-revenue">₹<%= formatNumber(totalRevenue) %></p>
+            </div>
+        </section>
+        
+        <div class="main-content">
+            <section class="projects-section">
+                <h2>All Projects</h2>
+                <div class="projects-list" id="projects-list">
+                    <% if (projects.length === 0) { %>
+                        <p class="no-projects">No projects found</p>
+                    <% } else { %>
+                        <% projects.forEach(project => { %>
+                            <div class="project-card">
+                                <div class="project-info">
+                                    <h3><%= project.name %> <span class="status-badge status-<%= project.status %>"><%= project.status %></span></h3>
+                                    <div class="project-stats">
+                                        <div class="stat">
+                                            <span class="stat-label">Total Cost</span>
+                                            <span class="stat-value">₹<%= formatNumber(project.totalCost) %></span>
+                                        </div>
+                                        <div class="stat">
+                                            <span class="stat-label">Received</span>
+                                            <span class="stat-value received">₹<%= formatNumber(project.receivedAmount) %></span>
+                                        </div>
+                                        <div class="stat">
+                                            <span class="stat-label">Pending</span>
+                                            <span class="stat-value pending">₹<%= formatNumber(project.pendingAmount) %></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="details-button" data-id="<%= project._id %>">View Details</button>
+                                <a href="/edit/<%= project._id %>"><button class="details-button">Edit</button></a>
+                            </div>
+                        <% }); %>
+                    <% } %>
+                </div>
+            </section>
+            
+            <aside class="filter-section">
+                <h2>Filter Projects</h2>
+                <div class="filter-buttons">
+                    <button class="filter-btn" data-filter="ongoing">Ongoing Projects</button>
+                    <button class="filter-btn" data-filter="completed">Completed Projects</button>
+                    <button class="filter-btn active" data-filter="all">All Projects</button>
+                </div>
+            </aside>
+        </div>
+    </div>
+    
+    <div id="project-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 id="modal-project-name">Project Details</h2>
+            <div id="modal-project-details"></div>
+        </div>
+    </div>
+
+    <script>
+        // Client-side filtering functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const projectCards = document.querySelectorAll('.project-card');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const filter = button.dataset.filter;
+                    
+                    // Update active button
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    // Update projects list heading
+                    const projectsHeading = document.querySelector('.projects-section h2');
+                    projectsHeading.textContent = filter === 'all' ? 'All Projects' : 
+                                                filter === 'ongoing' ? 'Ongoing Projects' : 
+                                                'Completed Projects';
+                    
+                    // Filter projects
+                    projectCards.forEach(card => {
+                        const status = card.querySelector('.status-badge').className.includes('ongoing') ? 'ongoing' : 'completed';
+                        if (filter === 'all' || status === filter) {
+                            card.style.display = 'flex';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // Modal functionality
+            const modal = document.getElementById('project-modal');
+            const closeModal = document.querySelector('.close-modal');
+            const detailsButtons = document.querySelectorAll('.details-button[data-id]');
+            
+            detailsButtons.forEach(button => {
+                button.addEventListener('click', async function() {
+                    const projectId = this.dataset.id;
+                    
+                    try {
+                        const response = await fetch(`/api/projects/${projectId}`);
+                        const project = await response.json();
+                        
+                        if (response.ok) {
+                            showProjectDetails(project);
+                        } else {
+                            console.error('Error fetching project details');
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });
+            
+            closeModal.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+            
+            window.addEventListener('click', event => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+            
+            function showProjectDetails(project) {
+                const modalProjectName = document.getElementById('modal-project-name');
+                const modalProjectDetails = document.getElementById('modal-project-details');
+                
+                modalProjectName.textContent = project.name;
+                
+                let endDateInfo = project.status === 'completed' 
+                    ? `<div class="detail-row">
+                        <div class="detail-label">End Date</div>
+                        <div class="detail-value">${formatDate(project.endDate)}</div>
+                       </div>`
+                    : `<div class="detail-row">
+                        <div class="detail-label">Estimated End Date</div>
+                        <div class="detail-value">${formatDate(project.estimatedEndDate)}</div>
+                       </div>`;
+                
+                modalProjectDetails.innerHTML = `
+                    <div class="detail-row">
+                        <div class="detail-label">Status</div>
+                        <div class="detail-value">${capitalizeFirstLetter(project.status)}</div>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <div class="detail-label">Client</div>
+                        <div class="detail-value">${project.clientName}</div>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <div class="detail-label">Location</div>
+                        <div class="detail-value">${project.location}</div>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <div class="detail-label">Total Cost</div>
+                        <div class="detail-value">₹${formatNumber(project.totalCost)}</div>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <div class="detail-label">Received Amount</div>
+                        <div class="detail-value">₹${formatNumber(project.receivedAmount)} (${Math.round(project.receivedAmount / project.totalCost * 100)}%)</div>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <div class="detail-label">Pending Amount</div>
+                        <div class="detail-value">₹${formatNumber(project.pendingAmount)}</div>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <div class="detail-label">Start Date</div>
+                        <div class="detail-value">${formatDate(project.startDate)}</div>
+                    </div>
+                    
+                    ${endDateInfo}
+                    
+                    <div class="detail-row">
+                        <div class="detail-label">Completion</div>
+                        <div class="detail-value">
+                            ${project.completionPercentage}%
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" style="width: ${project.completionPercentage}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <div class="detail-label">Description</div>
+                        <div class="detail-value">${project.description}</div>
+                    </div>
+                `;
+                
+                modal.style.display = 'block';
+            }
+            
+            function formatNumber(number) {
+                return number.toLocaleString('en-US');
+            }
+            
+            function formatDate(dateString) {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            }
+            
+            function capitalizeFirstLetter(string) {
+                return string.charAt(0).toUpperCase() + string.slice(1);
+            }
+        });
+    </script>
+</body>
+</html>

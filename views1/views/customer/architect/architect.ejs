@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architect Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+        } 
+        .heading{
+            width: 2rem;
+            margin: 2rem auto;
+        }
+        .container {
+            display: flex;
+            width: 90%;
+            height: 90vh;
+            margin: 5vh auto;
+            background-color: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .left-section {
+            width: 40%;
+            height: 100%;
+            overflow-y: auto;
+            border-right: 1px solid #e0e0e0;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        
+        .a_right_section {
+            width: 60%;
+            height: 100%;
+            position: relative;
+            padding: 20px;
+            background-color: white;
+        }
+        
+        .architect-card {
+            display: flex;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #e0e0e0;
+            background-color: white;
+        }
+        
+        .architect-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .architect-card.active {
+            background-color: #e6f7ff;
+            border-color: #91d5ff;
+        }
+        
+        .architect-image-small {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .architect-info h3 {
+            margin-bottom: 5px;
+            color: #333;
+            font-size: 18px;
+        }
+        
+        .architect-info p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .rating {
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+        }
+        
+        .rating .star {
+            color: #ffd700;
+            font-size: 16px;
+            margin-right: 2px;
+        }
+        
+        .right-content {
+            height: calc(100% - 60px);
+            overflow-y: auto;
+            padding-bottom: 20px;
+        }
+        
+        .right-content h2 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 24px;
+        }
+        
+        .right-content .architect-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .architect-image-large {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 20px;
+            border: 3px solid #e0e0e0;
+        }
+        
+        .bio {
+            margin-bottom: 30px;
+        }
+        
+        .bio h3 {
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 20px;
+        }
+        
+        .bio p {
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .projects {
+            margin-top: 30px;
+        }
+        
+        .projects h3 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 20px;
+        }
+        
+        .project {
+            margin-bottom: 30px;
+        }
+        
+        .project h4 {
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 18px;
+        }
+        
+        .project-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .project p {
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .reviews {
+            margin-top: 30px;
+        }
+        
+        .reviews h3 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 20px;
+        }
+        
+        .review {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .review h4 {
+            margin-bottom: 5px;
+            color: #333;
+            font-size: 16px;
+        }
+        
+        .review p {
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .book-now-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px;
+            background-color: white;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+        }
+        
+        .book-now-btn {
+            background-color: #f0c776;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        
+        .book-now-btn:hover {
+            background-color: #eac019;
+            transform: translateY(-2px);
+        }
+        
+        .hidden {
+            display: none;
+        }
+
+        .company-info {
+            margin-bottom: 30px;
+        }
+
+        .company-info h2 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 24px;
+        }
+
+        .company-info p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .company-info ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            color: #555;
+        }
+
+        .company-info ul li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <%- include('navbar_customer') %> 
+    <h1 class="heading">Architects</h1>
+    <div class="container">
+        <div class="left-section" id="architectList">
+            <!-- Architect cards will be rendered here dynamically -->
+        </div>
+        
+        <div class="a_right_section">
+            <div class="right-content" id="architectDetails">
+                <% if (typeof selectedArchitect === 'undefined') { %>
+                    <div class="initial-message">
+                        <div class="company-info">
+                            <h2>Welcome to Build & Beyond Architects</h2>
+                            <p>Build & Beyond Architects is a leading architectural firm dedicated to creating innovative and sustainable designs that inspire and transform communities. With over 20 years of experience, our team of talented architects and designers has delivered award-winning projects across the globe.</p>
+                            <h3>Our Mission</h3>
+                            <p>Our mission is to design spaces that enhance the quality of life, promote sustainability, and reflect the unique identity of our clients. We believe in the power of architecture to shape the future and create lasting impact.</p>
+                            <h3>Our Services</h3>
+                            <ul>
+                                <li>Residential Architecture</li>
+                                <li>Commercial Architecture</li>
+                                <li>Urban Planning</li>
+                                <li>Interior Design</li>
+                                <li>Historic Preservation</li>
+                                <li>Sustainable Design</li>
+                            </ul>
+                        </div>
+                    </div>
+                <% } else { %>
+                    <div class="architect-header">
+                        <img src="<%= selectedArchitect.image %>" alt="<%= selectedArchitect.name %>" class="architect-image-large">
+                        <div>
+                            <h2><%= selectedArchitect.name %></h2>
+                            <p><strong><%= selectedArchitect.title %></strong> with <%= selectedArchitect.experience %> experience</p>
+                            <%- renderRating(selectedArchitect.rating) %>
+                        </div>
+                    </div>
+                    
+                    <div class="bio">
+                        <h3>About</h3>
+                        <p><%= selectedArchitect.bio %></p>
+                        <p><strong>Specialties:</strong> <%= selectedArchitect.specialties %></p>
+                    </div>
+                    
+                    <div class="projects">
+                        <h3>Notable Projects</h3>
+                        <% selectedArchitect.projects.forEach(project => { %>
+                            <div class="project">
+                                <h4><%= project.name %> (<%= project.year %>)</h4>
+                                <p><strong>Location:</strong> <%= project.location %></p>
+                                <img src="<%= project.image %>" alt="<%= project.name %>" class="project-image">
+                                <p><%= project.description %></p>
+                            </div>
+                        <% }); %>
+                    </div>
+                    
+                    <div class="reviews">
+                        <h3>Customer Reviews</h3>
+                        <%- renderReviews(selectedArchitect.reviews) %>
+                    </div>
+                <% } %>
+            </div>
+            
+            <div class="book-now-container">
+                <% if (typeof selectedArchitect !== 'undefined') { %>
+                    <a href="/book-architect/<%= selectedArchitect._id %>"><button class="book-now-btn" id="bookNowBtn">Book Now</button></a>
+                <% } else { %>
+                    <a href="/book-architect"><button class="book-now-btn" id="bookNowBtn">Book Now</button></a>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+<script>
+        // Client-side interactivity
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle architect card clicks
+            document.getElementById('architectList').addEventListener('click', function(e) {
+                const card = e.target.closest('.architect-card');
+                if (card) {
+                    const architectId = card.dataset.id;
+                    window.location.href = `/architects/${architectId}`;
+                }
+            });
+        });
+
+        // Helper function to render star rating (client-side fallback)
+        function renderRating(rating) {
+            const fullStars = Math.floor(rating);
+            const halfStar = rating % 1 !== 0;
+            let starsHTML = '';
+
+            for (let i = 0; i < fullStars; i++) {
+                starsHTML += '<span class="star">★</span>';
+            }
+
+            if (halfStar) {
+                starsHTML += '<span class="star">½</span>';
+            }
+
+            return `<div class="rating">${starsHTML} <span>(${rating})</span></div>`;
+        }
+</script>
+</body>
+</html>

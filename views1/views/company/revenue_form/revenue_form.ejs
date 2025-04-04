@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>City Heights Tower Payment Form</title>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Form</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --primary-green: #4D7A70;
+      --secondary-green: #6A9E8E;
+      --light-green: #A3C5BB;
+      --dark-grey: #363636;
+      --medium-grey: #5A5A5A;
+      --light-grey: #E0E0E0;
+      --white: #FFFFFF;
+      --black: #000000;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: var(--white);
+      color: var(--black);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background-color: var(--white);
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .card-header {
+      background-color: var(--primary-green);
+      color: var(--white);
+      padding: 20px 30px;
+      text-align: center;
+    }
+
+    .card-header h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .building-icon {
+      display: block;
+      margin: 0 auto 15px;
+      width: 50px;
+      height: 50px;
+      background-color: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .building-icon svg {
+      width: 28px;
+      height: 28px;
+      fill: var(--primary-green);
+    }
+
+    .card-body {
+      padding: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--medium-grey);
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-with-symbol {
+      padding-left: 30px !important;
+    }
+
+    input[type="text"], input[type="number"] {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid var(--light-grey);
+      border-radius: 6px;
+      font-size: 1rem;
+      color: var(--dark-grey);
+      background-color: var(--white);
+      transition: border-color 0.3s;
+    }
+
+    input[type="text"]:focus, input[type="number"]:focus {
+      border-color: var(--primary-green);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(77, 122, 112, 0.1);
+    }
+
+    .currency-symbol {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--medium-grey);
+      font-weight: 600;
+    }
+
+    .status-indicator {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 10px;
+    }
+
+    .status-paid {
+      background-color: var(--secondary-green);
+    }
+
+    .status-pending {
+      background-color: #FF9800;
+    }
+
+    .form-footer {
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background-color: var(--primary-green);
+      color: var(--white);
+      width: 100%;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--secondary-green);
+      box-shadow: 0 4px 12px rgba(106, 158, 142, 0.2);
+    }
+
+    .summary-info {
+      background-color: var(--light-grey);
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 25px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      color: var(--medium-grey);
+    }
+
+    .summary-row:last-child {
+      margin-bottom: 0;
+      padding-top: 10px;
+      border-top: 1px solid var(--light-grey);
+      font-weight: 600;
+      color: var(--dark-grey);
+    }
+  </style>
+</head>
+<body>
+    <div class="container">
+      <div class="card">
+          <div class="card-header">
+              <div class="building-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                      <path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"></path>
+                  </svg>
+              </div>
+              <h1>Update Payments</h1>
+          </div>
+          
+          <div class="card-body">
+              <% if (typeof success !== 'undefined' && success) { %>
+                  <div class="alert alert-success">
+                      Payment information updated successfully!
+                  </div>
+              <% } %>
+              
+              <div id="dynamicSummary" class="summary-info">
+                  <div class="summary-row">
+                      <span>Total Project Cost:</span>
+                      <span id="summaryTotal"> ₹<%= totalCost.toLocaleString('en-IN') %></span>
+                  </div>
+                  <div class="summary-row">
+                      <span><div class="status-indicator status-<%= status === 'paid' ? 'paid' : 'pending' %>"></div>Amount Paid:</span>
+                      <span id="summaryPaid"> ₹<%= amountPaid.toLocaleString('en-IN') %></span>
+                  </div>
+                  <div class="summary-row">
+                      <span><div class="status-indicator status-pending"></div>Amount Pending:</span>
+                      <span id="summaryPending"> ₹<%= amountPending.toLocaleString('en-IN') %></span>
+                  </div>
+              </div>
+              
+              <form id="paymentForm" action="/submit-payment-info" method="post">
+                  <input type="hidden" name="projectId" value="<%= projectId %>">
+                  
+                  <div class="form-group">
+                      <label for="totalCost">Total Cost:</label>
+                      <div class="input-wrapper">
+                          <span class="currency-symbol"> ₹</span>
+                          <input type="number" id="totalCost" name="totalCost" class="input-with-symbol" 
+                                value="<%= totalCost %>" min="0" step="1" required>
+                      </div>
+                  </div>
+                  
+                  <div class="form-group">
+                      <label for="received">Amount Received:</label>
+                      <div class="input-wrapper">
+                          <span class="currency-symbol"> ₹</span>
+                          <input type="number" id="received" name="received" class="input-with-symbol" 
+                                value="<%= amountPaid %>" min="0" step="1" required>
+                      </div>
+                  </div>
+                  
+                  <div class="form-group">
+                      <label for="ongoingPending">Ongoing Pending:</label>
+                      <div class="input-wrapper">
+                          <span class="currency-symbol"> ₹</span>
+                          <input type="number" id="ongoingPending" name="ongoingPending" class="input-with-symbol" 
+                                value="<%= amountPending %>" min="0" step="1" required readonly>
+                      </div>
+                  </div>
+                  
+                  <div class="form-footer">
+                      <button type="submit" class="btn btn-primary">Submit Payment Details</button>
+                  </div>
+              </form>
+          </div>
+      </div>
+    </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          const totalCostInput = document.getElementById('totalCost');
+          const receivedInput = document.getElementById('received');
+          const pendingInput = document.getElementById('ongoingPending');
+          const summaryTotal = document.getElementById('summaryTotal');
+          const summaryPaid = document.getElementById('summaryPaid');
+          const summaryPending = document.getElementById('summaryPending');
+
+          function formatCurrency(amount) {
+              return ' ₹' + parseInt(amount).toLocaleString('en-IN');
+          }
+
+          function calculateAndUpdate() {
+              const total = parseInt(totalCostInput.value) || 0;
+              const received = parseInt(receivedInput.value) || 0;
+              const pending = total - received > 0 ? total - received : 0;
+
+              pendingInput.value = pending;
+              summaryTotal.textContent = formatCurrency(total);
+              summaryPaid.textContent = formatCurrency(received);
+              summaryPending.textContent = formatCurrency(pending);
+          }
+
+          totalCostInput.addEventListener('input', calculateAndUpdate);
+          receivedInput.addEventListener('input', calculateAndUpdate);
+
+          document.getElementById('paymentForm').addEventListener('submit', function(e) {
+              e.preventDefault();
+
+              alert(
+                  'Payment details submitted successfully!\n' +
+                  'Total Cost: ' + formatCurrency(totalCostInput.value) + '\n' +
+                  'Amount Received: ' + formatCurrency(receivedInput.value) + '\n' +
+                  'Amount Pending: ' + formatCurrency(pendingInput.value)
+              );
+          });
+
+          calculateAndUpdate(); // Initialize summary on page load
+      });
+  </script>
+
+</body>
+</html>
