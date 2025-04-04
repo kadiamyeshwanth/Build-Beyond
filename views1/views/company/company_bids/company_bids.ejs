@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bidding System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+        :root {
+          --primary-green: #4D7A70;
+          --secondary-green: #6A9E8E;
+          --light-green: #A3C5BB;
+          --dark-grey: #363636;
+          --medium-grey: #5A5A5A;
+          --light-grey: #E0E0E0;
+          --white: #FFFFFF;
+          --black: #000000;
+        }
+    
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: 'Poppins', sans-serif;
+        }
+    
+        body {
+          background-color: var(--white);
+          color: var(--black);
+          display: flex;
+          flex-direction: column;
+          min-height: 100vh;
+        }
+    
+        .container {
+          max-width: 1200px;
+          margin: 20px auto;
+          padding: 20px;
+          background-color: var(--white);
+          border-radius: 8px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+    
+        .nav-menu {
+          display: flex;
+          margin-bottom: 20px;
+          background-color: var(--white);
+          border-radius: 6px;
+          overflow: hidden;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+    
+        .nav-item {
+          padding: 15px 25px;
+          cursor: pointer;
+          transition: background-color 0.3s, color 0.3s;
+          font-weight: 500;
+          color: var(--medium-grey);
+        }
+    
+        .nav-item:hover {
+          background-color: var(--light-grey);
+        }
+    
+        .nav-item.active {
+          background-color: var(--primary-green);
+          color: var(--white);
+        }
+    
+        .main-content {
+          position: relative;
+        }
+    
+        .content-section {
+          display: none;
+        }
+    
+        .content-section.active {
+          display: block;
+        }
+    
+        .section-container {
+          display: flex;
+          gap: 20px;
+        }
+     
+        .left-section {
+          flex: 1;
+          background-color: var(--white);
+          border-radius: 6px;
+          padding: 20px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+    
+        .left-section h2 {
+          margin-bottom: 15px;
+          color: var(--dark-grey);
+        }
+    
+        .bid-item {
+          background-color: var(--white);
+          border-radius: 6px;
+          padding: 15px;
+          margin-bottom: 15px;
+          cursor: pointer;
+          transition: transform 0.2s, box-shadow 0.2s;
+          border: 1px solid var(--light-grey);
+        }
+    
+        .bid-item:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+    
+        .bid-item.active {
+          border-left: 4px solid var(--primary-green);
+        }
+    
+        .bid-title {
+          font-weight: 600;
+          color: var(--dark-grey);
+          font-size: 18px;
+          margin-bottom: 5px;
+        }
+    
+        .bid-price {
+          color: var(--primary-green);
+          font-weight: 600;
+          margin-bottom: 10px;
+        }
+    
+        .bid-description {
+          color: var(--medium-grey);
+          margin-bottom: 10px;
+          line-height: 1.5;
+        }
+    
+        .bid-date {
+          color: var(--medium-grey);
+          font-size: 14px;
+        }
+    
+        .right-section {
+          flex: 1;
+          background-color: var(--white);
+          border-radius: 6px;
+          padding: 20px;
+          min-height: 400px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+    
+        .bid-details-placeholder {
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--medium-grey);
+          font-style: italic;
+        }
+    
+        .bid-details-content h2 {
+          color: var(--dark-grey);
+          margin-bottom: 10px;
+        }
+    
+        .detail-price {
+          color: var(--primary-green);
+          font-weight: 600;
+          font-size: 18px;
+          margin-bottom: 15px;
+        }
+    
+        .detail-description {
+          color: var(--medium-grey);
+          margin-bottom: 10px;
+          line-height: 1.5;
+        }
+    
+        .detail-date {
+          color: var(--medium-grey);
+          font-size: 14px;
+          margin-bottom: 20px;
+        }
+    
+        .additional-info {
+          background-color: var(--white);
+          border-radius: 6px;
+          padding: 15px;
+          margin-bottom: 20px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+    
+        .additional-info h3 {
+          color: var(--dark-grey);
+          margin-bottom: 10px;
+          font-size: 16px;
+        }
+    
+        .info-item {
+          margin-bottom: 8px;
+        }
+    
+        .bid-form {
+          background-color: var(--white);
+          border-radius: 6px;
+          padding: 15px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+    
+        .bid-form h3 {
+          color: var(--dark-grey);
+          margin-bottom: 15px;
+          font-size: 16px;
+        }
+    
+        .form-group {
+          margin-bottom: 15px;
+        }
+    
+        .form-group label {
+          display: block;
+          margin-bottom: 5px;
+          color: var(--medium-grey);
+        }
+    
+        .form-group input,
+        .form-group textarea {
+          width: 100%;
+          padding: 10px;
+          border: 1px solid var(--light-grey);
+          border-radius: 4px;
+          font-size: 16px;
+        }
+    
+        .btn-primary {
+          background-color: var(--primary-green);
+          color: var(--white);
+          border: none;
+          padding: 12px 20px;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 16px;
+          transition: background-color 0.3s;
+        }
+    
+        .btn-primary:hover {
+          background-color: var(--secondary-green);
+        }
+    
+        .bid-status-container {
+          display: flex;
+          flex-direction: column;
+          gap: 15px;
+        }
+    
+        .status-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          background-color: var(--white);
+          border-radius: 6px;
+          padding: 20px;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+    
+        .status-title {
+          font-weight: 600;
+          color: var(--dark-grey);
+          font-size: 18px;
+          margin-bottom: 5px;
+        }
+    
+        .status-price {
+          color: var(--primary-green);
+          font-weight: 600;
+          margin-bottom: 8px;
+        }
+    
+        .status-description {
+          color: var(--medium-grey);
+          margin-bottom: 8px;
+          line-height: 1.5;
+        }
+    
+        .status-date {
+          color: var(--medium-grey);
+          font-size: 14px;
+          margin-bottom: 8px;
+        }
+    
+        .your-bid {
+          font-weight: 600;
+          margin-top: 10px;
+          color: var(--dark-grey);
+        }
+    
+        .status-badge {
+          padding: 8px 16px;
+          border-radius: 50px;
+          color: var(--white);
+          font-weight: 500;
+          min-width: 100px;
+          text-align: center;
+        }
+    
+        .status-badge.pending {
+          background-color: #FF9800;
+        }
+    
+        .status-badge.accepted {
+          background-color: var(--secondary-green);
+        }
+    
+        .status-badge.rejected {
+          background-color: #e74c3c;
+        }
+    
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: "Poppins", sans-serif;
+        }
+    
+        body {
+          background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <%- include('navbar_company') %>
+    <div class="container">
+        <div class="nav-menu">
+            <div class="nav-item active" data-section="place-bid">Place a Bid</div>
+            <div class="nav-item" data-section="bid-status">Bid Status</div>
+            <div class="nav-item" data-section="request-status">Request Status</div>
+        </div>
+
+        <div class="main-content">
+            <div id="place-bid" class="content-section active">
+                <div class="section-container">
+                    <div class="left-section">
+                        <h2>Available Projects</h2>
+                        <div class="bid-options">
+                            <% projects.forEach(project => { %>
+                                <div class="bid-item" data-bid-id="<%= project._id %>">
+                                    <div class="bid-title"><%= project.title %></div>
+                                    <div class="bid-price">₹<%= formatCurrency(project.minBid) %> - ₹<%= formatCurrency(project.maxBid) %></div>
+                                    <div class="bid-description"><%= project.description %></div>
+                                    <div class="bid-date">Posted: <%= project.postedDate.toLocaleDateString() %></div>
+                                </div>
+                            <% }); %>
+                        </div>
+                    </div>
+                    
+                    <div class="right-section">
+                        <div class="bid-details-placeholder">
+                            <p>Click on a project to view details and place your bid</p>
+                        </div>
+                        <div class="bid-details-content" style="display: none;">
+                            <h2 id="detail-title"></h2>
+                            <div class="detail-price" id="detail-price"></div>
+                            <div class="detail-description" id="detail-description"></div>
+                            <div class="detail-date" id="detail-date"></div>
+                            
+                            <div class="additional-info">
+                                <h3>Additional Information</h3>
+                                <div class="info-item">
+                                    <strong>Timeline:</strong> <span id="detail-timeline"></span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>Location:</strong> <span id="detail-location"></span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>Client Requirements:</strong> <span id="detail-requirements"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="bid-form">
+                                <h3>Place Your Bid</h3>
+                                <form id="bidForm" method="POST" action="/submit-bid">
+                                    <input type="hidden" id="projectId" name="projectId">
+                                    <div class="form-group">
+                                        <label for="bid-amount">Your Bid Amount (₹):</label>
+                                        <input type="number" id="bid-amount" name="bidAmount" min="0" step="10000">
+                                    </div>
+                                    <button type="submit" class="btn-primary">Submit Bid</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="bid-status" class="content-section">
+                <h2>Your Bid Status</h2>
+                <div class="bid-status-container">
+                    <% if (userBids.length === 0) { %>
+                        <p>No bids submitted yet</p>
+                    <% } else { %>
+                        <% userBids.forEach(bid => { %>
+                            <div class="status-item">
+                                <div class="status-info">
+                                    <div class="status-title"><%= bid.project.title %></div>
+                                    <div class="status-price">₹<%= formatCurrency(bid.project.minBid) %> - ₹<%= formatCurrency(bid.project.maxBid) %></div>
+                                    <div class="status-description"><%= bid.project.description %></div>
+                                    <div class="status-date">Posted: <%= bid.project.postedDate.toLocaleDateString() %></div>
+                                    <div class="your-bid">Your Bid: ₹<%= formatCurrency(bid.amount) %></div>
+                                </div>
+                                <div class="status-badge <%= bid.status %>">
+                                    <%= bid.status.charAt(0).toUpperCase() + bid.status.slice(1) %>
+                                </div>
+                            </div>
+                        <% }); %>
+                    <% } %>
+                </div>
+            </div>
+
+            <div id="request-status" class="content-section">
+                <h2>Your Requests Status</h2>
+                <div class="bid-status-container">
+                    <% if (userRequests.length === 0) { %>
+                        <p>No requests submitted yet</p>
+                    <% } else { %>
+                        <% userRequests.forEach(request => { %>
+                            <div class="status-item">
+                                <div class="status-info">
+                                    <div class="status-title"><%= request.project.title %></div>
+                                    <div class="status-description"><%= request.message %></div>
+                                    <div class="status-date">Requested on: <%= request.requestDate.toLocaleDateString() %></div>
+                                </div>
+                                <div class="status-badge <%= request.status %>">
+                                    <%= request.status.charAt(0).toUpperCase() + request.status.slice(1) %>
+                                </div>
+                            </div>
+                        <% }); %>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const navItems = document.querySelectorAll('.nav-item');
+        const contentSections = document.querySelectorAll('.content-section');
+
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const targetSection = this.getAttribute('data-section');
+                
+                navItems.forEach(navItem => navItem.classList.remove('active'));
+                this.classList.add('active');
+                
+                contentSections.forEach(section => {
+                    section.classList.remove('active');
+                    if (section.id === targetSection) {
+                        section.classList.add('active');
+                    }
+                });
+            });
+        });
+
+        const bidItems = document.querySelectorAll('.bid-item');
+        const bidDetailsPlaceholder = document.querySelector('.bid-details-placeholder');
+        const bidDetailsContent = document.querySelector('.bid-details-content');
+        
+        bidItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const bidId = this.getAttribute('data-bid-id');
+                document.getElementById('projectId').value = bidId;
+                
+                bidItems.forEach(bidItem => bidItem.classList.remove('active'));
+                this.classList.add('active');
+                
+                bidDetailsPlaceholder.style.display = 'none';
+                bidDetailsContent.style.display = 'block';
+                
+                document.getElementById('detail-title').textContent = this.querySelector('.bid-title').textContent;
+                document.getElementById('detail-price').textContent = this.querySelector('.bid-price').textContent;
+                document.getElementById('detail-description').textContent = this.querySelector('.bid-description').textContent;
+                document.getElementById('detail-date').textContent = this.querySelector('.bid-date').textContent;
+                
+                // These would be populated from data attributes in a real app
+                document.getElementById('detail-timeline').textContent = '4-6 weeks';
+                document.getElementById('detail-location').textContent = 'Various locations';
+                document.getElementById('detail-requirements').textContent = 'As per project description';
+            });
+        });
+
+        const bidForm = document.getElementById('bidForm');
+        bidForm.addEventListener('submit', function(e) {
+            const bidAmount = document.getElementById('bid-amount').value;
+            if (!bidAmount) {
+                e.preventDefault();
+                alert('Please enter a bid amount');
+            }
+        });
+
+        function formatCurrency(amount) {
+            return parseFloat(amount).toLocaleString('en-IN', {
+                maximumFractionDigits: 0
+            });
+        }
+    });
+    </script>
+</body>
+</html>

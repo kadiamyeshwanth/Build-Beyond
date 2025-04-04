@@ -337,14 +337,11 @@
     .filter-button.inactive:hover {
       background-color: #D0D0D0;
     }
-
-    
   </style>
 </head>
 <body>
   <%- include('navbar_company') %>
   <div class="container">
- 
     <div class="header">
       <h1>Company Dashboard</h1>
       <a href="/addnewproject_form.html" style="text-decoration: none;"><button class="add-project-btn">+ Add New Project</button></a>
@@ -353,77 +350,74 @@
     <div class="dashboard-metrics">
       <div class="metric-card">
         <div class="metric-title">Total Active Projects</div>
-        <div class="metric-value">10</div>
+        <div class="metric-value"><%= metrics.totalProjects %></div>
       </div>
       <div class="metric-card">
         <div class="metric-title">Monthly Revenue</div>
-        <div class="metric-value">₹4.8 Cr</div>
+        <div class="metric-value">₹<%= metrics.monthlyRevenue %></div>
       </div>
       <div class="metric-card">
         <div class="metric-title">Customer Satisfaction</div>
-        <div class="metric-value">4.7/5</div>
+        <div class="metric-value"><%= metrics.customerSatisfaction %>/5</div>
       </div>
       <div class="metric-card">
         <div class="metric-title">Projects On Schedule</div>
-        <div class="metric-value">85%</div>
+        <div class="metric-value"><%= metrics.projectsOnSchedule %>%</div>
       </div>
     </div>
     
- 
     <div class="content-wrapper">
       <div class="left-section">
-        <div class="project-display">
-          <div class="project-image">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqjSRsiV4Q22mOElSnkcct2oZmd-1iVrNOcQ&s" alt="Project Image">
-          </div>
-          <div class="project-details">
-            <h2>Sunset Hills Residences</h2>
-            <div class="location">
-              <span>📍 Westview District, Los Angeles</span>
+        <% projects.forEach(project => { %>
+          <div class="project-display">
+            <div class="project-image">
+              <img src="<%= project.mainImage %>" alt="Project Image">
             </div>
-            <div>
-              <span class="project-tag">Luxury</span>
-              <span class="status-tag">Under Construction</span>
-            </div>
-            
-            <div class="progress-container">
-              <div class="progress-bar">
-                <div class="progress-fill"></div>
+            <div class="project-details">
+              <h2><%= project.name %></h2>
+              <div class="location">
+                <span>📍 <%= project.location %></span>
               </div>
-              <div class="progress-text">
-                <span>Project Completion: 65%</span>
-                <span>Target: June 2025</span>
+              <div>
+                <span class="project-tag"><%= project.type %></span>
+                <span class="status-tag"><%= project.status %></span>
+              </div>
+              
+              <div class="progress-container">
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: <%= project.completionPercentage %>%"></div>
+                </div>
+                <div class="progress-text">
+                  <span>Project Completion: <%= project.completionPercentage %>%</span>
+                  <span>Target: <%= project.targetDate %></span>
+                </div>
+              </div>
+              
+              <p>Current phase: <%= project.currentPhase %></p>
+              <div class="action-buttons">
+                <button class="view-details-btn" onclick="toggleDetails('<%= project._id %>')">View Details</button>
+                <a href="/edit-project/<%= project._id %>" style="text-decoration: none;"><button class="edit-btn">Edit</button></a>
               </div>
             </div>
-            
-            <p>Current phase: Interior work</p>
-            <div class="action-buttons">
-              <button class="view-details-btn">View Details</button>
-              <a href="addnewproject_form.html" style="text-decoration: none;"><button class="edit-btn">Edit</button></a>
+          </div>
+          <div class="view-details" id="details-<%= project._id %>">
+            <h3>All Images</h3>
+            <div class="images">
+              <% project.images.forEach(image => { %>
+                <img src="<%= image %>" alt="Project Image">
+              <% }); %>
+            </div>
+            <h3>Recent Updates</h3>
+            <div class="recent-updates">
+              <% project.updates.forEach(update => { %>
+                <div class="update">
+                  <img src="<%= update.image %>" alt="Update Image">
+                  <p><%= update.description %></p>
+                </div>
+              <% }); %>
             </div>
           </div>
-        </div>
-        <div class="view-details">
-          <h3>All Images</h3>
-          <div class="images">
-            <img src="https://via.placeholder.com/150" alt="Project Image 1">
-            <img src="https://via.placeholder.com/150" alt="Project Image 2">
-            <img src="https://via.placeholder.com/150" alt="Project Image 3">
-          </div>
-          <h3>Recent Updates</h3>
-          <div class="recent-updates">
-            <div class="update">
-              <img src="https://via.placeholder.com/100" alt="Update Image 1">
-              <p>Interior work is progressing as planned. The living room and kitchen areas are nearing completion.</p>
-              
-            </div>
-            <div class="update">
-              <img src="https://via.placeholder.com/100" alt="Update Image 2">
-              <p>Exterior painting has started. The color scheme has been finalized and approved by the clients.</p>
-              
-            </div>
-          </div>
-        </div>
+        <% }); %>
       </div>
       <div class="right-section">
         <div class="filter-properties">
@@ -437,13 +431,10 @@
   </div>
 
   <script>
- 
-    const viewDetailsBtn = document.querySelector('.view-details-btn');
-    const viewDetailsSection = document.querySelector('.view-details');
-
-    viewDetailsBtn.addEventListener('click', () => {
-      viewDetailsSection.classList.toggle('active');
-    });
+    function toggleDetails(projectId) {
+      const detailsSection = document.getElementById(`details-${projectId}`);
+      detailsSection.classList.toggle('active');
+    }
   </script>
 </body>
 </html>

@@ -37,16 +37,6 @@
             min-height: 100vh;
         }
 
-        /* .top-nav {
-            background-color: var(--black);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.8rem 2rem;
-            color: var(--white);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        } */
-
         .logo {
             color: var(--white);
             font-size: 1.5rem;
@@ -305,8 +295,6 @@
             background-color: #FFF3E0;
             color: #FF9800;
         }
-
-        
     </style>
 </head>
 <body>
@@ -314,19 +302,18 @@
     <div class="main-container">
         <h1 class="page-title">Dashboard</h1>
         
-
         <div class="stats-container">
             <div class="stat-card">
                 <h3>Active Projects</h3>
-                <div class="stat-value">12</div>
+                <div class="stat-value"><%= stats.activeProjects %></div>
             </div>
             <div class="stat-card">
                 <h3>Total Projects Completed</h3>
-                <div class="stat-value">8</div>
+                <div class="stat-value"><%= stats.completedProjects %></div>
             </div>
             <div class="stat-card">
                 <h3>This Month Revenue</h3>
-                <div class="stat-value">₹348,500</div>
+                <div class="stat-value">₹<%= stats.monthlyRevenue.toLocaleString() %></div>
             </div>
         </div>
          
@@ -336,65 +323,37 @@
         </div>
         
         <div class="cards-container">
-            <div class="bid-card">
-                <h3>Office Building Renovation</h3>
-                <div class="bid-info">
-                    <p>
-                        <span>Client:</span>
-                        <span>TechCorp Inc.</span>
-                    </p>
-                    <p>
-                        <span>Location:</span>
-                        <span>Downtown, Metro City</span>
-                    </p>
-                    <p>
-                        <span>Budget:</span>
-                        <span>₹450,000 - ₹550,000</span>
-                    </p>
-                    <p>
-                        <span>Timeline:</span>
-                        <span>4-6 months</span>
-                    </p>
-                    <p>
-                        <span>Due Date:</span>
-                        <span>Mar 20, 2025</span>
-                    </p>
+            <% newBids.forEach(bid => { %>
+                <div class="bid-card">
+                    <h3><%= bid.title %></h3>
+                    <div class="bid-info">
+                        <p>
+                            <span>Client:</span>
+                            <span><%= bid.client %></span>
+                        </p>
+                        <p>
+                            <span>Location:</span>
+                            <span><%= bid.location %></span>
+                        </p>
+                        <p>
+                            <span>Budget:</span>
+                            <span>₹<%= bid.budget %></span>
+                        </p>
+                        <p>
+                            <span>Timeline:</span>
+                            <span><%= bid.timeline %></span>
+                        </p>
+                        <p>
+                            <span>Due Date:</span>
+                            <span><%= new Date(bid.dueDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %></span>
+                        </p>
+                    </div>
+                    <div class="bid-actions">
+                        <button class="btn btn-primary">Review Details</button>
+                        <button class="btn btn-secondary">Decline</button>
+                    </div>
                 </div>
-                <div class="bid-actions">
-                    <button class="btn btn-primary">Review Details</button>
-                    <button class="btn btn-secondary">Decline</button>
-                </div>
-            </div>
-            
-            <div class="bid-card">
-                <h3>Residential Complex</h3>
-                <div class="bid-info">
-                    <p>
-                        <span>Client:</span>
-                        <span>Metro Housing Corp.</span>
-                    </p>
-                    <p>
-                        <span>Location:</span>
-                        <span>East Suburb, Metro City</span>
-                    </p>
-                    <p>
-                        <span>Budget:</span>
-                        <span>₹1.2M - ₹1.5M</span>
-                    </p>
-                    <p>
-                        <span>Timeline:</span>
-                        <span>10-12 months</span>
-                    </p>
-                    <p>
-                        <span>Due Date:</span>
-                        <span>Mar 25, 2025</span>
-                    </p>
-                </div>
-                <div class="bid-actions">
-                    <button class="btn btn-primary">Review Details</button>
-                    <button class="btn btn-secondary">Decline</button>
-                </div>
-            </div>
+            <% }); %>
         </div>
  
         <div class="section-header">
@@ -403,65 +362,37 @@
         </div>
         
         <div class="cards-container">
-            <div class="bid-card">
-                <h3>Industrial Warehouse Construction</h3>
-                <div class="bid-info">
-                    <p>
-                        <span>Client:</span>
-                        <span>Logistics Solutions Ltd.</span>
-                    </p>
-                    <p>
-                        <span>Location:</span>
-                        <span>Industrial Zone, Metro City</span>
-                    </p>
-                    <p>
-                        <span>Budget:</span>
-                        <span>₹2.5M - ₹3M</span>
-                    </p>
-                    <p>
-                        <span>Timeline:</span>
-                        <span>12-15 months</span>
-                    </p>
-                    <p>
-                        <span>Due Date:</span>
-                        <span>Apr 10, 2025</span>
-                    </p>
+            <% newProjects.forEach(project => { %>
+                <div class="bid-card">
+                    <h3><%= project.title %></h3>
+                    <div class="bid-info">
+                        <p>
+                            <span>Client:</span>
+                            <span><%= project.client %></span>
+                        </p>
+                        <p>
+                            <span>Location:</span>
+                            <span><%= project.location %></span>
+                        </p>
+                        <p>
+                            <span>Budget:</span>
+                            <span>₹<%= project.budget %></span>
+                        </p>
+                        <p>
+                            <span>Timeline:</span>
+                            <span><%= project.timeline %></span>
+                        </p>
+                        <p>
+                            <span>Due Date:</span>
+                            <span><%= new Date(project.dueDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %></span>
+                        </p>
+                    </div>
+                    <div class="bid-actions">
+                        <button class="btn btn-primary">Review Details</button>
+                        <button class="btn btn-secondary">Decline</button>
+                    </div>
                 </div>
-                <div class="bid-actions">
-                    <button class="btn btn-primary">Review Details</button>
-                    <button class="btn btn-secondary">Decline</button>
-                </div>
-            </div>
-            
-            <div class="bid-card">
-                <h3>Hospital Expansion</h3>
-                <div class="bid-info">
-                    <p>
-                        <span>Client:</span>
-                        <span>HealthCare Group</span>
-                    </p>
-                    <p>
-                        <span>Location:</span>
-                        <span>West Suburb, Metro City</span>
-                    </p>
-                    <p>
-                        <span>Budget:</span>
-                        <span>₹3.5M - ₹4M</span>
-                    </p>
-                    <p>
-                        <span>Timeline:</span>
-                        <span>18-24 months</span>
-                    </p>
-                    <p>
-                        <span>Due Date:</span>
-                        <span>May 15, 2025</span>
-                    </p>
-                </div>
-                <div class="bid-actions">
-                    <button class="btn btn-primary">Review Details</button>
-                    <button class="btn btn-secondary">Decline</button>
-                </div>
-            </div>
+            <% }); %>
         </div>
  
         <div class="section-header" style="margin-top: 2rem;">
@@ -470,70 +401,34 @@
         </div>
         
         <div class="timeline-container">
-            <div class="timeline-project">
-                <div class="project-info">
-                    <h3>Green Valley Shopping Center</h3>
-                    <div class="project-details">
-                        <p>Client: <span>Retail Investments Ltd.</span></p>
-                        <p>Start: <span>Nov 05, 2024</span></p>
-                        <p>End: <span>Jun 30, 2025</span></p>
+            <% timelineProjects.forEach(project => { %>
+                <div class="timeline-project">
+                    <div class="project-info">
+                        <h3><%= project.title %></h3>
+                        <div class="project-details">
+                            <p>Client: <span><%= project.client %></span></p>
+                            <p>Start: <span><%= new Date(project.startDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %></span></p>
+                            <p>End: <span><%= new Date(project.endDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %></span></p>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: <%= project.progress %>%"></div>
+                        </div>
+                        <div class="progress-info">
+                            <span>Progress: <%= project.progress %>%</span>
+                            <span><%= project.daysRemaining %> days remaining</span>
+                        </div>
                     </div>
-                    <div class="progress-container">
-                        <div class="progress-bar" style="width: 45%;"></div>
-                    </div>
-                    <div class="progress-info">
-                        <span>Progress: 45%</span>
-                        <span>138 days remaining</span>
-                    </div>
-                </div>
-                <div class="project-status">On Track</div>
-            </div>
-            
-            <div class="timeline-project">
-                <div class="project-info">
-                    <h3>Riverside Apartments</h3>
-                    <div class="project-details">
-                        <p>Client: <span>City Development Group</span></p>
-                        <p>Start: <span>Jan 15, 2025</span></p>
-                        <p>End: <span>Sep 30, 2025</span></p>
-                    </div>
-                    <div class="progress-container">
-                        <div class="progress-bar" style="width: 20%;"></div>
-                    </div>
-                    <div class="progress-info">
-                        <span>Progress: 20%</span>
-                        <span>203 days remaining</span>
+                    <div class="project-status <%= project.status === 'Delayed' ? 'status-delayed' : '' %>">
+                        <%= project.status %>
                     </div>
                 </div>
-                <div class="project-status status-delayed">Delayed</div>
-            </div>
-            
-            <div class="timeline-project">
-                <div class="project-info">
-                    <h3>Corporate HQ Renovation</h3>
-                    <div class="project-details">
-                        <p>Client: <span>Finance Solutions Inc.</span></p>
-                        <p>Start: <span>Feb 10, 2025</span></p>
-                        <p>End: <span>Apr 15, 2025</span></p>
-                    </div>
-                    <div class="progress-container">
-                        <div class="progress-bar" style="width: 65%;"></div>
-                    </div>
-                    <div class="progress-info">
-                        <span>Progress: 65%</span>
-                        <span>35 days remaining</span>
-                    </div>
-                </div>
-                <div class="project-status">On Track</div>
-            </div>
+            <% }); %>
         </div>
     </div>
-
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const userProfile = document.querySelector('.user-profile');
-
         });
     </script>
 </body>

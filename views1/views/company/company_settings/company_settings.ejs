@@ -21,7 +21,6 @@
             --danger-color: #e74c3c;
         }
         * {
-            
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -157,7 +156,6 @@
             background-color: #c0392b;
         }
     </style>
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -177,81 +175,80 @@
                 </ul>
             </div>
             <div class="settings-content">
- 
                 <div id="profile" class="settings-section active">
                     <h2>Profile Information</h2>
                     <div id="profile-display">
                         <div class="form-group">
                             <label>Company Name</label>
-                            <p>L&T</p>
+                            <p><%= company.companyName %></p>
                         </div>
                         <div class="form-group">
                             <label>Email Address</label>
-                            <p>L&T@gmail.com</p>
+                            <p><%= company.email %></p>
                         </div>
                         <div class="form-group">
                             <label>Phone Number</label>
-                            <p>+91 78856 34429</p>
+                            <p><%= company.phone || 'Not provided' %></p>
                         </div>
                         <div class="form-group">
                             <label>Address</label>
-                            <p>Avenue Road , Meerut</p>
+                            <p><%= company.address || 'Not provided' %></p>
                         </div>
                         <div class="form-group">
-                            <label>About Me</label>
-                            <p>I'm a homeowner looking to renovate my kitchen and add a deck to the back of my house.</p>
+                            <label>About Company</label>
+                            <p><%= company.about || 'Not provided' %></p>
                         </div>
                         <button id="edit-profile-btn" class="btn">Edit Profile</button>
                     </div>
-                    <form id="profile-edit" style="display: none;">
+                    <form id="profile-edit" action="/company/settings/update" method="POST" style="display: none;">
                         <div class="form-group">
-                            <label for="fullName">Full Name</label>
-                            <input type="text" id="fullName" class="form-control" value="Aarav">
+                            <label for="companyName">Company Name</label>
+                            <input type="text" id="companyName" name="companyName" class="form-control" value="<%= company.companyName %>">
                         </div>
                         <div class="form-group">
                             <label for="email">Email Address</label>
-                            <input type="email" id="email" class="form-control" value="aarav@gmail.com">
+                            <input type="email" id="email" name="email" class="form-control" value="<%= company.email %>">
                             <button type="button" id="verify-email-btn" class="btn btn-secondary" style="margin-top: 0.5rem; display: none;">Verify Email</button>
                         </div>
                         <div class="form-group">
                             <label for="phone">Phone Number</label>
-                            <input type="tel" id="phone" class="form-control" value="aarav@gmail.com">
+                            <input type="tel" id="phone" name="phone" class="form-control" value="<%= company.phone || '' %>">
                         </div>
                         <div class="form-group">
                             <label for="address">Address</label>
-                            <textarea id="address" class="form-control" rows="3">Avenue Road , Meerut</textarea>
+                            <textarea id="address" name="address" class="form-control" rows="3"><%= company.address || '' %></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="bio">About Me</label>
-                            <textarea id="bio" class="form-control" rows="5">I'm a homeowner looking to renovate my kitchen and add a deck to the back of my house.</textarea>
+                            <label for="about">About Company</label>
+                            <textarea id="about" name="about" class="form-control" rows="5"><%= company.about || '' %></textarea>
                         </div>
                         <button type="button" id="cancel-edit-btn" class="btn btn-secondary" style="margin-right: 1rem;">Cancel</button>
                         <button type="submit" class="btn">Save Changes</button>
                     </form>
                 </div>
- 
+
                 <div id="security" class="settings-section">
                     <h2>Security Settings</h2>
-                    <form>
+                    <form action="/company/settings/change-password" method="POST">
                         <div class="form-group">
                             <label for="currentPassword">Current Password</label>
-                            <input type="password" id="currentPassword" class="form-control">
+                            <input type="password" id="currentPassword" name="currentPassword" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="newPassword">New Password</label>
-                            <input type="password" id="newPassword" class="form-control">
+                            <input type="password" id="newPassword" name="newPassword" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="confirmPassword">Confirm New Password</label>
-                            <input type="password" id="confirmPassword" class="form-control">
+                            <input type="password" id="confirmPassword" name="confirmPassword" class="form-control">
                         </div>
                         <button type="submit" class="btn">Update Password</button>
                         <hr style="margin: 2rem 0;">
                     </form>
                 </div>
- 
+
                 <div id="help-center" class="settings-section">
-                <h2>Help Center</h2>
+                    <h2>Help Center</h2>
                     <div style="margin-bottom: 2rem;">
                         <h3 style="margin-bottom: 1rem; color: #555;">Frequently Asked Questions</h3>
                         <div style="padding: 1rem; border: 1px solid var(--border-color); border-radius: 4px; margin-bottom: 1rem;">
@@ -278,72 +275,75 @@
                         <button class="btn" style="margin-right: 1rem;">Contact Support</button>
                     </div>
                 </div>
- 
+
                 <div id="logout" class="settings-section">
                     <h2>Logout</h2>
                     <div style="margin-bottom: 2rem;">
                         <p style="margin-bottom: 1.5rem;">Are you sure you want to log out of your account?</p>
-                        <a href="/logout"><button class="btn btn-danger">Logout</button></a>
+                        <a href="/company/logout"><button class="btn btn-danger">Logout</button></a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <script>
- 
         document.addEventListener('DOMContentLoaded', function() {
+            // Navigation between sections
             const navLinks = document.querySelectorAll('.settings-nav a');
             const sections = document.querySelectorAll('.settings-section');
+            
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
- 
+                    
                     navLinks.forEach(link => link.classList.remove('active'));
                     sections.forEach(section => section.classList.remove('active'));
- 
+                    
                     this.classList.add('active');
- 
+                    
                     const targetId = this.getAttribute('href').substring(1);
                     document.getElementById(targetId).classList.add('active');
                 });
             });
+
+            // Profile edit functionality
+            const editProfileBtn = document.getElementById('edit-profile-btn');
+            const cancelEditBtn = document.getElementById('cancel-edit-btn');
+            const profileDisplay = document.getElementById('profile-display');
+            const profileEdit = document.getElementById('profile-edit');
+            const emailInput = document.getElementById('email');
+            const verifyEmailBtn = document.getElementById('verify-email-btn');
+            const originalEmail = emailInput ? emailInput.value : '';
+            
+            if (editProfileBtn && profileDisplay && profileEdit) {
+                editProfileBtn.addEventListener('click', function() {
+                    profileDisplay.style.display = 'none';
+                    profileEdit.style.display = 'block';
+                });
+            }
+            
+            if (cancelEditBtn && profileDisplay && profileEdit) {
+                cancelEditBtn.addEventListener('click', function() {
+                    profileDisplay.style.display = 'block';
+                    profileEdit.style.display = 'none';
+                    verifyEmailBtn.style.display = 'none';
+                });
+            }
+            
+            if (emailInput && verifyEmailBtn) {
+                emailInput.addEventListener('input', function() {
+                    if (this.value !== originalEmail) {
+                        verifyEmailBtn.style.display = 'block';
+                    } else {
+                        verifyEmailBtn.style.display = 'none';
+                    }
+                });
+                
+                verifyEmailBtn.addEventListener('click', function() {
+                    alert('Verification email sent to ' + emailInput.value);
+                });
+            }
         });
- 
-        const editProfileBtn=document.getElementById('edit-profile-btn');
-        const cancelEditBtn=document.getElementById('cancel-edit-btn');
-        const profileDisplay=document.getElementById('profile-display');
-        const profileEdit=document.getElementById('profile-edit');
-        const emailInput=document.getElementById('email');
-        const verifyEmailBtn=document.getElementById('verify-email-btn');
-        const originalEmail=emailInput?emailInput.value:'';
-        if (editProfileBtn && profileDisplay && profileEdit) {
-            editProfileBtn.addEventListener('click', function() {
-                profileDisplay.style.display = 'none';
-                profileEdit.style.display = 'block';
-            });
-        }
-        if (cancelEditBtn && profileDisplay && profileEdit) {
-            cancelEditBtn.addEventListener('click', function() {
-                profileDisplay.style.display='block';
-                profileEdit.style.display='none';
- 
-                document.getElementById('profile-edit').reset();
- 
-                verifyEmailBtn.style.display='none';
-            });
-        }
-        if (emailInput && verifyEmailBtn) {
-            emailInput.addEventListener('input', function() {
-                if (this.value !== originalEmail) {
-                    verifyEmailBtn.style.display='block';
-                } else {
-                    verifyEmailBtn.style.display='none';
-                }
-            });
-            verifyEmailBtn.addEventListener('click', function() {
-                alert('Verification email sent to '+emailInput.value);
-            });
-        }
     </script>
 </body>
 </html>
