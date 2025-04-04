@@ -874,378 +874,203 @@
       }
     </style>
 </head>
-<body onload="loadContent('home')">
-    <nav class="navbar">
-      <div class="logo">Build & Beyond</div>
-      <input type="checkbox" id="click">
-      <label for="click" class="menu">
-        <i class='bx bx-menu'></i>
-        <i class='bx bx-x'></i>
-      </label>
-      <ul class="mid-nav">
-        <li><a href="#" onclick="loadContent('home')">HOME</a></li>
-        <li><a href="#" onclick="loadContent('users')">USERS</a></li>
-        <li><a href="#" onclick="loadContent('about')">ABOUT</a></li>
-        <li><a href="#" onclick="loadContent('contact')">CONTACT</a></li>
-      </ul>
-      <a href="/signin_up.html" style="text-decoration: none;"><div class="right-nav">Login/SignUp</div></a>
-    </nav>
+<body>
+  <nav class="navbar">
+    <div class="logo">Build & Beyond</div>
+    <input type="checkbox" id="click">
+    <label for="click" class="menu">
+      <i class='bx bx-menu'></i>
+      <i class='bx bx-x'></i>
+    </label>
+    <ul class="mid-nav">
+      <li><a href="/">HOME</a></li>
+      <li><a href="/users">USERS</a></li>
+      <li><a href="/about">ABOUT</a></li>
+      <li><a href="/contact">CONTACT</a></li>
+    </ul>
+    <a href="/signin_up" style="text-decoration: none;"><div class="right-nav">Login/SignUp</div></a>
+  </nav>
 
-    <!-- Main Content Section -->
-    <div id="main-content"></div> <!-- Will be filled dynamically -->
-
-    <footer class="footer">
-      <div class="footer-content">
-        <div class="footer-section">
-          <h3>Quick Links</h3>
-          <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Find Professionals</a></li>
-            <li><a href="#">Projects</a></li>
-            <li><a href="#">Contact</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-section">
-          <h3>Services</h3>
-          <ul>
-            <li><a href="#">Home Renovation</a></li>
-            <li><a href="#">Repairs & Maintenance</a></li>
-            <li><a href="#">Interior Design</a></li>
-            <li><a href="#">Landscaping</a></li>
-            <li><a href="#">Custom Projects</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-section">
-          <h3>Contact Info</h3>
-          <ul>
-            <li>IIIT Sri City, Chittor</li>
-            <li>Phone: +91 8186790891</li>
-            <li>Email: queries@Build&Beyond.com</li>
-          </ul>
-          <div class="social-links">
-            <a href="#"><i class="fab fa-facebook"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="https://www.instagram.com/buildandbeyond/"
-              ><i class="fab fa-instagram"></i
-            ></a>
-            <a href="#"><i class="fab fa-linkedin"></i></a>
+  <!-- Dynamic Content Sections -->
+  <% if (page === 'home') { %>
+      <div class="content">
+          <h1>Welcome to Build & Beyond</h1>
+          <p><%= homeData.welcomeMessage %></p>
+          <div class="btn-container">
+              <button class="btn">Learn More</button>
+              <a href="/signin_up"><button class="btn">Let's Get Started</button></a>
           </div>
-        </div>
+      </div>
+
+      <section class="about-section">
+          <div class="image-container">
+              <img src="https://cdn.pixabay.com/photo/2021/10/26/21/17/worker-6745180_640.jpg" alt="Team Working">
+          </div>
+          <div class="content-container">
+              <h2>Who We Are</h2>
+              <p><%= homeData.aboutText1 %></p>
+              <p><%= homeData.aboutText2 %></p>
+              <button class="cta-button">Learn More About Us →</button>
+          </div>
+      </section>
+
+  <% } else if (page === 'users') { %>
+      <div class="container">
+          <h1>User Profiles</h1>
+          <div class="cards-container">
+              <% users.forEach(user => { %>
+                  <div class="card">
+                      <div class="avatar-container">
+                          <svg class="avatar-icon" viewBox="0 0 300 300" fill="#000">
+                              <circle cx="150" cy="150" r="145" stroke="#5e135e" stroke-width="10" fill="white"/>
+                              <circle cx="150" cy="100" r="50"/>
+                              <path d="M 60 230 C 60 170 240 170 240 230 L 240 260 C 240 270 60 270 60 260 Z"/>
+                          </svg>
+                      </div>
+                      <h2 class="name"><%= user.name %></h2>
+                      <p class="details"><%= user.description %></p>
+                  </div>
+              <% }); %>
+          </div>
+      </div>
+
+  <% } else if (page === 'about') { %>
+      <section class="aboutus-section-1">
+          <h1>About Us</h1>
+          <p><%= aboutData.mainDescription %></p>
+
+          <div class="about-content-1">
+              <div class="details-1">
+                  <h3>Our Mission</h3>
+                  <p><%= aboutData.mission %></p>
+
+                  <h3>What We Offer</h3>
+                  <ul>
+                      <% aboutData.services.forEach(service => { %>
+                          <li><%= service %></li>
+                      <% }); %>
+                  </ul>
+              </div>
+          </div>
+
+          <p><%= aboutData.additionalInfo %></p>
+      </section>
+
+      <section class="testimonial-section">
+          <h2>What Our Clients Say</h2>
+          <div class="testimonials">
+              <% aboutData.testimonials.forEach(testimonial => { %>
+                  <div class="testimonial-card">
+                      <img src="<%= testimonial.image %>" alt="<%= testimonial.name %>">
+                      <h4><%= testimonial.name %></h4>
+                      <p>"<%= testimonial.text %>"</p>
+                  </div>
+              <% }); %>
+          </div>
+      </section>
+
+  <% } else if (page === 'contact') { %>
+      <div class="dot-background"></div>
+      <div class="container-2">
+          <h1>Contact Us</h1>
+          <div class="separator-2"></div>
+          
+          <div class="content-wrapper-2">
+              <div class="form-section-2">
+                  <form action="/contact" method="POST">
+                      <div class="form-row-2">
+                          <input type="text" name="firstName" placeholder="First Name" required>
+                          <input type="text" name="lastName" placeholder="Last Name" required>
+                      </div>
+                      <div class="form-row-2">
+                          <input type="email" name="email" placeholder="Email" required>
+                      </div>
+                      <div class="form-row-2">
+                          <textarea name="message" placeholder="Please write your message here" required></textarea>
+                      </div>
+                      <button type="submit" class="submit-btn">SUBMIT</button>
+                  </form>
+              </div>
+              
+              <div class="contact-info-2">
+                  <div class="info-item-2">
+                      <a href="<%= contactData.mapLink %>" target="_blank">
+                          <div class="icon-2">
+                              <i class="fas fa-map-marker-alt"></i>
+                          </div>
+                          <div class="info-content"><%= contactData.address %></div>
+                      </a>
+                  </div>
+                  <div class="info-item-2">
+                      <a href="tel:<%= contactData.phone %>">
+                          <div class="icon-2">
+                              <i class="fas fa-phone-alt"></i>
+                          </div>
+                          <div class="info-content"><%= contactData.phone %></div>
+                      </a>
+                  </div>
+                  <div class="info-item-2">
+                      <a href="mailto:<%= contactData.email %>">
+                          <div class="icon-2">
+                              <i class="fas fa-envelope"></i>
+                          </div>
+                          <div class="info-content"><%= contactData.email %></div>
+                      </a>
+                  </div>
+                  <div class="info-item-2">
+                      <a href="<%= contactData.socialMedia.instagram %>" target="_blank">
+                          <div class="icon-2">
+                              <i class="fab fa-instagram"></i>
+                          </div>
+                          <div class="info-content">Build&Beyond</div>
+                      </a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  <% } %>
+
+  <footer class="footer">
+      <div class="footer-content">
+          <div class="footer-section">
+              <h3>Quick Links</h3>
+              <ul>
+                  <li><a href="/">Home</a></li>
+                  <li><a href="/services">Services</a></li>
+                  <li><a href="/professionals">Find Professionals</a></li>
+                  <li><a href="/projects">Projects</a></li>
+                  <li><a href="/contact">Contact</a></li>
+              </ul>
+          </div>
+
+          <div class="footer-section">
+              <h3>Services</h3>
+              <ul>
+                  <% footerServices.forEach(service => { %>
+                      <li><a href="#"><%= service %></a></li>
+                  <% }); %>
+              </ul>
+          </div>
+
+          <div class="footer-section">
+              <h3>Contact Info</h3>
+              <ul>
+                  <li><%= contactData.address %></li>
+                  <li>Phone: <%= contactData.phone %></li>
+                  <li>Email: <%= contactData.email %></li>
+              </ul>
+              <div class="social-links">
+                  <a href="#"><i class="fab fa-facebook"></i></a>
+                  <a href="#"><i class="fab fa-twitter"></i></a>
+                  <a href="<%= contactData.socialMedia.instagram %>"><i class="fab fa-instagram"></i></a>
+                  <a href="#"><i class="fab fa-linkedin"></i></a>
+              </div>
+          </div>
       </div>
 
       <div class="footer-bottom">
-        <p>&copy; 2025 Build & Beyond. All rights reserved.</p>
+          <p>&copy; 2025 Build & Beyond. All rights reserved.</p>
       </div>
   </footer>
-  <script>
-    function loadContent(page) {
-        let content = document.getElementById("main-content");
-        if (page === "home") {
-            content.innerHTML = `
-            <div class="content">
-      <h1>Welcome to Build & Beyond</h1>
-      <p>
-        Your one-stop platform for finding skilled professionals for home
-        repairs, renovations, and construction projects. Whether you need a
-        handyman, contractor, or specialist, we connect you with trusted experts
-        to bring your vision to life!
-      </p>
-      <div class="btn-container">
-        <button class="btn">Learn More</button>
-        <a href="/signin_up.html"><button class="btn">Let's Get Started</button></a>
-      </div>
-    </div>
-
-    <section class="about-section">
-      <div class="image-container">
-        <img
-          src="https://cdn.pixabay.com/photo/2021/10/26/21/17/worker-6745180_640.jpg"
-          alt="Team Working"
-        />
-      </div>
-      <div class="content-container">
-        <h2>Who We Are</h2>
-        <p>
-          At Build & Beyond, we are dedicated to connecting homeowners with
-          trusted professionals for all types of home improvement needs.
-        </p>
-        <p>
-          Our mission is to simplify the process of finding reliable
-          contractors, ensuring that your home projects are completed with
-          quality and care. We believe in building trust through transparency
-          and exceptional service.
-        </p>
-        <button class="cta-button">Learn More About Us →</button>
-      </div>
-    </section>
-
-    <div class="dot-background"></div>
-    <div class="contact-container">
-      <h1>Contact Us</h1>
-      <div class="separator"></div>
-
-      <div class="content-wrapper">
-        <div class="form-section">
-          <div class="form-row">
-            <input type="text" placeholder="First Name" />
-            <input type="text" placeholder="Last Name" />
-          </div>
-          <div class="form-row">
-            <input type="email" placeholder="Email" />
-          </div>
-          <div class="form-row">
-            <textarea placeholder="Please write your message here"></textarea>
-          </div>
-          <button class="submit-btn">SUBMIT</button>
-        </div>
-
-        <div class="contact-info">
-          <div class="info-item">
-            <a
-              href="https://maps.google.com/?q=IIIT+Sri+City,Chittor"
-              target="_blank"
-            >
-              <div class="icon">
-                <i class="fas fa-map-marker-alt"></i>
-              </div>
-              <div class="info-content">IIIT Sri City,Chittor</div>
-            </a>
-          </div>
-          <div class="info-item">
-            <a href="tel:+918186790891">
-              <div class="icon">
-                <i class="fas fa-phone-alt"></i>
-              </div>
-              <div class="info-content">+91 8186790891</div>
-            </a>
-          </div>
-          <div class="info-item">
-            <a href="mailto:queries@Build&Beyond.com">
-              <div class="icon">
-                <i class="fas fa-envelope"></i>
-              </div>
-              <div class="info-content">queries@Build&Beyond.com</div>
-            </a>
-          </div>
-          <div class="info-item">
-            <a href="https://www.instagram.com/buildandbeyond/" target="_blank">
-              <div class="icon">
-                <i class="fab fa-instagram"></i>
-              </div>
-              <div class="info-content">Build&Beyond</div>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-            `;
-        } else if (page === "users") {
-            content.innerHTML = `
-<div class="container">
-        <h1>User Profiles</h1>
-        
-        <div class="cards-container">
-            <!-- Admin Card -->
-            <div class="card">
-                <div class="avatar-container">
-                    <svg class="avatar-icon" viewBox="0 0 300 300" fill="#000">
-                        <circle cx="150" cy="150" r="145" stroke="#5e135e" stroke-width="10" fill="white"/>
-                        <circle cx="150" cy="100" r="50"/>
-                        <path d="M 60 230 C 60 170 240 170 240 230 L 240 260 C 240 270 60 270 60 260 Z"/>
-                    </svg>
-                </div>
-                <h2 class="name">Admin</h2>
-                <p class="details">Oversees website insights and app revenue, focusing on performance metrics</p>
-            </div>
-            
-            <!-- Customer Card -->
-            <div class="card">
-                <div class="avatar-container">
-                    <svg class="avatar-icon" viewBox="0 0 300 300" fill="#000">
-                        <circle cx="150" cy="150" r="145" stroke="#5e135e" stroke-width="10" fill="white"/>
-                        <circle cx="150" cy="100" r="50"/>
-                        <path d="M 60 230 C 60 170 240 170 240 230 L 240 260 C 240 270 60 270 60 260 Z"/>
-                    </svg>
-                </div>
-                <h2 class="name">Customer</h2>
-                <p class="details">Selects and hires professionals to design and build according to preferences</p>
-            </div>
-            
-            <!-- Platform Administrator Card -->
-            <div class="card">
-                <div class="avatar-container">
-                    <svg class="avatar-icon" viewBox="0 0 300 300" fill="#000">
-                        <circle cx="150" cy="150" r="145" stroke="#5e135e" stroke-width="10" fill="white"/>
-                        <circle cx="150" cy="100" r="50"/>
-                        <path d="M 60 230 C 60 170 240 170 240 230 L 240 260 C 240 270 60 270 60 260 Z"/>
-                    </svg>
-                </div>
-                <h2 class="name">Platform Administrator</h2>
-                <p class="details">Manages payment workflows and monitors financial activities</p>
-            </div>
-            
-            <!-- Professional Card -->
-            <div class="card">
-                <div class="avatar-container">
-                    <svg class="avatar-icon" viewBox="0 0 300 300" fill="#000">
-                        <circle cx="150" cy="150" r="145" stroke="#5e135e" stroke-width="10" fill="white"/>
-                        <circle cx="150" cy="100" r="50"/>
-                        <path d="M 60 230 C 60 170 240 170 240 230 L 240 260 C 240 270 60 270 60 260 Z"/>
-                    </svg>
-                </div>
-                <h2 class="name">Professional</h2>
-                <p class="details">Offers specialized services like carpentry, architecture, or interior design</p>
-            </div>
-            
-            <!-- Company Administrator Card -->
-            <div class="card">
-                <div class="avatar-container">
-                    <svg class="avatar-icon" viewBox="0 0 300 300" fill="#000">
-                        <circle cx="150" cy="150" r="145" stroke="#5e135e" stroke-width="10" fill="white"/>
-                        <circle cx="150" cy="100" r="50"/>
-                        <path d="M 60 230 C 60 170 240 170 240 230 L 240 260 C 240 270 60 270 60 260 Z"/>
-                    </svg>
-                </div>
-                <h2 class="name">Company Administrator</h2>
-                <p class="details">Handles company workers and reviews contracts and projects</p>
-            </div>
-        </div>
-    </div>
-            `;
-        }else if (page === "about") {
-            content.innerHTML = `
-            <section class="aboutus-section-1">
-    <h1>About Us</h1>
-    <p>
-      At Build & Beyond, we are committed to helping individuals and businesses turn their dream spaces into reality. 
-      Our platform connects you with industry-leading professionals, trusted vendors, and a wealth of resources 
-      designed to make your construction and renovation projects as seamless as possible.
-    </p>
-
-    <!-- Content centered in the middle -->
-    <div class="about-content-1">
-      <div class="details-1">
-        <h3>Our Mission</h3>
-        <p>
-          Our mission is to simplify the construction process for our customers by providing a one-stop platform 
-          where you can hire skilled professionals, find quality materials, and manage your projects effectively.
-        </p>
-
-        <h3>What We Offer</h3>
-        <ul>
-          <li>🏗 End-to-end construction services</li>
-          <li>🏢 Professional architects, interior designers, and engineers</li>
-          <li>🔧 Access to high-quality construction materials</li>
-          <li>📈 Seamless project management tools</li>
-          <li>🎨 Tailored design solutions for your unique needs</li>
-          <li>⚙ Trusted vendors for all your building supplies</li>
-        </ul>
-      </div>
-    </div>
-
-    <p>
-      Our team consists of passionate professionals with years of experience in the construction and design industries. 
-      We pride ourselves on transparency, collaboration, and a customer-first approach to everything we do. Whether 
-      you're building a new home, renovating your office, or simply need help managing your construction project, 
-      Build & Beyond is here to make it happen.
-    </p>
-  </section>
-
-  <!-- Testimonial Section -->
-  <section class="testimonial-section">
-    <h2>What Our Clients Say</h2>
-    <div class="testimonials">
-      <div class="testimonial-card">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTffXDH4rSvuHQjOMo7HK2OWWfXUA2i-7lIXw&s" alt="Client 1">
-        <h4>John Doe</h4>
-        <p>
-          "Build & Beyond provided me with everything I needed for my home renovation. The project management tool 
-          was easy to use, and the professionals I hired were top-notch. Highly recommend!"
-        </p>
-      </div>
-      <div class="testimonial-card">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTffXDH4rSvuHQjOMo7HK2OWWfXUA2i-7lIXw&s" alt="Client 2">
-        <h4>Jane Smith</h4>
-        <p>
-          "I was able to find a reliable architect through Build & Beyond, and the entire process was stress-free. 
-          They made my vision come to life!"
-        </p>
-      </div>
-      <div class="testimonial-card">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTffXDH4rSvuHQjOMo7HK2OWWfXUA2i-7lIXw&s" alt="Client 3">
-        <h4>Michael Johnson</h4>
-        <p>
-          "Excellent service, easy-to-navigate platform, and great support from the Build & Beyond team. I'll definitely 
-          use them again for future projects."
-        </p>
-      </div>
-    </div>
-  </section>
-            `;
-        } else if (page === "contact") {
-            content.innerHTML = `
-            <div class="dot-background"></div>
-    <div class="container-2">
-        <h1>Contact Us</h1>
-        <div class="separator-2"></div>
-        
-        <div class="content-wrapper-2">
-            <div class="form-section-2">
-                <div class="form-row-2">
-                    <input type="text" placeholder="First Name">
-                    <input type="text" placeholder="Last Name">
-                </div>
-                <div class="form-row-2">
-                    <input type="email" placeholder="Email">
-                </div>
-                <div class="form-row-2">
-                    <textarea placeholder="Please write your message here"></textarea>
-                </div>
-                <button class="submit-btn">SUBMIT</button>
-            </div>
-            
-            <div class="contact-info-2">
-                <div class="info-item-2">
-                    <a href="https://maps.google.com/?q=IIIT+Sri+City,Chittor" target="_blank">
-                        <div class="icon-2">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </div>
-                        <div class="info-content">IIIT Sri City,Chittor</div>
-                    </a>
-                </div>
-                <div class="info-item-2">
-                    <a href="tel:+918186790891">
-                        <div class="icon-2">
-                            <i class="fas fa-phone-alt"></i>
-                        </div>
-                        <div class="info-content">+91 8186790891</div>
-                    </a>
-                </div>
-                <div class="info-item-2">
-                    <a href="mailto:queries@Build&Beyond.com">
-                        <div class="icon-2">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <div class="info-content">queries@Build&Beyond.com</div>
-                    </a>
-                </div>
-                <div class="info-item-2">
-                    <a href="https://www.instagram.com/buildandbeyond/" target="_blank">
-                        <div class="icon-2">
-                            <i class="fab fa-instagram"></i>
-                        </div>
-                        <div class="info-content">Build&Beyond</div>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-            `;
-        }
-    }
-</script>
 </body>
 </html>

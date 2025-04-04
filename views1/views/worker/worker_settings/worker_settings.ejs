@@ -171,6 +171,7 @@
                 <ul class="settings-nav">
                     <li><a href="#profile" class="active"><i class="fas fa-user"></i> Profile</a></li>
                     <li><a href="#security"><i class="fas fa-lock"></i> Security</a></li>
+                    <li><a href="#payments"><i class="fas fa-credit-card"></i> Payments</a></li>
                     <li><a href="#help-center"><i class="fas fa-question-circle"></i> Help Center</a></li>
                     <li><a href="#logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                 </ul>
@@ -190,223 +191,213 @@
                         </div>
                         <div class="form-group">
                             <label>Phone Number</label>
-                            <p>+91 78856 34429</p>
+                            <p><%= user.phone || 'Not provided' %></p>
                         </div>
                         <div class="form-group">
                             <label>Address</label>
-                            <p>Avenue Road , Meerut</p>
+                            <p><%= user.address || 'Not provided' %></p>
                         </div>
                         <div class="form-group">
                             <label>About Company</label>
-                            <p>I'm a homeowner looking to renovate my kitchen and add a deck to the back of my house.</p>
+                            <p><%= user.bio || 'Not provided' %></p>
                         </div>
                         <button id="edit-profile-btn" class="btn">Edit Profile</button>
                     </div>
-                    <form id="profile-edit" style="display: none;">
+                    <form id="profile-edit" style="display: none;" action="/profile/update" method="POST">
                         <div class="form-group">
                             <label for="fullName">Company Name</label>
-                            <input type="text" id="fullName" class="form-control" value="Aarav">
+                            <input type="text" id="fullName" name="name" class="form-control" value="<%= user.name %>">
                         </div>
                         <div class="form-group">
                             <label for="email">Email Address</label>
-                            <input type="email" id="email" class="form-control" value="aarav@gmail.com">
+                            <input type="email" id="email" name="email" class="form-control" value="<%= user.email %>">
                             <button type="button" id="verify-email-btn" class="btn btn-secondary" style="margin-top: 0.5rem; display: none;">Verify Email</button>
                         </div>
                         <div class="form-group">
                             <label for="phone">Phone Number</label>
-                            <input type="tel" id="phone" class="form-control" value="aarav@gmail.com">
+                            <input type="tel" id="phone" name="phone" class="form-control" value="<%= user.phone %>">
                         </div>
                         <div class="form-group">
                             <label for="address">Address</label>
-                            <textarea id="address" class="form-control" rows="3">Avenue Road , Meerut</textarea>
+                            <textarea id="address" name="address" class="form-control" rows="3"><%= user.address %></textarea>
                         </div>
                         <div class="form-group">
                             <label for="bio">About Company</label>
-                            <textarea id="bio" class="form-control" rows="5">I'm a homeowner looking to renovate my kitchen and add a deck to the back of my house.</textarea>
+                            <textarea id="bio" name="bio" class="form-control" rows="5"><%= user.bio %></textarea>
                         </div>
                         <button type="button" id="cancel-edit-btn" class="btn btn-secondary" style="margin-right: 1rem;">Cancel</button>
                         <button type="submit" class="btn">Save Changes</button>
                     </form>
                 </div>
-                <!-- Appearance -->
-                <div id="appearance" class="settings-section">
-                    <h2>Appearance Settings</h2>
-                    <form>
-                        <div class="form-group">
-                            <label>Theme</label>
-                            <div class="form-check">
-                                <input type="radio" name="theme" id="themeLight" checked>
-                                <label for="themeLight">Light Mode</label>
-                            </div>
-                            <div class="form-check">
-                                <input type="radio" name="theme" id="themeDark">
-                                <label for="themeDark">Dark Mode</label>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn">Apply</button>
-                    </form>
-                </div>
-                <!-- Security -->
+
+                <!-- Security Section -->
                 <div id="security" class="settings-section">
                     <h2>Security Settings</h2>
-                    <form>
+                    <form action="/profile/change-password" method="POST">
                         <div class="form-group">
                             <label for="currentPassword">Current Password</label>
-                            <input type="password" id="currentPassword" class="form-control">
+                            <input type="password" id="currentPassword" name="currentPassword" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label for="newPassword">New Password</label>
-                            <input type="password" id="newPassword" class="form-control">
+                            <input type="password" id="newPassword" name="newPassword" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label for="confirmPassword">Confirm New Password</label>
-                            <input type="password" id="confirmPassword" class="form-control">
+                            <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required>
                         </div>
                         <button type="submit" class="btn">Update Password</button>
-                        <hr style="margin: 2rem 0;">
                     </form>
                 </div>
                 
-                <!-- Payments -->
+                <!-- Payments Section -->
                 <div id="payments" class="settings-section">
                     <h2>Payment Settings</h2>
                     <div>
                         <h3 style="margin-bottom: 1rem; color: #555;">Invoices</h3>
-                        <table style="width: 100%; border-collapse: collapse;">
-                            <thead>
-                                <tr style="border-bottom: 2px solid var(--border-color);">
-                                    <th style="text-align: left; padding: 0.75rem;">Invoice #</th>
-                                    <th style="text-align: left; padding: 0.75rem;">Date</th>
-                                    <th style="text-align: left; padding: 0.75rem;">Amount</th>
-                                    <th style="text-align: left; padding: 0.75rem;">Status</th>
-                                    <th style="text-align: left; padding: 0.75rem;"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr style="border-bottom: 1px solid var(--border-color);">
-                                    <td style="padding: 0.75rem;">INV-2025-001</td>
-                                    <td style="padding: 0.75rem;">Mar 05, 2025</td>
-                                    <td style="padding: 0.75rem;">₹10,250.00</td>
-                                    <td style="padding: 0.75rem; color: var(--success-color);">Paid</td>
-                                    <td style="padding: 0.75rem;">
-                                        <a href="payment_document.pdf" style="color: var(--primary-color);">Download</a>
-                                    </td>
-                                </tr>
-                                <tr style="border-bottom: 1px solid var(--border-color);">
-                                    <td style="padding: 0.75rem;">INV-2025-002</td>
-                                    <td style="padding: 0.75rem;">Feb 20, 2025</td>
-                                    <td style="padding: 0.75rem;">₹25,500.00</td>
-                                    <td style="padding: 0.75rem; color: var(--success-color);">Paid</td>
-                                    <td style="padding: 0.75rem;">
-                                        <a href="payment_document.pdf" style="color: var(--primary-color);">Download</a>
-                                    </td>
-                                </tr>
-                                <tr style="border-bottom: 1px solid var(--border-color);">
-                                    <td style="padding: 0.75rem;">INV-2025-003</td>
-                                    <td style="padding: 0.75rem;">Feb 05, 2025</td>
-                                    <td style="padding: 0.75rem;">₹1,00,800.00</td>
-                                    <td style="padding: 0.75rem; color: var(--success-color);">Paid</td>
-                                    <td style="padding: 0.75rem;">
-                                        <a href="payment_document.pdf" style="color: var(--primary-color);">Download</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <% if (invoices && invoices.length > 0) { %>
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <thead>
+                                    <tr style="border-bottom: 2px solid var(--border-color);">
+                                        <th style="text-align: left; padding: 0.75rem;">Invoice #</th>
+                                        <th style="text-align: left; padding: 0.75rem;">Date</th>
+                                        <th style="text-align: left; padding: 0.75rem;">Amount</th>
+                                        <th style="text-align: left; padding: 0.75rem;">Status</th>
+                                        <th style="text-align: left; padding: 0.75rem;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% invoices.forEach(invoice => { %>
+                                        <tr style="border-bottom: 1px solid var(--border-color);">
+                                            <td style="padding: 0.75rem;"><%= invoice.invoiceNumber %></td>
+                                            <td style="padding: 0.75rem;"><%= invoice.date.toLocaleDateString() %></td>
+                                            <td style="padding: 0.75rem;">₹<%= invoice.amount.toLocaleString('en-IN') %></td>
+                                            <td style="padding: 0.75rem; color: <%= invoice.status === 'paid' ? 'var(--success-color)' : '#e67e22' %>;">
+                                                <%= invoice.status.charAt(0).toUpperCase() + invoice.status.slice(1) %>
+                                            </td>
+                                            <td style="padding: 0.75rem;">
+                                                <a href="/invoices/download/<%= invoice._id %>" style="color: var(--primary-color);">Download</a>
+                                            </td>
+                                        </tr>
+                                    <% }); %>
+                                </tbody>
+                            </table>
+                        <% } else { %>
+                            <p>No invoices found.</p>
+                        <% } %>
                     </div>
                 </div>
-                <!-- Help Center -->
+
+                <!-- Help Center Section -->
                 <div id="help-center" class="settings-section">
-                <h2>Help Center</h2>
+                    <h2>Help Center</h2>
                     <div style="margin-bottom: 2rem;">
                         <h3 style="margin-bottom: 1rem; color: #555;">Frequently Asked Questions</h3>
-                        <div style="padding: 1rem; border: 1px solid var(--border-color); border-radius: 4px; margin-bottom: 1rem;">
-                            <div>
-                                <span style="font-weight: 600;">How do I create a new project?</span>
-                                <p style="margin-top: 0.5rem; color: #666;">Go to the Dashboard and click on the "New Project" button in the top right corner.</p>
+                        <% faqs.forEach(faq => { %>
+                            <div style="padding: 1rem; border: 1px solid var(--border-color); border-radius: 4px; margin-bottom: 1rem;">
+                                <div>
+                                    <span style="font-weight: 600;"><%= faq.question %></span>
+                                    <p style="margin-top: 0.5rem; color: #666;"><%= faq.answer %></p>
+                                </div>
                             </div>
-                        </div>
-                        <div style="padding: 1rem; border: 1px solid var(--border-color); border-radius: 4px; margin-bottom: 1rem;">
-                            <div>
-                                <span style="font-weight: 600;">How do I invite team members?</span>
-                                <p style="margin-top: 0.5rem; color: #666;">Navigate to your project, click on "Team" tab, and use the "Invite Member" button.</p>
-                            </div>
-                        </div>
-                        <div style="padding: 1rem; border: 1px solid var(--border-color); border-radius: 4px; margin-bottom: 1rem;">
-                            <div>
-                                <span style="font-weight: 600;">How can I track my project's budget?</span>
-                                <p style="margin-top: 0.5rem; color: #666;">Use the "Finances" tab within your project to track expenses and compare with your budget.</p>
-                            </div>
-                        </div>
+                        <% }); %>
                     </div>
                     <div style="margin-bottom: 2rem;">
                         <h3 style="margin-bottom: 1rem; color: #555;">Support Options</h3>
-                        <button class="btn" style="margin-right: 1rem;">Contact Support</button>
+                        <a href="/contact-support" class="btn" style="margin-right: 1rem;">Contact Support</a>
                     </div>
                 </div>
-                <!-- Logout -->
+
+                <!-- Logout Section -->
                 <div id="logout" class="settings-section">
                     <h2>Logout</h2>
                     <div style="margin-bottom: 2rem;">
                         <p style="margin-bottom: 1.5rem;">Are you sure you want to log out of your account?</p>
-                        <a href = "/logout"><button class="btn btn-danger">Logout</button></a>
+                        <a href="/logout"><button class="btn btn-danger">Logout</button></a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <script>
-        //handle tab switching
+        // Handle tab switching
         document.addEventListener('DOMContentLoaded', function() {
             const navLinks = document.querySelectorAll('.settings-nav a');
             const sections = document.querySelectorAll('.settings-section');
+            
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     navLinks.forEach(link => link.classList.remove('active'));
                     sections.forEach(section => section.classList.remove('active'));
-                    // Add active class
+                    
                     this.classList.add('active');
                     const targetId = this.getAttribute('href').substring(1);
                     document.getElementById(targetId).classList.add('active');
                 });
             });
+
+            // Profile edit functionality
+            const editProfileBtn = document.getElementById('edit-profile-btn');
+            const cancelEditBtn = document.getElementById('cancel-edit-btn');
+            const profileDisplay = document.getElementById('profile-display');
+            const profileEdit = document.getElementById('profile-edit');
+            const emailInput = document.getElementById('email');
+            const verifyEmailBtn = document.getElementById('verify-email-btn');
+            const originalEmail = emailInput ? emailInput.value : '';
+
+            if (editProfileBtn && profileDisplay && profileEdit) {
+                editProfileBtn.addEventListener('click', function() {
+                    profileDisplay.style.display = 'none';
+                    profileEdit.style.display = 'block';
+                });
+            }
+
+            if (cancelEditBtn && profileDisplay && profileEdit) {
+                cancelEditBtn.addEventListener('click', function() {
+                    profileDisplay.style.display = 'block';
+                    profileEdit.style.display = 'none';
+                    verifyEmailBtn.style.display = 'none';
+                });
+            }
+
+            if (emailInput && verifyEmailBtn) {
+                emailInput.addEventListener('input', function() {
+                    verifyEmailBtn.style.display = this.value !== originalEmail ? 'block' : 'none';
+                });
+
+                verifyEmailBtn.addEventListener('click', function() {
+                    alert('Verification email sent to ' + emailInput.value);
+                });
+            }
+
+            // Handle form submissions with fetch
+            const profileForm = document.getElementById('profile-edit');
+            if (profileForm) {
+                profileForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    const formData = new FormData(profileForm);
+                    
+                    try {
+                        const response = await fetch('/profile/update', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        
+                        const result = await response.json();
+                        if (result.success) {
+                            alert('Profile updated successfully!');
+                            window.location.reload();
+                        } else {
+                            alert('Error: ' + result.message);
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('An error occurred while updating profile');
+                    }
+                });
+            }
         });
-        // Profile edit
-        const editProfileBtn=document.getElementById('edit-profile-btn');
-        const cancelEditBtn=document.getElementById('cancel-edit-btn');
-        const profileDisplay=document.getElementById('profile-display');
-        const profileEdit=document.getElementById('profile-edit');
-        const emailInput=document.getElementById('email');
-        const verifyEmailBtn=document.getElementById('verify-email-btn');
-        const originalEmail=emailInput?emailInput.value:'';
-        if (editProfileBtn && profileDisplay && profileEdit) {
-            editProfileBtn.addEventListener('click', function() {
-                profileDisplay.style.display = 'none';
-                profileEdit.style.display = 'block';
-            });
-        }
-        if (cancelEditBtn && profileDisplay && profileEdit) {
-            cancelEditBtn.addEventListener('click', function() {
-                profileDisplay.style.display='block';
-                profileEdit.style.display='none';
-                // form reset
-                document.getElementById('profile-edit').reset();
-                // Hide verify button
-                verifyEmailBtn.style.display='none';
-            });
-        }
-        if (emailInput && verifyEmailBtn) {
-            emailInput.addEventListener('input', function() {
-                if (this.value !== originalEmail) {
-                    verifyEmailBtn.style.display='block';
-                } else {
-                    verifyEmailBtn.style.display='none';
-                }
-            });
-            verifyEmailBtn.addEventListener('click', function() {
-                alert('Verification email sent to '+emailInput.value);
-            });
-        }
     </script>
 </body>
 </html>

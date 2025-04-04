@@ -409,7 +409,9 @@
     </style>
 </head>
 <body>
-    <a id="admin" href="/adminpage.html">Admin</a>
+    <% if (isAdmin) { %>
+        <a id="admin" href="/adminpage.html">Admin</a>
+    <% } %>
     <div class="container">
         <div class="image-side">
             <div class="logo-container">
@@ -428,9 +430,14 @@
                     <p>Enter your credentials to access your account</p>
                 </div>
                 
+                <% if (loginError) { %>
+                    <div class="alert alert-danger"><%= loginError %></div>
+                <% } %>
+                
                 <div class="form-group">
                     <label for="email">Email Address</label>
-                    <input type="email" id="email" class="form-control" placeholder="your@email.com" required>
+                    <input type="email" id="email" class="form-control" placeholder="your@email.com" required
+                           value="<%= loginFormData && loginFormData.email ? loginFormData.email : '' %>">
                     <div class="validation-error" id="email-error"></div>
                 </div>
                 
@@ -462,29 +469,38 @@
                     <p>Create an account to start using Build&Beyond</p>
                 </div>
                 
+                <% if (registerError) { %>
+                    <div class="alert alert-danger"><%= registerError %></div>
+                <% } %>
+                
                 <!-- User Type Selection -->
                 <div class="form-group user-type-selection">
                     <label for="user-type">User Type</label>
                     <select id="user-type" class="form-control" required>
                         <option value="">Select User Type</option>
-                        <option value="customer">Customer</option>
-                        <option value="company">Company</option>
-                        <option value="worker">Professional</option>
+                        <% userTypes.forEach(type => { %>
+                            <option value="<%= type.value %>" 
+                                <%= registerFormData && registerFormData.role === type.value ? 'selected' : '' %>>
+                                <%= type.label %>
+                            </option>
+                        <% }); %>
                     </select>
                     <div class="validation-error" id="user-type-error"></div>
                 </div>
                 
                 <!-- Customer specific fields -->
-                <div id="customer-fields" class="customer-fields">
+                <div id="customer-fields" class="customer-fields <%= registerFormData && registerFormData.role === 'customer' ? '' : 'hidden' %>">
                     <div class="form-group">
                         <label for="customer-name">Name</label>
-                        <input type="text" id="customer-name" class="form-control" placeholder="Your Full Name">
+                        <input type="text" id="customer-name" class="form-control" placeholder="Your Full Name"
+                               value="<%= registerFormData && registerFormData.role === 'customer' && registerFormData.name ? registerFormData.name : '' %>">
                         <div class="validation-error" id="customer-name-error"></div>
                     </div>
                     
                     <div class="form-group">
                         <label for="customer-email">Email</label>
-                        <input type="email" id="customer-email" class="form-control" placeholder="your@email.com">
+                        <input type="email" id="customer-email" class="form-control" placeholder="your@email.com"
+                               value="<%= registerFormData && registerFormData.role === 'customer' && registerFormData.email ? registerFormData.email : '' %>">
                         <div class="validation-error" id="customer-email-error"></div>
                     </div>
                     
@@ -492,14 +508,16 @@
                         <div class="form-col">
                             <div class="form-group">
                                 <label for="customer-dob">Date of Birth</label>
-                                <input type="date" id="customer-dob" class="form-control">
+                                <input type="date" id="customer-dob" class="form-control"
+                                       value="<%= registerFormData && registerFormData.role === 'customer' && registerFormData.dob ? registerFormData.dob : '' %>">
                                 <div class="validation-error" id="customer-dob-error"></div>
                             </div>
                         </div>
                         <div class="form-col">
                             <div class="form-group">
                                 <label for="customer-phone">Phone Number</label>
-                                <input type="tel" id="customer-phone" class="form-control" placeholder="Your Phone Number">
+                                <input type="tel" id="customer-phone" class="form-control" placeholder="Your Phone Number"
+                                       value="<%= registerFormData && registerFormData.role === 'customer' && registerFormData.phone ? registerFormData.phone : '' %>">
                                 <div class="validation-error" id="customer-phone-error"></div>
                             </div>
                         </div>
@@ -507,16 +525,18 @@
                 </div>
                 
                 <!-- Company specific fields -->
-                <div id="company-fields" class="company-fields">
+                <div id="company-fields" class="company-fields <%= registerFormData && registerFormData.role === 'company' ? '' : 'hidden' %>">
                     <div class="form-group">
                         <label for="company-name">Company Name</label>
-                        <input type="text" id="company-name" class="form-control" placeholder="Your Company Name">
+                        <input type="text" id="company-name" class="form-control" placeholder="Your Company Name"
+                               value="<%= registerFormData && registerFormData.role === 'company' && registerFormData.companyName ? registerFormData.companyName : '' %>">
                         <div class="validation-error" id="company-name-error"></div>
                     </div>
                     
                     <div class="form-group">
                         <label for="contact-person">Contact Person</label>
-                        <input type="text" id="contact-person" class="form-control" placeholder="Contact Person Name">
+                        <input type="text" id="contact-person" class="form-control" placeholder="Contact Person Name"
+                               value="<%= registerFormData && registerFormData.role === 'company' && registerFormData.contactPerson ? registerFormData.contactPerson : '' %>">
                         <div class="validation-error" id="contact-person-error"></div>
                     </div>
                     
@@ -524,14 +544,16 @@
                         <div class="form-col">
                             <div class="form-group">
                                 <label for="company-email">Email</label>
-                                <input type="email" id="company-email" class="form-control" placeholder="company@email.com">
+                                <input type="email" id="company-email" class="form-control" placeholder="company@email.com"
+                                       value="<%= registerFormData && registerFormData.role === 'company' && registerFormData.email ? registerFormData.email : '' %>">
                                 <div class="validation-error" id="company-email-error"></div>
                             </div>
                         </div>
                         <div class="form-col">
                             <div class="form-group">
                                 <label for="company-phone">Phone Number</label>
-                                <input type="tel" id="company-phone" class="form-control" placeholder="Company Phone Number">
+                                <input type="tel" id="company-phone" class="form-control" placeholder="Company Phone Number"
+                                       value="<%= registerFormData && registerFormData.role === 'company' && registerFormData.phone ? registerFormData.phone : '' %>">
                                 <div class="validation-error" id="company-phone-error"></div>
                             </div>
                         </div>
@@ -550,10 +572,11 @@
                 </div>
                 
                 <!-- Worker specific fields -->
-                <div id="worker-fields" class="worker-fields">
+                <div id="worker-fields" class="worker-fields <%= registerFormData && registerFormData.role === 'worker' ? '' : 'hidden' %>">
                     <div class="form-group">
                         <label for="worker-name">Name</label>
-                        <input type="text" id="worker-name" class="form-control" placeholder="Your Full Name">
+                        <input type="text" id="worker-name" class="form-control" placeholder="Your Full Name"
+                               value="<%= registerFormData && registerFormData.role === 'worker' && registerFormData.name ? registerFormData.name : '' %>">
                         <div class="validation-error" id="worker-name-error"></div>
                     </div>
                     
@@ -561,14 +584,16 @@
                         <div class="form-col">
                             <div class="form-group">
                                 <label for="worker-dob">Date of Birth</label>
-                                <input type="date" id="worker-dob" class="form-control">
+                                <input type="date" id="worker-dob" class="form-control"
+                                       value="<%= registerFormData && registerFormData.role === 'worker' && registerFormData.dob ? registerFormData.dob : '' %>">
                                 <div class="validation-error" id="worker-dob-error"></div>
                             </div>
                         </div>
                         <div class="form-col">
                             <div class="form-group">
                                 <label for="worker-email">Email</label>
-                                <input type="email" id="worker-email" class="form-control" placeholder="your@email.com">
+                                <input type="email" id="worker-email" class="form-control" placeholder="your@email.com"
+                                       value="<%= registerFormData && registerFormData.role === 'worker' && registerFormData.email ? registerFormData.email : '' %>">
                                 <div class="validation-error" id="worker-email-error"></div>
                             </div>
                         </div>
@@ -578,14 +603,16 @@
                         <div class="form-col">
                             <div class="form-group">
                                 <label for="aadhar-number">Aadhar Number</label>
-                                <input type="text" id="aadhar-number" class="form-control" placeholder="12-digit Aadhar Number" maxlength="12">
+                                <input type="text" id="aadhar-number" class="form-control" placeholder="12-digit Aadhar Number" maxlength="12"
+                                       value="<%= registerFormData && registerFormData.role === 'worker' && registerFormData.aadharNumber ? registerFormData.aadharNumber : '' %>">
                                 <div class="validation-error" id="aadhar-number-error"></div>
                             </div>
                         </div>
                         <div class="form-col">
                             <div class="form-group">
                                 <label for="worker-phone">Phone Number</label>
-                                <input type="tel" id="worker-phone" class="form-control" placeholder="Your Phone Number">
+                                <input type="tel" id="worker-phone" class="form-control" placeholder="Your Phone Number"
+                                       value="<%= registerFormData && registerFormData.role === 'worker' && registerFormData.phone ? registerFormData.phone : '' %>">
                                 <div class="validation-error" id="worker-phone-error"></div>
                             </div>
                         </div>
@@ -597,9 +624,12 @@
                                 <label for="specialization">Specialization</label>
                                 <select id="specialization" class="form-control">
                                     <option value="">Select Specialization</option>
-                                    <option value="architect">Architect</option>
-                                    <option value="interiordesign">Interior Design</option>
-
+                                    <% specializations.forEach(spec => { %>
+                                        <option value="<%= spec.value %>"
+                                            <%= registerFormData && registerFormData.role === 'worker' && registerFormData.specialization === spec.value ? 'selected' : '' %>>
+                                            <%= spec.label %>
+                                        </option>
+                                    <% }); %>
                                 </select>
                                 <div class="validation-error" id="specialization-error"></div>
                             </div>
@@ -607,7 +637,8 @@
                         <div class="form-col">
                             <div class="form-group">
                                 <label for="experience">Experience (Years)</label>
-                                <input type="number" id="experience" class="form-control" placeholder="Years of Experience" min="0">
+                                <input type="number" id="experience" class="form-control" placeholder="Years of Experience" min="0"
+                                       value="<%= registerFormData && registerFormData.role === 'worker' && registerFormData.experience ? registerFormData.experience : '' %>">
                                 <div class="validation-error" id="experience-error"></div>
                             </div>
                         </div>
@@ -645,7 +676,7 @@
                     </div>
                     
                     <div class="form-group checkbox-group">
-                        <input type="checkbox" id="terms">
+                        <input type="checkbox" id="terms" <%= registerFormData && registerFormData.termsAccepted ? 'checked' : '' %>>
                         <label for="terms">I agree to the <a href="#">Terms and Conditions</a></label>
                         <div class="validation-error" id="terms-error"></div>
                     </div>

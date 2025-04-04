@@ -827,15 +827,15 @@
         <!-- Sidebar Navigation -->
         <aside class="sidebar">
             <div class="logo">
-                <h2>Platform Administrator</h2>
+                <h2><%= platformName %> Admin</h2>
             </div>
             <nav class="nav-menu">
                 <ul>
-                    <li class="active"><a href="#dashboard" data-section="dashboard"><i class="icon-dashboard"></i> Dashboard</a></li>
-                    <li><a href="#payments" data-section="payments"><i class="icon-payments"></i> Payments</a></li>
-                    <li><a href="#projects" data-section="projects"><i class="icon-projects"></i> Projects</a></li>
-                    <li><a href="#users" data-section="users"><i class="icon-users"></i> Users</a></li>
-                    <li><a href="#settings" data-section="settings"><i class="icon-settings"></i> Settings</a></li>
+                    <li class="<%= activeSection === 'dashboard' ? 'active' : '' %>"><a href="/admin/dashboard" data-section="dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li class="<%= activeSection === 'payments' ? 'active' : '' %>"><a href="/admin/payments" data-section="payments"><i class="fas fa-money-bill-wave"></i> Payments</a></li>
+                    <li class="<%= activeSection === 'projects' ? 'active' : '' %>"><a href="/admin/projects" data-section="projects"><i class="fas fa-project-diagram"></i> Projects</a></li>
+                    <li class="<%= activeSection === 'users' ? 'active' : '' %>"><a href="/admin/users" data-section="users"><i class="fas fa-users"></i> Users</a></li>
+                    <li class="<%= activeSection === 'settings' ? 'active' : '' %>"><a href="/admin/settings" data-section="settings"><i class="fas fa-cog"></i> Settings</a></li>
                 </ul>
             </nav>
         </aside>
@@ -843,41 +843,22 @@
         <!-- Main Content Area -->
         <main class="main-content">
             <!-- Dashboard Section -->
+            <% if (activeSection === 'dashboard') { %>
             <section id="dashboard" class="content-section active">
                 <h1>Dashboard Overview</h1>
                 <div class="stats-cards">
+                    <% stats.forEach(stat => { %>
                     <div class="stat-card">
-                        <div class="stat-icon users"></div>
+                        <div class="stat-icon <%= stat.icon %>"><i class="fas fa-<%= stat.icon %>"></i></div>
                         <div class="stat-info">
-                            <h3>Total Users</h3>
-                            <p class="stat-number">2,540</p>
-                            <span class="stat-change positive">+12%</span>
+                            <h3><%= stat.title %></h3>
+                            <p class="stat-number"><%= stat.value %></p>
+                            <span class="stat-change <%= stat.change >= 0 ? 'positive' : 'negative' %>">
+                                <%= stat.change >= 0 ? '+' : '' %><%= stat.change %>%
+                            </span>
                         </div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-icon messages"></div>
-                        <div class="stat-info">
-                            <h3>New Messages</h3>
-                            <p class="stat-number">158</p>
-                            <span class="stat-change positive">+5%</span>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon payments"></div>
-                        <div class="stat-info">
-                            <h3>Total Payments</h3>
-                            <p class="stat-number">₹43,7500</p>
-                            <span class="stat-change positive">+8%</span>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon commission"></div>
-                        <div class="stat-info">
-                            <h3>Platform Commission</h3>
-                            <p class="stat-number">₹5,2800</p>
-                            <span class="stat-change positive">+10%</span>
-                        </div>
-                    </div>
+                    <% }); %>
                 </div>
 
                 <div class="dashboard-widgets">
@@ -888,39 +869,21 @@
                         </div>
                         <div class="widget-content">
                             <ul class="messages-list">
-                                <li class="message-item unread">
+                                <% messages.forEach(message => { %>
+                                <li class="message-item <%= message.read ? '' : 'unread' %>">
                                     <div class="message-sender">
-                                        <img src="avatar-placeholder.jpg" alt="User">
+                                        <img src="<%= message.avatar || '/images/avatar-placeholder.jpg' %>" alt="User">
                                         <div class="sender-info">
-                                            <h4>Prudhvi</h4>
-                                            <span class="sender-type company">Company</span>
+                                            <h4><%= message.senderName %></h4>
+                                            <span class="sender-type <%= message.senderType %>">
+                                                <%= message.senderType.charAt(0).toUpperCase() + message.senderType.slice(1) %>
+                                            </span>
                                         </div>
                                     </div>
-                                    <div class="message-preview">Payment confirmation required for project...</div>
-                                    <div class="message-time">10:30 AM</div>
+                                    <div class="message-preview"><%= message.preview %></div>
+                                    <div class="message-time"><%= message.time %></div>
                                 </li>
-                                <li class="message-item">
-                                    <div class="message-sender">
-                                        <img src="avatar-placeholder.jpg" alt="User">
-                                        <div class="sender-info">
-                                            <h4>Sara</h4>
-                                            <span class="sender-type customer">Customer</span>
-                                        </div>
-                                    </div>
-                                    <div class="message-preview">When will the service be completed? I need...</div>
-                                    <div class="message-time">Yesterday</div>
-                                </li>
-                                <li class="message-item">
-                                    <div class="message-sender">
-                                        <img src="avatar-placeholder.jpg" alt="User">
-                                        <div class="sender-info">
-                                            <h4>Mike Johnson</h4>
-                                            <span class="sender-type worker">Worker</span>
-                                        </div>
-                                    </div>
-                                    <div class="message-preview">Payment not received for completed work...</div>
-                                    <div class="message-time">2 days ago</div>
-                                </li>
+                                <% }); %>
                             </ul>
                         </div>
                     </div>
@@ -932,90 +895,43 @@
                         </div>
                         <div class="widget-content">
                             <ul class="payment-list">
+                                <% payments.slice(0, 3).forEach(payment => { %>
                                 <li class="payment-item">
                                     <div class="payment-info">
                                         <div class="payment-user">
-                                            <img src="avatar-placeholder.jpg" alt="User">
+                                            <img src="<%= payment.avatar || '/images/avatar-placeholder.jpg' %>" alt="User">
                                             <div class="payment-user-info">
-                                                <h4>Project: Home Redesign</h4>
-                                                <p>Customer: Pranav</p>
+                                                <h4>Project: <%= payment.projectName %></h4>
+                                                <p>Customer: <%= payment.customerName %></p>
                                             </div>
                                         </div>
                                         <div class="payment-details">
-                                            <span class="payment-amount">₹1,2500</span>
-                                            <span class="payment-status completed">Completed</span>
-                                        </div>
-                                    </div>
-                                    <div class="payment-breakdown">
-                                        <div class="breakdown-item">
-                                            <span>Customer Paid:</span>
-                                            <span>₹1,250</span>
-                                        </div>
-                                        <div class="breakdown-item">
-                                            <span>Platform Fee (10%):</span>
-                                            <span>₹125</span>
-                                        </div>
-                                        <div class="breakdown-item">
-                                            <span>Company Received:</span>
-                                            <span>₹1,125</span>
+                                            <span class="payment-amount">₹<%= payment.amount.toLocaleString() %></span>
+                                            <span class="payment-status <%= payment.status %>">
+                                                <%= payment.status.charAt(0).toUpperCase() + payment.status.slice(1) %>
+                                            </span>
                                         </div>
                                     </div>
                                 </li>
-                                <li class="payment-item">
-                                    <div class="payment-info">
-                                        <div class="payment-user">
-                                            <img src="avatar-placeholder.jpg" alt="User">
-                                            <div class="payment-user-info">
-                                                <h4>Project: Commercial plot construction</h4>
-                                                <p>Customer: Pranavi</p>
-                                            </div>
-                                        </div>
-                                        <div class="payment-details">
-                                            <span class="payment-amount">₹3,500</span>
-                                            <span class="payment-status pending">Pending</span>
-                                        </div>
-                                    </div>
-                                    <div class="payment-breakdown">
-                                        <div class="breakdown-item">
-                                            <span>Customer Paid:</span>
-                                            <span>₹3,500</span>
-                                        </div>
-                                        <div class="breakdown-item">
-                                            <span>Platform Fee (10%):</span>
-                                            <span>₹350</span>
-                                        </div>
-                                        <div class="breakdown-item">
-                                            <span>Company Pending:</span>
-                                            <span>₹3,150</span>
-                                        </div>
-                                    </div>
-                                </li>
+                                <% }); %>
                             </ul>
                         </div>
                     </div>
                 </div>
             </section>
+            <% } %>
 
             <!-- Payments Section -->
-            <section id="payments" class="content-section">
+            <% if (activeSection === 'payments') { %>
+            <section id="payments" class="content-section active">
                 <h1>Payment Management</h1>
                 <div class="payment-summary">
+                    <% paymentSummary.forEach(summary => { %>
                     <div class="summary-card">
-                        <h3>Total Transactions</h3>
-                        <p class="summary-amount">₹45,780</p>
+                        <h3><%= summary.title %></h3>
+                        <p class="summary-amount">₹<%= summary.amount.toLocaleString() %></p>
                     </div>
-                    <div class="summary-card">
-                        <h3>Platform Commission</h3>
-                        <p class="summary-amount">₹5,280</p>
-                    </div>
-                    <div class="summary-card">
-                        <h3>Paid to Companies</h3>
-                        <p class="summary-amount">₹32,500</p>
-                    </div>
-                    <div class="summary-card">
-                        <h3>Paid to Workers</h3>
-                        <p class="summary-amount">₹8,000</p>
-                    </div>
+                    <% }); %>
                 </div>
 
                 <div class="payment-table-container">
@@ -1034,87 +950,45 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <% payments.forEach(payment => { %>
                             <tr>
-                                <td>PAY-1089</td>
-                                <td>Home Redesign</td>
-                                <td>Emily Davis</td>
-                                <td>TechSolutions Inc.</td>
-                                <td>₹1,250.00</td>
-                                <td>₹125.00</td>
-                                <td>₹1,125.00</td>
-                                <td>Mar 15, 2025</td>
+                                <td><%= payment.paymentId %></td>
+                                <td><%= payment.projectName %></td>
+                                <td><%= payment.customerName %></td>
+                                <td><%= payment.recipientName %></td>
+                                <td>₹<%= payment.amount.toLocaleString() %></td>
+                                <td>₹<%= payment.commission.toLocaleString() %></td>
+                                <td>₹<%= payment.received.toLocaleString() %></td>
+                                <td><%= new Date(payment.date).toLocaleDateString() %></td>
                                 <td>
                                     <div class="action-buttons">
-                                        <button class="btn-icon" title="View Details"><i class="icon-eye"></i></button>
-                                        <button class="btn-icon" title="Download Invoice"><i class="icon-download"></i></button>
+                                        <button class="btn-icon" title="View Details"><i class="fas fa-eye"></i></button>
+                                        <button class="btn-icon" title="Download Invoice"><i class="fas fa-download"></i></button>
+                                        <% if(payment.status === 'pending') { %>
+                                        <button class="btn-icon" title="Approve Payment"><i class="fas fa-check"></i></button>
+                                        <% } %>
                                     </div>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>PAY-1088</td>
-                                <td>Commercial space development</td>
-                                <td>Rob Stark</td>
-                                <td>App Creators LLC</td>
-                                <td>₹3,500.00</td>
-                                <td>₹350.00</td>
-                                <td>₹3,150.00</td>
-                                <td>Mar 14, 2025</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="btn-icon" title="View Details"><i class="icon-eye"></i></button>
-                                        <button class="btn-icon" title="Approve Payment"><i class="icon-check"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>PAY-1087</td>
-                                <td>Home construction</td>
-                                <td>Prudhvi</td>
-                                <td>Sanjana (Worker)</td>
-                                <td>₹450.00</td>
-                                <td>₹45.00</td>
-                                <td>₹405.00</td>
-                                <td>Mar 13, 2025</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="btn-icon" title="View Details"><i class="icon-eye"></i></button>
-                                        <button class="btn-icon" title="Download Invoice"><i class="icon-download"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>PAY-1086</td>
-                                <td>SEO Construction</td>
-                                <td>Laura</td>
-                                <td>SEO Experts Co.</td>
-                                <td>₹850.00</td>
-                                <td>₹85.00</td>
-                                <td>₹765.00</td>
-                                <td>Mar 12, 2025</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="btn-icon" title="View Details"><i class="icon-eye"></i></button>
-                                        <button class="btn-icon" title="Retry Payment"><i class="icon-refresh"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
+                            <% }); %>
                         </tbody>
                     </table>
                 </div>
             </section>
+            <% } %>
 
             <!-- Projects Section -->
-            <section id="projects" class="content-section">
+            <% if (activeSection === 'projects') { %>
+            <section id="projects" class="content-section active">
                 <h1>Project Management</h1>
                 
-
                 <div class="user-tabs">
-                    <button class="tab-btn active" data-tab="active-projects">Active Projects</button>
-                    <button class="tab-btn" data-tab="completed-projects">Completed Projects</button>
-                    <button class="tab-btn" data-tab="pending-projects">Pending Projects</button>
+                    <button class="tab-btn <%= activeProjectTab === 'active' ? 'active' : '' %>" data-tab="active">Active Projects</button>
+                    <button class="tab-btn <%= activeProjectTab === 'completed' ? 'active' : '' %>" data-tab="completed">Completed Projects</button>
+                    <button class="tab-btn <%= activeProjectTab === 'pending' ? 'active' : '' %>" data-tab="pending">Pending Projects</button>
                 </div>
 
-                <div class="tab-content active" id="active-projects-tab">
+                <div class="tab-content <%= activeProjectTab === 'active' ? 'active' : '' %>" id="active-projects">
                     <table class="users-table">
                         <thead>
                             <tr>
@@ -1122,38 +996,30 @@
                                 <th>Customer</th>
                                 <th>Company/Worker</th>
                                 <th>Customer Email</th>
-                                <th>Compnay Email</th>
+                                <th>Company Email</th>
                                 <th>Received Money</th>
                                 <th>Pending Money</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <% projects.filter(p => p.status === 'active').forEach(project => { %>
                             <tr>
-                                <td>Home Cosntruction</td>
-                                <td>Emily</td>
-                                <td>ConstroSolutions Inc.</td>
-                                <<td>company@gmail.com</td>
-                                <td>cutomer@gmial.com</td>
-                                <td>₹200000</td>
-                                <td>₹100000</td>
+                                <td><%= project.name %></td>
+                                <td><%= project.customerName %></td>
+                                <td><%= project.providerName %></td>
+                                <td><%= project.customerEmail %></td>
+                                <td><%= project.companyEmail %></td>
+                                <td>₹<%= project.receivedMoney.toLocaleString() %></td>
+                                <td>₹<%= project.pendingMoney.toLocaleString() %></td>
                                 <td><i class="fas fa-comment"></i> Chat</td>
                             </tr>
-                            <tr>
-                                <td>Mobile App Development</td>
-                                <td>Robert Wilson</td>
-                                <td>App Creators LLC</td>
-                                <td>company@gmail.com</td>
-                                <td>cutomer@gmial.com</td>
-                                <td>₹200000</td>
-                                <td>₹100000</td>
-                                <td><i class="fas fa-comment"></i> Chat</td>
-                            </tr>
+                            <% }); %>
                         </tbody>
                     </table>
                 </div>
 
-                <div class="tab-content" id="completed-projects-tab">
+                <div class="tab-content <%= activeProjectTab === 'completed' ? 'active' : '' %>" id="completed-projects">
                     <table class="users-table">
                         <thead>
                             <tr>
@@ -1161,28 +1027,30 @@
                                 <th>Customer</th>
                                 <th>Company/Worker</th>
                                 <th>Customer Email</th>
-                                <th>Compnay Email</th>
+                                <th>Company Email</th>
                                 <th>Received Money</th>
                                 <th>Pending Money</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <% projects.filter(p => p.status === 'completed').forEach(project => { %>
                             <tr>
-                                <td>SEO Construction</td>
-                                <td>Laura</td>
-                                <td>SEO Experts Co.</td>
-                                <td>company@gmail.com</td>
-                                <td>cutomer@gmial.com</td>
-                                <td>₹200000</td>
-                                <td>₹100000</td>
+                                <td><%= project.name %></td>
+                                <td><%= project.customerName %></td>
+                                <td><%= project.providerName %></td>
+                                <td><%= project.customerEmail %></td>
+                                <td><%= project.companyEmail %></td>
+                                <td>₹<%= project.receivedMoney.toLocaleString() %></td>
+                                <td>₹<%= project.pendingMoney.toLocaleString() %></td>
                                 <td><i class="fas fa-comment"></i> Chat</td>
                             </tr>
+                            <% }); %>
                         </tbody>
                     </table>
                 </div>
 
-                <div class="tab-content" id="pending-projects-tab">
+                <div class="tab-content <%= activeProjectTab === 'pending' ? 'active' : '' %>" id="pending-projects">
                     <table class="users-table">
                         <thead>
                             <tr>
@@ -1190,35 +1058,39 @@
                                 <th>Customer</th>
                                 <th>Company/Worker</th>
                                 <th>Customer Email</th>
-                                <th>Compnay Email</th>
+                                <th>Company Email</th>
                                 <th>Received Money</th>
                                 <th>Pending Money</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <% projects.filter(p => p.status === 'pending').forEach(project => { %>
                             <tr>
-                                <td>Architect</td>
-                                <td>Michael </td>
-                                <td>Jhon Snow (Worker)</td>
-                                <td>company@gmail.com</td>
-                                <td>cutomer@gmial.com</td>
-                                <td>₹200000</td>
-                                <td>₹100000</td>
+                                <td><%= project.name %></td>
+                                <td><%= project.customerName %></td>
+                                <td><%= project.providerName %></td>
+                                <td><%= project.customerEmail %></td>
+                                <td><%= project.companyEmail %></td>
+                                <td>₹<%= project.receivedMoney.toLocaleString() %></td>
+                                <td>₹<%= project.pendingMoney.toLocaleString() %></td>
                                 <td><i class="fas fa-comment"></i> Chat</td>
                             </tr>
+                            <% }); %>
                         </tbody>
                     </table>
                 </div>
             </section>
+            <% } %>
 
             <!-- Users Section -->
-            <section id="users" class="content-section">
+            <% if (activeSection === 'users') { %>
+            <section id="users" class="content-section active">
                 <h1>User Management</h1>
                 <div class="users-actions">
                     <div class="user-search">
                         <input type="text" placeholder="Search users...">
-                        <button class="btn-search"><i class="icon-search"></i></button>
+                        <button class="btn-search"><i class="fas fa-search"></i></button>
                     </div>
                     <div class="user-filters">
                         <select id="user-type-filter">
@@ -1231,12 +1103,12 @@
                 </div>
 
                 <div class="user-tabs">
-                    <button class="tab-btn active" data-tab="companies">Companies</button>
-                    <button class="tab-btn" data-tab="customers">Customers</button>
-                    <button class="tab-btn" data-tab="workers">Workers</button>
+                    <button class="tab-btn <%= activeUserTab === 'companies' ? 'active' : '' %>" data-tab="companies">Companies</button>
+                    <button class="tab-btn <%= activeUserTab === 'customers' ? 'active' : '' %>" data-tab="customers">Customers</button>
+                    <button class="tab-btn <%= activeUserTab === 'workers' ? 'active' : '' %>" data-tab="workers">Workers</button>
                 </div>
 
-                <div class="tab-content active" id="companies-tab">
+                <div class="tab-content <%= activeUserTab === 'companies' ? 'active' : '' %>" id="companies-tab">
                     <table class="users-table">
                         <thead>
                             <tr>
@@ -1250,71 +1122,33 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <% users.filter(u => u.type === 'company').forEach(company => { %>
                             <tr>
                                 <td>
                                     <div class="user-info-cell">
-                                        <img src="avatar-placeholder.jpg" alt="Company">
-                                        <span>TechSolutions Inc.</span>
+                                        <img src="<%= company.avatar || '/images/avatar-placeholder.jpg' %>" alt="Company">
+                                        <span><%= company.name %></span>
                                     </div>
                                 </td>
-                                <td>John Snow</td>
-                                <td>john@techsolutions.com</td>
-                                <td>+91 123456789</td>
-                                <td>15</td>
-                                <td>₹24,500</td>
+                                <td><%= company.contactPerson %></td>
+                                <td><%= company.email %></td>
+                                <td><%= company.phone %></td>
+                                <td><%= company.projects %></td>
+                                <td>₹<%= company.revenue.toLocaleString() %></td>
                                 <td>
                                     <div class="action-buttons">
-                                        <button class="btn-icon" title="View Details"><i class="icon-eye"></i></button>
-                                        <button class="btn-icon" title="Edit"><i class="icon-edit"></i></button>
-                                        <button class="btn-icon" title="More Options"><i class="icon-more-vertical"></i></button>
+                                        <button class="btn-icon" title="View Details"><i class="fas fa-eye"></i></button>
+                                        <button class="btn-icon" title="Edit"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon" title="More Options"><i class="fas fa-ellipsis-v"></i></button>
                                     </div>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <div class="user-info-cell">
-                                        <img src="avatar-placeholder.jpg" alt="Company">
-                                        <span>Home Creators LLC</span>
-                                    </div>
-                                </td>
-                                <td>Sarah</td>
-                                <td>sarah@homecreators.com</td>
-                                <td>+91 123456789</td>
-                                <td>8</td>
-                                <td>₹18,750</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="btn-icon" title="View Details"><i class="icon-eye"></i></button>
-                                        <button class="btn-icon" title="Edit"><i class="icon-edit"></i></button>
-                                        <button class="btn-icon" title="More Options"><i class="icon-more-vertical"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="user-info-cell">
-                                        <img src="avatar-placeholder.jpg" alt="Company">
-                                        <span>SEO Experts Co.</span>
-                                    </div>
-                                </td>
-                                <td>Michael</td>
-                                <td>michael@seoexperts.com</td>
-                                <td>+91 1234567889</td>
-                                <td>12</td>
-                                <td>₹10,250</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="btn-icon" title="View Details"><i class="icon-eye"></i></button>
-                                        <button class="btn-icon" title="Edit"><i class="icon-edit"></i></button>
-                                        <button class="btn-icon" title="More Options"><i class="icon-more-vertical"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
+                            <% }); %>
                         </tbody>
                     </table>
                 </div>
 
-                <div class="tab-content" id="customers-tab">
+                <div class="tab-content <%= activeUserTab === 'customers' ? 'active' : '' %>" id="customers-tab">
                     <table class="users-table">
                         <thead>
                             <tr>
@@ -1328,71 +1162,33 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <% users.filter(u => u.type === 'customer').forEach(customer => { %>
                             <tr>
                                 <td>
                                     <div class="user-info-cell">
-                                        <img src="avatar-placeholder.jpg" alt="Customer">
-                                        <span>Emily</span>
+                                        <img src="<%= customer.avatar || '/images/avatar-placeholder.jpg' %>" alt="Customer">
+                                        <span><%= customer.name %></span>
                                     </div>
                                 </td>
-                                <td>emily@example.com</td>
-                                <td>+91 123456789</td>
-                                <td>Davis Construction</td>
-                                <td>5</td>
-                                <td>₹7,850</td>
+                                <td><%= customer.email %></td>
+                                <td><%= customer.phone %></td>
+                                <td><%= customer.company %></td>
+                                <td><%= customer.projects %></td>
+                                <td>₹<%= customer.totalSpent.toLocaleString() %></td>
                                 <td>
                                     <div class="action-buttons">
-                                        <button class="btn-icon" title="View Details"><i class="icon-eye"></i></button>
-                                        <button class="btn-icon" title="Edit"><i class="icon-edit"></i></button>
-                                        <button class="btn-icon" title="More Options"><i class="icon-more-vertical"></i></button>
+                                        <button class="btn-icon" title="View Details"><i class="fas fa-eye"></i></button>
+                                        <button class="btn-icon" title="Edit"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon" title="More Options"><i class="fas fa-ellipsis-v"></i></button>
                                     </div>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <div class="user-info-cell">
-                                        <img src="avatar-placeholder.jpg" alt="Customer">
-                                        <span>Robert Wilson</span>
-                                    </div>
-                                </td>
-                                <td>robert.wilson@example.com</td>
-                                <td>+91 123456789</td>
-                                <td>Wilson Home Group</td>
-                                <td>3</td>
-                                <td>₹5,250</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="btn-icon" title="View Details"><i class="icon-eye"></i></button>
-                                        <button class="btn-icon" title="Edit"><i class="icon-edit"></i></button>
-                                        <button class="btn-icon" title="More Options"><i class="icon-more-vertical"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="user-info-cell">
-                                        <img src="avatar-placeholder.jpg" alt="Customer">
-                                        <span>Laura </span>
-                                    </div>
-                                </td>
-                                <td>laura@example.com</td>
-                                <td>+91 122456789</td>
-                                <td>Martinez Creative</td>
-                                <td>2</td>
-                                <td>₹1,850</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="btn-icon" title="View Details"><i class="icon-eye"></i></button>
-                                        <button class="btn-icon" title="Edit"><i class="icon-edit"></i></button>
-                                        <button class="btn-icon" title="More Options"><i class="icon-more-vertical"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
+                            <% }); %>
                         </tbody>
                     </table>
                 </div>
 
-                <div class="tab-content" id="workers-tab">
+                <div class="tab-content <%= activeUserTab === 'workers' ? 'active' : '' %>" id="workers-tab">
                     <table class="users-table">
                         <thead>
                             <tr>
@@ -1406,341 +1202,156 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <% users.filter(u => u.type === 'worker').forEach(worker => { %>
                             <tr>
                                 <td>
                                     <div class="user-info-cell">
-                                        <img src="avatar-placeholder.jpg" alt="Worker">
-                                        <span>Mike</span>
+                                        <img src="<%= worker.avatar || '/images/avatar-placeholder.jpg' %>" alt="Worker">
+                                        <span><%= worker.name %></span>
                                     </div>
                                 </td>
-                                <td>mike@example.com</td>
-                                <td>+91 123456789</td>
-                                <td>Plot Development</td>
-                                <td>8</td>
-                                <td>₹12,500</td>
+                                <td><%= worker.email %></td>
+                                <td><%= worker.phone %></td>
+                                <td><%= worker.specialization %></td>
+                                <td><%= worker.projects %></td>
+                                <td>₹<%= worker.totalEarned.toLocaleString() %></td>
                                 <td>
                                     <div class="action-buttons">
-                                        <button class="btn-icon" title="View Details"><i class="icon-eye"></i></button>
-                                        <button class="btn-icon" title="Edit"><i class="icon-edit"></i></button>
-                                        <button class="btn-icon" title="More Options"><i class="icon-more-vertical"></i></button>
+                                        <button class="btn-icon" title="View Details"><i class="fas fa-eye"></i></button>
+                                        <button class="btn-icon" title="Edit"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon" title="More Options"><i class="fas fa-ellipsis-v"></i></button>
                                     </div>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <div class="user-info-cell">
-                                        <img src="avatar-placeholder.jpg" alt="Worker">
-                                        <span>Jane</span>
-                                    </div>
-                                </td>
-                                <td>jane.writer@example.com</td>
-                                <td>+91 123456789</td>
-                                <td>Architect</td>
-                                <td>15</td>
-                                <td>₹8,750</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="btn-icon" title="View Details"><i class="icon-eye"></i></button>
-                                        <button class="btn-icon" title="Edit"><i class="icon-edit"></i></button>
-                                        <button class="btn-icon" title="More Options"><i class="icon-more-vertical"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="user-info-cell">
-                                        <img src="avatar-placeholder.jpg" alt="Worker">
-                                        <span>David Designer</span>
-                                    </div>
-                                </td>
-                                <td>david.designer@example.com</td>
-                                <td>+91 123456789</td>
-                                <td>Home Design</td>
-                                <td>6</td>
-                                <td>₹9,200</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="btn-icon" title="View Details"><i class="icon-eye"></i></button>
-                                        <button class="btn-icon" title="Edit"><i class="icon-edit"></i></button>
-                                        <button class="btn-icon" title="More Options"><i class="icon-more-vertical"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
+                            <% }); %>
                         </tbody>
                     </table>
                 </div>
             </section>
+            <% } %>
 
             <!-- Settings Section -->
-            <section id="settings" class="content-section">
+            <% if (activeSection === 'settings') { %>
+            <section id="settings" class="content-section active">
                 <h1>Platform Settings</h1>
                 <div class="settings-container">
                     <div class="settings-sidebar">
                         <ul class="settings-nav">
-                            <li class="settings-nav-item active" data-settings="general">General Settings</li>
-                            <li class="settings-nav-item" data-settings="payment">Payment Settings</li>
-                            <li class="settings-nav-item" data-settings="security">Security Settings</li>
-                            <li class="settings-nav-item" data-settings="api">API & Integration</li>
+                            <li class="settings-nav-item <%= activeSettingsTab === 'general' ? 'active' : '' %>" data-settings="general">General Settings</li>
+                            <li class="settings-nav-item <%= activeSettingsTab === 'payment' ? 'active' : '' %>" data-settings="payment">Payment Settings</li>
+                            <li class="settings-nav-item <%= activeSettingsTab === 'security' ? 'active' : '' %>" data-settings="security">Security Settings</li>
+                            <li class="settings-nav-item <%= activeSettingsTab === 'api' ? 'active' : '' %>" data-settings="api">API & Integration</li>
                         </ul>
                     </div>
                     <div class="settings-content">
-                        <div class="settings-panel active" id="general-settings">
+                        <div class="settings-panel <%= activeSettingsTab === 'general' ? 'active' : '' %>" id="general-settings">
                             <h2>General Settings</h2>
-                            <div class="settings-form">
+                            <form action="/settings/general" method="POST" class="settings-form">
                                 <div class="form-group">
                                     <label for="platform-name">Platform Name</label>
-                                    <input type="text" id="platform-name" value="WorkConnect Platform">
+                                    <input type="text" id="platform-name" name="platformName" value="<%= settings.general.platformName %>">
                                 </div>
                                 <div class="form-group">
                                     <label for="platform-email">Platform Email</label>
-                                    <input type="email" id="platform-email" value="admin@workconnect.com">
+                                    <input type="email" id="platform-email" name="platformEmail" value="<%= settings.general.platformEmail %>">
                                 </div>
                                 <div class="form-group">
                                     <label for="platform-contact">Support Contact Number</label>
-                                    <input type="tel" id="platform-contact" value="+1 (555) 123-4567">
+                                    <input type="tel" id="platform-contact" name="supportContact" value="<%= settings.general.supportContact %>">
                                 </div>
                                 <div class="form-group">
                                     <label for="timezone">Default Timezone</label>
-                                    <select id="timezone">
-                                        <option value="UTC-8">Pacific Time (UTC-8)</option>
-                                        <option value="UTC-5">Eastern Time (UTC-5)</option>
-                                        <option value="UTC+0">Greenwich Mean Time (UTC+0)</option>
-                                        <option value="UTC+1">Central European Time (UTC+1)</option>
+                                    <select id="timezone" name="timezone">
+                                        <% settings.general.timezones.forEach(tz => { %>
+                                        <option value="<%= tz.value %>" <%= tz.value === settings.general.timezone ? 'selected' : '' %>>
+                                            <%= tz.label %>
+                                        </option>
+                                        <% }); %>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label>System Maintenance</label>
-                                    <div class="">
-                                        <input type="checkbox" id="maintenance-mode">
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="maintenance-mode" name="maintenanceMode" <%= settings.general.maintenanceMode ? 'checked' : '' %>>
                                         <label for="maintenance-mode">Maintenance Mode</label>
                                     </div>
                                     <p class="help-text">Enabling maintenance mode will make the platform inaccessible to all users except administrators.</p>
                                 </div>
                                 <div class="form-actions">
-                                    <button class="btn btn-primary">Save Changes</button>
-                                    <button class="btn btn-secondary">Reset</button>
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                    <button type="reset" class="btn btn-secondary">Reset</button>
                                 </div>
-                            </div>
+                            </form>
                         </div>
 
-                        <div class="settings-panel" id="payment-settings">
+                        <div class="settings-panel <%= activeSettingsTab === 'payment' ? 'active' : '' %>" id="payment-settings">
                             <h2>Payment Settings</h2>
-                            <div class="settings-form">
+                            <form action="/settings/payment" method="POST" class="settings-form">
                                 <div class="form-group">
                                     <label>Platform Commission</label>
                                     <div class="input-group">
-                                        <input type="number" id="commission-rate" value="10">
+                                        <input type="number" id="commission-rate" name="commissionRate" value="<%= settings.payment.commissionRate %>">
                                         <span class="input-group-text">%</span>
                                     </div>
                                     <p class="help-text">The percentage fee the platform charges on each transaction.</p>
                                 </div>
                                 <div class="form-group">
                                     <label for="payment-processor">Payment Processor</label>
-                                    <select id="payment-processor">
-                                        <option value="stripe">Stripe</option>
-                                        <option value="paypal">PayPal</option>
-                                        <option value="square">Square</option>
+                                    <select id="payment-processor" name="paymentProcessor">
+                                        <% settings.payment.processors.forEach(processor => { %>
+                                        <option value="<%= processor.value %>" <%= processor.value === settings.payment.processor ? 'selected' : '' %>>
+                                            <%= processor.label %>
+                                        </option>
+                                        <% }); %>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="payment-api-key">API Key</label>
-                                    <input type="password" id="payment-api-key" value="sk_live_****************************************">
+                                    <input type="password" id="payment-api-key" name="apiKey" value="<%= settings.payment.apiKey %>">
                                 </div>
                                 <div class="form-group">
                                     <label>Payment Methods</label>
                                     <div class="checkbox-group">
+                                        <% settings.payment.methods.forEach(method => { %>
                                         <div class="checkbox-item">
-                                            <input type="checkbox" id="payment-credit" checked>
-                                            <label for="payment-credit">Credit Card</label>
+                                            <input type="checkbox" id="payment-<%= method.value %>" name="paymentMethods" value="<%= method.value %>" 
+                                                <%= settings.payment.paymentMethods.includes(method.value) ? 'checked' : '' %>>
+                                            <label for="payment-<%= method.value %>"><%= method.label %></label>
                                         </div>
-                                        <div class="checkbox-item">
-                                            <input type="checkbox" id="payment-debit" checked>
-                                            <label for="payment-debit">Debit Card</label>
-                                        </div>
-                                        <div class="checkbox-item">
-                                            <input type="checkbox" id="payment-bank" checked>
-                                            <label for="payment-bank">Bank Transfer</label>
-                                        </div>
-                                        <div class="checkbox-item">
-                                            <input type="checkbox" id="payment-digital">
-                                            <label for="payment-digital">Digital Wallets</label>
-                                        </div>
+                                        <% }); %>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label>Automatic Payouts</label>
                                     <div class="toggle-switch">
-                                        <input type="checkbox" id="auto-payout" checked>
+                                        <input type="checkbox" id="auto-payout" name="autoPayout" <%= settings.payment.autoPayout ? 'checked' : '' %>>
                                         <label for="auto-payout">Enable Automatic Payouts</label>
                                     </div>
                                     <p class="help-text">Automatically process payouts to service providers when projects are completed.</p>
                                 </div>
                                 <div class="form-group">
                                     <label for="payout-schedule">Payout Schedule</label>
-                                    <select id="payout-schedule">
-                                        <option value="immediate">Immediate</option>
-                                        <option value="daily" selected>Daily</option>
-                                        <option value="weekly">Weekly</option>
-                                        <option value="biweekly">Bi-weekly</option>
-                                        <option value="monthly">Monthly</option>
+                                    <select id="payout-schedule" name="payoutSchedule">
+                                        <% settings.payment.schedules.forEach(schedule => { %>
+                                        <option value="<%= schedule.value %>" <%= schedule.value === settings.payment.payoutSchedule ? 'selected' : '' %>>
+                                            <%= schedule.label %>
+                                        </option>
+                                        <% }); %>
                                     </select>
                                 </div>
                                 <div class="form-actions">
-                                    <button class="btn btn-primary">Save Changes</button>
-                                    <button class="btn btn-secondary">Reset</button>
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                    <button type="reset" class="btn btn-secondary">Reset</button>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </section>
+            <% } %>
         </main>
     </div>
 
-    <script>
-        const sidebarLinks = document.querySelectorAll('.nav-menu ul li a');
-        const contentSections = document.querySelectorAll('.content-section');
-        const userTabs = document.querySelectorAll('.user-tabs .tab-btn');
-        const userTabContents = document.querySelectorAll('.tab-content');
-        const paymentDetailModal = document.getElementById('payment-detail-modal');
-        const userDetailModal = document.getElementById('user-detail-modal');
-        const closeModalButtons = document.querySelectorAll('.btn-close');
-        const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
-        const dropdownMenus = document.querySelectorAll('.dropdown-menu');
-        const settingsNavItems = document.querySelectorAll('.settings-nav-item');
-        const settingsPanels = document.querySelectorAll('.settings-panel');
-        const toastContainer = document.createElement('div');
-        toastContainer.classList.add('toast-container');
-        document.body.appendChild(toastContainer);
-
-        // Helper Functions
-        function hideAllSections() {
-            contentSections.forEach(section => section.classList.remove('active'));
-        }
-
-        function hideAllTabs() {
-            userTabContents.forEach(tab => tab.classList.remove('active'));
-            userTabs.forEach(tab => tab.classList.remove('active'));
-        }
-
-        function hideAllDropdowns() {
-            dropdownMenus.forEach(menu => menu.classList.remove('show'));
-        }
-
-        function hideAllSettingsPanels() {
-            settingsPanels.forEach(panel => panel.classList.remove('active'));
-            settingsNavItems.forEach(item => item.classList.remove('active'));
-        }
-
-        function showToast(message, type = 'info') {
-            const toast = document.createElement('div');
-            toast.classList.add('toast', type);
-            toast.textContent = message;
-            toastContainer.appendChild(toast);
-
-            setTimeout(() => {
-                toast.remove();
-            }, 3000);
-        }
-
-        // Sidebar Navigation
-        sidebarLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const targetSection = link.getAttribute('data-section');
-
-                hideAllSections();
-                document.getElementById(targetSection).classList.add('active');
-                sidebarLinks.forEach(link => link.parentElement.classList.remove('active'));
-                link.parentElement.classList.add('active');
-            });
-        });
-
-        // User Tabs
-        userTabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const targetTab = tab.getAttribute('data-tab');
-                hideAllTabs();
-                document.getElementById(`${targetTab}-tab`).classList.add('active');
-                tab.classList.add('active');
-            });
-        });
-
-        // Modals
-        closeModalButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                paymentDetailModal.classList.remove('active');
-                userDetailModal.classList.remove('active');
-            });
-        });
-
-        // Payment Detail Modal (Example Trigger)
-        document.querySelectorAll('.action-buttons .btn-icon[title="View Details"]').forEach(button => {
-            button.addEventListener('click', () => {
-                paymentDetailModal.classList.add('active');
-            });
-        });
-
-        // User Detail Modal (Example Trigger)
-        document.querySelectorAll('.action-buttons .btn-icon[title="View Details"]').forEach(button => {
-            button.addEventListener('click', () => {
-                userDetailModal.classList.add('active');
-            });
-        });
-
-        // Dropdowns
-        dropdownToggles.forEach(toggle => {
-            toggle.addEventListener('click', () => {
-                const dropdownMenu = toggle.nextElementSibling;
-                hideAllDropdowns();
-                dropdownMenu.classList.toggle('show');
-            });
-        });
-
-        // Close dropdowns when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.dropdown')) {
-                hideAllDropdowns();
-            }
-        });
-
-        // Settings Navigation
-        settingsNavItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const targetPanel = item.getAttribute('data-settings');
-                hideAllSettingsPanels();
-                document.getElementById(`${targetPanel}-settings`).classList.add('active');
-                item.classList.add('active');
-            });
-        });
-
-        // Form Validation (Example for Settings Form)
-        document.querySelector('.settings-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const platformName = document.getElementById('platform-name').value;
-            const platformEmail = document.getElementById('platform-email').value;
-
-            if (!platformName || !platformEmail) {
-                showToast('Please fill in all required fields.', 'error');
-            } else {
-                showToast('Settings saved successfully!', 'success');
-                // Simulate saving settings
-                setTimeout(() => {
-                    // Reset form or perform other actions
-                }, 1000);
-            }
-        });
-
-
-        // Real-time Notifications (Simulated)
-        setInterval(() => {
-            const notificationBadge = document.querySelector('.notification-btn .badge');
-            if (notificationBadge) {
-                const count = parseInt(notificationBadge.textContent) || 0;
-                notificationBadge.textContent = count + 1;
-                showToast('New notification received!', 'info');
-            }
-        }, 10000); // Simulate a new notification every 10 seconds
-    </script>
+    <script src="/js/dashboard.js"></script>
 </body>
 </html>
