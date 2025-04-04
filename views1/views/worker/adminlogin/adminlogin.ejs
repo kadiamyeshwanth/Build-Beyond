@@ -180,19 +180,32 @@
 <body>
     <div class="login-container">
         <div class="login-header">
-            <h1>Admin Login</h1>
-            <p>Enter your details to access the dashboard</p>
+            <h1><%= title || 'Admin Login' %></h1>
+            <p><%= subtitle || 'Enter your details to access the dashboard' %></p>
         </div>
-        <form id="loginForm">
+        
+        <% if (messages.error) { %>
+            <div class="alert alert-error">
+                <%= messages.error %>
+            </div>
+        <% } %>
+        
+        <% if (messages.success) { %>
+            <div class="alert alert-success">
+                <%= messages.success %>
+            </div>
+        <% } %>
+
+        <form id="loginForm" action="/admin-login" method="POST">
             <div class="input-group" id="emailGroup">
                 <label for="email">Email Address</label>
-                <input type="email" id="email" placeholder="Enter your email">
+                <input type="email" id="email" name="email" placeholder="Enter your email" value="<%= formData.email || '' %>">
                 <span class="error-message">Please enter a valid email address</span>
             </div>
             <div class="input-group" id="passwordGroup">
                 <label for="password">Password</label>
                 <div class="password-container">
-                    <input type="password" id="password" placeholder="Enter your password">
+                    <input type="password" id="password" name="password" placeholder="Enter your password">
                     <button type="button" class="toggle-password" id="togglePassword">Show</button>
                 </div>
                 <span class="error-message">Password must be at least 8 characters</span>
@@ -200,7 +213,7 @@
             <div class="input-group" id="passKeyGroup">
                 <label for="passKey">Pass Key</label>
                 <div class="password-container">
-                    <input type="password" id="passKey" placeholder="Enter your secret pass key">
+                    <input type="password" id="passKey" name="passKey" placeholder="Enter your secret pass key">
                     <button type="button" class="toggle-password" id="togglePassKey">Show</button>
                 </div>
                 <p class="pass-key-info">Enter your personal secret code for additional security</p>
@@ -208,7 +221,7 @@
             </div>
             <div class="remember-forgot">
                 <div class="remember-me">
-                    <input type="checkbox" id="rememberMe">
+                    <input type="checkbox" id="rememberMe" name="rememberMe" <%= formData.rememberMe ? 'checked' : '' %>>
                     <label for="rememberMe">Remember me</label>
                 </div>
                 <div class="forgot-password">
@@ -246,70 +259,62 @@
                 e.preventDefault();
                 const email = emailInput.value.trim();
                 if (isValidEmail(email)) {
-                    alert('Password reset link has been sent to your email address.');
+                    fetch('/forgot-password', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ email: email })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Password reset link has been sent to your email address.');
+                        } else {
+                            alert(data.message || 'Failed to send reset link.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred. Please try again.');
+                    });
                 } else {
                     alert('Please enter a valid email address first.');
                     emailInput.focus();
                 }
             });
 
-            document.getElementById("loginForm").addEventListener("submit", async (e) => {
-            e.preventDefault();
-
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
-            const passKey = document.getElementById("passKey").value;
-
-            const response = await fetch("http://localhost:4000/admin-login", {
-                method: "POST",
-                headers: {
-                "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ email, password, passKey }),
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                window.location.href = data.redirect; // Redirect to the dashboard
-            } else {
-                alert(data.message); // Show error message
-            }
-            });
-
-            emailInput.addEventListener('blur', function() {
-                validateField(this, document.getElementById('emailGroup'));
-            });
-
-            passwordInput.addEventListener('blur', function() {
-                validateField(this, document.getElementById('passwordGroup'));
-            });
-
-            passKeyInput.addEventListener('blur', function() {
-                validateField(this, document.getElementById('passKeyGroup'));
-            });
-
-            function validateField(field, fieldGroup) {
-                if (field.id === 'email') {
-                    if (!isValidEmail(field.value.trim())) {
-                        fieldGroup.classList.add('error');
-                        return false;
-                    }
-                } else if (field.id === 'password') {
-                    if (field.value.length < 8) {
-                        fieldGroup.classList.add('error');
-                        return false;
-                    }
-                } else if (field.id === 'passKey') {
-                    if (field.value.trim() === '') {
-                        fieldGroup.classList.add('error');
-                        return false;
-                    }
+            loginForm.addEventListener('submit', function(e) {
+                let isValid = true;
+                
+                // Validate email
+                if (!isValidEmail(emailInput.value.trim())) {
+                    document.getElementById('emailGroup').classList.add('error');
+                    isValid = false;
+                } else {
+                    document.getElementById('emailGroup').classList.remove('error');
                 }
-
-                fieldGroup.classList.remove('error');
-                return true;
-            }
+                
+                // Validate password
+                if (passwordInput.value.length < 8) {
+                    document.getElementById('passwordGroup').classList.add('error');
+                    isValid = false;
+                } else {
+                    document.getElementById('passwordGroup').classList.remove('error');
+                }
+                
+                // Validate passKey
+                if (passKeyInput.value.trim() === '') {
+                    document.getElementById('passKeyGroup').classList.add('error');
+                    isValid = false;
+                } else {
+                    document.getElementById('passKeyGroup').classList.remove('error');
+                }
+                
+                if (!isValid) {
+                    e.preventDefault();
+                }
+            });
 
             function isValidEmail(email) {
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
