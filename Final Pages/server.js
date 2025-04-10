@@ -8,11 +8,43 @@ const mongoose = require("mongoose");
 const app = express();
 const PORT = 4000;
 
+// Multer 
+const multer = require('multer');
+const fs = require('fs');
+
+// Configure storage
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    let uploadPath = 'uploads/';
+    
+    // Create directory based on user role if available
+    if (req.body.role) {
+      uploadPath += `${req.body.role}/`;
+    } else {
+      uploadPath += 'misc/';
+    }
+
+    // Create directory if it doesn't exist
+    fs.mkdirSync(uploadPath, { recursive: true });
+    cb(null, uploadPath);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, `${uniqueSuffix}${path.extname(file.originalname)}`);
+  }
+});
+
+// Create upload instance
+const upload = multer({ 
+  storage: storage,
+  limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
+});
 // Configuration
 app.set("view engine", "ejs");
 app.use(cors({
   origin: 'http://localhost:4000',
-  credentials: true
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 // MongoDB Connection
@@ -109,12 +141,6 @@ app.use(
   })
 );
 
-// Middleware
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(express.json());
-app.use(express.static("Final Pages"));
-
 // Predefined Admin Users
 const predefinedAdmins = {
   "admin@example.com": {
@@ -132,100 +158,88 @@ const predefinedAdmins = {
 };
 
 // Enhanced Signup Route
-app.post('/signup', async (req, res) => {
+app.post('/signup', upload.fields([
+  { name: 'licenseFiles', maxCount: 5 },
+  { name: 'certificateFiles', maxCount: 5 }
+]), async (req, res) => {
   try {
-    const { name = req.body.role === 'company' ? req.body.companyName : req.body.name, email, password, role, ...profileData } = req.body;
+    // Log incoming files for debugging
+    console.log('Uploaded files:', req.files);
+    
+    // Combine body data and file data
+    const userData = {
+      ...req.body,
+      ...(req.files?.licenseFiles && { 
+        licenseFiles: req.files.licenseFiles.map(file => file.path) 
+      }),
+      ...(req.files?.certificateFiles && { 
+        certificateFiles: req.files.certificateFiles.map(file => file.path) 
+      })
+    };
 
-    // Basic validation
-    if (!name || !email || !password || !role) {
-      return res.status(400).json({ message: "Missing required fields" });
-    }
-
-    // Check if email exists in any collection
-    const emailExists = await checkEmailAcrossCollections(email);
-    if (emailExists) {
-      return res.status(400).json({ message: "Email already registered" });
-    }
-
+    // Rest of your signup logic...
+    const { role, name, email, password, companyName, contactPerson, aadharNumber, specialization, experience } = userData;
+    
     let newUser;
     switch(role) {
       case 'customer':
-        newUser = new Customer({ name, email, password, ...profileData });
+        newUser = new Customer({ name, email, password, ...userData });
         break;
       case 'company':
-        newUser = new Company({ name, email, password, ...profileData });
+        newUser = new Company({ 
+          name: companyName, 
+          email, 
+          password, 
+          contactPerson,
+          licenseFiles: userData.licenseFiles || [],
+          ...userData 
+        });
         break;
       case 'worker':
-        newUser = new Worker({ name, email, password, ...profileData });
+        newUser = new Worker({ 
+          name, 
+          email, 
+          password, 
+          aadharNumber,
+          specialization,
+          experience,
+          certificateFiles: userData.certificateFiles || [],
+          ...userData 
+        });
         break;
       default:
         return res.status(400).json({ message: "Invalid user role" });
     }
 
     await newUser.save();
-
-    // Set session
-    req.session.user = {
-      id: newUser._id,
-      name: newUser.name,
-      email: newUser.email,
-      role: role,
-      profileData: newUser.toObject()
-    };
-
+    
     res.status(201).json({ 
       message: "Signup successful",
       redirect: getRedirectUrl(role),
-      user: req.session.user
+      user: {
+        id: newUser._id,
+        name: newUser.name,
+        email: newUser.email,
+        role: role
+      }
     });
 
   } catch (err) {
     console.error("Signup error:", err);
-    res.status(500).json({ message: "Server error during registration" });
-  }
-});
-
-// Enhanced Login Route
-app.post('/login', async (req, res) => {
-  try {
-    const { email, password } = req.body;
-
-    // Check predefined admins first
-    const predefinedAdmin = predefinedAdmins[email];
-    if (predefinedAdmin && predefinedAdmin.password === password) {
-      req.session.user = { 
-        name: predefinedAdmin.name, 
-        email, 
-        role: predefinedAdmin.role 
-      };
-      return res.json({ 
-        message: "Login successful", 
-        redirect: getRedirectUrl(predefinedAdmin.role) 
+    
+    // Clean up uploaded files if error occurs
+    if (req.files) {
+      Object.values(req.files).flat().forEach(file => {
+        fs.unlink(file.path, (unlinkErr) => {
+          if (unlinkErr) console.error("Error cleaning up file:", unlinkErr);
+        });
       });
     }
-    // Check all collections for the user
-    const user = await findUserAcrossCollections(email, password);
-    if (!user) {
-      return res.status(401).json({ message: "Invalid email or password" });
-    }
-    // Set session
-    req.session.user = {
-      id: user._id,
-      name: user.name,
-      email: user.email,
-      role: user.constructor.modelName.toLowerCase(), // Gets collection name
-      profileData: user.toObject()
-    };
-
-    res.json({ 
-      message: "Login successful",
-      redirect: getRedirectUrl(req.session.user.role),
-      user: req.session.user
+    
+    res.status(500).json({ 
+      message: "Server error during registration",
+      error: process.env.NODE_ENV === 'development' ? err.message : undefined
     });
-
-  } catch (err) {
-    console.error("Login error:", err);
-    res.status(500).json({ message: "Server error during login" });
   }
 });
 
@@ -421,3 +435,8 @@ function getRedirectUrl(role) {
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
+// Middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.static("Final Pages"));
