@@ -331,6 +331,19 @@
         </div>
     </div>
     <script>
+        const notificationIcon = document.getElementById('notificationIcon');
+        const notificationPanel = document.getElementById('notificationPanel');
+
+        notificationIcon.addEventListener('click', function(e) {
+            e.stopPropagation();
+            notificationPanel.classList.toggle('show');
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!notificationPanel.contains(e.target) && !notificationIcon.contains(e.target)) {
+                notificationPanel.classList.remove('show');
+            }
+        });
         // Simple JavaScript to handle tab switching
         document.addEventListener('DOMContentLoaded', function() {
             const navLinks = document.querySelectorAll('.settings-nav a');
