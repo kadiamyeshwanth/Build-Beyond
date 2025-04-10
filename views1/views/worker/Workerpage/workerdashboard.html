@@ -257,26 +257,27 @@
     <main>
         <div class="container">
             <div class="dashboard-header">
-                <h1 class="dashboard-title">Welcome, Builder</h1>
+                <h1 class="dashboard-title">Welcome, <%= user.name %></h1>
             </div>
             <section class="card-section">
-                <h2 class="section-title">Recent Offers </h2>
+                <h2 class="section-title">Recent Offers</h2>
                 <div class="cards-container">
+                    <% offers.forEach(offer => { %>
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-company">Metropolitan Builders</h3>
-                            <p class="card-location">Denver, CO (On-site)</p>
+                            <h3 class="card-company"><%= offer.company %></h3>
+                            <p class="card-location"><%= offer.location %></p>
                         </div>
                         <div class="card-body">
-                            <p class="card-description">We're impressed with your portfolio and would like to offer you a position as Project Manager on our high-rise development team.</p>
+                            <p class="card-description"><%= offer.description %></p>
                             <div class="card-details">
                                 <div class="card-detail">
                                     <span class="detail-label">Position</span>
-                                    <span class="detail-value">Project Manager</span>
+                                    <span class="detail-value"><%= offer.position %></span>
                                 </div>
                                 <div class="card-detail">
                                     <span class="detail-label">Salary</span>
-                                    <span class="detail-value">$95K - $120K</span>
+                                    <span class="detail-value"><%= offer.salary %></span>
                                 </div>
                             </div>
                             <div class="card-actions">
@@ -284,71 +285,28 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-company">Reliable Infrastructure Inc.</h3>
-                            <p class="card-location">Phoenix, AZ</p>
-                        </div>
-                        <div class="card-body">
-                            <p class="card-description">Your civil engineering experience is exactly what we're looking for. We'd like to discuss a Site Supervisor position with you.</p>
-                            <div class="card-details">
-                                <div class="card-detail">
-                                    <span class="detail-label">Position</span>
-                                    <span class="detail-value">Site Supervisor</span>
-                                </div>
-                                <div class="card-detail">
-                                    <span class="detail-label">Salary</span>
-                                    <span class="detail-value">$85K - $105K</span>
-                                </div>
-                            </div>
-                            <div class="card-actions">
-                                <button class="btn btn-primary">View Offer</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-company">Elite Homes Construction</h3>
-                            <p class="card-location">Nashville, TN (Hybrid)</p>
-                        </div>
-                        <div class="card-body">
-                            <p class="card-description">We're expanding our residential division and believe your carpentry expertise would be a perfect fit for our custom home projects.</p>
-                            <div class="card-details">
-                                <div class="card-detail">
-                                    <span class="detail-label">Position</span>
-                                    <span class="detail-value">Lead Carpenter</span>
-                                </div>
-                                <div class="card-detail">
-                                    <span class="detail-label">Salary</span>
-                                    <span class="detail-value">$75K - $90K</span>
-                                </div>
-                            </div>
-                            <div class="card-actions">
-                                <button class="btn btn-primary">View Offer</button>
-                                
-                            </div>
-                        </div>
-                    </div>
+                    <% }); %>
                 </div>
             </section>
             <section class="card-section">
                 <h2 class="section-title">Companies You Can Join</h2>
                 <div class="cards-container">
+                    <% companies.forEach(company => { %>
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-company">Skyline Developments</h3>
-                            <p class="card-location">Chicago, IL</p>
+                            <h3 class="card-company"><%= company.name %></h3>
+                            <p class="card-location"><%= company.location %></p>
                         </div>
                         <div class="card-body">
-                            <p class="card-description">Leading commercial construction company focused on high-rise office buildings and mixed-use developments. Currently hiring multiple positions.</p>
+                            <p class="card-description"><%= company.description %></p>
                             <div class="card-details">
                                 <div class="card-detail">
                                     <span class="detail-label">Industry</span>
-                                    <span class="detail-value">Commercial Construction</span>
+                                    <span class="detail-value"><%= company.industry %></span>
                                 </div>
                                 <div class="card-detail">
                                     <span class="detail-label">Size</span>
-                                    <span class="detail-value">500+ employees</span>
+                                    <span class="detail-value"><%= company.size %></span>
                                 </div>
                             </div>
                             <div class="card-actions">
@@ -357,81 +315,37 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-company">Premier Renovations</h3>
-                            <p class="card-location">Portland, OR</p>
-                        </div>
-                        <div class="card-body">
-                            <p class="card-description">Boutique renovation company specializing in historic building restoration and luxury home remodeling projects.</p>
-                            <div class="card-details">
-                                <div class="card-detail">
-                                    <span class="detail-label">Industry</span>
-                                    <span class="detail-value">Residential Renovation</span>
-                                </div>
-                                <div class="card-detail">
-                                    <span class="detail-label">Size</span>
-                                    <span class="detail-value">20-50 employees</span>
-                                </div>
-                            </div>
-                            <div class="card-actions">
-                                <button class="btn btn-primary">Apply Now</button>
-                                <button class="btn btn-outline">Learn More</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-company">BridgeWorks Engineering</h3>
-                            <p class="card-location">Austin, TX</p>
-                        </div>
-                        <div class="card-body">
-                            <p class="card-description">Fast-growing civil engineering firm focused on infrastructure projects, bridge construction, and roadway development.</p>
-                            <div class="card-details">
-                                <div class="card-detail">
-                                    <span class="detail-label">Industry</span>
-                                    <span class="detail-value">Civil Engineering</span>
-                                </div>
-                                <div class="card-detail">
-                                    <span class="detail-label">Size</span>
-                                    <span class="detail-value">50-100 employees</span>
-                                </div>
-                            </div>
-                            <div class="card-actions">
-                                <button class="btn btn-primary">Apply Now</button>
-                                <button class="btn btn-outline">Learn More</button>
-                            </div>
-                        </div>
-                    </div>
+                    <% }); %>
                 </div>
             </section>
             <section class="card-section">
                 <h2 class="section-title">New Jobs</h2>
                 <div class="cards-container">
+                    <% jobs.forEach(job => { %>
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-company">Riverside Towers</h3>
-                            <p class="card-location">Minneapolis, MN</p>
+                            <h3 class="card-company"><%= job.company %></h3>
+                            <p class="card-location"><%= job.location %></p>
                         </div>
                         <div class="card-body">
-                            <p class="card-description">Mixed-use development with 3 residential towers and commercial space. Currently in phase 2 of construction.</p>
+                            <p class="card-description"><%= job.description %></p>
                             <div class="card-details">
                                 <div class="card-detail">
                                     <span class="detail-label">Timeline</span>
-                                    <span class="detail-value">2023-2026</span>
+                                    <span class="detail-value"><%= job.timeline %></span>
                                 </div>
                                 <div class="card-detail">
                                     <span class="detail-label">Budget</span>
-                                    <span class="detail-value">$85M</span>
+                                    <span class="detail-value"><%= job.budget %></span>
                                 </div>
                             </div>
                             <div style="margin-top: 0.5rem; margin-bottom: 1rem;">
                                 <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
                                     <span style="font-size: 0.9rem;">Progress</span>
-                                    <span style="font-size: 0.9rem; font-weight: bold;">45%</span>
+                                    <span style="font-size: 0.9rem; font-weight: bold;"><%= job.progress %>%</span>
                                 </div>
                                 <div style="height: 6px; background-color: #eee; border-radius: 3px; overflow: hidden;">
-                                    <div style="width: 45%; height: 100%; background-color: #4CAF50;"></div>
+                                    <div style="width: <%= job.progress %>%; height: 100%; background-color: #4CAF50;"></div>
                                 </div>
                             </div>
                             <div class="card-actions">
@@ -440,38 +354,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-company">Oakwood Residences</h3>
-                            <p class="card-location">San Diego, CA</p>
-                        </div>
-                        <div class="card-body">
-                            <p class="card-description">Luxury residential complex with 24 custom homes in a gated community. Sustainable materials and energy-efficient design.</p>
-                            <div class="card-details">
-                                <div class="card-detail">
-                                    <span class="detail-label">Timeline</span>
-                                    <span class="detail-value">2024-2025</span>
-                                </div>
-                                <div class="card-detail">
-                                    <span class="detail-label">Budget</span>
-                                    <span class="detail-value">$32M</span>
-                                </div>
-                            </div>
-                            <div style="margin-top: 0.5rem; margin-bottom: 1rem;">
-                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
-                                    <span style="font-size: 0.9rem;">Progress</span>
-                                    <span style="font-size: 0.9rem; font-weight: bold;">22%</span>
-                                </div>
-                                <div style="height: 6px; background-color: #eee; border-radius: 3px; overflow: hidden;">
-                                    <div style="width: 22%; height: 100%; background-color: #4CAF50;"></div>
-                                </div>
-                            </div>
-                            <div class="card-actions">
-                                <button class="btn btn-primary">View Details</button>
-                                <button class="btn btn-outline">Update Status</button>
-                            </div>
-                        </div>
-                    </div>
+                    <% }); %>
                 </div>
             </section>
         </div>
