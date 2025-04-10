@@ -3,13 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Settings</title>
+    <title><%= title || 'Settings' %></title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
     <style>
         /* General Styles */
         :root {
@@ -32,6 +29,66 @@
             color: var(--dark-color);
             line-height: 1.6;
         }
+        .navbar {
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: #121639;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .navbar-left {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .navbar-middle {
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar-middle a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .navbar-middle a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #6c5ce7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .profile-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+        
         .settings-container {
             max-width: 1200px;
             margin: 2rem auto;
@@ -156,11 +213,167 @@
         .btn-danger:hover {
             background-color: #c0392b;
         }
+
+
+        /* New Edit profile styling */
+        .right-content {
+            width: 100%;
+        }
+        
+        .right-content h2 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 24px;
+        }
+        
+        .right-content .architect-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .architect-image-large {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 20px;
+            border: 3px solid #e0e0e0;
+        }
+        
+        .bio {
+            margin-bottom: 30px;
+        }
+        
+        .bio h3 {
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 20px;
+        }
+        
+        .bio p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .projects {
+            margin-top: 30px;
+        }
+        
+        .projects h3 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 20px;
+        }
+        
+        .project {
+            margin-bottom: 30px;
+            display: flex;
+            gap: 20px;
+        }
+        
+        .project-image-container {
+            flex: 0 0 300px;
+        }
+        
+        .project-content {
+            flex: 1;
+        }
+        
+        .project h4 {
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 18px;
+        }
+        
+        .project-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .project p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 5px;
+        }
+        
+        .rating {
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+        }
+        
+        .rating .star {
+            color: #ffd700;
+            font-size: 16px;
+            margin-right: 2px;
+        }
+        
+        
+        .book-now-btn {
+            background-color: #f0c776;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .book-now-btn:hover {
+            background-color: #eac019;
+            transform: translateY(-2px);
+        }
+        
+        .back-btn {
+            display: inline-block;
+            margin-right: 20px;
+            padding: 12px 24px;
+            background-color: #0d1a44;
+            color: white;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .back-btn:hover {
+            background-color: #1a2f6b;
+        }
+        
+        .action-buttons {
+            margin-top: 30px;
+            text-align: center;
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <%- include('navbar_worker') %>
+    <nav class="navbar">
+        <div class="navbar-left">
+            Build & Beyond
+        </div>
+        <div class="navbar-middle">
+            <a href="/workerdashboard.html">Dashboard</a>
+            <a href="/workerjobs.html">New Jobs</a>
+            <a href="/workerjoin_company.html">Join a Company</a>
+        </div>
+        <div class="navbar-right">
+            <div class="profile-icon">
+                <a href="settings.html">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z" fill="white"/>
+                </svg></a>
+            </div>
+        </div>
+    </nav>
     <div class="settings-container">
         <div class="settings-header">
             <h1>Account Settings</h1>
@@ -171,7 +384,6 @@
                 <ul class="settings-nav">
                     <li><a href="#profile" class="active"><i class="fas fa-user"></i> Profile</a></li>
                     <li><a href="#security"><i class="fas fa-lock"></i> Security</a></li>
-                    <li><a href="#payments"><i class="fas fa-credit-card"></i> Payments</a></li>
                     <li><a href="#help-center"><i class="fas fa-question-circle"></i> Help Center</a></li>
                     <li><a href="#logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                 </ul>
@@ -179,118 +391,122 @@
             <div class="settings-content">
                 <!-- Profile Section -->
                 <div id="profile" class="settings-section active">
-                    <h2>Profile Information</h2>
-                    <div id="profile-display">
-                        <div class="form-group">
-                            <label>Worker Name</label>
-                            <p><%= user.name %></p>
+                    <div class="container">
+                    <div class="right-content">
+                        <div class="architect-header">
+                            <img src="<%= user.profileImage || 'https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg' %>" alt="<%= user.name %>" class="architect-image-large">
+                            <div>
+                                <h2><%= user.name %></h2>
+                                <p><strong><%= user.title %></strong> with <%= user.experience %> years experience</p>
+                                <div class="rating">
+                                    <% for(let i = 0; i < 5; i++) { %>
+                                        <% if(i < Math.floor(user.rating)) { %>
+                                            ★
+                                        <% } else { %>
+                                            ☆
+                                        <% } %>
+                                    <% } %>
+                                    <span>(<%= user.rating.toFixed(1) %>)</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>Email Address</label>
-                            <p><%= user.email %></p>
+                        
+                        <div class="bio">
+                            <h3>About</h3>
+                            <p><%= user.bio %></p>
+                            <p><strong>Specialties:</strong> <%= user.specialties.join(', ') %></p>
                         </div>
-                        <div class="form-group">
-                            <label>Phone Number</label>
-                            <p><%= user.phone || 'Not provided' %></p>
+                        
+                        <div class="projects">
+                            <h3>Notable Projects</h3>
+                            <% user.projects.forEach(project => { %>
+                                <h4><%= project.name %> (<%= project.year %>)</h4>
+                                <p><strong>Location:</strong> <%= project.location %></p>
+                                <div class="project">
+                                    <img src="<%= project.image %>" alt="<%= project.name %>" class="project-image">
+                                    <p><%= project.description %></p>
+                                </div>
+                            <% }); %>
                         </div>
-                        <div class="form-group">
-                            <label>Address</label>
-                            <p><%= user.address || 'Not provided' %></p>
+                        <div class="action-buttons">
+                            <a href="/edit-profile" class="book-now-btn">Edit Profile</a>
                         </div>
-                        <div class="form-group">
-                            <label>About Company</label>
-                            <p><%= user.bio || 'Not provided' %></p>
-                        </div>
-                        <button id="edit-profile-btn" class="btn">Edit Profile</button>
                     </div>
-                    <form id="profile-edit" style="display: none;" action="/profile/update" method="POST">
+                    </div>
+                </div>
+                <!-- Appearance -->
+                <div id="appearance" class="settings-section">
+                    <h2>Appearance Settings</h2>
+                    <form>
                         <div class="form-group">
-                            <label for="fullName">Company Name</label>
-                            <input type="text" id="fullName" name="name" class="form-control" value="<%= user.name %>">
+                            <label>Theme</label>
+                            <div class="form-check">
+                                <input type="radio" name="theme" id="themeLight" checked>
+                                <label for="themeLight">Light Mode</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" name="theme" id="themeDark">
+                                <label for="themeDark">Dark Mode</label>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" id="email" name="email" class="form-control" value="<%= user.email %>">
-                            <button type="button" id="verify-email-btn" class="btn btn-secondary" style="margin-top: 0.5rem; display: none;">Verify Email</button>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Phone Number</label>
-                            <input type="tel" id="phone" name="phone" class="form-control" value="<%= user.phone %>">
-                        </div>
-                        <div class="form-group">
-                            <label for="address">Address</label>
-                            <textarea id="address" name="address" class="form-control" rows="3"><%= user.address %></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="bio">About Company</label>
-                            <textarea id="bio" name="bio" class="form-control" rows="5"><%= user.bio %></textarea>
-                        </div>
-                        <button type="button" id="cancel-edit-btn" class="btn btn-secondary" style="margin-right: 1rem;">Cancel</button>
-                        <button type="submit" class="btn">Save Changes</button>
+                        <button type="submit" class="btn">Apply</button>
                     </form>
                 </div>
-
-                <!-- Security Section -->
+                <!-- Security -->
                 <div id="security" class="settings-section">
                     <h2>Security Settings</h2>
-                    <form action="/profile/change-password" method="POST">
+                    <form>
                         <div class="form-group">
                             <label for="currentPassword">Current Password</label>
-                            <input type="password" id="currentPassword" name="currentPassword" class="form-control" required>
+                            <input type="password" id="currentPassword" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="newPassword">New Password</label>
-                            <input type="password" id="newPassword" name="newPassword" class="form-control" required>
+                            <input type="password" id="newPassword" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="confirmPassword">Confirm New Password</label>
-                            <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required>
+                            <input type="password" id="confirmPassword" class="form-control">
                         </div>
                         <button type="submit" class="btn">Update Password</button>
+                        <hr style="margin: 2rem 0;">
                     </form>
                 </div>
                 
-                <!-- Payments Section -->
+                <!-- Payments -->
                 <div id="payments" class="settings-section">
                     <h2>Payment Settings</h2>
                     <div>
                         <h3 style="margin-bottom: 1rem; color: #555;">Invoices</h3>
-                        <% if (invoices && invoices.length > 0) { %>
-                            <table style="width: 100%; border-collapse: collapse;">
-                                <thead>
-                                    <tr style="border-bottom: 2px solid var(--border-color);">
-                                        <th style="text-align: left; padding: 0.75rem;">Invoice #</th>
-                                        <th style="text-align: left; padding: 0.75rem;">Date</th>
-                                        <th style="text-align: left; padding: 0.75rem;">Amount</th>
-                                        <th style="text-align: left; padding: 0.75rem;">Status</th>
-                                        <th style="text-align: left; padding: 0.75rem;"></th>
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid var(--border-color);">
+                                    <th style="text-align: left; padding: 0.75rem;">Invoice #</th>
+                                    <th style="text-align: left; padding: 0.75rem;">Date</th>
+                                    <th style="text-align: left; padding: 0.75rem;">Amount</th>
+                                    <th style="text-align: left; padding: 0.75rem;">Status</th>
+                                    <th style="text-align: left; padding: 0.75rem;"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% invoices.forEach(invoice => { %>
+                                    <tr style="border-bottom: 1px solid var(--border-color);">
+                                        <td style="padding: 0.75rem;"><%= invoice.number %></td>
+                                        <td style="padding: 0.75rem;"><%= new Date(invoice.date).toLocaleDateString() %></td>
+                                        <td style="padding: 0.75rem;">₹<%= invoice.amount.toLocaleString('en-IN') %></td>
+                                        <td style="padding: 0.75rem; color: var(--success-color);"><%= invoice.status %></td>
+                                        <td style="padding: 0.75rem;">
+                                            <a href="<%= invoice.downloadLink %>" style="color: var(--primary-color);">Download</a>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    <% invoices.forEach(invoice => { %>
-                                        <tr style="border-bottom: 1px solid var(--border-color);">
-                                            <td style="padding: 0.75rem;"><%= invoice.invoiceNumber %></td>
-                                            <td style="padding: 0.75rem;"><%= invoice.date.toLocaleDateString() %></td>
-                                            <td style="padding: 0.75rem;">₹<%= invoice.amount.toLocaleString('en-IN') %></td>
-                                            <td style="padding: 0.75rem; color: <%= invoice.status === 'paid' ? 'var(--success-color)' : '#e67e22' %>;">
-                                                <%= invoice.status.charAt(0).toUpperCase() + invoice.status.slice(1) %>
-                                            </td>
-                                            <td style="padding: 0.75rem;">
-                                                <a href="/invoices/download/<%= invoice._id %>" style="color: var(--primary-color);">Download</a>
-                                            </td>
-                                        </tr>
-                                    <% }); %>
-                                </tbody>
-                            </table>
-                        <% } else { %>
-                            <p>No invoices found.</p>
-                        <% } %>
+                                <% }); %>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-
-                <!-- Help Center Section -->
+                <!-- Help Center -->
                 <div id="help-center" class="settings-section">
-                    <h2>Help Center</h2>
+                <h2>Help Center</h2>
                     <div style="margin-bottom: 2rem;">
                         <h3 style="margin-bottom: 1rem; color: #555;">Frequently Asked Questions</h3>
                         <% faqs.forEach(faq => { %>
@@ -304,100 +520,73 @@
                     </div>
                     <div style="margin-bottom: 2rem;">
                         <h3 style="margin-bottom: 1rem; color: #555;">Support Options</h3>
-                        <a href="/contact-support" class="btn" style="margin-right: 1rem;">Contact Support</a>
+                        <button class="btn" style="margin-right: 1rem;">Contact Support</button>
                     </div>
                 </div>
-
-                <!-- Logout Section -->
+                <!-- Logout -->
                 <div id="logout" class="settings-section">
                     <h2>Logout</h2>
                     <div style="margin-bottom: 2rem;">
                         <p style="margin-bottom: 1.5rem;">Are you sure you want to log out of your account?</p>
-                        <a href="/logout"><button class="btn btn-danger">Logout</button></a>
+                        <button class="btn btn-danger">Logout</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <script>
-        // Handle tab switching
+        //handle tab switching
         document.addEventListener('DOMContentLoaded', function() {
             const navLinks = document.querySelectorAll('.settings-nav a');
             const sections = document.querySelectorAll('.settings-section');
-            
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     navLinks.forEach(link => link.classList.remove('active'));
                     sections.forEach(section => section.classList.remove('active'));
-                    
+                    // Add active class
                     this.classList.add('active');
                     const targetId = this.getAttribute('href').substring(1);
                     document.getElementById(targetId).classList.add('active');
                 });
             });
-
-            // Profile edit functionality
-            const editProfileBtn = document.getElementById('edit-profile-btn');
-            const cancelEditBtn = document.getElementById('cancel-edit-btn');
-            const profileDisplay = document.getElementById('profile-display');
-            const profileEdit = document.getElementById('profile-edit');
-            const emailInput = document.getElementById('email');
-            const verifyEmailBtn = document.getElementById('verify-email-btn');
-            const originalEmail = emailInput ? emailInput.value : '';
-
-            if (editProfileBtn && profileDisplay && profileEdit) {
-                editProfileBtn.addEventListener('click', function() {
-                    profileDisplay.style.display = 'none';
-                    profileEdit.style.display = 'block';
-                });
-            }
-
-            if (cancelEditBtn && profileDisplay && profileEdit) {
-                cancelEditBtn.addEventListener('click', function() {
-                    profileDisplay.style.display = 'block';
-                    profileEdit.style.display = 'none';
-                    verifyEmailBtn.style.display = 'none';
-                });
-            }
-
-            if (emailInput && verifyEmailBtn) {
-                emailInput.addEventListener('input', function() {
-                    verifyEmailBtn.style.display = this.value !== originalEmail ? 'block' : 'none';
-                });
-
-                verifyEmailBtn.addEventListener('click', function() {
-                    alert('Verification email sent to ' + emailInput.value);
-                });
-            }
-
-            // Handle form submissions with fetch
-            const profileForm = document.getElementById('profile-edit');
-            if (profileForm) {
-                profileForm.addEventListener('submit', async function(e) {
-                    e.preventDefault();
-                    const formData = new FormData(profileForm);
-                    
-                    try {
-                        const response = await fetch('/profile/update', {
-                            method: 'POST',
-                            body: formData
-                        });
-                        
-                        const result = await response.json();
-                        if (result.success) {
-                            alert('Profile updated successfully!');
-                            window.location.reload();
-                        } else {
-                            alert('Error: ' + result.message);
-                        }
-                    } catch (error) {
-                        console.error('Error:', error);
-                        alert('An error occurred while updating profile');
-                    }
-                });
-            }
         });
+        // Profile edit
+        const editProfileBtn=document.getElementById('edit-profile-btn');
+        const cancelEditBtn=document.getElementById('cancel-edit-btn');
+        const profileDisplay=document.getElementById('profile-display');
+        const profileEdit=document.getElementById('profile-edit');
+        const emailInput=document.getElementById('email');
+        const verifyEmailBtn=document.getElementById('verify-email-btn');
+        const originalEmail=emailInput?emailInput.value:'';
+        if (editProfileBtn && profileDisplay && profileEdit) {
+            editProfileBtn.addEventListener('click', function() {
+                profileDisplay.style.display = 'none';
+                profileEdit.style.display = 'block';
+            });
+        }
+        if (cancelEditBtn && profileDisplay && profileEdit) {
+            cancelEditBtn.addEventListener('click', function() {
+                profileDisplay.style.display='block';
+                profileEdit.style.display='none';
+                // form reset
+                document.getElementById('profile-edit').reset();
+                // Hide verify button
+                verifyEmailBtn.style.display='none';
+            });
+        }
+        if (emailInput && verifyEmailBtn) {
+            emailInput.addEventListener('input', function() {
+                if (this.value !== originalEmail) {
+                    verifyEmailBtn.style.display='block';
+                } else {
+                    verifyEmailBtn.style.display='none';
+                }
+            });
+            verifyEmailBtn.addEventListener('click', function() {
+                alert('Verification email sent to '+emailInput.value);
+            });
+        }
     </script>
 </body>
 </html>
