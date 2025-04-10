@@ -156,6 +156,144 @@
         .btn-danger:hover {
             background-color: #c0392b;
         }
+
+        /* New Edit profile styling */
+        .right-content {
+            width: 100%;
+        }
+        
+        .right-content h2 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 24px;
+        }
+        
+        .right-content .architect-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .architect-image-large {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 20px;
+            border: 3px solid #e0e0e0;
+        }
+        
+        .bio {
+            margin-bottom: 30px;
+        }
+        
+        .bio h3 {
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 20px;
+        }
+        
+        .bio p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .projects {
+            margin-top: 30px;
+        }
+        
+        .projects h3 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 20px;
+        }
+        
+        .project {
+            margin-bottom: 30px;
+            display: flex;
+            gap: 20px;
+        }
+        
+        .project-image-container {
+            flex: 0 0 300px;
+        }
+        
+        .project-content {
+            flex: 1;
+        }
+        
+        .project h4 {
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 18px;
+        }
+        
+        .project-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .project p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 5px;
+        }
+        
+        .rating {
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+        }
+        
+        .rating .star {
+            color: #ffd700;
+            font-size: 16px;
+            margin-right: 2px;
+        }
+        
+        
+        .book-now-btn {
+            background-color: #f0c776;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .book-now-btn:hover {
+            background-color: #eac019;
+            transform: translateY(-2px);
+        }
+        
+        .back-btn {
+            display: inline-block;
+            margin-right: 20px;
+            padding: 12px 24px;
+            background-color: #0d1a44;
+            color: white;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .back-btn:hover {
+            background-color: #1a2f6b;
+        }
+        
+        .action-buttons {
+            margin-top: 30px;
+            text-align: center;
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -178,55 +316,43 @@
             <div class="settings-content">
                 <!-- Profile Section -->
                 <div id="profile" class="settings-section active">
-                    <h2>Profile Information</h2>
-                    <div id="profile-display">
-                        <div class="form-group">
-                            <label>Worker Name</label>
-                            <p><%= user.name %></p>
+                    <div class="container">
+                    <div class="right-content">
+                        <div class="architect-header">
+                            <img src="https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg" alt="Krishna" class="architect-image-large">
+                            <div>
+                                <h2>Krishna</h2>
+                                <p><strong>Principal Architect</strong> with 15 years experience</p>
+                                <div class="rating">★★★★★<span>(4.7)</span></div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>Email Address</label>
-                            <p><%= user.email %></p>
+                        
+                        <div class="bio">
+                            <h3>About</h3>
+                            <p>Krishna is an award-winning architect with expertise in sustainable design and urban development. He has worked on numerous high-profile projects across the globe.</p>
+                            <p><strong>Specialties:</strong> Sustainable design, Urban planning, Residential architecture</p>
                         </div>
-                        <div class="form-group">
-                            <label>Phone Number</label>
-                            <p>+91 78856 34429</p>
+                        
+                        <div class="projects">
+                            <h3>Notable Projects</h3>
+                            <h4>Eco Urban Center (2022)</h4>
+                            <p><strong>Location:</strong> Guntur, Andhra Pradesh</p>
+                            <div class="project">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZkV3_0Ft7onHGmmLz-TZbphv7KircKuOMqw&s" alt="Eco Urban Center" class="project-image">
+                                <p>A LEED Platinum certified commercial complex featuring innovative green technologies and sustainable materials. The design incorporates solar panels, rainwater harvesting, and a vertical garden system that covers 60% of the facade.</p>
+                            </div>
+                            <h4>Riverside Residences (2020)</h4>
+                            <p><strong>Location:</strong> Tenkasi, Chennai</p>
+                            <div class="project">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZkV3_0Ft7onHGmmLz-TZbphv7KircKuOMqw&s" alt="Riverside Residences" class="project-image">
+                                <p>A luxury residential development that seamlessly integrates with its natural surroundings and maximizes river views. The project features 25 custom-designed homes with private docks, using locally-sourced materials and flood-resistant construction techniques.</p>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>Address</label>
-                            <p>Avenue Road , Meerut</p>
+                        <div class="action-buttons">
+                            <a href="architecht_form.html" class="book-now-btn">Edit Profile</a>
                         </div>
-                        <div class="form-group">
-                            <label>About Company</label>
-                            <p>I'm a homeowner looking to renovate my kitchen and add a deck to the back of my house.</p>
-                        </div>
-                        <button id="edit-profile-btn" class="btn">Edit Profile</button>
                     </div>
-                    <form id="profile-edit" style="display: none;">
-                        <div class="form-group">
-                            <label for="fullName">Company Name</label>
-                            <input type="text" id="fullName" class="form-control" value="Aarav">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" id="email" class="form-control" value="aarav@gmail.com">
-                            <button type="button" id="verify-email-btn" class="btn btn-secondary" style="margin-top: 0.5rem; display: none;">Verify Email</button>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Phone Number</label>
-                            <input type="tel" id="phone" class="form-control" value="aarav@gmail.com">
-                        </div>
-                        <div class="form-group">
-                            <label for="address">Address</label>
-                            <textarea id="address" class="form-control" rows="3">Avenue Road , Meerut</textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="bio">About Company</label>
-                            <textarea id="bio" class="form-control" rows="5">I'm a homeowner looking to renovate my kitchen and add a deck to the back of my house.</textarea>
-                        </div>
-                        <button type="button" id="cancel-edit-btn" class="btn btn-secondary" style="margin-right: 1rem;">Cancel</button>
-                        <button type="submit" class="btn">Save Changes</button>
-                    </form>
+                    </div>
                 </div>
                 <!-- Appearance -->
                 <div id="appearance" class="settings-section">
