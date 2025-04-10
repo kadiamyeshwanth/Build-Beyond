@@ -110,15 +110,91 @@ const Company = mongoose.model("Company", companySchema);
 
 // Worker Schema
 const workerSchema = new mongoose.Schema({
-  ...baseUserSchema.obj,
-  aadharNumber: { type: String },
-  specialization: { type: String },
-  experience: { type: Number },
-  certificateFiles: [{ type: String }],
-  hourlyRate: { type: Number },
-  availability: { type: String }
+  name: String,
+  email: { type: String, unique: true },
+  password: String,
+  phone: String,
+  aadharNumber: String,
+  specialization: String,
+  experience: Number,
+  certificateFiles: [String],
+  createdAt: { type: Date, default: Date.now },
+  // New fields from architect form
+  professionalTitle: String,
+  about: String,
+  specialties: [String],
+  projects: [{
+      name: String,
+      year: Number,
+      location: String,
+      description: String,
+      image: String
+  }],
+  profileImage: String,
+  rating: Number
 });
 const Worker = mongoose.model("Worker", workerSchema);
+// Update worker profile endpoint
+router.put('/workers/:id', upload.fields([
+  { name: 'profileImage', maxCount: 1 },
+  { name: 'projectImages', maxCount: 10 }
+]), async (req, res) => {
+  try {
+      const workerId = req.params.id;
+      const formData = req.body;
+      
+      // Handle file uploads
+      const profileImagePath = req.files['profileImage'] ? 
+          req.files['profileImage'][0].path : null;
+      
+      const projectImages = req.files['projectImages'] ? 
+          req.files['projectImages'].map(file => file.path) : [];
+      
+      // Prepare projects data with images
+      let projects = [];
+      if (formData.projects) {
+          projects = JSON.parse(formData.projects).map((project, index) => ({
+              ...project,
+              image: projectImages[index] || null
+          }));
+      }
+      
+      // Prepare update object
+      const updateData = {
+          professionalTitle: formData.title,
+          about: formData.about,
+          specialties: formData.specialties || [],
+          projects: projects,
+          experience: formData.experience || 0
+      };
+      
+      if (profileImagePath) {
+          updateData.profileImage = profileImagePath;
+      }
+      
+      // Update worker in database
+      const updatedWorker = await Worker.findByIdAndUpdate(
+          workerId,
+          { $set: updateData },
+          { new: true }
+      );
+      
+      if (!updatedWorker) {
+          return res.status(404).json({ message: 'Worker not found' });
+      }
+      
+      res.json({
+          message: 'Profile updated successfully',
+          worker: updatedWorker
+      });
+      
+  } catch (error) {
+      console.error('Error updating worker profile:', error);
+      res.status(500).json({ message: 'Error updating profile', error: error.message });
+  }
+});
+
+module.exports = router;
 // Map each role to its corresponding Mongoose model
 const roleModelMap = {
   customer: Customer,
@@ -321,6 +397,21 @@ app.get("/workerjoin_company.html", (req, res) => {
 app.get("/workersettings.html", (req, res) => {
   res.render("worker/worker_settings", { user: req.session.user });
 });
+//Update - Profile Route 
+router.put('/update-profile/:id', async (req, res) => {
+  try {
+      const updatedWorker = await Worker.findByIdAndUpdate(
+          req.params.id, 
+          req.body,      
+          { new: true }
+      );
+      res.json({ success: true, worker: updatedWorker });
+  } catch (error) {
+      res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+module.exports = router;
 // Logout Route
 app.get("/logout", (req, res) => {
   res.render("signin_up_");
