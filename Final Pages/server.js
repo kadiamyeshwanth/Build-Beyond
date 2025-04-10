@@ -18,8 +18,8 @@ app.use(cors({
 // MongoDB Connection
 const mongoURI = "mongodb+srv://isaimanideepp:Sai62818@cluster0.mng20.mongodb.net/Build&Beyond?retryWrites=true&w=majority";
 mongoose.connect(mongoURI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+  // useNewUrlParser: true,
+  // useUnifiedTopology: true,
 })
 .then(() => console.log("Connected to MongoDB Atlas"))
 .catch(err => console.error("MongoDB Connection Error:", err));
@@ -87,7 +87,17 @@ const workerSchema = new mongoose.Schema({
   availability: { type: String }
 });
 const Worker = mongoose.model("Worker", workerSchema);
-
+// Map each role to its corresponding Mongoose model
+const roleModelMap = {
+  customer: Customer,
+  company: Company,
+  worker: Worker
+};
+function getModelByRole(role) {
+  if (!role) return null;
+  return roleModelMap[role.toLowerCase()] || null;
+}
+module.exports = getModelByRole;
 // Session Middleware
 app.use(
   session({
@@ -124,7 +134,7 @@ const predefinedAdmins = {
 // Enhanced Signup Route
 app.post('/signup', async (req, res) => {
   try {
-    const { name, email, password, role, ...profileData } = req.body;
+    const { name = req.body.role === 'company' ? req.body.companyName : req.body.name, email, password, role, ...profileData } = req.body;
 
     // Basic validation
     if (!name || !email || !password || !role) {
@@ -193,13 +203,11 @@ app.post('/login', async (req, res) => {
         redirect: getRedirectUrl(predefinedAdmin.role) 
       });
     }
-
     // Check all collections for the user
     const user = await findUserAcrossCollections(email, password);
     if (!user) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
-
     // Set session
     req.session.user = {
       id: user._id,
@@ -275,7 +283,6 @@ app.post("/admin-login", (req, res) => {
     });
   });
 });
-
 // All your existing view routes remain the same...
 // Landing Route
 app.get("/",(req,res)=>{
@@ -354,8 +361,10 @@ app.get("/design_ideas.html", (req, res) => {
 app.get("/architecht_form.html", (req, res) => {
   res.render("customer/architect_form");
 });
-app.get("/customersettings.html", (req, res) => {
-  res.render("customer/customer_settings", { user: req.session.user });
+app.get("/customersettings.html", async(req, res) => {
+  const Model = getModelByRole(req.session.user.role);
+  const user = await Model.findById(req.session.user.id);
+  res.render("customer/customer_settings", {user});
 });
 app.get("/interiordesign_form.html", (req, res) => {
   res.render("customer/interiordesign_form");
