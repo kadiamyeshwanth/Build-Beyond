@@ -194,6 +194,12 @@ h1 {
   border-radius: 4px;
   margin-bottom: 15px;
   border-left: 3px solid #2e7d32;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
 .card h3 {
@@ -219,6 +225,7 @@ h1 {
   cursor: pointer;
   font-weight: 500;
   margin-left: 10px;
+  transition: all 0.2s ease;
 }
 
 .btn-primary {
@@ -228,6 +235,7 @@ h1 {
 
 .btn-primary:hover {
   background-color: #1b5e20;
+  transform: translateY(-2px);
 }
 
 .btn-outline {
@@ -238,6 +246,7 @@ h1 {
 
 .btn-outline:hover {
   background-color: #f0f0f0;
+  transform: translateY(-2px);
 }
 
 .form-group {
@@ -481,7 +490,7 @@ h1 {
         
         .project-image {
             width: 100%;
-            max-width: 600px; /* Reduced width */
+            max-width: 600px;
             height: auto;
             object-fit: cover;
             display: block;
@@ -517,6 +526,130 @@ h1 {
         .project-description {
             font-size: 14px;
             color: #555;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 800px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            color: #aaa;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-modal:hover {
+            color: #333;
+        }
+
+        .modal-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal-header h2 {
+            color: #2c3e50;
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .company-details {
+            display: flex;
+            margin-bottom: 30px;
+        }
+
+        .company-logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-right: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .company-info {
+            flex: 1;
+        }
+
+        .detail-row {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            width: 150px;
+            color: #555;
+        }
+
+        .detail-value {
+            flex: 1;
+        }
+
+        .company-projects {
+            margin-top: 30px;
+        }
+
+        .project-highlight {
+            display: flex;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .project-highlight:last-child {
+            border-bottom: none;
+        }
+
+        .project-highlight-image {
+            width: 200px;
+            height: 120px;
+            border-radius: 4px;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+
+        .project-highlight-details {
+            flex: 1;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .btn-large {
+            padding: 12px 25px;
+            font-size: 16px;
         }
     </style>
 </head>
@@ -648,6 +781,7 @@ h1 {
             <span class="badge badge-orange">LEED Projects</span>
           </div>
           <div class="card-footer">
+            <button class="btn btn-primary view-details" data-company="modern-structures">View Details</button>
             <button class="btn btn-primary">Apply Now</button>
           </div>
         </div>
@@ -664,6 +798,7 @@ h1 {
             <span class="badge badge-orange">International Projects</span>
           </div>
           <div class="card-footer">
+            <button class="btn btn-primary view-details" data-company="skyline-builders">View Details</button>
             <button class="btn btn-primary">Apply Now</button>
           </div>
         </div>
@@ -680,6 +815,7 @@ h1 {
             <span class="badge badge-orange">Restoration Techniques</span>
           </div>
           <div class="card-footer">
+            <button class="btn btn-primary view-details" data-company="heritage-restoration">View Details</button>
             <button class="btn btn-primary">Apply Now</button>
           </div>
         </div>
@@ -696,6 +832,7 @@ h1 {
             <span class="badge badge-orange">Sustainable Materials</span>
           </div>
           <div class="card-footer">
+            <button class="btn btn-primary view-details" data-company="ecodesign">View Details</button>
             <button class="btn btn-primary">Apply Now</button>
           </div>
         </div>
@@ -771,6 +908,96 @@ h1 {
       </div>
     </div>
   </div>
+
+  <!-- Company Details Modal -->
+  <div id="companyModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <div class="modal-header">
+        <h2 id="modalCompanyName">Modern Structures Inc.</h2>
+      </div>
+      <div class="modal-body">
+        <div class="company-details">
+          <img id="modalCompanyLogo" src="https://via.placeholder.com/120" alt="Company Logo" class="company-logo">
+          <div class="company-info">
+            <div class="detail-row">
+              <div class="detail-label">Location:</div>
+              <div class="detail-value" id="modalLocation">Chennai, Tamil Nadu</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Company Size:</div>
+              <div class="detail-value" id="modalSize">Medium (50-200 employees)</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Founded:</div>
+              <div class="detail-value" id="modalFounded">2005</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Specializations:</div>
+              <div class="detail-value" id="modalSpecializations">
+                <span class="badge badge-green">Commercial</span>
+                <span class="badge badge-green">Residential High-rise</span>
+                <span class="badge badge-green">Urban Development</span>
+              </div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Current Openings:</div>
+              <div class="detail-value" id="modalOpenings">
+                <span class="badge badge-blue">Senior Architects</span>
+                <span class="badge badge-blue">Project Managers</span>
+                <span class="badge badge-blue">BIM Specialists</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="company-description">
+          <h3>About the Company</h3>
+          <p id="modalDescription">Modern Structures Inc. is a leading architectural firm specializing in innovative commercial and residential high-rise designs. With over 15 years of experience, we've completed over 200 projects across India, focusing on sustainable and technologically advanced building solutions. Our team of 150 professionals includes architects, engineers, and designers who collaborate to create structures that are both functional and aesthetically groundbreaking.</p>
+        </div>
+        
+        <div class="company-projects">
+          <h3>Featured Projects</h3>
+          
+          <div class="project-highlight">
+            <img src="https://via.placeholder.com/200x120" alt="Project Image" class="project-highlight-image">
+            <div class="project-highlight-details">
+              <h4>Chennai Tech Park</h4>
+              <p><strong>Completed:</strong> 2022</p>
+              <p><strong>Scope:</strong> 250,000 sq.ft IT park with LEED Platinum certification</p>
+              <p>Award-winning design featuring vertical gardens and solar panel integration, reducing energy consumption by 40% compared to conventional buildings.</p>
+            </div>
+          </div>
+          
+          <div class="project-highlight">
+            <img src="https://via.placeholder.com/200x120" alt="Project Image" class="project-highlight-image">
+            <div class="project-highlight-details">
+              <h4>Marina Bay Residences</h4>
+              <p><strong>Completed:</strong> 2020</p>
+              <p><strong>Scope:</strong> 35-story luxury residential tower</p>
+              <p>Iconic waterfront development featuring earthquake-resistant design and smart home technology throughout all units.</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="company-benefits">
+          <h3>Why Join Our Team?</h3>
+          <ul id="modalBenefits">
+            <li>Competitive salary with performance bonuses</li>
+            <li>Comprehensive health insurance and retirement plans</li>
+            <li>Continuing education and professional development opportunities</li>
+            <li>Collaborative work environment with cutting-edge technology</li>
+            <li>Opportunity to work on high-profile, innovative projects</li>
+            <li>Flexible work arrangements including remote options</li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary btn-large">Apply Now</button>
+      </div>
+    </div>
+  </div>
+
   <script>
       document.addEventListener('DOMContentLoaded', function() {
             // Add hover effect to project cards
@@ -897,16 +1124,224 @@ h1 {
       
       if (buttonText === 'Apply Now') {
         const companyName = this.closest('.card').querySelector('h3').textContent;
-        alert(`Applying to Rs{companyName}. You will be redirected to the application form.`);
+        alert(`Applying to ${companyName}. You will be redirected to the application form.`);
         // Here you could add code to redirect to an application form
       } else if (buttonText === 'Accept Offer') {
         const companyName = this.closest('.card').querySelector('h3').textContent;
-        if (confirm(`Are you sure you want to accept the offer from Rs{companyName}?`)) {
-          alert(`Congratulations! You have accepted the offer from Rs{companyName}.`);
+        if (confirm(`Are you sure you want to accept the offer from ${companyName}?`)) {
+          alert(`Congratulations! You have accepted the offer from ${companyName}.`);
           // Here you could add code to update the user's status
         }
       }
     });
+  });
+
+  // Modal functionality
+  const modal = document.getElementById('companyModal');
+  const viewDetailButtons = document.querySelectorAll('.view-details');
+  const closeModal = document.querySelector('.close-modal');
+
+  // Company data (in a real app, this would come from a database)
+  const companies = {
+    'modern-structures': {
+      name: 'Modern Structures Inc.',
+      logo: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-1.2.1&auto=format&fit=crop&w=120&h=120',
+      location: 'Chennai, Tamil Nadu',
+      size: 'Medium (50-200 employees)',
+      founded: '2005',
+      specializations: ['Commercial', 'Residential High-rise', 'Urban Development'],
+      openings: ['Senior Architects', 'Project Managers', 'BIM Specialists'],
+      description: 'Modern Structures Inc. is a leading architectural firm specializing in innovative commercial and residential high-rise designs. With over 15 years of experience, we\'ve completed over 200 projects across India, focusing on sustainable and technologically advanced building solutions. Our team of 150 professionals includes architects, engineers, and designers who collaborate to create structures that are both functional and aesthetically groundbreaking.',
+      projects: [
+        {
+          name: 'Chennai Tech Park',
+          image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=120',
+          year: '2022',
+          scope: '250,000 sq.ft IT park with LEED Platinum certification',
+          description: 'Award-winning design featuring vertical gardens and solar panel integration, reducing energy consumption by 40% compared to conventional buildings.'
+        },
+        {
+          name: 'Marina Bay Residences',
+          image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=120',
+          year: '2020',
+          scope: '35-story luxury residential tower',
+          description: 'Iconic waterfront development featuring earthquake-resistant design and smart home technology throughout all units.'
+        }
+      ],
+      benefits: [
+        'Competitive salary with performance bonuses',
+        'Comprehensive health insurance and retirement plans',
+        'Continuing education and professional development opportunities',
+        'Collaborative work environment with cutting-edge technology',
+        'Opportunity to work on high-profile, innovative projects',
+        'Flexible work arrangements including remote options'
+      ]
+    },
+    'skyline-builders': {
+      name: 'Skyline Builders Group',
+      logo: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=120&h=120',
+      location: 'Delhi, NCR',
+      size: 'Large (500+ employees)',
+      founded: '1998',
+      specializations: ['Skyscrapers', 'Public Buildings', 'International Projects'],
+      openings: ['Design Architects', 'Technical Directors', 'Urban Planners'],
+      description: 'Skyline Builders Group is an internationally recognized firm known for our iconic skyscrapers and public buildings. With offices in 5 countries, we bring global expertise to every project while maintaining strong local connections. Our portfolio includes some of the tallest and most innovative structures in Asia, recognized for their engineering excellence and architectural beauty.',
+      projects: [
+        {
+          name: 'Delhi Financial Tower',
+          image: 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=120',
+          year: '2021',
+          scope: '85-story mixed-use skyscraper',
+          description: 'The tallest building in North India featuring a diagrid structural system that reduces steel usage by 20%.'
+        },
+        {
+          name: 'Singapore Arts Complex',
+          image: 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=120',
+          year: '2019',
+          scope: 'Cultural complex with 3 performance venues',
+          description: 'Award-winning design that blends traditional Asian motifs with contemporary architecture, creating a new cultural landmark.'
+        }
+      ],
+      benefits: [
+        'International project opportunities',
+        'Highly competitive compensation packages',
+        'State-of-the-art design studios',
+        'Annual international conference attendance',
+        'Leadership development programs',
+        'Comprehensive relocation assistance'
+      ]
+    },
+    'heritage-restoration': {
+      name: 'Heritage Restoration Partners',
+      logo: 'https://images.unsplash.com/photo-1517502884422-41eaead166d4?ixlib=rb-1.2.1&auto=format&fit=crop&w=120&h=120',
+      location: 'Mumbai, Maharashtra',
+      size: 'Small (10-50 employees)',
+      founded: '2010',
+      specializations: ['Historic Preservation', 'Restoration', 'Cultural Heritage'],
+      openings: ['Preservation Architects', 'Historical Consultants', 'Conservation Specialists'],
+      description: 'Heritage Restoration Partners is dedicated to preserving India\'s architectural heritage through careful restoration and adaptive reuse. Our team combines traditional craftsmanship with modern conservation techniques to breathe new life into historic structures while maintaining their cultural significance. We work closely with government agencies, NGOs, and private owners to protect our shared architectural legacy.',
+      projects: [
+        {
+          name: 'Colonial Mumbai Town Hall',
+          image: 'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=120',
+          year: '2020',
+          scope: 'Complete restoration of 19th century civic building',
+          description: 'Five-year project to restore original materials and details while upgrading systems for modern use as a cultural center.'
+        },
+        {
+          name: 'Rajasthan Fort Conversion',
+          image: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=120',
+          year: '2018',
+          scope: 'Adaptive reuse of 16th century fort',
+          description: 'Sensitive conversion of historic fort into luxury hotel while preserving original character and archaeological features.'
+        }
+      ],
+      benefits: [
+        'Meaningful work preserving cultural heritage',
+        'Small team with collaborative environment',
+        'Opportunities for international training',
+        'Flexible schedule for research and documentation',
+        'Access to rare historical archives',
+        'Participation in important preservation initiatives'
+      ]
+    },
+    'ecodesign': {
+      name: 'EcoDesign Construction',
+      logo: 'https://images.unsplash.com/photo-1560520031-3a4dc4e9de0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=120&h=120',
+      location: 'Kolkata, West Bengal',
+      size: 'Medium (50-200 employees)',
+      founded: '2012',
+      specializations: ['Sustainable Residential', 'Net-Zero Buildings', 'Eco Communities'],
+      openings: ['Sustainable Design Specialists', 'Green Technology Experts', 'Environmental Consultants'],
+      description: 'EcoDesign Construction is at the forefront of sustainable architecture in India. We specialize in creating buildings that minimize environmental impact while maximizing livability and beauty. Our approach combines passive design strategies, renewable energy systems, and cutting-edge materials to create structures that often produce more energy than they consume. We\'re committed to proving that sustainable design can be both economically viable and architecturally inspiring.',
+      projects: [
+        {
+          name: 'Kolkata Net-Zero Village',
+          image: 'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=120',
+          year: '2021',
+          scope: '50-unit sustainable housing development',
+          description: 'India\'s first certified net-zero energy residential community featuring rainwater harvesting, solar microgrid, and passive cooling design.'
+        },
+        {
+          name: 'Bangalore Green School',
+          image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=120',
+          year: '2019',
+          scope: 'Educational campus for 500 students',
+          description: 'Award-winning school design using recycled materials, natural ventilation, and edible landscaping as teaching tools.'
+        }
+      ],
+      benefits: [
+        'Mission-driven work environment',
+        'Cutting-edge sustainable technology',
+        'Professional certification support',
+        'Flexible work arrangements',
+        'Wellness-focused office spaces',
+        'Profit-sharing opportunities'
+      ]
+    }
+  };
+
+  // Open modal with company details
+  viewDetailButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const companyId = this.getAttribute('data-company');
+      const company = companies[companyId];
+      
+      // Set modal content
+      document.getElementById('modalCompanyName').textContent = company.name;
+      document.getElementById('modalCompanyLogo').src = company.logo;
+      document.getElementById('modalLocation').textContent = company.location;
+      document.getElementById('modalSize').textContent = company.size;
+      document.getElementById('modalFounded').textContent = company.founded;
+      document.getElementById('modalDescription').textContent = company.description;
+      
+      // Clear and set specializations
+      const specializationsEl = document.getElementById('modalSpecializations');
+      specializationsEl.innerHTML = '';
+      company.specializations.forEach(spec => {
+        const badge = document.createElement('span');
+        badge.className = 'badge badge-green';
+        badge.textContent = spec;
+        specializationsEl.appendChild(badge);
+      });
+      
+      // Clear and set openings
+      const openingsEl = document.getElementById('modalOpenings');
+      openingsEl.innerHTML = '';
+      company.openings.forEach(opening => {
+        const badge = document.createElement('span');
+        badge.className = 'badge badge-blue';
+        badge.textContent = opening;
+        openingsEl.appendChild(badge);
+      });
+      
+      // Clear and set benefits
+      const benefitsEl = document.getElementById('modalBenefits');
+      benefitsEl.innerHTML = '';
+      company.benefits.forEach(benefit => {
+        const li = document.createElement('li');
+        li.textContent = benefit;
+        benefitsEl.appendChild(li);
+      });
+      
+      // Show modal
+      modal.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  // Close modal
+  closeModal.addEventListener('click', function() {
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+  });
+
+  // Close modal when clicking outside
+  window.addEventListener('click', function(event) {
+    if (event.target === modal) {
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
   });
 });
   </script>
