@@ -138,7 +138,7 @@
     <div class="container">
         <h1>Architect Profile Form</h1>
         
-        <form id="architectForm" action="/worker_profile_edit_submit" enctype="multipart/form-data">
+        <form id="architectForm" action="/worker_profile_edit_submit" method="POST" enctype="multipart/form-data">
             <!-- Personal Info Section -->
             <div class="form-section">
                 <h2>Personal Information</h2>
@@ -408,69 +408,69 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 });
 
-// Modify form submission
-document.getElementById('architectForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
+// // Modify form submission
+// document.getElementById('architectForm').addEventListener('submit', async function(e) {
+//     e.preventDefault();
     
-    try {
+//     try {
         
-        const workerId = "<%= user._id%>";
+//         const workerId = "<%= user._id%>";
         
-        if (!workerId) {
-            console.error('No worker ID provided');
-            return;
-        }
+//         if (!workerId) {
+//             console.error('No worker ID provided');
+//             return;
+//         }
         
-        const formData = new FormData(this);
+//         const formData = new FormData(this);
         
-        // Add worker ID
-        formData.append('workerId', workerId);
+//         // Add worker ID
+//         formData.append('workerId', workerId);
         
-        // Collect specialties
-        const specialtiesChecked = document.querySelectorAll('input[name="specialties"]:checked');
-        const specialties = Array.from(specialtiesChecked).map(checkbox => checkbox.value);
-        formData.delete('specialties'); // Remove existing entries
-        specialties.forEach(specialty => formData.append('specialties', specialty));
+//         // Collect specialties
+//         const specialtiesChecked = document.querySelectorAll('input[name="specialties"]:checked');
+//         const specialties = Array.from(specialtiesChecked).map(checkbox => checkbox.value);
+//         formData.delete('specialties'); // Remove existing entries
+//         specialties.forEach(specialty => formData.append('specialties', specialty));
         
-        // Collect projects data
-        const projects = [];
-        const projectItems = document.querySelectorAll('.project-item');
+//         // Collect projects data
+//         const projects = [];
+//         const projectItems = document.querySelectorAll('.project-item');
         
-        projectItems.forEach((item, index) => {
-            const projectId = item.id.split('-')[1];
-            const project = {
-                name: document.getElementById(`projectName-${projectId}`).value,
-                year: document.getElementById(`projectYear-${projectId}`).value,
-                location: document.getElementById(`projectLocation-${projectId}`).value,
-                description: document.getElementById(`projectDescription-${projectId}`).value
-            };
-            projects.push(project);
-        });
+//         projectItems.forEach((item, index) => {
+//             const projectId = item.id.split('-')[1];
+//             const project = {
+//                 name: document.getElementById(`projectName-${projectId}`).value,
+//                 year: document.getElementById(`projectYear-${projectId}`).value,
+//                 location: document.getElementById(`projectLocation-${projectId}`).value,
+//                 description: document.getElementById(`projectDescription-${projectId}`).value
+//             };
+//             projects.push(project);
+//         });
         
-        // Add projects as JSON string
-        formData.append('projects', JSON.stringify(projects));
+//         // Add projects as JSON string
+//         formData.append('projects', JSON.stringify(projects));
         
-        // Send data to server
-        const response = await fetch(`/api/workers/${workerId}`, {
-            method: 'PUT',
-            body: formData
-        });
+//         // Send data to server
+//         const response = await fetch(`/api/workers/${workerId}`, {
+//             method: 'PUT',
+//             body: formData
+//         });
         
-        if (!response.ok) {
-            throw new Error('Failed to update profile');
-        }
+//         if (!response.ok) {
+//             throw new Error('Failed to update profile');
+//         }
         
-        const result = await response.json();
-        alert('Profile updated successfully!');
+//         const result = await response.json();
+//         alert('Profile updated successfully!');
         
-        // Redirect to profile page or dashboard
-        window.location.href = '/workerdashboard.html';
+//         // Redirect to profile page or dashboard
+//         window.location.href = '/workerdashboard.html';
         
-    } catch (error) {
-        console.error('Error updating profile:', error);
-        alert('Failed to update profile. Please try again later.');
-    }
-});
+//     } catch (error) {
+//         console.error('Error updating profile:', error);
+//         alert('Failed to update profile. Please try again later.');
+//     }
+// });
     </script>
 </body>
 </html>
