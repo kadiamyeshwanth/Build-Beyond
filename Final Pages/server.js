@@ -7,30 +7,23 @@ const path = require('path');
 const mongoose = require("mongoose");
 const app = express();
 const PORT = 4000;
-
+const router = express.Router();
 // Multer 
 const multer = require('multer');
 const fs = require('fs');
 
-// Configure storage
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    let uploadPath = 'uploads/';
-    
-    // Create directory based on user role if available
-    if (req.body.role) {
-      uploadPath += `${req.body.role}/`;
-    } else {
-      uploadPath += 'misc/';
-    }
+// Middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.static("Final Pages"));
 
-    // Create directory if it doesn't exist
-    fs.mkdirSync(uploadPath, { recursive: true });
-    cb(null, uploadPath);
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/'); // make sure this folder exists
   },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, `${uniqueSuffix}${path.extname(file.originalname)}`);
+  filename: function (req, file, cb) {
+    cb(null, `${Date.now()}-${file.originalname}`);
   }
 });
 
@@ -134,67 +127,67 @@ const workerSchema = new mongoose.Schema({
   rating: Number
 });
 const Worker = mongoose.model("Worker", workerSchema);
-// Update worker profile endpoint
-router.put('/workers/:id', upload.fields([
-  { name: 'profileImage', maxCount: 1 },
-  { name: 'projectImages', maxCount: 10 }
-]), async (req, res) => {
-  try {
-      const workerId = req.params.id;
-      const formData = req.body;
+// // Update worker profile endpoint
+// router.put('/workers/:id', upload.fields([
+//   { name: 'profileImage', maxCount: 1 },
+//   { name: 'projectImages', maxCount: 10 }
+// ]), async (req, res) => {
+//   try {
+//       const workerId = req.params.id;
+//       const formData = req.body;
       
-      // Handle file uploads
-      const profileImagePath = req.files['profileImage'] ? 
-          req.files['profileImage'][0].path : null;
+//       // Handle file uploads
+//       const profileImagePath = req.files['profileImage'] ? 
+//           req.files['profileImage'][0].path : null;
       
-      const projectImages = req.files['projectImages'] ? 
-          req.files['projectImages'].map(file => file.path) : [];
+//       const projectImages = req.files['projectImages'] ? 
+//           req.files['projectImages'].map(file => file.path) : [];
       
-      // Prepare projects data with images
-      let projects = [];
-      if (formData.projects) {
-          projects = JSON.parse(formData.projects).map((project, index) => ({
-              ...project,
-              image: projectImages[index] || null
-          }));
-      }
+//       // Prepare projects data with images
+//       let projects = [];
+//       if (formData.projects) {
+//           projects = JSON.parse(formData.projects).map((project, index) => ({
+//               ...project,
+//               image: projectImages[index] || null
+//           }));
+//       }
       
-      // Prepare update object
-      const updateData = {
-          professionalTitle: formData.title,
-          about: formData.about,
-          specialties: formData.specialties || [],
-          projects: projects,
-          experience: formData.experience || 0
-      };
+//       // Prepare update object
+//       const updateData = {
+//           professionalTitle: formData.title,
+//           about: formData.about,
+//           specialties: formData.specialties || [],
+//           projects: projects,
+//           experience: formData.experience || 0
+//       };
       
-      if (profileImagePath) {
-          updateData.profileImage = profileImagePath;
-      }
+//       if (profileImagePath) {
+//           updateData.profileImage = profileImagePath;
+//       }
       
-      // Update worker in database
-      const updatedWorker = await Worker.findByIdAndUpdate(
-          workerId,
-          { $set: updateData },
-          { new: true }
-      );
+//       // Update worker in database
+//       const updatedWorker = await Worker.findByIdAndUpdate(
+//           workerId,
+//           { $set: updateData },
+//           { new: true }
+//       );
       
-      if (!updatedWorker) {
-          return res.status(404).json({ message: 'Worker not found' });
-      }
+//       if (!updatedWorker) {
+//           return res.status(404).json({ message: 'Worker not found' });
+//       }
       
-      res.json({
-          message: 'Profile updated successfully',
-          worker: updatedWorker
-      });
+//       res.json({
+//           message: 'Profile updated successfully',
+//           worker: updatedWorker
+//       });
       
-  } catch (error) {
-      console.error('Error updating worker profile:', error);
-      res.status(500).json({ message: 'Error updating profile', error: error.message });
-  }
-});
+//   } catch (error) {
+//       console.error('Error updating worker profile:', error);
+//       res.status(500).json({ message: 'Error updating profile', error: error.message });
+//   }
+// });
 
-module.exports = router;
+// module.exports = router;
 // Map each role to its corresponding Mongoose model
 const roleModelMap = {
   customer: Customer,
@@ -205,7 +198,6 @@ function getModelByRole(role) {
   if (!role) return null;
   return roleModelMap[role.toLowerCase()] || null;
 }
-module.exports = getModelByRole;
 // Session Middleware
 app.use(
   session({
@@ -232,7 +224,50 @@ const predefinedAdmins = {
     role: "platform_admin"
   }
 };
+// Login Route 
+app.post('/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
+    // Check predefined admins first
+    const predefinedAdmin = predefinedAdmins[email];
+    if (predefinedAdmin && predefinedAdmin.password === password) {
+      req.session.user = { 
+        name: predefinedAdmin.name, 
+        email, 
+        role: predefinedAdmin.role 
+      };
+      return res.json({ 
+        message: "Login successful", 
+        redirect: getRedirectUrl(predefinedAdmin.role) 
+      });
+    }
+
+    // Check all collections for the user
+    const user = await findUserAcrossCollections(email, password);
+    if (!user) {
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+
+    // Set session
+    req.session.user = {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.constructor.modelName.toLowerCase(), // Gets collection name
+      profileData: user.toObject()
+    };
+
+    res.json({ 
+      message: "Login successful",
+      redirect: getRedirectUrl(req.session.user.role),
+      user: req.session.user
+    });
+  } catch (err) {
+    console.error("Login error:", err);
+    res.status(500).json({ message: "Server error during login" });
+  }
+});
 // Enhanced Signup Route
 app.post('/signup', upload.fields([
   { name: 'licenseFiles', maxCount: 5 },
@@ -391,27 +426,137 @@ app.get("/workerdashboard.html", (req, res) => {
 app.get("/workerjobs.html", (req, res) => {
   res.render("worker/worker_jobs");
 });
-app.get("/workerjoin_company.html", (req, res) => {
-  res.render("worker/workers_join_company");
+app.get("/workerjoin_company.html", async(req, res) => {
+  const Model = getModelByRole(req.session.user.role);
+  const user = await Model.findById(req.session.user.id);
+  res.render("worker/workers_join_company",{user});
 });
-app.get("/workersettings.html", (req, res) => {
-  res.render("worker/worker_settings", { user: req.session.user });
+app.get("/workersettings.html", async(req, res) => {
+  const Model = getModelByRole(req.session.user.role);
+  const user = await Model.findById(req.session.user.id);
+  res.render("worker/worker_settings", { user });
 });
-//Update - Profile Route 
-router.put('/update-profile/:id', async (req, res) => {
-  try {
-      const updatedWorker = await Worker.findByIdAndUpdate(
-          req.params.id, 
-          req.body,      
-          { new: true }
-      );
-      res.json({ success: true, worker: updatedWorker });
-  } catch (error) {
-      res.status(500).json({ success: false, error: error.message });
-  }
+app.get("/worker_profile_edit", async(req, res) => {
+  const Model = getModelByRole(req.session.user.role);
+  const user = await Model.findById(req.session.user.id);
+  res.render("worker/worker_profile_edit", {user});
 });
+app.post("/worker_profile_edit_submit", async(req, res) => {
+  
+});
+// // Add this to your server code, after your existing Worker schema and routes
 
-module.exports = router;
+// // GET endpoint to fetch worker data
+// app.get('/api/workers/:id', async (req, res) => {
+//   try {
+//     const workerId = req.params.id;
+    
+//     // Find worker by ID
+//     const worker = await Worker.findById(workerId);
+    
+//     if (!worker) {
+//       return res.status(404).json({ message: 'Worker not found' });
+//     }
+    
+//     res.json(worker);
+//   } catch (error) {
+//     console.error('Error fetching worker data:', error);
+//     res.status(500).json({ message: 'Server error', error: error.message });
+//   }
+// });
+// // Modified PUT endpoint for updating worker profiles
+// router.put('/workers/:id', upload.fields([
+//   { name: 'profileImage', maxCount: 1 },
+//   { name: 'projectImages', maxCount: 10 }
+// ]), async (req, res) => {
+//   try {
+//     const workerId = req.params.id;
+//     const formData = req.body;
+    
+//     // Handle file uploads
+//     const profileImagePath = req.files && req.files['profileImage'] ? 
+//         req.files['profileImage'][0].path : null;
+    
+//     const projectImages = req.files && req.files['projectImages'] ? 
+//         req.files['projectImages'] : [];
+    
+//     // Find the current worker to get existing data
+//     const currentWorker = await Worker.findById(workerId);
+//     if (!currentWorker) {
+//       return res.status(404).json({ message: 'Worker not found' });
+//     }
+    
+//     // Prepare projects data 
+//     let projects = [];
+//     if (formData.projects) {
+//       try {
+//         const parsedProjects = JSON.parse(formData.projects);
+        
+//         projects = parsedProjects.map((project, index) => {
+//           // Keep existing image if no new one is uploaded
+//           let imagePath = currentWorker.projects && 
+//                          currentWorker.projects[index] && 
+//                          currentWorker.projects[index].image ? 
+//                          currentWorker.projects[index].image : null;
+          
+//           // If a new image is uploaded for this project, use it
+//           if (projectImages[index]) {
+//             imagePath = projectImages[index].path;
+//           }
+          
+//           return {
+//             name: project.name,
+//             year: project.year,
+//             location: project.location,
+//             description: project.description,
+//             image: imagePath
+//           };
+//         });
+//       } catch (err) {
+//         console.error('Error parsing projects:', err);
+//       }
+//     }
+    
+//     // Prepare specialties array
+//     let specialties = [];
+//     if (formData.specialties) {
+//       // Handle both array and single value cases
+//       specialties = Array.isArray(formData.specialties) ? 
+//                    formData.specialties : [formData.specialties];
+//     }
+    
+//     // Prepare update object
+//     const updateData = {
+//       name: formData.name || currentWorker.name,
+//       professionalTitle: formData.title || currentWorker.professionalTitle,
+//       about: formData.about || currentWorker.about,
+//       specialties: specialties,
+//       projects: projects,
+//       experience: formData.experience || currentWorker.experience
+//     };
+    
+//     // Only update profile image if a new one was uploaded
+//     if (profileImagePath) {
+//       updateData.profileImage = profileImagePath;
+//     }
+    
+//     // Update worker in database
+//     const updatedWorker = await Worker.findByIdAndUpdate(
+//       workerId,
+//       { $set: updateData },
+//       { new: true }
+//     );
+    
+//     res.json({
+//       message: 'Profile updated successfully',
+//       worker: updatedWorker
+//     });
+    
+//   } catch (error) {
+//     console.error('Error updating worker profile:', error);
+//     res.status(500).json({ message: 'Error updating profile', error: error.message });
+//   }
+// });
 // Logout Route
 app.get("/logout", (req, res) => {
   res.render("signin_up_");
@@ -526,8 +671,3 @@ function getRedirectUrl(role) {
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
-// Middleware
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(express.json());
-app.use(express.static("Final Pages"));

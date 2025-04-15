@@ -138,7 +138,7 @@
     <div class="container">
         <h1>Architect Profile Form</h1>
         
-        <form id="architectForm">
+        <form id="architectForm" action="/worker_profile_edit_submit" enctype="multipart/form-data">
             <!-- Personal Info Section -->
             <div class="form-section">
                 <h2>Personal Information</h2>
@@ -147,7 +147,7 @@
                     <div class="profile-preview" id="profilePreview">
                         <span id="profilePlaceholder">Profile Photo</span>
                     </div>
-                    <input type="file" id="profileImage" accept="image/*">
+                    <input type="file" id="profileImage" name="profileImage" accept="image/*">
                 </div>
                 
                 <div class="form-group">
@@ -164,6 +164,8 @@
                     <label for="experience">Years of Experience</label>
                     <input type="number" id="experience" name="experience" min="1" required>
                 </div>
+            </div>
+            
             <!-- About Section -->
             <div class="form-section">
                 <h2>About</h2>
@@ -212,7 +214,7 @@
                 </div>
             </div>
             
-            <button type="submit" class="submit-btn">Create Profile</button>
+            <button type="submit" class="submit-btn">Update Profile</button>
         </form>
     </div>
 
@@ -242,51 +244,6 @@
                     reader.readAsDataURL(file);
                 }
             });
-            
-            // Rating Stars
-            const stars = document.querySelectorAll('.star');
-            const ratingValue = document.getElementById('ratingValue');
-            let currentRating = 0;
-            
-            stars.forEach(star => {
-                star.addEventListener('click', function() {
-                    const value = parseFloat(this.getAttribute('data-value'));
-                    currentRating = value;
-                    updateStars();
-                    ratingValue.textContent = `(${value.toFixed(1)})`;
-                });
-
-                star.addEventListener('mouseover', function() {
-                    const value = parseFloat(this.getAttribute('data-value'));
-                    updateStarsHover(value);
-                });
-
-                star.addEventListener('mouseout', function() {
-                    updateStars();
-                });
-            });
-            
-            function updateStars() {
-                stars.forEach(star => {
-                    const value = parseFloat(star.getAttribute('data-value'));
-                    if (value <= currentRating) {
-                        star.classList.add('active');
-                    } else {
-                        star.classList.remove('active');
-                    }
-                });
-            }
-            
-            function updateStarsHover(hoverValue) {
-                stars.forEach(star => {
-                    const value = parseFloat(star.getAttribute('data-value'));
-                    if (value <= hoverValue) {
-                        star.classList.add('active');
-                    } else {
-                        star.classList.remove('active');
-                    }
-                });
-            }
             
             // Add Project Functionality
             const addProjectBtn = document.getElementById('addProjectBtn');
@@ -323,7 +280,7 @@
                     
                     <div class="form-group">
                         <label for="projectImage-${projectCount}">Project Image</label>
-                        <input type="file" id="projectImage-${projectCount}" name="projectImage-${projectCount}" accept="image/*" class="project-image-input">
+                        <input type="file" id="projectImage-${projectCount}" name="projectImages" accept="image/*" class="project-image-input">
                         <div class="project-image-preview" id="projectImagePreview-${projectCount}">
                             <span>Project Image</span>
                         </div>
@@ -360,83 +317,160 @@
                     projectsContainer.removeChild(projectToRemove);
                 });
             });
-            
-            document.getElementById('architectForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-    
-            // Validate form
-            if (!validateForm()) {
-                return;
-            }
-    
-            // Get worker ID from session storage
-            const workerId = "<%=user._id%>";
-            if (!workerId) {
-                alert('Please log in to update your profile');
-                window.location.href = '/login'; // Redirect to login
-                return;
-            }
-    
-            // Get form data
-            const formData = new FormData(this);
-    
-            // Prepare projects data
-            const projects = [];
-            const projectElements = document.querySelectorAll('.project-item');
-            
-            projectElements.forEach(projectEl => {
-                projects.push({
-                    name: projectEl.querySelector('input[name^="projectName"]').value,
-                    year: projectEl.querySelector('input[name^="projectYear"]').value,
-                    location: projectEl.querySelector('input[name^="projectLocation"]').value,
-                    description: projectEl.querySelector('textarea[name^="projectDescription"]').value
-                });
-            });
-    
-            // Append projects data to formData
-            formData.append('projects', JSON.stringify(projects));
-            
-            try {
-                // Add loading state
-                const submitBtn = document.querySelector('.submit-btn');
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'Updating...';
-                
-                // Submit to backend
-                const response = await fetch(`/api/update-profile/${workerId}`, { // Updated endpoint
-                    method: 'PUT',
-                    body: formData, // or JSON.stringify({ ...formData, projects })
-                    headers: {
-                        'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
-                        'Content-Type': 'application/json' // If sending JSON
-                        }
-                });
-                
-                const result = await response.json();
-                
-                if (response.ok) {
-                    // Show success message
-                    document.getElementById('successMessage').style.display = 'block';
-                    // Optionally update session data if needed
-                    sessionStorage.setItem('workerData', JSON.stringify(result.worker));
-                    
-                    // Reset form state
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Profile Updated Successfully';
-                    setTimeout(() => {
-                        submitBtn.textContent = 'Update Profile';
-                    }, 3000);
-                } else {
-                    throw new Error(result.message || 'Failed to update profile');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert(error.message);
-                document.querySelector('.submit-btn').disabled = false;
-                document.querySelector('.submit-btn').textContent = 'Update Profile';
-            }
         });
+        // Function to fetch worker data and populate the form
+document.addEventListener('DOMContentLoaded', async function() {
+    try {
+        // Get worker ID from URL query parameter or session storage
+        const urlParams = new URLSearchParams(window.location.search);
+        const workerId = urlParams.get('id') || localStorage.getItem('workerId');
+        
+        if (!workerId) {
+            console.error('No worker ID provided');
+            return;
+        }
+        
+        // Fetch worker data from the server
+        const response = await fetch(`/api/workers/${workerId}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch worker data');
+        }
+        
+        const worker = await response.json();
+        
+        // Populate form fields with worker data
+        document.getElementById('name').value = worker.name || '';
+        document.getElementById('title').value = worker.professionalTitle || '';
+        document.getElementById('experience').value = worker.experience || '';
+        document.getElementById('about').value = worker.about || '';
+        
+        // Handle specialties checkboxes
+        if (worker.specialties && worker.specialties.length > 0) {
+            const specialties = ['sustainable', 'urban', 'residential', 'commercial', 'interior', 'landscape'];
+            specialties.forEach(specialty => {
+                const checkbox = document.getElementById(specialty);
+                if (checkbox && worker.specialties.includes(checkbox.value)) {
+                    checkbox.checked = true;
+                }
             });
+        }
+        
+        // Display profile image if exists
+        if (worker.profileImage) {
+            const profilePreview = document.getElementById('profilePreview');
+            const profilePlaceholder = document.getElementById('profilePlaceholder');
+            profilePlaceholder.style.display = 'none';
+            
+            let img = profilePreview.querySelector('img');
+            if (!img) {
+                img = document.createElement('img');
+                profilePreview.appendChild(img);
+            }
+            
+            // Check if profileImage is a full URL or a relative path
+            img.src = worker.profileImage.startsWith('http') 
+                ? worker.profileImage 
+                : `/${worker.profileImage}`;
+        }
+        
+        // Add projects
+        if (worker.projects && worker.projects.length > 0) {
+            const projectsContainer = document.getElementById('projectsContainer');
+            projectsContainer.innerHTML = ''; // Clear any existing projects
+            
+            worker.projects.forEach((project, index) => {
+                // Trigger the add project button click
+                document.getElementById('addProjectBtn').click();
+                
+                // Fill in the project fields
+                setTimeout(() => {
+                    document.getElementById(`projectName-${index+1}`).value = project.name || '';
+                    document.getElementById(`projectYear-${index+1}`).value = project.year || '';
+                    document.getElementById(`projectLocation-${index+1}`).value = project.location || '';
+                    document.getElementById(`projectDescription-${index+1}`).value = project.description || '';
+                    
+                    // Display project image if exists
+                    if (project.image) {
+                        const projectImagePreview = document.getElementById(`projectImagePreview-${index+1}`);
+                        projectImagePreview.innerHTML = '';
+                        
+                        const img = document.createElement('img');
+                        img.src = project.image.startsWith('http') ? project.image : `/${project.image}`;
+                        projectImagePreview.appendChild(img);
+                    }
+                }, 100); // Small delay to ensure DOM elements are created
+            });
+        }
+        
+    } catch (error) {
+        console.error('Error loading worker data:', error);
+        alert('Failed to load profile data. Please try again later.');
+    }
+});
+
+// Modify form submission
+document.getElementById('architectForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    try {
+        
+        const workerId = "<%= user._id%>";
+        
+        if (!workerId) {
+            console.error('No worker ID provided');
+            return;
+        }
+        
+        const formData = new FormData(this);
+        
+        // Add worker ID
+        formData.append('workerId', workerId);
+        
+        // Collect specialties
+        const specialtiesChecked = document.querySelectorAll('input[name="specialties"]:checked');
+        const specialties = Array.from(specialtiesChecked).map(checkbox => checkbox.value);
+        formData.delete('specialties'); // Remove existing entries
+        specialties.forEach(specialty => formData.append('specialties', specialty));
+        
+        // Collect projects data
+        const projects = [];
+        const projectItems = document.querySelectorAll('.project-item');
+        
+        projectItems.forEach((item, index) => {
+            const projectId = item.id.split('-')[1];
+            const project = {
+                name: document.getElementById(`projectName-${projectId}`).value,
+                year: document.getElementById(`projectYear-${projectId}`).value,
+                location: document.getElementById(`projectLocation-${projectId}`).value,
+                description: document.getElementById(`projectDescription-${projectId}`).value
+            };
+            projects.push(project);
+        });
+        
+        // Add projects as JSON string
+        formData.append('projects', JSON.stringify(projects));
+        
+        // Send data to server
+        const response = await fetch(`/api/workers/${workerId}`, {
+            method: 'PUT',
+            body: formData
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to update profile');
+        }
+        
+        const result = await response.json();
+        alert('Profile updated successfully!');
+        
+        // Redirect to profile page or dashboard
+        window.location.href = '/workerdashboard.html';
+        
+    } catch (error) {
+        console.error('Error updating profile:', error);
+        alert('Failed to update profile. Please try again later.');
+    }
+});
     </script>
 </body>
 </html>

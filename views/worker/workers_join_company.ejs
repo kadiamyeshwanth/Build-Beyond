@@ -725,15 +725,15 @@ h1 {
     
     <div class="profile-stats">
       <div class="stat-box">
-        <div class="stat-number"><%= stats.applications %></div>
+        <div class="stat-number"><%= typeof stats !== 'undefined' && stats && stats.applications ? stats.applications : 'Not provided' %></div>
         <div class="stat-label">Applications</div>
       </div>
       <div class="stat-box">
-        <div class="stat-number"><%= stats.offers %></div>
+        <div class="stat-number"><%= typeof stats !== 'undefined' && stats && stats.offers ? stats.offers : 'Not provided' %></div>
         <div class="stat-label">Offers</div>
       </div>
       <div class="stat-box">
-        <div class="stat-number"><%= stats.experience %></div>
+        <div class="stat-number"><%= typeof stats !== 'undefined' && stats && stats.experience ? stats.experience : 'Not provided' %></div>
         <div class="stat-label">Years Experience</div>
       </div>
     </div>
@@ -755,24 +755,34 @@ h1 {
           <button class="search-button">Search</button>
         </div>
         
-        <% companies.forEach(company => { %>
-        <div class="card">
-          <h3><%= company.name %></h3>
-          <p><strong>Location:</strong> <%= company.location %></p>
-          <p><strong>Company Size:</strong> <%= company.size %></p>
-          <p><strong>Project types:</strong> <%= company.projectTypes.join(', ') %></p>
-          <p><strong>Looking for:</strong> <%= company.positions.join(', ') %></p>
-          <div>
-            <% company.tags.forEach(tag => { %>
-              <span class="badge <%= tag.class %>"><%= tag.name %></span>
-            <% }); %>
+        <% if (typeof companies !== 'undefined' && companies && companies.length > 0) { %>
+          <% companies.forEach(company => { %>
+          <div class="card">
+            <h3><%= company.name %></h3>
+            <p><strong>Location:</strong> <%= company.location || 'Not provided' %></p>
+            <p><strong>Company Size:</strong> <%= company.size || 'Not provided' %></p>
+            <p><strong>Project types:</strong> <%= company.projectTypes && company.projectTypes.length ? company.projectTypes.join(', ') : 'Not provided' %></p>
+            <p><strong>Looking for:</strong> <%= company.positions && company.positions.length ? company.positions.join(', ') : 'Not provided' %></p>
+            <div>
+              <% if (company.tags && company.tags.length > 0) { %>
+                <% company.tags.forEach(tag => { %>
+                  <span class="badge <%= tag.class || '' %>"><%= tag.name %></span>
+                <% }); %>
+              <% } else { %>
+                <span>No tags available</span>
+              <% } %>
+            </div>
+            <div class="card-footer">
+              <button class="btn btn-primary view-details" data-company="<%= company.id %>">View Details</button>
+              <button class="btn btn-primary">Apply Now</button>
+            </div>
           </div>
-          <div class="card-footer">
-            <button class="btn btn-primary view-details" data-company="<%= company.id %>">View Details</button>
-            <button class="btn btn-primary">Apply Now</button>
+          <% }); %>
+        <% } else { %>
+          <div class="empty-state">
+            <p>No companies available at the moment. Please check back later or refine your search.</p>
           </div>
-        </div>
-        <% }); %>
+        <% } %>
       </div>
       
       <!-- Accept Offers Tab -->
@@ -780,19 +790,26 @@ h1 {
         <h2>Your Current Offers</h2>
         <p>Companies that have invited you to join their team</p>
         
-        <% currentOffers.forEach(offer => { %>
-        <div class="card">
-          <h3><%= offer.company %></h3>
-          <p><strong>Position:</strong> <%= offer.position %></p>
-          <p><strong>Location:</strong> <%= offer.location %></p>
-          <p><strong>Salary Range:</strong> <%= offer.salary %></p>
-          <p><strong>Offer Expires:</strong> <%= offer.expires %> (<%= offer.daysRemaining %> days remaining)</p>
-          <div class="card-footer">
-            <button class="btn btn-outline">Decline</button>
-            <button class="btn btn-primary">Accept Offer</button>
+        <% if (typeof currentOffers !== 'undefined' && currentOffers && currentOffers.length > 0) { %>
+          <% currentOffers.forEach(offer => { %>
+          <div class="card">
+            <h3><%= offer.company || 'Company name not provided' %></h3>
+            <p><strong>Position:</strong> <%= offer.position || 'Not provided' %></p>
+            <p><strong>Location:</strong> <%= offer.location || 'Not provided' %></p>
+            <p><strong>Salary Range:</strong> <%= offer.salary || 'Not provided' %></p>
+            <p><strong>Offer Expires:</strong> <%= offer.expires || 'Not provided' %> 
+              <%= offer.daysRemaining ? `(${offer.daysRemaining} days remaining)` : '' %></p>
+            <div class="card-footer">
+              <button class="btn btn-outline">Decline</button>
+              <button class="btn btn-primary">Accept Offer</button>
+            </div>
           </div>
-        </div>
-        <% }); %>
+          <% }); %>
+        <% } else { %>
+          <div class="empty-state">
+            <p>You currently have no offers from companies. Apply to positions to receive offers.</p>
+          </div>
+        <% } %>
         
         <h2 class="past-offers">Past Offers</h2>
         <div class="filter-options">
@@ -802,17 +819,23 @@ h1 {
         </div>
         
         <div class="timeline">
-          <% pastOffers.forEach(offer => { %>
-          <div class="timeline-item">
-            <div class="timeline-date"><%= offer.date %></div>
-            <div class="card">
-              <h3><%= offer.company %></h3>
-              <p><strong>Position:</strong> <%= offer.position %></p>
-              <p><strong>Location:</strong> <%= offer.location %></p>
-              <p><strong>Status:</strong> <%= offer.status %></p>
+          <% if (typeof pastOffers !== 'undefined' && pastOffers && pastOffers.length > 0) { %>
+            <% pastOffers.forEach(offer => { %>
+            <div class="timeline-item">
+              <div class="timeline-date"><%= offer.date || 'Date not provided' %></div>
+              <div class="card">
+                <h3><%= offer.company || 'Company name not provided' %></h3>
+                <p><strong>Position:</strong> <%= offer.position || 'Not provided' %></p>
+                <p><strong>Location:</strong> <%= offer.location || 'Not provided' %></p>
+                <p><strong>Status:</strong> <%= offer.status || 'Not provided' %></p>
+              </div>
             </div>
-          </div>
-          <% }); %>
+            <% }); %>
+          <% } else { %>
+            <div class="empty-state">
+              <p>No past offers to display.</p>
+            </div>
+          <% } %>
         </div>
       </div>
     </div>

@@ -599,7 +599,6 @@
                                     <option value="">Select Specialization</option>
                                     <option value="architect">Architect</option>
                                     <option value="interiordesign">Interior Design</option>
-
                                 </select>
                                 <div class="validation-error" id="specialization-error"></div>
                             </div>
@@ -1171,9 +1170,6 @@
             alert("Please fill in all required fields.");
             return;
         }
-
-        // For file uploads, you would typically use FormData instead of JSON
-        // This example uses JSON for simplicity, but for actual file uploads see note below
         
         fetch('http://localhost:4000/signup', {
             method: 'POST',
