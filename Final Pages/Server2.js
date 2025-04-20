@@ -1,0 +1,395 @@
+const {
+  express,
+  app,
+  PORT,
+  bodyParser,
+  session,
+  SQLiteStore,
+  cors,
+  path,
+  mongoose,
+  router,
+  multer,
+  fs,
+} = require("./getServer");
+
+const bcrypt = require("bcrypt");
+const MongoDBStore = require("connect-mongodb-session")(session);
+
+app.set("view engine", "ejs");
+app.set("views","views");
+
+// Middleware
+app.use(cors());
+app.use(bodyParser.json());
+app.use("/uploads", express.static(path.join(__dirname, "Uploads")));
+
+// Session Store
+const store = new MongoDBStore({
+  uri: "mongodb://localhost:27017/build_and_beyond",
+  collection: "sessions",
+});
+
+// Catch store errors
+store.on("error", function (error) {
+  console.error("Session store error:", error);
+});
+
+// Session Middleware
+app.use(
+  session({
+    secret: "your-secret-key", // Replace with a secure key in production
+    resave: false,
+    saveUninitialized: false,
+    store: store,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24, // 1 day
+    },
+  })
+);
+
+// MongoDB Connection
+mongoose
+  .connect("mongodb://localhost:27017/build_and_beyond", {})
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((err) => console.error("MongoDB connection error:", err));
+
+// Multer Configuration
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "Uploads/");
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, uniqueSuffix + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    const filetypes = /pdf|jpg|jpeg|png/;
+    const extname = filetypes.test(
+      path.extname(file.originalname).toLowerCase()
+    );
+    const mimetype = filetypes.test(file.mimetype);
+    if (extname && mimetype) {
+      return cb(null, true);
+    }
+    cb(new Error("Only PDF, JPG, JPEG, and PNG files are allowed"));
+  },
+});
+
+// Schemas
+const customerSchema = new mongoose.Schema(
+  {
+    name: { type: String, required: true },
+    email: {
+      type: String,
+      unique: true,
+      required: true,
+      match: [/^\S+@\S+\.\S+$/, "Invalid email"],
+    },
+    dob: { type: Date, required: true },
+    phone: { type: String, required: true },
+    password: { type: String, required: true },
+    role: { type: String, default: "customer" },
+  },
+  { timestamps: true }
+);
+
+const companySchema = new mongoose.Schema(
+  {
+    companyName: { type: String, required: true },
+    contactPerson: { type: String, required: true },
+    email: {
+      type: String,
+      unique: true,
+      required: true,
+      match: [/^\S+@\S+\.\S+$/, "Invalid email"],
+    },
+    phone: { type: String, required: true },
+    companyDocuments: [{ type: String, default: [] }],
+    password: { type: String, required: true },
+    role: { type: String, default: "company" },
+  },
+  { timestamps: true }
+);
+
+const workerSchema = new mongoose.Schema(
+  {
+    name: { type: String, required: true },
+    email: {
+      type: String,
+      unique: true,
+      required: true,
+      match: [/^\S+@\S+\.\S+$/, "Invalid email"],
+    },
+    password: { type: String, required: true },
+    phone: { type: String, required: true },
+    aadharNumber: {
+      type: String,
+      required: true,
+      validate: {
+        validator: function (v) {
+          return /^\d{12}$/.test(v);
+        },
+        message: "Aadhaar number must be 12 digits",
+      },
+    },
+    dob: { type: Date, required: true },
+    specialization: { type: String, required: true },
+    experience: { type: Number, default: 0, min: 0 },
+    certificateFiles: [{ type: String }],
+    role: { type: String, default: "worker" },
+    profileImage: { type: String },
+    professionalTitle: { type: String },
+    about: { type: String },
+    specialties: [{ type: String, default: [] }],
+    projects: [
+      {
+        name: { type: String },
+        year: { type: Number },
+        location: { type: String },
+        description: { type: String },
+        image: { type: String },
+        createdAt: { type: Date, default: Date.now },
+      },
+    ],
+    rating: { type: Number, default: 0, min: 0, max: 5 },
+    isArchitect: { type: Boolean, default: false },
+    servicesOffered: [{ type: String, default: [] }],
+    availability: {
+      type: String,
+      enum: ["available", "busy", "unavailable"],
+      default: "available",
+    },
+  },
+  { timestamps: true }
+);
+
+// Index for faster queries on specialization
+workerSchema.index({ specialization: 1 });
+
+// Password Hashing Middleware
+[customerSchema, companySchema, workerSchema].forEach((schema) => {
+  schema.pre("save", async function (next) {
+    if (this.isModified("password")) {
+      this.password = await bcrypt.hash(this.password, 10);
+    }
+    next();
+  });
+});
+
+// Models
+const Customer = mongoose.model("Customer", customerSchema);
+const Company = mongoose.model("Company", companySchema);
+const Worker = mongoose.model("Worker", workerSchema);
+
+// Middleware to check if user is authenticated
+const isAuthenticated = (req, res, next) => {
+  if (req.session.user) {
+    return next();
+  }
+  res.status(401).json({ message: "Unauthorized. Please login." });
+};
+
+// Signup Endpoint
+app.post("/signup", upload.array("documents", 10), async (req, res) => {
+  try {
+    const { role, password, termsAccepted, ...data } = req.body;
+
+    if (!role) {
+      return res.status(400).json({ message: "User type is required" });
+    }
+    if (!password) {
+      return res.status(400).json({ message: "Password is required" });
+    }
+    if (!termsAccepted) {
+      return res
+        .status(400)
+        .json({ message: "You must accept the terms and conditions" });
+    }
+
+    let user;
+    switch (role) {
+      case "customer":
+        if (!data.name || !data.email || !data.dob || !data.phone) {
+          return res
+            .status(400)
+            .json({ message: "All customer fields are required" });
+        }
+        user = new Customer({
+          name: data.name,
+          email: data.email,
+          dob: new Date(data.dob),
+          phone: data.phone,
+          password,
+          role,
+        });
+        break;
+
+      case "company":
+        if (
+          !data.companyName ||
+          !data.contactPerson ||
+          !data.email ||
+          !data.phone
+        ) {
+          return res
+            .status(400)
+            .json({ message: "All company fields are required" });
+        }
+        user = new Company({
+          companyName: data.companyName,
+          contactPerson: data.contactPerson,
+          email: data.email,
+          phone: data.phone,
+          companyDocuments: req.files ? req.files.map((file) => file.path) : [],
+          password,
+          role,
+        });
+        break;
+
+      case "worker":
+        if (
+          !data.name ||
+          !data.email ||
+          !data.dob ||
+          !data.aadharNumber ||
+          !data.phone ||
+          !data.specialization
+        ) {
+          return res
+            .status(400)
+            .json({ message: "All worker fields are required" });
+        }
+        user = new Worker({
+          name: data.name,
+          email: data.email,
+          dob: new Date(data.dob),
+          aadharNumber: data.aadharNumber,
+          phone: data.phone,
+          specialization: data.specialization,
+          experience: data.experience || 0,
+          certificateFiles: req.files ? req.files.map((file) => file.path) : [],
+          isArchitect: data.specialization.toLowerCase() === "architect",
+          password,
+          role,
+        });
+        break;
+
+      default:
+        return res.status(400).json({ message: "Invalid user type" });
+    }
+
+    await user.save();
+    res.status(201).json({ message: "Signup successful" });
+  } catch (error) {
+    if (error.code === 11000) {
+      res
+        .status(400)
+        .json({ message: "Email or Aadhaar number already exists" });
+    } else {
+      res.status(500).json({ message: error.message });
+    }
+  }
+});
+
+// Login Endpoint
+app.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ message: "Email and password are required" });
+    }
+
+    let user =
+      (await Customer.findOne({ email })) ||
+      (await Company.findOne({ email })) ||
+      (await Worker.findOne({ email }));
+
+    if (!user) {
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+
+    // Store user_id and role in session
+    req.session.user = {
+      user_id: user._id.toString(),
+      role: user.role,
+    };
+
+    let redirect;
+    switch (user.role) {
+      case "customer":
+        redirect = "/customerdashboard.html";
+        break;
+      case "company":
+        redirect = "/companydashboard.html";
+        break;
+      case "worker":
+        redirect ="/workerdashboard.html";
+        break;
+      default:
+        return res.status(500).json({ message: "Server error" });
+    }
+
+    res.status(200).json({ message: "Login successful", redirect });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// Logout Endpoint
+app.post("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).json({ message: "Failed to logout" });
+    }
+    res.status(200).json({ message: "Logout successful" });
+  });
+});
+
+// Query Workers by Specialization (Protected Route)
+app.get("/workers/:specialization", isAuthenticated, async (req, res) => {
+  try {
+    const specialization = req.params.specialization;
+    const workers = await Worker.find({ specialization }).select(
+      "name email specialization isArchitect"
+    );
+    res.status(200).json({
+      workers,
+      user: {
+        user_id: req.session.user.user_id,
+        role: req.session.user.role,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Check Session Status
+app.get("/session", (req, res) => {
+  if (req.session.user) {
+    res.status(200).json({
+      authenticated: true,
+      user: {
+        user_id: req.session.user.user_id,
+        role: req.session.user.role,
+      },
+    });
+  } else {
+    res.status(200).json({ authenticated: false });
+  }
+});
+
