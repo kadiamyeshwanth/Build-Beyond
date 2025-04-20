@@ -1,0 +1,79 @@
+<style>
+    .navbar {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #121639;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    }
+
+    .navbar-left {
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+
+    .navbar-middle {
+        display: flex;
+        gap: 20px;
+    }
+
+    .navbar-middle a {
+        color: white;
+        text-decoration: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+    .navbar-middle a:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .navbar-right {
+        display: flex;
+        align-items: center;
+    }
+
+    .profile-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #6c5ce7;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .profile-icon svg {
+        width: 24px;
+        height: 24px;
+        fill: white;
+    }
+</style>
+<nav class="navbar">
+    <div class="navbar-left">
+        Build & Beyond
+    </div>
+    <div class="navbar-middle">
+        <a href="/workerdashboard.html">Dashboard</a>
+        <a href="/workerjobs.html">New Jobs</a>
+        <a href="/workerjoin_company.html">Join a Company</a>
+    </div>
+    <div class="navbar-right">
+        <div class="profile-icon">
+            <a href="/workersettings.html">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z" fill="white"/>
+            </svg></a>
+        </div>
+    </div>
+</nav>

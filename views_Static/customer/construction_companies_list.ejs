@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Construction Companies</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333333;
+            line-height: 1.6;
+        }
+        a.company-card {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        }
+        /* Filter Section */
+        .filter-section {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+            background: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .filter-section select {
+            padding: 10px 18px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            background: #ffffff;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+
+        .filter-section select:hover {
+            border-color: #007bff;
+        }
+
+        .filter-section select:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        /* Card Container */
+        .company-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        /* Company Card */
+        .company-card {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .company-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .company-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .company-info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .company-logo {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            margin-top: -35px;
+            border: 4px solid white;
+            background: white;
+        }
+
+        .company-name {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 10px;
+            color: #3a7bd5;
+        }
+
+        .company-details {
+            font-size: 14px;
+            color: #666;
+            margin: 8px 0;
+        }
+
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .trust-badges img {
+            width: 35px;
+            height: 35px;
+        }
+
+        .rating {
+            color: #f4b400;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .contact-button {
+            display: inline-block;
+            background: #e9c46a;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        .contact-button:hover {
+            background: #e2b230;
+        }
+    </style>
+</head>
+<body>
+    <%- include('navbar_customer') %>
+    <!-- Filter Section -->
+    <div class="filter-section">
+        <select id="locationFilter" onchange="filterCompanies()">
+            <option value="all">All Locations</option>
+            <option value="Hyderabad">Hyderabad</option>
+            <option value="Mumbai">Mumbai</option>
+            <option value="Delhi NCR">Delhi NCR</option>
+        </select>
+        <select id="typeFilter" onchange="filterCompanies()">
+            <option value="all">All Types</option>
+            <option value="Residential">Residential</option>
+            <option value="Commercial">Commercial</option>
+            <option value="Infrastructure">Infrastructure</option>
+            <option value="Renovation">Renovation</option>
+        </select>
+    </div>
+
+    <!-- Company Cards -->
+    <div class="company-container">
+        <div class="company-card" data-location="Hyderabad" data-type="Residential">
+            <img src="https://www.larsentoubro.com/media/30212/1.jpg" alt="Company Image" class="company-image">
+            <div class="company-info">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/L%26T.png" alt="Company Logo" class="company-logo">
+                <div class="company-name">Larsen & Turbo</div>
+                <div class="company-details">Services: Residential, Commercial</div>
+                <div class="company-details">Location: Hyderabad, India</div>
+                <div class="trust-badges">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmg8OXLxPWhLyH5rl7ML6B5LP_TfwhlkP3Hg&s" alt="Badge">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLKDwtcYxzllNWYiCz2FNOpGYdIvM6I6iCKA&s" alt="Badge">
+                </div>
+                <div class="rating">⭐⭐⭐⭐☆ (4.5)</div>
+                <a href="/construction_companies_profile.html" class="contact-button">BOOK NOW</a>
+            </div>
+        </div>
+        
+        <div class="company-card" data-location="Mumbai" data-type="Infrastructure">
+            <img src="https://media.licdn.com/dms/image/v2/D4D0BAQEUn5DiZK6TWQ/company-logo_200_200/company-logo_200_200/0/1715935769527/meilofficial_logo?e=2147483647&v=beta&t=14RSRWDbg408_cepZbTgE54j2iVbMzAhVEMucr70jsk" alt="Company Image" class="company-image">
+            <div class="company-info">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZfu6-CCzqpzER8B9vZLlNlWh_QLdW947Tfw&s" alt="Company Logo" class="company-logo">
+                <div class="company-name">MEIL</div>
+                <div class="company-details">Services: Infrastructure, Renovation</div>
+                <div class="company-details">Location: Mumbai, India</div>
+                <div class="trust-badges">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmg8OXLxPWhLyH5rl7ML6B5LP_TfwhlkP3Hg&s" alt="Badge">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLKDwtcYxzllNWYiCz2FNOpGYdIvM6I6iCKA&s" alt="Badge">
+                </div>
+                <div class="rating">⭐⭐⭐⭐⭐ (5.0)</div>
+                <a href="/construction_companies_profile.html" class="contact-button" >BOOK NOW</a>
+            </div>
+        </div>
+        
+        <div class="company-card" data-location="Hyderabad" data-type="Residential">
+            <img src="https://dynamic.brandcrowd.com/asset/logo/1be09a9a-bef0-4dce-a23f-b9f386bbce8c/logo-search-grid-2x?logoTemplateVersion=1&v=638769019309870000&text=ABC+Constructions" alt="Company Image" class="company-image">
+            <div class="company-info">
+                <img src="logo1.png" alt="Company Logo" class="company-logo">
+                <div class="company-name">ABC Constructions</div>
+                <div class="company-details">Services: Residential, Commercial</div>
+                <div class="company-details">Location: Hyderabad, India</div>
+                <div class="trust-badges">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmg8OXLxPWhLyH5rl7ML6B5LP_TfwhlkP3Hg&s" alt="Badge">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLKDwtcYxzllNWYiCz2FNOpGYdIvM6I6iCKA&s" alt="Badge">
+                </div>
+                <div class="rating">⭐⭐⭐⭐☆ (4.5)</div>
+                <a href="/construction_companies_profile.html" class="contact-button">BOOK NOW</a>
+            </div>
+        </div>
+
+        <div class="company-card" data-location="Mumbai" data-type="Infrastructure">
+            <img src="https://dynamic.brandcrowd.com/asset/logo/90e3d9f9-9839-4419-8250-e94c30dcb8ee/logo-search-grid-2x?logoTemplateVersion=1&v=638447782477100000&text=XYZ+Constructions" alt="Company Image" class="company-image">
+            <div class="company-info">
+                <img src="logo2.png" alt="Company Logo" class="company-logo">
+                <div class="company-name">XYZ Constructions</div>
+                <div class="company-details">Services: Infrastructure, Renovation</div>
+                <div class="company-details">Location: Mumbai, India</div>
+                <div class="trust-badges">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmg8OXLxPWhLyH5rl7ML6B5LP_TfwhlkP3Hg&s" alt="Badge">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLKDwtcYxzllNWYiCz2FNOpGYdIvM6I6iCKA&s" alt="Badge">
+                </div>
+                <div class="rating">⭐⭐⭐⭐⭐ (5.0)</div>
+                <a href="/construction_companies_profile.html" class="contact-button">BOOK NOW</a>
+            </div>
+        </div>
+
+        <div class="company-card" data-location="Delhi NCR" data-type="Renovation">
+            <img src="https://dynamic.brandcrowd.com/asset/logo/ca6673e4-32e7-4363-9abc-d3e9329080ce/logo-search-grid-2x?logoTemplateVersion=2&v=638581065405370000&text=+123+Constructions" alt="Company Image" class="company-image">
+            <div class="company-info">
+                <img src="logo1.png" alt="Company Logo" class="company-logo">
+                <div class="company-name">123 Constructions</div>
+                <div class="company-details">Services: Renovation, Commercial</div>
+                <div class="company-details">Location: Delhi NCR, India</div>
+                <div class="trust-badges">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmg8OXLxPWhLyH5rl7ML6B5LP_TfwhlkP3Hg&s" alt="Badge">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLKDwtcYxzllNWYiCz2FNOpGYdIvM6I6iCKA&s" alt="Badge">
+                </div>
+                <div class="rating">⭐⭐⭐⭐☆ (4.0)</div>
+                <a href="/construction_companies_profile.html" class="contact-button">BOOK NOW</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function filterCompanies() {
+            const locationFilter = document.getElementById('locationFilter').value;
+            const typeFilter = document.getElementById('typeFilter').value;
+            const cards = document.querySelectorAll('.company-card');
+
+            cards.forEach(card => {
+                const location = card.getAttribute('data-location');
+                const type = card.getAttribute('data-type');
+
+                const locationMatch = locationFilter === 'all' || location === locationFilter;
+                const typeMatch = typeFilter === 'all' || type === typeFilter;
+
+                if (locationMatch && typeMatch) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        const notificationIcon = document.getElementById('notificationIcon');
+        const notificationPanel = document.getElementById('notificationPanel');
+        
+        notificationIcon.addEventListener('click', function(e) {
+            e.stopPropagation();
+            notificationPanel.classList.toggle('show');
+        });
+        
+        document.addEventListener('click', function(e) {
+            if (!notificationPanel.contains(e.target) && !notificationIcon.contains(e.target)) {
+                notificationPanel.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>

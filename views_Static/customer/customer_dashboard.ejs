@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build & Beyond</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+        /* Hero Section */
+        .hero-section {
+            position: relative;
+            height: 400px;
+            background-image: url('https://cdn.pixabay.com/photo/2021/03/22/21/04/house-6115719_1280.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0 40px;
+        }
+
+        .hero-section:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to right, rgba(13, 26, 68, 0.8), rgba(13, 26, 68, 0.4));
+        }
+
+        .hero-text {
+            position: relative;
+            z-index: 1;
+            color: white;
+            font-size: 42px;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Services Section */
+        .services-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        .services-heading {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeInDown 0.8s ease forwards;
+        }
+
+        .services-heading h2 {
+            font-size: 28px;
+            color: #0d1a44;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .heading-underline {
+            display: inline-block;
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to right, #e9c46a 80%, #0d1a44 20%);
+            animation: expandWidth 1s ease-in-out forwards;
+        }
+
+        .services-tagline {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #0d1a44;
+            animation: fadeIn 1.2s ease forwards;
+        }
+
+        .services-container {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: #e9c46a #ebebeb;
+            gap: 15px;
+            padding: 10px 0;
+        }
+
+        .services-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .services-container::-webkit-scrollbar-track {
+            background: #ebebeb;
+            border-radius: 10px;
+        }
+
+        .services-container::-webkit-scrollbar-thumb {
+            background-color: #e9c46a;
+            border-radius: 10px;
+        }
+
+        .service-card {
+            flex: 0 0 220px;
+            border: 1px solid #e0e0e0;
+            padding: 20px 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            background-color: white;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            animation: slideInRight 0.5s ease forwards;
+            animation-delay: calc(0.1s * var(--order));
+            opacity: 0;
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            z-index: 2;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 0;
+            background-color: #e9c46a;
+            transition: height 0.3s ease;
+        }
+
+        .service-card:hover::before {
+            height: 100%;
+        }
+
+        .service-icon {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.1);
+        }
+
+        .service-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .service-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #0d1a44;
+            transition: color 0.3s ease;
+        }
+
+        .service-card:hover .service-title {
+            color: #e9c46a;
+        }
+
+        .service-description {
+            font-size: 13px;
+            line-height: 1.4;
+            margin-bottom: 15px;
+            color: #666;
+            height: 55px;
+        }
+
+        .title-underline {
+            display: block;
+            width: 40px;
+            height: 3px;
+            background-color: #e9c46a;
+            margin: 10px auto;
+            transition: width 0.3s ease;
+        }
+
+        .service-card:hover .title-underline {
+            width: 60px;
+        }
+
+        .book-now-btn {
+            background-color: #e9c46a;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 5px;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .book-now-btn:hover {
+            background-color: #d4a747;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(233, 196, 106, 0.3);
+        }
+
+        .book-now-btn::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: -100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .book-now-btn:hover::after {
+            left: 100%;
+        }
+
+        .services-navigation {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .nav-btn {
+            background-color: #e9c46a;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background-color: #d4a747;
+            transform: scale(1.1);
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes expandWidth {
+            from {
+                width: 0;
+            }
+            to {
+                width: 80px;
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .steps {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        .step {
+            text-align: center;
+            max-width: 150px;
+        }
+        .step img {
+            width: 60px;
+            height: 60px;
+        }
+        .step-number {
+            font-size: 48px;
+            font-weight: bold;
+            color: #ddd;
+        }
+        .step-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* Stats Section */
+        .stats-background {
+            background-color: #0d1a44;
+            padding: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 2px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .stat-item {
+            text-align: center;
+            width: 180px;
+            margin: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .stat-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stat-icon {
+            font-size: 40px;
+            color: #e9c46a;
+            margin-bottom: 10px;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: bold;
+            color: white;
+            margin: 5px 0;
+        }
+
+        .stat-text {
+            color: #e9c46a;
+            font-size: 16px;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .stat-icon {
+            animation: pulse 2s infinite;
+        }
+
+        .stat-item:nth-child(1) .stat-icon {
+            animation-delay: 0s;
+        }
+
+        .stat-item:nth-child(2) .stat-icon {
+            animation-delay: 0.2s;
+        }
+
+        .stat-item:nth-child(3) .stat-icon {
+            animation-delay: 0.4s;
+        }
+
+        .stat-item:nth-child(4) .stat-icon {
+            animation-delay: 0.6s;
+        }
+
+        .stat-item:nth-child(5) .stat-icon {
+            animation-delay: 0.8s;
+        }
+
+        /* Portfolio Section */
+        .container {
+            max-width: 1000px;
+            margin: 51px auto;
+            padding: 15px;
+            position: relative;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .header-line {
+            display: inline-block;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(to right, #e9c46a, #0d1a44);
+            margin: 4px auto 15px;
+        }
+
+        .subheader {
+            text-align: center;
+            max-width: 750px;
+            margin: 0 auto 40px;
+            line-height: 1.5;
+            font-size: 15px;
+            color: #0d1a44;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .portfolio-item {
+            position: relative;
+            background: #fff;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 250px;
+        }
+
+        .portfolio-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            z-index: 1;
+        }
+
+        .portfolio-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .portfolio-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 12px;
+            text-align: center;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .portfolio-item:hover .portfolio-info {
+            transform: translateY(0);
+        }
+
+        .portfolio-location {
+            font-weight: bold;
+            margin-bottom: 4px;
+            color: #0d1a44;
+        }
+
+        .portfolio-size {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .highlight-box {
+            grid-column: 3;
+            grid-row: 2;
+            background-color: #fff;
+            padding: 20px;
+            border: 2px solid #e9c46a;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 250px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .highlight-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .highlight-box h2 {
+            margin-bottom: 15px;
+            font-size: 21px;
+            color: #0d1a44;
+        }
+
+        .highlight-box p {
+            margin-bottom: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .more-button {
+            display: inline-block;
+            background-color: #e9c46a;
+            color: white;
+            padding: 8px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: background-color 0.3s;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .more-button:hover {
+            background-color: #d4a747;
+        }
+
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0.5;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 100;
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .modal-content img {
+            width: 100%;
+            height: auto;
+            max-height: 90vh;
+            object-fit: contain;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .container-teams{
+            margin-top: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            max-width: 1100px;
+            margin: auto;
+            background: white;
+            border-radius: 15px;
+            border: 2px solid #ddd;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .left {
+            flex: 1;
+            text-align: center;
+            position: sticky;
+            top: 20px;
+            align-self: flex-start;
+        }
+
+        .left h1 {
+            font-size: 2.8rem;
+            color: #002147;
+        }
+
+        .left p {
+            font-size: 1.2rem;
+            color: #555;
+            margin-top: 10px;
+            max-width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .right {
+            flex: 1;
+            position: relative;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .line {
+            position: absolute;
+            left: 20px;
+            top: 0;
+            width: 4px;
+            height: 0;
+            border-left: 4px dotted #bbb;
+            transition: all 0.7s ease-in-out;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: flex-start;    
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .timeline-item .icon {
+            width: 50px;
+            height: 50px;
+            background: white;
+            color: #F9B208;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-right: 15px;
+            border: 3px solid #F9B208;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            transition: background 0.5s ease-in-out;
+        }
+
+        .content {
+            max-width: 500px;
+        }
+
+        .content h2 {
+            font-size: 1.6rem;
+            color: #002147;
+            display: flex;
+            align-items: center;
+        }
+
+        .content p {
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.6;
+            word-wrap: break-word;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .scroll-effect {
+            border-left: 4px solid #F9B208;
+        }
+
+        /* Footer Section */
+        .footer {
+            background-color: #0d1a44;
+            padding: 15px 0;
+            text-align: center;
+            font-size: 14px;
+            color: white;
+        }
+
+        .footer a {
+            color: #e9c46a;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background-color: #e9c46a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .back-to-top:hover {
+            background-color: #d4a747;
+        }
+    </style>
+</head>
+<body>
+    <%- include('navbar_customer') %>
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="hero-text">Building Dreams Into Reality</div>
+    </div>
+
+    <!-- Services Section -->
+    <section class="services-section">
+        <div class="services-heading">
+            <h2>BUILD & BEYOND</h2>
+            <span class="heading-underline"></span>
+        </div>
+        <div class="services-tagline">
+            <p>BUILD & BEYOND : Build Your 'Dream Home' India's No.1 tech powered construction company. One-stop Tech-Based Construction and Design Services</p>
+        </div>
+        <div class="services-container">
+            <div class="service-card" style="--order:1">
+                <div class="service-icon">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRjlCMjA4IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgY2xhc3M9ImZlYXRoZXIgZmVhdGhlci1ob21lIj48cGF0aCBkPSJNMyA5bDktNyA5IDd2MTFhMiAyIDAgMCAxLTIgMkg1YTIgMiAwIDAgMS0yLTJ6Ij48L3BhdGg+PHBvbHlsaW5lIHBvaW50cz0iOSAyMiA5IDEyIDE1IDEyIDE1IDIyIj48L3BvbHlsaW5lPjwvc3ZnPg==" alt="Residential Construction">
+                </div>
+                <h3 class="service-title">Residential Construction</h3>
+                <span class="title-underline"></span>
+                <div class="service-description">
+                    <p>You Dream, We Deliver!</p>
+                    <p>Let us, build your 'Dream Home'</p>
+                </div>
+                <a href="/construction_comanies_list.html"><button class="book-now-btn">Book Now</button></a>
+            </div>
+            <div class="service-card" style="--order:2">
+                <div class="service-icon">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRjlCMjA4IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgY2xhc3M9ImZlYXRoZXIgZmVhdGhlci1idWlsZGluZyI+PHJlY3QgeD0iNCIgeT0iMiIgd2lkdGg9IjE2IiBoZWlnaHQ9IjIwIiByeD0iMiIgcnk9IjIiPjwvcmVjdD48bGluZSB4MT0iOSIgeTE9IjYiIHgyPSI5LjAxIiB5Mj0iNiI+PC9saW5lPjxsaW5lIHgxPSIxNSIgeTE9IjYiIHgyPSIxNS4wMSIgeTI9IjYiPjwvbGluZT48bGluZSB4MT0iOSIgeTE9IjEwIiB4Mj0iOS4wMSIgeTI9IjEwIj48L2xpbmU+PGxpbmUgeDE9IjE1IiB5MT0iMTAiIHgyPSIxNS4wMSIgeTI9IjEwIj48L2xpbmU+PGxpbmUgeDE9IjkiIHkxPSIxNCIgeDI9IjkuMDEiIHkyPSIxNCI+PC9saW5lPjxsaW5lIHgxPSIxNSIgeTE9IjE0IiB4Mj0iMTUuMDEiIHkyPSIxNCI+PC9saW5lPjwvc3ZnPg==" alt="Commercial Construction">
+                </div>
+                <h3 class="service-title">Commercial Construction</h3>
+                <span class="title-underline"></span>
+                <div class="service-description">
+                    <p>Hassle-Free Execution by</p>
+                    <p>Our Expert Team</p>
+                </div>
+                <a href="/construction_comanies_list.html"><button class="book-now-btn">Book Now</button></a>
+            </div>
+            <div class="service-card" style="--order:3">
+                <div class="service-icon">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRjlCMjA4IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgY2xhc3M9ImZlYXRoZXIgZmVhdGhlci1jbGlwYm9hcmQiPjxwYXRoIGQ9Ik0xNiAydjRoNFYyaC00eiI+PC9wYXRoPjxwYXRoIGQ9Ik0yMSAxNFY4aC00VjRINnYxNmgxNXoiPjwvcGF0aD48cGF0aCBkPSJNOSA4aDRNOSAxMmg0TTkgMTZoNCIgLz48L3N2Zz4=" alt="Project Management">
+                </div>
+                <h3 class="service-title">Project Management</h3>
+                <span class="title-underline"></span>
+                <div class="service-description">
+                    <p>Get our Team of Experts -</p>
+                    <p>To deliver your 'Project'</p>
+                </div>
+                <a href="/construction_comanies_list.html"><button class="book-now-btn">Book Now</button></a>
+            </div>
+            <div class="service-card" style="--order:4">
+                <div class="service-icon">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRjlCMjA4IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgY2xhc3M9ImZlYXRoZXIgZmVhdGhlci1sYXllcnMiPjxwb2x5Z29uIHBvaW50cz0iMTIgMiAyIDcgMTIgMTIgMjIgNyAxMiAyIj48L3BvbHlnb24+PHBvbHlsaW5lIHBvaW50cz0iMiAxNyAxMiAyMiAyMiAxNyI+PC9wb2x5bGluZT48cG9seWxpbmUgcG9pbnRzPSIyIDEyIDEyIDE3IDIyIDEyIj48L3BvbHlsaW5lPjwvc3ZnPg==" alt="Architecture & Structure">
+                </div>
+                <h3 class="service-title">Architecture & Structure</h3>
+                <span class="title-underline"></span>
+                <div class="service-description">
+                    <p>Get Tailored Fit Designs -</p>
+                    <p>By our In-house Architects</p>
+                </div>
+                <a href="/construction_comanies_list.html"><button class="book-now-btn">Book Now</button></a>
+            </div>
+            <div class="service-card" style="--order:5">
+                <div class="service-icon">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRjlCMjA4IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgY2xhc3M9ImZlYXRoZXIgZmVhdGhlci1tb25pdG9yIj48cmVjdCB4PSIyIiB5PSIzIiB3aWR0aD0iMjAiIGhlaWdodD0iMTQiIHJ4PSIyIiByeT0iMiI+PC9yZWN0PjxsaW5lIHgxPSI4IiB5MT0iMjEiIHgyPSIxNiIgeTI9IjIxIj48L2xpbmU+PGxpbmUgeDE9IjEyIiB5MT0iMTciIHgyPSIxMiIgeTI9IjIxIj48L2xpbmU+PC9zdmc+" alt="Interiors & Smart Home">
+                </div>
+                <h3 class="service-title">Interiors & Smart Home</h3>
+                <span class="title-underline"></span>
+                <div class="service-description">
+                    <p>Get Beautiful, Smart &</p>
+                    <p>Customized Homes.</p>
+                </div>
+                <a href="/construction_comanies_list.html"><button class="book-now-btn">Book Now</button></a>
+            </div>
+        </div>
+        <div class="services-navigation">
+            <button class="nav-btn scroll-left">←</button>
+            <button class="nav-btn scroll-right">→</button>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <div class="stats-background">
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-icon">👷</div>
+                <div class="stat-number" data-target="2000">0</div>
+                <div class="stat-text">Workforce</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon">👨‍🔧</div>
+                <div class="stat-number" data-target="25">0</div>
+                <div class="stat-text">Experience</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon">🏢</div>
+                <div class="stat-number" data-target="900000">0</div>
+                <div class="stat-text">Built Up Area</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon">🏗️</div>
+                <div class="stat-number" data-target="200">0</div>
+                <div class="stat-text">Projects</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon">🏠</div>
+                <div class="stat-number" data-target="50000">0</div>
+                <div class="stat-text">Community</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Portfolio Section -->
+    <div class="container">
+        <header class="header">
+            <h1>Build&Beyond PORTFOLIO</h1>
+            <div class="header-line"></div>
+        </header>
+        <div class="subheader">
+            <p>Build&Beyond - Leading Home & Commercial Construction Company in Hyderabad Who Offers End-To-End Home Solutions, With 50+ Projects Delivered in Hyderabad.</p>
+        </div>
+        <div class="portfolio-grid">
+            <div class="portfolio-item">
+                <img src="https://5.imimg.com/data5/DV/PM/KZ/SELLER-72070424/school-building-design.JPG" alt="Building">
+                <div class="watermark">Build&Beyond</div>
+                <div class="portfolio-info">
+                    <div class="portfolio-location">Kondapur, Hyderabad</div>
+                    <div class="portfolio-size">40,000 Sft</div>
+                </div>
+            </div>
+            <div class="portfolio-item">
+                <img src="https://archello.com/thumbs/images/2018/05/11/tobiarchitects1.1526035990.6946.jpg?fit=crop&w=414&h=276" alt="Modern house">
+                <div class="watermark">Build&Beyond</div>
+                <div class="portfolio-info">
+                    <div class="portfolio-location">Gachibowli, Hyderabad</div>
+                    <div class="portfolio-size">3,200 Sft</div>
+                </div>
+            </div>
+            <div class="portfolio-item">
+                <img src="https://prosperityinfra.com/wp-content/uploads/2024/09/JLL_Hyderabad_Issara_9238_EXT_1.jpg" alt="Villa project">
+                <div class="watermark">Build&Beyond</div>
+                <div class="portfolio-info">
+                    <div class="portfolio-location">Jubilee Hills, Hyderabad</div>
+                    <div class="portfolio-size">5,800 Sft</div>
+                </div>
+            </div>
+            <div class="portfolio-item">
+                <img src="https://media.istockphoto.com/id/1165384568/photo/europe-modern-complex-of-residential-buildings.jpg?s=612x612&w=0&k=20&c=iW4NBiMPKEuvaA7h8wIsPHikhS64eR-5EVPfjQ9GPOA=" alt="modern building">
+                <div class="watermark">Build&Beyond</div>
+                <div class="portfolio-info">
+                    <div class="portfolio-location">Banjara Hills, Hyderabad</div>
+                    <div class="portfolio-size">4,500 Sft</div>
+                </div>
+            </div>
+            <div class="portfolio-item">
+                <img src="https://static.vecteezy.com/system/resources/thumbnails/040/813/403/small_2x/building-design-render-photo.jpg" alt="duplex house">
+                <div class="watermark">Build&Beyond</div>
+                <div class="portfolio-info">
+                    <div class="portfolio-location">Manikonda, Hyderabad</div>
+                    <div class="portfolio-size">2,800 Sft</div>
+                </div>
+            </div>
+            <div class="highlight-box">
+                <h2>Projects Portfolio</h2>
+                <p>We have many more projects to showcase.<br>Click below to explore our complete collection.</p>
+                <a href="#" class="more-button">VIEW MORE</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- How It Works Section -->
+    <div class="container">
+        <h2>HOW IT WORKS ?</h2>
+        <p style="margin: 9px auto;"><strong>Build & Beyond</strong> - has been using cutting-edge technology from the outset to address challenges faced by the regular house construction contractors.</p>
+        <div class="steps">
+            <div class="step">
+                <img src="https://www.wehouse.in/new-assets/images/icon/requirement1.png" alt="Requirement">
+                <div class="step-number">1</div>
+                <div class="step-title">Your Requirement</div>
+            </div>
+            <div class="step">
+                <img src="https://www.wehouse.in/new-assets/images/icon/costestimate1.png" alt="Cost Estimation">
+                <div class="step-number">2</div>
+                <div class="step-title">Cost Estimation</div>
+            </div>
+            <div class="step">
+                <img src="https://www.wehouse.in/new-assets/images/icon/excute1.png" alt="Work Execution">
+                <div class="step-number">3</div>
+                <div class="step-title">Work Execution</div>
+            </div>
+            <div class="step">
+                <img src="https://www.wehouse.in/new-assets/images/icon/architecture1.png" alt="Satisfied Delivery">
+                <div class="step-number">4</div>
+                <div class="step-title">Satisfied Delivery</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Team Partnership Section -->
+    <div class="container-teams">
+        <div class="left">
+            <h1>Build Your Dream Team</h1>
+            <p>Our platform connects you with trusted professionals to transform your vision into reality, simplify the building process, and enhance your property value</p>
+        </div>
+        <div class="right">
+            <div class="timeline">
+                <div class="line" id="scrollLine"></div>
+                <div class="timeline-item">
+                    <div class="icon">⭐</div>
+                    <div class="content">
+                        <h2>Instant Connections</h2>
+                        <p>Browse our extensive network of verified contractors and specialists to find the perfect match for your home construction or renovation project</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="icon">🤝</div>
+                    <div class="content">
+                        <h2>Customized Solutions</h2>
+                        <p>View from our available designs or request for your own custom design to the company or individual you hire.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="icon">🚀</div>
+                    <div class="content">
+                        <h2>Seamless Project Management</h2>
+                        <p>Seamlessly view your project updates and manage the details effectively.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="icon">🏆</div>
+                    <div class="content">
+                        <h2>Guaranteed Excellence</h2>
+                        <p>Join thousands of satisfied homeowners who have experienced superior craftsmanship,reasonable pricing.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <div class="footer">
+        <div>© 2022 Build & Beyond - home construction & Deigning .All Right Reserved.</div>
+        <div class="footer-links">
+            <a href="privacy-policy.html">Privacy Policy</a>
+            <a href="terms-conditions.html">Terms & Conditions</a>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
+
+    <script>
+        const notificationIcon = document.getElementById('notificationIcon');
+        const notificationPanel = document.getElementById('notificationPanel');
+
+        notificationIcon.addEventListener('click', function(e) {
+            e.stopPropagation();
+            notificationPanel.classList.toggle('show');
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!notificationPanel.contains(e.target) && !notificationIcon.contains(e.target)) {
+                notificationPanel.classList.remove('show');
+            }
+        });
+
+        // animate counting up
+        function animateCounter(element, target, duration) {
+            let start = 0;
+            const increment = target / (duration / 16);
+            const timer = setInterval(() => {
+                start += increment;
+                if (start >= target) {
+                    clearInterval(timer);
+                    element.textContent = target.toLocaleString() + '+';
+                } else {
+                    element.textContent = Math.floor(start).toLocaleString();
+                }
+            }, 16);
+        }
+
+        //check if element is in viewport
+        function isInViewport(element) {
+            const rect = element.getBoundingClientRect();
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+        }
+
+        //scroll and initialize animations
+        function handleScroll() {
+            const statItems = document.querySelectorAll('.stat-item');
+
+            statItems.forEach(item => {
+                if (isInViewport(item) && !item.classList.contains('visible')) {
+                    item.classList.add('visible');
+
+                    // Start counter animation
+                    const numberElement = item.querySelector('.stat-number');
+                    const targetValue = parseInt(numberElement.getAttribute('data-target'));
+
+                    // Adjust duration  on size of number
+                    let duration = 2000;
+                    if (targetValue > 10000) duration = 3000;
+                    if (targetValue > 100000) duration = 4000;
+
+                    animateCounter(numberElement, targetValue, duration);
+                }
+            });
+        }
+
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', () => {
+            handleScroll();
+            window.addEventListener('scroll', handleScroll);
+        });
+
+        // Scroll effect for timeline
+        window.addEventListener('scroll', function() {
+            let line = document.getElementById('scrollLine');
+            let timeline = document.querySelector('.timeline');
+            let items = document.querySelectorAll('.timeline-item');
+            let topPosition = timeline.getBoundingClientRect().top;
+            let windowHeight = window.innerHeight;
+
+            let totalHeight = 0;
+            items.forEach((item, index) => {
+                let itemTop = item.getBoundingClientRect().top;
+                if (itemTop < windowHeight / 1.5) {
+                    totalHeight = item.offsetTop;
+                    item.querySelector('.icon').style.background = '#e9c46a';
+                    item.querySelector('.icon').style.color = 'white';
+                } else {
+                    item.querySelector('.icon').style.background = 'white';
+                    item.querySelector('.icon').style.color = '#e9c46a';
+                }
+            });
+            line.style.height = totalHeight + "px";
+            line.classList.add('scroll-effect');
+        });
+        document.addEventListener('click', function () {
+        const profileSettingsButton = document.getElementById('profile_settings');
+        if (profileSettingsButton) {
+            profileSettingsButton.addEventListener('click', function () {
+                window.location.href = 'http://localhost:4000/profile';
+            });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build&Beyond Login & Registration</title>
+    <style>
+        :root {
+            --primary-green: #4D7A70;
+            --secondary-green: #6A9E8E;
+            --light-green: #A3C5BB;
+            --dark-grey: #363636;
+            --medium-grey: #5A5A5A;
+            --light-grey: #E0E0E0;
+            --white: #FFFFFF;
+            --error-red: #d9534f;
+            --transition-speed: 0.3s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #F5F5F5;
+            color: var(--dark-grey);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        #admin {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: flex-end;
+            z-index: 1000;
+            color: green;
+            text-decoration: none;
+        }
+
+        #admin a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 5px 10px;
+            color: white;
+            border-radius: 4px;
+            transition: background-color var(--transition-speed);
+        }
+        #admin a:hover {
+            background-color: var(--secondary-green);
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            min-height: 600px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        /* Image side styles */
+        .image-side {
+            width: 50%;
+            background-color: var(--primary-green);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-side::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('https://via.placeholder.com/600x600');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.2;
+            z-index: 0;
+        }
+
+        .logo-container {
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: var(--light-green);
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            line-height: 1.6;
+        }
+
+        /* Form side styles */
+        .form-side {
+            width: 50%;
+            background-color: var(--white);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .form-header {
+            margin-bottom: 2rem;
+        }
+
+        .form-header h2 {
+            font-size: 1.8rem;
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-header p {
+            color: var(--medium-grey);
+        }
+
+        /* Form elements */
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--medium-grey);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--light-grey);
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color var(--transition-speed);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 2px rgba(77, 122, 112, 0.1);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 0;
+        }
+
+        .form-col {
+            flex: 1;
+        }
+
+        /* Form footer with checkbox and forgot password */
+        .form-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 0.5rem;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            margin-bottom: 0;
+            cursor: pointer;
+        }
+
+        .forgot-link {
+            color: var(--primary-green);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color var(--transition-speed);
+        }
+
+        .forgot-link:hover {
+            color: var(--secondary-green);
+            text-decoration: underline;
+        }
+
+        /* Button styles */
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color var(--transition-speed), transform var(--transition-speed);
+            width: 100%;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-green);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-green);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        /* Toggle form links */
+        .toggle-form {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--medium-grey);
+        }
+
+        .toggle-form a {
+            color: var(--primary-green);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color var(--transition-speed);
+        }
+
+        .toggle-form a:hover {
+            color: var(--secondary-green);
+            text-decoration: underline;
+        }
+
+        /* File upload styling */
+        .file-upload-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .file-input-wrapper {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 0.5rem;
+        }
+
+        .file-upload-btn {
+            background-color: var(--light-grey);
+            color: var(--medium-grey);
+            padding: 0.6rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color var(--transition-speed);
+        }
+
+        .file-upload-btn:hover {
+            background-color: #d0d0d0;
+        }
+
+        .file-name {
+            font-size: 0.85rem;
+            color: var(--medium-grey);
+            flex: 1;
+        }
+
+        input[type="file"] {
+            position: absolute;
+            width: 0.1px;
+            height: 0.1px;
+            opacity: 0;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        /* User type selection */
+        .user-type-selection {
+            margin-bottom: 2rem;
+        }
+
+        /* Validation error messages */
+        .validation-error {
+            color: var(--error-red);
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+            display: block;
+            position: absolute;
+            left: 0;
+            bottom: -1.2rem;
+        }
+
+        /* Form display toggle */
+        .register-form,
+        .customer-fields,
+        .company-fields,
+        .worker-fields,
+        .common-password-fields {
+            display: none;
+        }
+
+        .login-form {
+            display: block;
+        }
+
+        /* Make inputs with errors have red border */
+        .form-control.error {
+            border-color: var(--error-red);
+        }
+
+        /* Responsive styles */
+        @media (max-width: 992px) {
+            .container {
+                flex-direction: column;
+                height: auto;
+                min-height: auto;
+            }
+            
+            .image-side, 
+            .form-side {
+                width: 100%;
+            }
+            
+            .image-side {
+                padding: 3rem 2rem;
+                min-height: 200px;
+            }
+            
+            .form-side {
+                padding: 2rem;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+
+        @media (max-width: 576px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                margin: 0;
+                border-radius: 0;
+                box-shadow: none;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .tagline {
+                font-size: 1rem;
+            }
+            
+            .form-header h2 {
+                font-size: 1.5rem;
+            }
+            
+            .form-footer {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .file-input-wrapper {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a id="admin" href="/adminpage.html">Admin</a>
+    <div class="container">
+        <div class="image-side">
+            <div class="logo-container">
+                <div class="logo">Build<span> & </span>Beyond</div>
+            </div>
+            <div class="tagline">
+                <p>Manage your construction projects efficiently with our comprehensive solution</p>
+            </div>
+        </div>
+        
+        <div class="form-side">
+            <!-- Login Form -->
+            <form class="login-form" id="login-form">
+                <div class="form-header">
+                    <h2>Welcome Back</h2>
+                    <p>Enter your credentials to access your account</p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" class="form-control" placeholder="your@email.com" required>
+                    <div class="validation-error" id="email-error"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="form-control" placeholder="Enter your password" required>
+                    <div class="validation-error" id="password-error"></div>
+                </div>
+                
+                <div class="form-footer">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="remember">
+                        <label for="remember">Remember me</label>
+                    </div>
+                    <a href="#" class="forgot-link">Forgot Password?</a>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Sign In</button>
+                
+                <div class="toggle-form">
+                    Don't have an account? <a href="#" id="show-register">Register</a>
+                </div>
+            </form>
+            
+            <!-- Main Registration Form -->
+            <form class="register-form" id="register-form">
+                <div class="form-header">
+                    <h2>Register</h2>
+                    <p>Create an account to start using Build&Beyond</p>
+                </div>
+                
+                <!-- User Type Selection -->
+                <div class="form-group user-type-selection">
+                    <label for="user-type">User Type</label>
+                    <select id="user-type" class="form-control" required>
+                        <option value="">Select User Type</option>
+                        <option value="customer">Customer</option>
+                        <option value="company">Company</option>
+                        <option value="worker">Professional</option>
+                    </select>
+                    <div class="validation-error" id="user-type-error"></div>
+                </div>
+                
+                <!-- Customer specific fields -->
+                <div id="customer-fields" class="customer-fields">
+                    <div class="form-group">
+                        <label for="customer-name">Name</label>
+                        <input type="text" id="customer-name" class="form-control" placeholder="Your Full Name">
+                        <div class="validation-error" id="customer-name-error"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customer-email">Email</label>
+                        <input type="email" id="customer-email" class="form-control" placeholder="your@email.com">
+                        <div class="validation-error" id="customer-email-error"></div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="customer-dob">Date of Birth</label>
+                                <input type="date" id="customer-dob" class="form-control">
+                                <div class="validation-error" id="customer-dob-error"></div>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="customer-phone">Phone Number</label>
+                                <input type="tel" id="customer-phone" class="form-control" placeholder="Your Phone Number">
+                                <div class="validation-error" id="customer-phone-error"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Company specific fields -->
+                <div id="company-fields" class="company-fields">
+                    <div class="form-group">
+                        <label for="company-name">Company Name</label>
+                        <input type="text" id="company-name" class="form-control" placeholder="Your Company Name">
+                        <div class="validation-error" id="company-name-error"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contact-person">Contact Person</label>
+                        <input type="text" id="contact-person" class="form-control" placeholder="Contact Person Name">
+                        <div class="validation-error" id="contact-person-error"></div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="company-email">Email</label>
+                                <input type="email" id="company-email" class="form-control" placeholder="company@email.com">
+                                <div class="validation-error" id="company-email-error"></div>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="company-phone">Phone Number</label>
+                                <input type="tel" id="company-phone" class="form-control" placeholder="Company Phone Number">
+                                <div class="validation-error" id="company-phone-error"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Company License Upload -->
+                    <div class="form-group file-upload-container">
+                        <label for="company-documents">Company License Upload</label>
+                        <div class="file-input-wrapper">
+                            <button type="button" class="file-upload-btn">Choose Files</button>
+                            <span class="file-name" id="company-file-name-display">No files selected</span>
+                            <input type="file" id="company-documents" multiple>
+                        </div>
+                        <div class="validation-error" id="company-documents-error"></div>
+                    </div>
+                </div>
+                
+                <!-- Worker specific fields -->
+                <div id="worker-fields" class="worker-fields">
+                    <div class="form-group">
+                        <label for="worker-name">Name</label>
+                        <input type="text" id="worker-name" class="form-control" placeholder="Your Full Name">
+                        <div class="validation-error" id="worker-name-error"></div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="worker-dob">Date of Birth</label>
+                                <input type="date" id="worker-dob" class="form-control">
+                                <div class="validation-error" id="worker-dob-error"></div>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="worker-email">Email</label>
+                                <input type="email" id="worker-email" class="form-control" placeholder="your@email.com">
+                                <div class="validation-error" id="worker-email-error"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="aadhar-number">Aadhar Number</label>
+                                <input type="text" id="aadhar-number" class="form-control" placeholder="12-digit Aadhar Number" maxlength="12">
+                                <div class="validation-error" id="aadhar-number-error"></div>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="worker-phone">Phone Number</label>
+                                <input type="tel" id="worker-phone" class="form-control" placeholder="Your Phone Number">
+                                <div class="validation-error" id="worker-phone-error"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="specialization">Specialization</label>
+                                <select id="specialization" class="form-control">
+                                    <option value="">Select Specialization</option>
+                                    <option value="architect">Architect</option>
+                                    <option value="interiordesign">Interior Design</option>
+                                </select>
+                                <div class="validation-error" id="specialization-error"></div>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="experience">Experience (Years)</label>
+                                <input type="number" id="experience" class="form-control" placeholder="Years of Experience" min="0">
+                                <div class="validation-error" id="experience-error"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Certificate/License Upload -->
+                    <div class="form-group file-upload-container">
+                        <label for="worker-documents">Certificates/Licenses Upload</label>
+                        <div class="file-input-wrapper">
+                            <button type="button" class="file-upload-btn">Choose Files</button>
+                            <span class="file-name" id="worker-file-name-display">No files selected</span>
+                            <input type="file" id="worker-documents" multiple>
+                        </div>
+                        <div class="validation-error" id="worker-documents-error"></div>
+                    </div>
+                </div>
+                
+                <!-- Common Password Fields for all registration types -->
+                <div id="common-password-fields" class="common-password-fields">
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="reg-password">Password</label>
+                                <input type="password" id="reg-password" class="form-control" placeholder="Create a password">
+                                <div class="validation-error" id="reg-password-error"></div>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="confirm-password">Confirm Password</label>
+                                <input type="password" id="confirm-password" class="form-control" placeholder="Confirm your password">
+                                <div class="validation-error" id="confirm-password-error"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="terms">
+                        <label for="terms">I agree to the <a href="#">Terms and Conditions</a></label>
+                        <div class="validation-error" id="terms-error"></div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Register</button>
+                
+                <div class="toggle-form">
+                    Already have an account? <a href="#" id="show-login">Sign In</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const showRegisterLink = document.getElementById('show-register');
+        const showLoginLink = document.getElementById('show-login');
+        const userTypeSelect = document.getElementById('user-type');
+        const customerFields = document.getElementById('customer-fields');
+        const companyFields = document.getElementById('company-fields');
+        const workerFields = document.getElementById('worker-fields');
+        const commonPasswordFields = document.getElementById('common-password-fields');
+        const fileUploadButtons = document.querySelectorAll('.file-upload-btn');
+
+        // Toggle between login and registration forms
+        showRegisterLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'block';
+        });
+
+        showLoginLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            registerForm.style.display = 'none';
+            loginForm.style.display = 'block';
+        });
+
+        // Show specific fields based on user type selection
+        userTypeSelect.addEventListener('change', function() {
+            const userType = this.value;
+            
+            // Hide all specific fields first
+            customerFields.style.display = 'none';
+            companyFields.style.display = 'none';
+            workerFields.style.display = 'none';
+            commonPasswordFields.style.display = 'none';
+            
+            // Show fields based on selected user type
+            if (userType === 'customer') {
+                customerFields.style.display = 'block';
+                commonPasswordFields.style.display = 'block';
+            } else if (userType === 'company') {
+                companyFields.style.display = 'block';
+                commonPasswordFields.style.display = 'block';
+            } else if (userType === 'worker') {
+                workerFields.style.display = 'block';
+                commonPasswordFields.style.display = 'block';
+            }
+        });
+
+        // Connect file upload buttons to hidden file inputs
+        fileUploadButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Find the closest file input
+                const fileInput = this.closest('.file-input-wrapper').querySelector('input[type="file"]');
+                if (fileInput) {
+                    fileInput.click();
+                }
+            });
+        });
+
+        // Form Validation Functions
+        function validateEmail(email) {
+            const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
+        }
+
+        function displayError(inputId, message) {
+            const errorElement = document.getElementById(`${inputId}-error`);
+            if (errorElement) {
+                errorElement.textContent = message;
+                const inputElement = document.getElementById(inputId);
+                if (inputElement) {
+                    inputElement.classList.add('error');
+                }
+            }
+        }
+
+        function clearError(inputId) {
+            const errorElement = document.getElementById(`${inputId}-error`);
+            if (errorElement) {
+                errorElement.textContent = '';
+                const inputElement = document.getElementById(inputId);
+                if (inputElement) {
+                    inputElement.classList.remove('error');
+                }
+            }
+        }
+
+        // Login Form Validation
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            let isValid = true;
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Validate email
+            if (!validateEmail(email)) {
+                displayError('email', 'Please enter a valid email address');
+                isValid = false;
+            } else {
+                clearError('email');
+            }
+            
+            // Validate password
+            if (password.length < 6) {
+                displayError('password', 'Password must be at least 6 characters');
+                isValid = false;
+            } else {
+                clearError('password');
+            }
+            
+            if (isValid) {
+                // Form is valid, submit or redirect
+                alert('Login successful! Redirecting...');
+                // In a real app, you would submit the form or use AJAX here
+            }
+        });
+
+        // Registration Form Validation
+        registerForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            let isValid = true;
+            
+            const userType = userTypeSelect.value;
+            
+            // Validate user type selection
+            if (!userType) {
+                displayError('user-type', 'Please select a user type');
+                isValid = false;
+            } else {
+                clearError('user-type');
+            }
+            
+            // Validate selected user type fields
+            if (userType === 'customer') {
+                isValid = validateCustomerFields() && isValid;
+            } else if (userType === 'company') {
+                isValid = validateCompanyFields() && isValid;
+            } else if (userType === 'worker') {
+                isValid = validateWorkerFields() && isValid;
+            }
+            
+            // Validate common password fields if any user type is selected
+            if (userType) {
+                isValid = validatePasswordFields() && isValid;
+            }
+            
+            if (isValid) {
+                // Form is valid, submit or redirect
+                alert('Registration successful! Redirecting...');
+                // In a real app, you would submit the form or use AJAX here
+            }
+        });
+
+        function validateCustomerFields() {
+            let isValid = true;
+            
+            const name = document.getElementById('customer-name').value;
+            const email = document.getElementById('customer-email').value;
+            const dob = document.getElementById('customer-dob').value;
+            const phone = document.getElementById('customer-phone').value;
+            
+            // Validate name
+            if (name.trim() === '') {
+                displayError('customer-name', 'Name is required');
+                isValid = false;
+            } else {
+                clearError('customer-name');
+            }
+            
+            // Validate email
+            if (!validateEmail(email)) {
+                displayError('customer-email', 'Please enter a valid email address');
+                isValid = false;
+            } else {
+                clearError('customer-email');
+            }
+            
+            // Validate date of birth
+            if (!dob) {
+                displayError('customer-dob', 'Date of birth is required');
+                isValid = false;
+            } else {
+                const dobDate = new Date(dob);
+                const today = new Date();
+                const age = today.getFullYear() - dobDate.getFullYear();
+                
+                if (age < 18) {
+                    displayError('customer-dob', 'You must be at least 18 years old');
+                    isValid = false;
+                } else {
+                    clearError('customer-dob');
+                }
+            }
+            
+            // Validate phone
+            if (phone.trim() === '') {
+                displayError('customer-phone', 'Phone number is required');
+                isValid = false;
+            } else {
+                clearError('customer-phone');
+            }
+            
+            return isValid;
+        }
+
+        function validateCompanyFields() {
+            let isValid = true;
+            
+            const companyName = document.getElementById('company-name').value;
+            const contactPerson = document.getElementById('contact-person').value;
+            const email = document.getElementById('company-email').value;
+            const phone = document.getElementById('company-phone').value;
+            
+            // Validate company name
+            if (companyName.trim() === '') {
+                displayError('company-name', 'Company name is required');
+                isValid = false;
+            } else {
+                clearError('company-name');
+            }
+            
+            // Validate contact person
+            if (contactPerson.trim() === '') {
+                displayError('contact-person', 'Contact person is required');
+                isValid = false;
+            } else {
+                clearError('contact-person');
+            }
+            
+            // Validate email
+            if (!validateEmail(email)) {
+                displayError('company-email', 'Please enter a valid email address');
+                isValid = false;
+            } else {
+                clearError('company-email');
+            }
+            
+            // Validate phone
+            if (phone.trim() === '') {
+                displayError('company-phone', 'Phone number is required');
+                isValid = false;
+            } else {
+                clearError('company-phone');
+            }
+            
+            return isValid;
+        }
+
+        function validateWorkerFields() {
+            let isValid = true;
+            
+            const name = document.getElementById('worker-name').value;
+            const dob = document.getElementById('worker-dob').value;
+            const email = document.getElementById('worker-email').value;
+            const aadhar = document.getElementById('aadhar-number').value;
+            const specialization = document.getElementById('specialization').value;
+            const phone = document.getElementById('worker-phone').value;
+            const experience = document.getElementById('experience').value;
+            
+            // Validate name
+            if (name.trim() === '') {
+                displayError('worker-name', 'Name is required');
+                isValid = false;
+            } else {
+                clearError('worker-name');
+            }
+            
+            // Validate date of birth
+            if (!dob) {
+                displayError('worker-dob', 'Date of birth is required');
+                isValid = false;
+            } else {
+                const dobDate = new Date(dob);
+                const today = new Date();
+                const age = today.getFullYear() - dobDate.getFullYear();
+                
+                if (age < 18) {
+                    displayError('worker-dob', 'You must be at least 18 years old');
+                    isValid = false;
+                } else {
+                    clearError('worker-dob');
+                }
+            }
+            
+            // Validate email
+            if (!validateEmail(email)) {
+                displayError('worker-email', 'Please enter a valid email address');
+                isValid = false;
+            } else {
+                clearError('worker-email');
+            }
+            
+            // Validate aadhar number
+            if (aadhar.trim() === '') {
+                displayError('aadhar-number', 'Aadhar number is required');
+                isValid = false;
+            } else if (!/^\d{12}$/.test(aadhar)) {
+                displayError('aadhar-number', 'Please enter a valid 12-digit Aadhar number');
+                isValid = false;
+            } else {
+                clearError('aadhar-number');
+            }
+            
+            // Validate specialization
+            if (!specialization) {
+                displayError('specialization', 'Please select a specialization');
+                isValid = false;
+            } else {
+                clearError('specialization');
+            }
+            
+            // Validate phone
+            if (phone.trim() === '') {
+                displayError('worker-phone', 'Phone number is required');
+                isValid = false;
+            } else {
+                clearError('worker-phone');
+            }
+            
+            // Validate experience (optional field)
+            if (experience && (isNaN(experience) || parseInt(experience) < 0)) {
+                displayError('experience', 'Please enter a valid experience in years');
+                isValid = false;
+            } else {
+                clearError('experience');
+            }
+            
+            return isValid;
+        }
+
+        function validatePasswordFields() {
+            let isValid = true;
+            
+            const password = document.getElementById('reg-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const terms = document.getElementById('terms').checked;
+            
+            // Validate password
+            if (password.length < 6) {
+                displayError('reg-password', 'Password must be at least 6 characters');
+                isValid = false;
+            } else if (!/[A-Z]/.test(password) || !/[0-9]/.test(password)) {
+                displayError('reg-password', 'Password must contain at least one uppercase letter and one number');
+                isValid = false;
+            } else {
+                clearError('reg-password');
+            }
+            
+            // Validate confirm password
+            if (password !== confirmPassword) {
+                displayError('confirm-password', 'Passwords do not match');
+                isValid = false;
+            } else {
+                clearError('confirm-password');
+            }
+            
+            // Validate terms checkbox
+            if (!terms) {
+                displayError('terms', 'You must agree to the terms and conditions');
+                isValid = false;
+            } else {
+                clearError('terms');
+            }
+            
+            return isValid;
+        }
+
+        // Handle file selection display
+        document.getElementById('company-documents').addEventListener('change', function(e) {
+            const fileCount = e.target.files.length;
+            document.getElementById('company-file-name-display').textContent = 
+                fileCount > 0 ? `${fileCount} file(s) selected` : 'No files selected';
+        });
+
+        document.getElementById('worker-documents').addEventListener('change', function(e) {
+            const fileCount = e.target.files.length;
+            document.getElementById('worker-file-name-display').textContent = 
+                fileCount > 0 ? `${fileCount} file(s) selected` : 'No files selected';
+        });
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Reset all forms
+            loginForm.reset();
+            registerForm.reset();
+            
+            // Show login form by default
+            loginForm.style.display = 'block';
+            registerForm.style.display = 'none';
+        });
+        // Function to handle login form submission
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        fetch('http://localhost:4000/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password }),
+            credentials: 'include' // Include cookies in the request
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.redirect) {
+            window.location.href = data.redirect; // Redirects to the correct user page
+            } else {
+            alert(data.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+        });
+
+        document.getElementById('register-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Get user type
+        const userType = document.getElementById('user-type').value;
+        if (!userType) {
+            alert("Please select a user type.");
+            return;
+        }
+
+        // Common fields for all user types
+        const password = document.getElementById('reg-password').value;
+        const confirmPassword = document.getElementById('confirm-password').value;
+        const termsAccepted = document.getElementById('terms').checked;
+
+        // Validate common fields
+        if (!password || !confirmPassword) {
+            alert("Please fill in all password fields.");
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            alert("Passwords do not match.");
+            return;
+        }
+
+        if (!termsAccepted) {
+            alert("You must accept the terms and conditions.");
+            return;
+        }
+
+        // Create base data object with common fields
+        const formData = {
+            role: userType,
+            password: password,
+            termsAccepted: termsAccepted
+        };
+
+        // Add fields based on user type
+        if (userType === 'customer') {
+            formData.name = document.getElementById('customer-name').value;
+            formData.email = document.getElementById('customer-email').value;
+            formData.dob = document.getElementById('customer-dob').value;
+            formData.phone = document.getElementById('customer-phone').value;
+        } 
+        else if (userType === 'company') {
+            formData.companyName = document.getElementById('company-name').value;
+            formData.contactPerson = document.getElementById('contact-person').value;
+            formData.email = document.getElementById('company-email').value;
+            formData.phone = document.getElementById('company-phone').value;
+            
+            // Handle file upload for company
+            const companyFiles = document.getElementById('company-documents').files;
+            if (companyFiles.length > 0) {
+                formData.companyDocuments = Array.from(companyFiles).map(file => file.name);
+                // Note: For actual file upload, you'll need FormData instead of JSON
+            }
+        } 
+        else if (userType === 'worker') {
+            formData.name = document.getElementById('worker-name').value;
+            formData.dob = document.getElementById('worker-dob').value;
+            formData.email = document.getElementById('worker-email').value;
+            formData.aadharNumber = document.getElementById('aadhar-number').value;
+            formData.phone = document.getElementById('worker-phone').value;
+            formData.specialization = document.getElementById('specialization').value;
+            formData.experience = document.getElementById('experience').value;
+            
+            // Handle file upload for worker
+            const workerFiles = document.getElementById('worker-documents').files;
+            if (workerFiles.length > 0) {
+                formData.workerDocuments = Array.from(workerFiles).map(file => file.name);
+                // Note: For actual file upload, you'll need FormData instead of JSON
+            }
+        }
+
+        // Validate required fields for the specific user type
+        let isValid = true;
+        if (userType === 'customer') {
+            if (!formData.name || !formData.email) {
+                isValid = false;
+            }
+        } else if (userType === 'company') {
+            if (!formData.companyName || !formData.contactPerson || !formData.email) {
+                isValid = false;
+            }
+        } else if (userType === 'worker') {
+            if (!formData.name || !formData.email || !formData.aadharNumber) {
+                isValid = false;
+            }
+        }
+
+        if (!isValid) {
+            alert("Please fill in all required fields.");
+            return;
+        }
+        
+        fetch('http://localhost:4000/signup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message === "Signup successful") {
+                alert('Signup successful! Please login.');
+                document.getElementById('show-login').click();
+            } else {
+                alert(data.message || 'Signup failed. Please try again.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred during signup. Please try again.');
+        });
+    });
+    </script>
+</body>
+</html>

@@ -6,7 +6,10 @@
     <title>Settings</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
     <style>
         /* General Styles */
         :root {
@@ -29,66 +32,6 @@
             color: var(--dark-color);
             line-height: 1.6;
         }
-        .navbar {
-            position: sticky;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 60px;
-            background-color: #121639;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-        }
-
-        .navbar-left {
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-
-        .navbar-middle {
-            display: flex;
-            gap: 20px;
-        }
-
-        .navbar-middle a {
-            color: white;
-            text-decoration: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        .navbar-middle a:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .navbar-right {
-            display: flex;
-            align-items: center;
-        }
-
-        .profile-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #6c5ce7;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .profile-icon svg {
-            width: 24px;
-            height: 24px;
-            fill: white;
-        }
-        
         .settings-container {
             max-width: 1200px;
             margin: 2rem auto;
@@ -213,7 +156,6 @@
         .btn-danger:hover {
             background-color: #c0392b;
         }
-
 
         /* New Edit profile styling */
         .right-content {
@@ -356,24 +298,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="navbar-left">
-            Build & Beyond
-        </div>
-        <div class="navbar-middle">
-            <a href="/workerdashboard.html">Dashboard</a>
-            <a href="/workerjobs.html">New Jobs</a>
-            <a href="/workerjoin_company.html">Join a Company</a>
-        </div>
-        <div class="navbar-right">
-            <div class="profile-icon">
-                <a href="settings.html">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z" fill="white"/>
-                </svg></a>
-            </div>
-        </div>
-    </nav>
+    <%- include('worker_navbar') %>
     <div class="settings-container">
         <div class="settings-header">
             <h1>Account Settings</h1>
@@ -394,45 +319,58 @@
                     <div class="container">
                     <div class="right-content">
                         <div class="architect-header">
-                            <img src="<%= user.profileImage || 'https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg' %>" alt="<%= user.name %>" class="architect-image-large">
+                            <img src="https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg" alt="Krishna" class="architect-image-large">
                             <div>
-                                <h2><%= user.name %></h2>
-                                <p><strong><%= user.title %></strong> with <%= user.experience %> years experience</p>
-                                <div class="rating">
-                                    <% for(let i = 0; i < 5; i++) { %>
-                                        <% if(i < Math.floor(user.rating)) { %>
-                                            ★
-                                        <% } else { %>
-                                            ☆
-                                        <% } %>
-                                    <% } %>
-                                    <span>(<%= user.rating.toFixed(1) %>)</span>
-                                </div>
+                                <h2>Krishna</h2>
+                                <p><strong>Principal Architect</strong> with 15 years experience</p>
+                                <div class="rating">★★★★★<span>(4.7)</span></div>
                             </div>
                         </div>
                         
                         <div class="bio">
                             <h3>About</h3>
-                            <p><%= user.bio %></p>
-                            <p><strong>Specialties:</strong> <%= user.specialties.join(', ') %></p>
+                            <p>Krishna is an award-winning architect with expertise in sustainable design and urban development. He has worked on numerous high-profile projects across the globe.</p>
+                            <p><strong>Specialties:</strong> Sustainable design, Urban planning, Residential architecture</p>
                         </div>
                         
                         <div class="projects">
                             <h3>Notable Projects</h3>
-                            <% user.projects.forEach(project => { %>
-                                <h4><%= project.name %> (<%= project.year %>)</h4>
-                                <p><strong>Location:</strong> <%= project.location %></p>
-                                <div class="project">
-                                    <img src="<%= project.image %>" alt="<%= project.name %>" class="project-image">
-                                    <p><%= project.description %></p>
-                                </div>
-                            <% }); %>
+                            <h4>Eco Urban Center (2022)</h4>
+                            <p><strong>Location:</strong> Guntur, Andhra Pradesh</p>
+                            <div class="project">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZkV3_0Ft7onHGmmLz-TZbphv7KircKuOMqw&s" alt="Eco Urban Center" class="project-image">
+                                <p>A LEED Platinum certified commercial complex featuring innovative green technologies and sustainable materials. The design incorporates solar panels, rainwater harvesting, and a vertical garden system that covers 60% of the facade.</p>
+                            </div>
+                            <h4>Riverside Residences (2020)</h4>
+                            <p><strong>Location:</strong> Tenkasi, Chennai</p>
+                            <div class="project">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZkV3_0Ft7onHGmmLz-TZbphv7KircKuOMqw&s" alt="Riverside Residences" class="project-image">
+                                <p>A luxury residential development that seamlessly integrates with its natural surroundings and maximizes river views. The project features 25 custom-designed homes with private docks, using locally-sourced materials and flood-resistant construction techniques.</p>
+                            </div>
                         </div>
                         <div class="action-buttons">
                             <a href="/worker_profile_edit" class="book-now-btn">Edit Profile</a>
                         </div>
                     </div>
                     </div>
+                </div>
+                <!-- Appearance -->
+                <div id="appearance" class="settings-section">
+                    <h2>Appearance Settings</h2>
+                    <form>
+                        <div class="form-group">
+                            <label>Theme</label>
+                            <div class="form-check">
+                                <input type="radio" name="theme" id="themeLight" checked>
+                                <label for="themeLight">Light Mode</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" name="theme" id="themeDark">
+                                <label for="themeDark">Dark Mode</label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn">Apply</button>
+                    </form>
                 </div>
                 <!-- Security -->
                 <div id="security" class="settings-section">
@@ -455,6 +393,53 @@
                     </form>
                 </div>
                 
+                <!-- Payments -->
+                <div id="payments" class="settings-section">
+                    <h2>Payment Settings</h2>
+                    <div>
+                        <h3 style="margin-bottom: 1rem; color: #555;">Invoices</h3>
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid var(--border-color);">
+                                    <th style="text-align: left; padding: 0.75rem;">Invoice #</th>
+                                    <th style="text-align: left; padding: 0.75rem;">Date</th>
+                                    <th style="text-align: left; padding: 0.75rem;">Amount</th>
+                                    <th style="text-align: left; padding: 0.75rem;">Status</th>
+                                    <th style="text-align: left; padding: 0.75rem;"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 0.75rem;">INV-2025-001</td>
+                                    <td style="padding: 0.75rem;">Mar 05, 2025</td>
+                                    <td style="padding: 0.75rem;">₹10,250.00</td>
+                                    <td style="padding: 0.75rem; color: var(--success-color);">Paid</td>
+                                    <td style="padding: 0.75rem;">
+                                        <a href="payment_document.pdf" style="color: var(--primary-color);">Download</a>
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 0.75rem;">INV-2025-002</td>
+                                    <td style="padding: 0.75rem;">Feb 20, 2025</td>
+                                    <td style="padding: 0.75rem;">₹25,500.00</td>
+                                    <td style="padding: 0.75rem; color: var(--success-color);">Paid</td>
+                                    <td style="padding: 0.75rem;">
+                                        <a href="payment_document.pdf" style="color: var(--primary-color);">Download</a>
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 0.75rem;">INV-2025-003</td>
+                                    <td style="padding: 0.75rem;">Feb 05, 2025</td>
+                                    <td style="padding: 0.75rem;">₹1,00,800.00</td>
+                                    <td style="padding: 0.75rem; color: var(--success-color);">Paid</td>
+                                    <td style="padding: 0.75rem;">
+                                        <a href="payment_document.pdf" style="color: var(--primary-color);">Download</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
                 <!-- Help Center -->
                 <div id="help-center" class="settings-section">
                 <h2>Help Center</h2>
@@ -489,7 +474,7 @@
                     <h2>Logout</h2>
                     <div style="margin-bottom: 2rem;">
                         <p style="margin-bottom: 1.5rem;">Are you sure you want to log out of your account?</p>
-                        <button class="btn btn-danger">Logout</button>
+                        <a href = "/logout"><button class="btn btn-danger">Logout</button></a>
                     </div>
                 </div>
             </div>

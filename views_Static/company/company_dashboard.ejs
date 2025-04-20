@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build & Beyond - Construction Management System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+        :root {
+            --primary-green: #4D7A70;
+            --secondary-green: #6A9E8E;
+            --light-green: #A3C5BB;
+            --dark-grey: #363636;
+            --medium-grey: #5A5A5A;
+            --light-grey: #E0E0E0;
+            --white: #FFFFFF;
+            --black: #000000;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--white);
+            color: var(--black);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* .top-nav {
+            background-color: var(--black);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 2rem;
+            color: var(--white);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        } */
+
+        .logo {
+            color: var(--white);
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo span {
+            color: var(--light-green);
+        }
+
+        .main-menu ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 1.5rem;
+        }
+
+        .main-menu a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .main-menu a:hover {
+            color: var(--light-green);
+        }
+
+        .main-menu li.active a {
+            color: var(--light-green);
+        }
+
+        .user-controls {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .user-profile img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .main-container {
+            flex: 1;
+            padding: 2rem;
+            background-color: var(--light-grey);
+        }
+
+        .page-title {
+            margin-bottom: 1.5rem;
+            color: var(--primary-green);
+            font-size: 1.8rem;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .stat-card h3 {
+            font-size: 1rem;
+            color: var(--medium-grey);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-green);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            margin-top: 2rem;
+        }
+
+        .section-title {
+            color: var(--medium-grey);
+            font-size: 1.2rem;
+        }
+
+        .view-all {
+            color: var(--primary-green);
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .bid-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--secondary-green);
+        }
+
+        .bid-card h3 {
+            margin-bottom: 0.8rem;
+            color: var(--dark-grey);
+        }
+
+        .bid-info {
+            margin-bottom: 1rem;
+        }
+
+        .bid-info p {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .bid-info span:first-child {
+            color: var(--medium-grey);
+        }
+
+        .bid-info span:last-child {
+            font-weight: 500;
+        }
+
+        .bid-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-green);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-green);
+        }
+
+        .btn-secondary {
+            background-color: var(--light-grey);
+            color: var(--medium-grey);
+        }
+
+        .btn-secondary:hover {
+            background-color: #D0D0D0;
+        }
+
+        .timeline-container {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-top: 2rem;
+        }
+
+        .timeline-project {
+            display: flex;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--light-grey);
+        }
+
+        .timeline-project:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .project-info {
+            flex: 1;
+        }
+
+        .project-info h3 {
+            margin-bottom: 0.5rem;
+            color: var(--dark-grey);
+        }
+
+        .project-details {
+            display: flex;
+            margin-bottom: 1rem;
+            gap: 2rem;
+        }
+
+        .project-details p {
+            font-size: 0.9rem;
+            color: var(--medium-grey);
+        }
+
+        .project-details span {
+            font-weight: 500;
+            color: var(--dark-grey);
+        }
+
+        .progress-container {
+            background-color: var(--light-grey);
+            height: 8px;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-bar {
+            height: 100%;
+            border-radius: 4px;
+            background-color: var(--secondary-green);
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--medium-grey);
+        }
+
+        .project-status {
+            align-self: flex-start;
+            background-color: #E5F4EF;
+            color: var(--primary-green);
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-delayed {
+            background-color: #FFF3E0;
+            color: #FF9800;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <%- include('navbar_company') %>
+    <div class="main-container">
+        <h1 class="page-title">Dashboard</h1>
+        
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <h3>Active Projects</h3>
+                <div class="stat-value">12</div>
+            </div>
+            <div class="stat-card">
+                <h3>Total Projects Completed</h3>
+                <div class="stat-value">8</div>
+            </div>
+            <div class="stat-card">
+                <h3>This Month Revenue</h3>
+                <div class="stat-value">₹348,500</div>
+            </div>
+        </div>
+         
+        <div class="section-header">
+            <h2 class="section-title">New Bids</h2>
+            <div class="view-all">View All</div>
+        </div>
+        
+        <div class="cards-container">
+            <div class="bid-card">
+                <h3>Office Building Renovation</h3>
+                <div class="bid-info">
+                    <p>
+                        <span>Client:</span>
+                        <span>TechCorp Inc.</span>
+                    </p>
+                    <p>
+                        <span>Location:</span>
+                        <span>Downtown, Metro City</span>
+                    </p>
+                    <p>
+                        <span>Budget:</span>
+                        <span>₹450,000 - ₹550,000</span>
+                    </p>
+                    <p>
+                        <span>Timeline:</span>
+                        <span>4-6 months</span>
+                    </p>
+                    <p>
+                        <span>Due Date:</span>
+                        <span>Mar 20, 2025</span>
+                    </p>
+                </div>
+                <div class="bid-actions">
+                    <button class="btn btn-primary">Review Details</button>
+                    <button class="btn btn-secondary">Decline</button>
+                </div>
+            </div>
+            
+            <div class="bid-card">
+                <h3>Residential Complex</h3>
+                <div class="bid-info">
+                    <p>
+                        <span>Client:</span>
+                        <span>Metro Housing Corp.</span>
+                    </p>
+                    <p>
+                        <span>Location:</span>
+                        <span>East Suburb, Metro City</span>
+                    </p>
+                    <p>
+                        <span>Budget:</span>
+                        <span>₹1.2M - ₹1.5M</span>
+                    </p>
+                    <p>
+                        <span>Timeline:</span>
+                        <span>10-12 months</span>
+                    </p>
+                    <p>
+                        <span>Due Date:</span>
+                        <span>Mar 25, 2025</span>
+                    </p>
+                </div>
+                <div class="bid-actions">
+                    <button class="btn btn-primary">Review Details</button>
+                    <button class="btn btn-secondary">Decline</button>
+                </div>
+            </div>
+        </div>
+ 
+        <div class="section-header">
+            <h2 class="section-title">New Projects</h2>
+            <div class="view-all">View All</div>
+        </div>
+        
+        <div class="cards-container">
+            <div class="bid-card">
+                <h3>Industrial Warehouse Construction</h3>
+                <div class="bid-info">
+                    <p>
+                        <span>Client:</span>
+                        <span>Logistics Solutions Ltd.</span>
+                    </p>
+                    <p>
+                        <span>Location:</span>
+                        <span>Industrial Zone, Metro City</span>
+                    </p>
+                    <p>
+                        <span>Budget:</span>
+                        <span>₹2.5M - ₹3M</span>
+                    </p>
+                    <p>
+                        <span>Timeline:</span>
+                        <span>12-15 months</span>
+                    </p>
+                    <p>
+                        <span>Due Date:</span>
+                        <span>Apr 10, 2025</span>
+                    </p>
+                </div>
+                <div class="bid-actions">
+                    <button class="btn btn-primary">Review Details</button>
+                    <button class="btn btn-secondary">Decline</button>
+                </div>
+            </div>
+            
+            <div class="bid-card">
+                <h3>Hospital Expansion</h3>
+                <div class="bid-info">
+                    <p>
+                        <span>Client:</span>
+                        <span>HealthCare Group</span>
+                    </p>
+                    <p>
+                        <span>Location:</span>
+                        <span>West Suburb, Metro City</span>
+                    </p>
+                    <p>
+                        <span>Budget:</span>
+                        <span>₹3.5M - ₹4M</span>
+                    </p>
+                    <p>
+                        <span>Timeline:</span>
+                        <span>18-24 months</span>
+                    </p>
+                    <p>
+                        <span>Due Date:</span>
+                        <span>May 15, 2025</span>
+                    </p>
+                </div>
+                <div class="bid-actions">
+                    <button class="btn btn-primary">Review Details</button>
+                    <button class="btn btn-secondary">Decline</button>
+                </div>
+            </div>
+        </div>
+ 
+        <div class="section-header" style="margin-top: 2rem;">
+            <h2 class="section-title">Project Timeline</h2>
+            <div class="view-all">View All Projects</div>
+        </div>
+        
+        <div class="timeline-container">
+            <div class="timeline-project">
+                <div class="project-info">
+                    <h3>Green Valley Shopping Center</h3>
+                    <div class="project-details">
+                        <p>Client: <span>Retail Investments Ltd.</span></p>
+                        <p>Start: <span>Nov 05, 2024</span></p>
+                        <p>End: <span>Jun 30, 2025</span></p>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 45%;"></div>
+                    </div>
+                    <div class="progress-info">
+                        <span>Progress: 45%</span>
+                        <span>138 days remaining</span>
+                    </div>
+                </div>
+                <div class="project-status">On Track</div>
+            </div>
+            
+            <div class="timeline-project">
+                <div class="project-info">
+                    <h3>Riverside Apartments</h3>
+                    <div class="project-details">
+                        <p>Client: <span>City Development Group</span></p>
+                        <p>Start: <span>Jan 15, 2025</span></p>
+                        <p>End: <span>Sep 30, 2025</span></p>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 20%;"></div>
+                    </div>
+                    <div class="progress-info">
+                        <span>Progress: 20%</span>
+                        <span>203 days remaining</span>
+                    </div>
+                </div>
+                <div class="project-status status-delayed">Delayed</div>
+            </div>
+            
+            <div class="timeline-project">
+                <div class="project-info">
+                    <h3>Corporate HQ Renovation</h3>
+                    <div class="project-details">
+                        <p>Client: <span>Finance Solutions Inc.</span></p>
+                        <p>Start: <span>Feb 10, 2025</span></p>
+                        <p>End: <span>Apr 15, 2025</span></p>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 65%;"></div>
+                    </div>
+                    <div class="progress-info">
+                        <span>Progress: 65%</span>
+                        <span>35 days remaining</span>
+                    </div>
+                </div>
+                <div class="project-status">On Track</div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const userProfile = document.querySelector('.user-profile');
+
+        });
+    </script>
+</body>
+</html>

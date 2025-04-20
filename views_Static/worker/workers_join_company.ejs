@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Architect Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: #121639;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .navbar-left {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .navbar-middle {
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar-middle a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .navbar-middle a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #6c5ce7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .profile-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.nav-tabs {
+  display: flex;
+  list-style: none;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 30px;
+}
+
+.nav-item {
+  position: relative;
+  margin-right: 30px;
+}
+
+.nav-link {
+  display: block;
+  padding: 15px 0;
+  text-decoration: none;
+  color: #666;
+  font-weight: 500;
+  font-size: 16px;
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+.nav-link:hover {
+  color: #2c3e50;
+}
+
+.nav-link.active {
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #2e7d32;
+}
+
+.tab-content {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  min-height: 400px;
+}
+
+.tab-pane {
+  display: none;
+}
+
+.tab-pane.active {
+  display: block;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+h1 {
+  margin-bottom: 30px;
+  color: #2c3e50;
+}
+
+.search-bar {
+  margin-bottom: 20px;
+  width: 100%;
+  display: flex;
+}
+
+.search-input {
+  flex: 1;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px 0 0 4px;
+  font-size: 16px;
+}
+
+.search-button {
+  padding: 12px 20px;
+  background-color: #2e7d32;
+  color: white;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.search-button:hover {
+  background-color: #1b5e20;
+}
+
+.card {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  border-left: 3px solid #2e7d32;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.card h3 {
+  margin-bottom: 10px;
+  color: #2c3e50;
+}
+
+.card p {
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.card-footer {
+  margin-top: 15px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  margin-left: 10px;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background-color: #2e7d32;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #1b5e20;
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  background-color: transparent;
+  border: 1px solid #2e7d32;
+  color: #2e7d32;
+}
+
+.btn-outline:hover {
+  background-color: #f0f0f0;
+  transform: translateY(-2px);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #2e7d32;
+}
+
+.form-select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: white;
+}
+
+.form-textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  min-height: 100px;
+  resize: vertical;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+.badge-green {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.badge-blue {
+  background-color: #e3f2fd;
+  color: #1565c0;
+}
+
+.badge-orange {
+  background-color: #fff3e0;
+  color: #e65100;
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.profile-stats {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.stat-box {
+  background-color: #f5f5f5;
+  padding: 15px;
+  border-radius: 4px;
+  text-align: center;
+  flex: 1;
+}
+
+.stat-number {
+  font-size: 24px;
+  font-weight: 600;
+  color: #2e7d32;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #666;
+}
+
+.past-offers {
+  margin-top: 40px;
+}
+
+.filter-options {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filter-chip {
+  padding: 5px 15px;
+  background-color: #f0f0f0;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-chip:hover {
+  background-color: #e0e0e0;
+}
+
+.filter-chip.active {
+  background-color: #2e7d32;
+  color: white;
+}
+
+.notification-badge {
+  display: inline-block;
+  background-color: #e53935;
+  color: white;
+  font-size: 12px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 18px;
+  margin-left: 5px;
+}
+
+.timeline {
+  margin-top: 30px;
+  position: relative;
+  padding-left: 30px;
+}
+
+.timeline:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 2px;
+  background-color: #e0e0e0;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.timeline-item:before {
+  content: '';
+  position: absolute;
+  left: -36px;
+  top: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #2e7d32;
+  border: 3px solid #fff;
+}
+
+.timeline-date {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 5px;
+}
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .profile-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+        
+        .profile-info h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .profile-title {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 5px;
+        }
+        
+        .rating {
+            color: #ffc107;
+            margin-bottom: 5px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .about-content p {
+            margin-bottom: 10px;
+        }
+        
+        .specialties {
+            margin-top: 10px;
+        }
+        
+        .specialties span {
+            color: #666;
+        }
+        
+        .project-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .project-image {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            object-fit: cover;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .project-details {
+            padding: 15px;
+        }
+        
+        .project-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .project-title h3 {
+            font-size: 18px;
+        }
+        
+        .project-title span {
+            font-size: 14px;
+            color: #777;
+        }
+        
+        .project-location {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .project-description {
+            font-size: 14px;
+            color: #555;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 800px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            color: #aaa;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-modal:hover {
+            color: #333;
+        }
+
+        .modal-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal-header h2 {
+            color: #2c3e50;
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .company-details {
+            display: flex;
+            margin-bottom: 30px;
+        }
+
+        .company-logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-right: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .company-info {
+            flex: 1;
+        }
+
+        .detail-row {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            width: 150px;
+            color: #555;
+        }
+
+        .detail-value {
+            flex: 1;
+        }
+
+        .company-projects {
+            margin-top: 30px;
+        }
+
+        .project-highlight {
+            display: flex;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .project-highlight:last-child {
+            border-bottom: none;
+        }
+
+        .project-highlight-image {
+            width: 200px;
+            height: 120px;
+            border-radius: 4px;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+
+        .project-highlight-details {
+            flex: 1;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .btn-large {
+            padding: 12px 25px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-left">
+            Build & Beyond
+        </div>
+        <div class="navbar-middle">
+            <a href="/workerdashboard.html">Dashboard</a>
+            <a href="/workerjobs.html">New Jobs</a>
+            <a href="/workerjoin_company.html">Join a Company</a>
+        </div>
+        <div class="navbar-right">
+            <div class="profile-icon">
+                <a href="/workersettings.html">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z" fill="white"/>
+                </svg></a>
+            </div>
+        </div>
+    </nav>
+  <div class="container">
+    <h1>Join a company</h1>
+    
+    <div class="profile-header">
+      <div>
+        <h2>Welcome, <%= user.name %></h2>
+        <p><%= user.title %></p>
+      </div>
+      <button class="btn btn-outline">Edit Profile</button>
+    </div>
+    <div class="profile-header">
+        <img src="<%= user.profileImage %>" alt="<%= user.name %>" class="profile-image">
+        <div class="profile-info">
+            <h1><%= user.name %></h1>
+            <div class="profile-title"><%= user.title %> with <%= user.experience %> years experience</div>
+            <div class="rating"><%= user.rating %></div>
+        </div>
+    </div>
+    
+    <div class="section about-section">
+        <h2 class="section-title">About</h2>
+        <div class="about-content">
+            <p><%= user.bio %></p>
+            <div class="specialties">
+                <strong>Specialties:</strong> <span><%= user.specialties.join(', ') %></span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section projects-section">
+        <h2 class="section-title">Notable Projects</h2>
+        
+        <% user.projects.forEach(project => { %>
+        <div class="project-card">
+            <div class="project-details">
+                <div class="project-title">
+                    <h3><%= project.name %></h3>
+                    <span>(<%= project.year %>)</span>
+                </div>
+                <div class="project-location">
+                    <strong>Location:</strong> <%= project.location %>
+                </div>
+            </div>
+            <img src="<%= project.image %>" alt="<%= project.name %>" class="project-image">
+            <div class="project-details">
+                <p class="project-description"><%= project.description %></p>
+            </div>
+        </div>
+        <% }); %>
+    </div>
+    
+    <div class="profile-stats">
+      <div class="stat-box">
+        <div class="stat-number"><%= typeof stats !== 'undefined' && stats && stats.applications ? stats.applications : 'Not provided' %></div>
+        <div class="stat-label">Applications</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number"><%= typeof stats !== 'undefined' && stats && stats.offers ? stats.offers : 'Not provided' %></div>
+        <div class="stat-label">Offers</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number"><%= typeof stats !== 'undefined' && stats && stats.experience ? stats.experience : 'Not provided' %></div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+    </div>
+    
+    <ul class="nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link active" data-tab="join-company">Join a Company</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-tab="accept-offers">Accept Offers</a>
+      </li>
+    </ul>
+    
+    <div class="tab-content">
+      <!-- Join a Company Tab -->
+      <div id="join-company" class="tab-pane active">
+        <div class="search-bar">
+          <input type="text" class="search-input" placeholder="Search for construction companies by name, projects, or location...">
+          <button class="search-button">Search</button>
+        </div>
+        
+        <% if (typeof companies !== 'undefined' && companies && companies.length > 0) { %>
+          <% companies.forEach(company => { %>
+          <div class="card">
+            <h3><%= company.name %></h3>
+            <p><strong>Location:</strong> <%= company.location || 'Not provided' %></p>
+            <p><strong>Company Size:</strong> <%= company.size || 'Not provided' %></p>
+            <p><strong>Project types:</strong> <%= company.projectTypes && company.projectTypes.length ? company.projectTypes.join(', ') : 'Not provided' %></p>
+            <p><strong>Looking for:</strong> <%= company.positions && company.positions.length ? company.positions.join(', ') : 'Not provided' %></p>
+            <div>
+              <% if (company.tags && company.tags.length > 0) { %>
+                <% company.tags.forEach(tag => { %>
+                  <span class="badge <%= tag.class || '' %>"><%= tag.name %></span>
+                <% }); %>
+              <% } else { %>
+                <span>No tags available</span>
+              <% } %>
+            </div>
+            <div class="card-footer">
+              <button class="btn btn-primary view-details" data-company="<%= company.id %>">View Details</button>
+              <button class="btn btn-primary">Apply Now</button>
+            </div>
+          </div>
+          <% }); %>
+        <% } else { %>
+          <div class="empty-state">
+            <p>No companies available at the moment. Please check back later or refine your search.</p>
+          </div>
+        <% } %>
+      </div>
+      
+      <!-- Accept Offers Tab -->
+      <div id="accept-offers" class="tab-pane">
+        <h2>Your Current Offers</h2>
+        <p>Companies that have invited you to join their team</p>
+        
+        <% if (typeof currentOffers !== 'undefined' && currentOffers && currentOffers.length > 0) { %>
+          <% currentOffers.forEach(offer => { %>
+          <div class="card">
+            <h3><%= offer.company || 'Company name not provided' %></h3>
+            <p><strong>Position:</strong> <%= offer.position || 'Not provided' %></p>
+            <p><strong>Location:</strong> <%= offer.location || 'Not provided' %></p>
+            <p><strong>Salary Range:</strong> <%= offer.salary || 'Not provided' %></p>
+            <p><strong>Offer Expires:</strong> <%= offer.expires || 'Not provided' %> 
+              <%= offer.daysRemaining ? `(${offer.daysRemaining} days remaining)` : '' %></p>
+            <div class="card-footer">
+              <button class="btn btn-outline">Decline</button>
+              <button class="btn btn-primary">Accept Offer</button>
+            </div>
+          </div>
+          <% }); %>
+        <% } else { %>
+          <div class="empty-state">
+            <p>You currently have no offers from companies. Apply to positions to receive offers.</p>
+          </div>
+        <% } %>
+        
+        <h2 class="past-offers">Past Offers</h2>
+        <div class="filter-options">
+          <div class="filter-chip active">All</div>
+          <div class="filter-chip">Expired</div>
+          <div class="filter-chip">Declined</div>
+        </div>
+        
+        <div class="timeline">
+          <% if (typeof pastOffers !== 'undefined' && pastOffers && pastOffers.length > 0) { %>
+            <% pastOffers.forEach(offer => { %>
+            <div class="timeline-item">
+              <div class="timeline-date"><%= offer.date || 'Date not provided' %></div>
+              <div class="card">
+                <h3><%= offer.company || 'Company name not provided' %></h3>
+                <p><strong>Position:</strong> <%= offer.position || 'Not provided' %></p>
+                <p><strong>Location:</strong> <%= offer.location || 'Not provided' %></p>
+                <p><strong>Status:</strong> <%= offer.status || 'Not provided' %></p>
+              </div>
+            </div>
+            <% }); %>
+          <% } else { %>
+            <div class="empty-state">
+              <p>No past offers to display.</p>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Company Details Modal -->
+  <div id="companyModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <div class="modal-header">
+        <h2 id="modalCompanyName"></h2>
+      </div>
+      <div class="modal-body">
+        <div class="company-details">
+          <img id="modalCompanyLogo" src="" alt="Company Logo" class="company-logo">
+          <div class="company-info">
+            <div class="detail-row">
+              <div class="detail-label">Location:</div>
+              <div class="detail-value" id="modalLocation"></div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Company Size:</div>
+              <div class="detail-value" id="modalSize"></div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Founded:</div>
+              <div class="detail-value" id="modalFounded"></div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Specializations:</div>
+              <div class="detail-value" id="modalSpecializations">
+              </div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Current Openings:</div>
+              <div class="detail-value" id="modalOpenings">
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="company-description">
+          <h3>About the Company</h3>
+          <p id="modalDescription"></p>
+        </div>
+        
+        <div class="company-projects">
+          <h3>Featured Projects</h3>
+          
+          <div class="project-highlight">
+            <img src="" alt="Project Image" class="project-highlight-image">
+            <div class="project-highlight-details">
+              <h4></h4>
+              <p><strong>Completed:</strong> <span class="project-year"></span></p>
+              <p><strong>Scope:</strong> <span class="project-scope"></span></p>
+              <p class="project-desc"></p>
+            </div>
+          </div>
+          
+          <div class="project-highlight">
+            <img src="" alt="Project Image" class="project-highlight-image">
+            <div class="project-highlight-details">
+              <h4></h4>
+              <p><strong>Completed:</strong> <span class="project-year"></span></p>
+              <p><strong>Scope:</strong> <span class="project-scope"></span></p>
+              <p class="project-desc"></p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="company-benefits">
+          <h3>Why Join Our Team?</h3>
+          <ul id="modalBenefits">
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary btn-large">Apply Now</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+      document.addEventListener('DOMContentLoaded', function() {
+            // Add hover effect to project cards
+            const projectCards = document.querySelectorAll('.project-card');
+            
+            projectCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                    this.style.transition = 'transform 0.3s ease';
+                    this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.2)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+                });
+            });
+        });
+  document.addEventListener('DOMContentLoaded', function() {
+  // Tab functionality
+  const tabs = document.querySelectorAll('.nav-link');
+  
+  tabs.forEach(tab => {
+    tab.addEventListener('click', function() {
+      // Remove active class from all tabs
+      tabs.forEach(t => t.classList.remove('active'));
+      
+      // Add active class to clicked tab
+      this.classList.add('active');
+      
+      // Hide all tab panes
+      const tabPanes = document.querySelectorAll('.tab-pane');
+      tabPanes.forEach(pane => pane.classList.remove('active'));
+      
+      // Show the selected tab pane
+      const tabId = this.getAttribute('data-tab');
+      document.getElementById(tabId).classList.add('active');
+    });
+  });
+  
+  // Search functionality
+  const searchInput = document.querySelector('.search-input');
+  const searchButton = document.querySelector('.search-button');
+  
+  searchButton.addEventListener('click', function() {
+    const searchTerm = searchInput.value.toLowerCase().trim();
+    
+    if (searchTerm) {
+      // Get all company cards
+      const cards = document.querySelectorAll('#join-company .card');
+      
+      // Loop through cards and check if they match the search term
+      cards.forEach(card => {
+        const cardText = card.textContent.toLowerCase();
+        if (cardText.includes(searchTerm)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    } else {
+      // If search term is empty, show all cards
+      const cards = document.querySelectorAll('#join-company .card');
+      cards.forEach(card => {
+        card.style.display = 'block';
+      });
+    }
+  });
+  
+  // Filter chip functionality
+  const filterChips = document.querySelectorAll('.filter-chip');
+  
+  filterChips.forEach(chip => {
+    chip.addEventListener('click', function() {
+      // Remove active class from all chips
+      filterChips.forEach(c => c.classList.remove('active'));
+      
+      // Add active class to clicked chip
+      this.classList.add('active');
+      
+      // Filter the past offers based on the selected filter
+      const filter = this.textContent.toLowerCase();
+      const timelineItems = document.querySelectorAll('.timeline-item');
+      
+      timelineItems.forEach(item => {
+        const itemText = item.textContent.toLowerCase();
+        
+        if (filter === 'all') {
+          item.style.display = 'block';
+        } else if (filter === 'expired' && itemText.includes('expired')) {
+          item.style.display = 'block';
+        } else if (filter === 'declined' && itemText.includes('declined')) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+  });
+  
+  // Button functionality
+  const saveButtons = document.querySelectorAll('.btn-outline');
+  const applyButtons = document.querySelectorAll('.btn-primary');
+  
+  saveButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const buttonText = this.textContent;
+      
+      if (buttonText === 'Save') {
+        alert('Company saved to your favorites!');
+      }
+      else if (buttonText === 'Decline') {
+        if (confirm('Are you sure you want to decline this offer?')) {
+          alert('Offer declined. The company has been notified.');
+          // Here you could add code to remove the card or update its status
+        }
+      }
+    });
+  });
+  
+  applyButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const buttonText = this.textContent;
+      
+      if (buttonText === 'Apply Now') {
+        const companyName = this.closest('.card').querySelector('h3').textContent;
+        alert(`Applying to ${companyName}. You will be redirected to the application form.`);
+        // Here you could add code to redirect to an application form
+      } else if (buttonText === 'Accept Offer') {
+        const companyName = this.closest('.card').querySelector('h3').textContent;
+        if (confirm(`Are you sure you want to accept the offer from ${companyName}?`)) {
+          alert(`Congratulations! You have accepted the offer from ${companyName}.`);
+          // Here you could add code to update the user's status
+        }
+      }
+    });
+  });
+
+  // Modal functionality
+  const modal = document.getElementById('companyModal');
+  const viewDetailButtons = document.querySelectorAll('.view-details');
+  const closeModal = document.querySelector('.close-modal');
+
+  // Company data will be fetched from the server
+  viewDetailButtons.forEach(button => {
+    button.addEventListener('click', async function() {
+      const companyId = this.getAttribute('data-company');
+      
+      try {
+        const response = await fetch(`/api/companies/${companyId}`);
+        if (!response.ok) throw new Error('Failed to fetch company details');
+        
+        const company = await response.json();
+        
+        // Set modal content
+        document.getElementById('modalCompanyName').textContent = company.name;
+        document.getElementById('modalCompanyLogo').src = company.logo;
+        document.getElementById('modalLocation').textContent = company.location;
+        document.getElementById('modalSize').textContent = company.size;
+        document.getElementById('modalFounded').textContent = company.founded;
+        document.getElementById('modalDescription').textContent = company.description;
+        
+        // Clear and set specializations
+        const specializationsEl = document.getElementById('modalSpecializations');
+        specializationsEl.innerHTML = '';
+        company.specializations.forEach(spec => {
+          const badge = document.createElement('span');
+          badge.className = 'badge badge-green';
+          badge.textContent = spec;
+          specializationsEl.appendChild(badge);
+        });
+        
+        // Clear and set openings
+        const openingsEl = document.getElementById('modalOpenings');
+        openingsEl.innerHTML = '';
+        company.openings.forEach(opening => {
+          const badge = document.createElement('span');
+          badge.className = 'badge badge-blue';
+          badge.textContent = opening;
+          openingsEl.appendChild(badge);
+        });
+        
+        // Clear and set benefits
+        const benefitsEl = document.getElementById('modalBenefits');
+        benefitsEl.innerHTML = '';
+        company.benefits.forEach(benefit => {
+          const li = document.createElement('li');
+          li.textContent = benefit;
+          benefitsEl.appendChild(li);
+        });
+        
+        // Set project highlights
+        const projectHighlights = document.querySelectorAll('.project-highlight');
+        company.projects.forEach((project, index) => {
+          if (index < projectHighlights.length) {
+            const highlight = projectHighlights[index];
+            highlight.querySelector('img').src = project.image;
+            highlight.querySelector('h4').textContent = project.name;
+            highlight.querySelector('.project-year').textContent = project.year;
+            highlight.querySelector('.project-scope').textContent = project.scope;
+            highlight.querySelector('.project-desc').textContent = project.description;
+          }
+        });
+        
+        // Show modal
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+      } catch (error) {
+        console.error('Error loading company details:', error);
+        alert('Failed to load company details. Please try again.');
+      }
+    });
+  });
+
+  // Close modal
+  closeModal.addEventListener('click', function() {
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+  });
+
+  // Close modal when clicking outside
+  window.addEventListener('click', function(event) {
+    if (event.target === modal) {
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+  });
+});
+  </script>
+</body>
+</html>

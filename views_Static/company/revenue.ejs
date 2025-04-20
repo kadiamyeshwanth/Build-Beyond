@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects Management Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+        :root {
+          --primary-green: #4D7A70;
+          --secondary-green: #6A9E8E;
+          --light-green: #A3C5BB;
+          --dark-grey: #363636;
+          --medium-grey: #5A5A5A;
+          --light-grey: #E0E0E0;
+          --white: #FFFFFF;
+          --black: #000000;
+        }
+    
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: 'Poppins', sans-serif;
+        }
+    
+        body {
+          background-color: var(--white);
+          color: var(--black);
+          display: flex;
+          flex-direction: column;
+          min-height: 100vh;
+        }
+        .container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 2rem;
+          flex: 1;
+        }
+    
+        header {
+          margin-bottom: 2rem;
+          text-align: center;
+        }
+    
+        header h1 {
+          color: var(--primary-green);
+          font-size: 1.8rem;
+          font-weight: bold;
+        }
+        .revenue-section {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+          gap: 1.5rem;
+          margin-bottom: 2rem;
+        }
+    
+        .revenue-card {
+          background-color: var(--white);
+          border-radius: 8px;
+          padding: 1.5rem;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          text-align: center;
+          transition: transform 0.3s, box-shadow 0.3s;
+        }
+    
+        .revenue-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+    
+        .revenue-card h2 {
+          font-size: 1rem;
+          margin-bottom: 0.5rem;
+          color: var(--medium-grey);
+        }
+    
+        .revenue-card .count {
+          font-size: 1.8rem;
+          font-weight: bold;
+          color: var(--primary-green);
+        }
+    
+        .revenue-card .revenue {
+          font-size: 1.8rem;
+          font-weight: bold;
+          color: var(--secondary-green);
+        }
+        .main-content {
+          display: grid;
+          grid-template-columns: 3fr 1fr;
+          gap: 1.5rem;
+        }
+        .projects-section {
+          background-color: var(--white);
+          border-radius: 8px;
+          padding: 1.5rem;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+    
+        .projects-section h2 {
+          margin-bottom: 1.5rem;
+          color: var(--dark-grey);
+          font-size: 1.2rem;
+        }
+    
+        .project-card {
+          background-color: var(--light-grey);
+          border-radius: 6px;
+          padding: 1rem;
+          margin-bottom: 1rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          transition: background-color 0.3s;
+        }
+    
+        .project-card:hover {
+          background-color: #E5F4EF;
+        }
+    
+        .project-info {
+          flex: 1;
+        }
+    
+        .project-info h3 {
+          margin-bottom: 0.5rem;
+          color: var(--dark-grey);
+          font-size: 1rem;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+    
+        .status-badge {
+          font-size: 0.8rem;
+          padding: 0.3rem 0.8rem;
+          border-radius: 100px;
+          text-transform: uppercase;
+          font-weight: 500;
+          letter-spacing: 0.5px;
+        }
+    
+        .status-ongoing {
+          background-color: rgba(77, 122, 112, 0.15);
+          color: var(--primary-green);
+          border: 1px solid rgba(77, 122, 112, 0.3);
+        }
+    
+        .status-completed {
+          background-color: rgba(106, 158, 142, 0.15);
+          color: var(--secondary-green);
+          border: 1px solid rgba(106, 158, 142, 0.3);
+        }
+    
+        .project-stats {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+        }
+    
+        .stat {
+          display: flex;
+          flex-direction: column;
+          margin-right: 1rem;
+        }
+    
+        .stat-label {
+          font-size: 0.8rem;
+          color: var(--medium-grey);
+          text-transform: uppercase;
+        }
+    
+        .stat-value {
+          font-weight: 600;
+          color: var(--dark-grey);
+        }
+    
+        .received {
+          color: var(--secondary-green);
+        }
+    
+        .pending {
+          color: #FF9800;
+        }
+    
+        .details-button {
+          background-color: var(--primary-green);
+          color: var(--white);
+          border: none;
+          border-radius: 10px;
+          padding: 0.5rem 1rem;
+          cursor: pointer;
+          font-weight: 500;
+          transition: background-color 0.3s;
+        }
+    
+        .details-button:hover {
+          background-color: var(--secondary-green);
+        }
+        .filter-section {
+          background-color: var(--white);
+          border-radius: 8px;
+          padding: 1.5rem;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+    
+        .filter-section h2 {
+          margin-bottom: 1.5rem;
+          color: var(--dark-grey);
+          font-size: 1.2rem;
+        }
+    
+        .filter-buttons {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+    
+        .filter-btn {
+          padding: 0.5rem 1rem;
+          border: 1px solid var(--light-grey);
+          background-color: var(--white);
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 0.9rem;
+          transition: all 0.3s;
+          text-align: left;
+        }
+    
+        .filter-btn:hover {
+          background-color: var(--light-grey);
+          border-color: var(--primary-green);
+        }
+    
+        .filter-btn.active {
+          background-color: var(--primary-green);
+          color: var(--white);
+          border-color: var(--primary-green);
+          font-weight: 500;
+        }
+    
+        .modal {
+          display: none;
+          position: fixed;
+          z-index: 100;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.6);
+        }
+    
+        .modal-content {
+          background-color: var(--white);
+          margin: 10% auto;
+          padding: 1.5rem;
+          width: 80%;
+          max-width: 700px;
+          border-radius: 8px;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+          position: relative;
+        }
+    
+        .close-modal {
+          position: absolute;
+          right: 1rem;
+          top: 1rem;
+          font-size: 1.5rem;
+          color: var(--medium-grey);
+          cursor: pointer;
+        }
+    
+        .close-modal:hover {
+          color: var(--dark-grey);
+        }
+    
+        #modal-project-name {
+          margin-bottom: 1.5rem;
+          color: var(--dark-grey);
+        }
+    
+        .detail-row {
+          display: flex;
+          margin-bottom: 1rem;
+          padding-bottom: 1rem;
+          border-bottom: 1px solid var(--light-grey);
+        }
+    
+        .detail-label {
+          width: 40%;
+          font-weight: 600;
+          color: var(--medium-grey);
+        }
+    
+        .detail-value {
+          width: 60%;
+          color: var(--dark-grey);
+        }
+    
+        .progress-bar-container {
+          width: 100%;
+          height: 8px;
+          background-color: var(--light-grey);
+          border-radius: 4px;
+          margin-top: 0.5rem;
+          overflow: hidden;
+        }
+    
+        .progress-bar {
+          height: 100%;
+          background-color: var(--secondary-green);
+          border-radius: 4px;
+          transition: width 0.5s ease-in-out;
+        }
+    
+        .no-projects {
+          padding: 1.5rem;
+          text-align: center;
+          color: var(--medium-grey);
+          font-style: italic;
+        }
+        @media (max-width: 900px) {
+          .revenue-section {
+            grid-template-columns: repeat(2, 1fr);
+          }
+    
+          .main-content {
+            grid-template-columns: 1fr;
+          }
+    
+          .filter-buttons {
+            flex-direction: row;
+            flex-wrap: wrap;
+          }
+    
+          .filter-btn {
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+          }
+        }
+    
+        @media (max-width: 600px) {
+          .revenue-section {
+            grid-template-columns: 1fr;
+          }
+    
+          .project-card {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+    
+          .details-button {
+            margin: 0.5rem 0;
+            width: 100%;
+          }
+    
+          .project-stats {
+            margin-top: 0.5rem;
+            width: 100%;
+          }
+    
+          .stat {
+            margin-bottom: 0.5rem;
+          }
+    
+          .modal-content {
+            width: 95%;
+            margin: 5% auto;
+            padding: 1rem;
+          }
+        }
+      </style>
+</head>
+<body>
+    <%- include('navbar_company') %>
+    <div class="container">
+        <header>
+            <h1>Revenue Management Dashboard</h1>
+        </header>
+        
+        <section class="revenue-section">
+            <div class="revenue-card">
+                <h2>Total Ongoing Projects</h2>
+                <p class="count" id="ongoing-count">0</p>
+            </div>
+            <div class="revenue-card">
+                <h2>Total Completed Projects</h2>
+                <p class="count" id="completed-count">0</p>
+            </div>
+            <div class="revenue-card">
+                <h2>Total Revenue</h2>
+                <p class="revenue" id="total-revenue">₹0</p>
+            </div>
+        </section>
+        
+        <div class="main-content">
+            <section class="projects-section">
+                <h2>All Projects</h2>
+                <div class="projects-list" id="projects-list">
+                    <!-- Projects will be added here dynamically -->
+                </div>
+            </section>
+            
+            <aside class="filter-section">
+                <h2>Filter Projects</h2>
+                <div class="filter-buttons">
+                    <button class="filter-btn" data-filter="ongoing">Ongoing Projects</button>
+                    <button class="filter-btn" data-filter="completed">Completed Projects</button>
+                    <button class="filter-btn active" data-filter="all">All Projects</button>
+                </div>
+            </aside>
+        </div>
+    </div>
+    <div id="project-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 id="modal-project-name">Project Details</h2>
+            <div id="modal-project-details">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample project data
+        const projects = [
+            {
+                id: 1,
+                name: "City Heights Tower",
+                status: "ongoing",
+                totalCost: 1250000,
+                receivedAmount: 650000,
+                pendingAmount: 600000,
+                startDate: "2024-04-15",
+                estimatedEndDate: "2025-03-20",
+                clientName: "Urban Living Enterprises",
+                location: "Downtown Financial District",
+                description: "A 28-story luxury apartment complex with retail spaces on the ground floor. The project includes smart home integration throughout the building.",
+                completionPercentage: 52
+            },
+            {
+                id: 2,
+                name: "Riverside Medical Center",
+                status: "ongoing",
+                totalCost: 3450000,
+                receivedAmount: 2100000,
+                pendingAmount: 1350000,
+                startDate: "2023-10-12",
+                estimatedEndDate: "2025-01-30",
+                clientName: "Health Partners Group",
+                location: "North Riverside Area",
+                description: "State-of-the-art medical facility with specialized wings for surgery, emergency care, and outpatient services.",
+                completionPercentage: 68
+            },
+            {
+                id: 3,
+                name: "Greenfield Shopping Mall",
+                status: "completed",
+                totalCost: 2850000,
+                receivedAmount: 2850000,
+                pendingAmount: 0,
+                startDate: "2022-05-10",
+                endDate: "2024-06-15",
+                clientName: "Retail Development Corp",
+                location: "Greenfield District",
+                description: "Modern multi-level shopping complex with over 200 retail spaces, food court, and entertainment area.",
+                completionPercentage: 100
+            },
+            {
+                id: 4,
+                name: "Oceanview Hotel & Resort",
+                status: "completed",
+                totalCost: 5750000,
+                receivedAmount: 5750000,
+                pendingAmount: 0,
+                startDate: "2022-01-20",
+                endDate: "2024-05-11",
+                clientName: "Luxury Stays International",
+                location: "Coastal Boulevard",
+                description: "Luxury 5-star hotel and resort with 350 rooms, conference centers, 3 restaurants, and exclusive beach access.",
+                completionPercentage: 100
+            },
+            {
+                id: 5,
+                name: "Tech Park Office Complex",
+                status: "ongoing",
+                totalCost: 4250000,
+                receivedAmount: 1800000,
+                pendingAmount: 2450000,
+                startDate: "2023-12-05",
+                estimatedEndDate: "2025-08-10",
+                clientName: "Innovation Works LLC",
+                location: "Technology District",
+                description: "Modern office complex designed for tech companies with flexible workspaces, collaborative areas, and advanced infrastructure.",
+                completionPercentage: 42
+            },
+            {
+                id: 6,
+                name: "Sunset Residential Community",
+                status: "ongoing",
+                totalCost: 3850000,
+                receivedAmount: 1925000,
+                pendingAmount: 1925000,
+                startDate: "2024-01-15",
+                estimatedEndDate: "2025-06-30",
+                clientName: "Community Homes Inc.",
+                location: "Western Suburbs",
+                description: "Planned residential community with 120 units, including single-family homes, townhouses, and a community center with recreational facilities.",
+                completionPercentage: 50
+            },
+            {
+                id: 7,
+                name: "Central Public Library",
+                status: "ongoing",
+                totalCost: 2100000,
+                receivedAmount: 1050000,
+                pendingAmount: 1050000,
+                startDate: "2023-11-22",
+                estimatedEndDate: "2025-02-15",
+                clientName: "City Municipal Authority",
+                location: "Downtown Arts District",
+                description: "Modern three-story library with digital resources center, community meeting spaces, and an auditorium for public events.",
+                completionPercentage: 35
+            },
+            {
+                id: 8,
+                name: "Eastside Elementary School",
+                status: "completed",
+                totalCost: 3200000,
+                receivedAmount: 3200000,
+                pendingAmount: 0,
+                startDate: "2022-03-15",
+                endDate: "2023-08-20",
+                clientName: "District School Board",
+                location: "Eastside Neighborhood",
+                description: "Elementary school with 30 classrooms, science lab, art studio, gymnasium, and outdoor playground with eco-friendly design.",
+                completionPercentage: 100
+            },
+            {
+                id: 9,
+                name: "Urban Transit Hub",
+                status: "ongoing",
+                totalCost: 5600000,
+                receivedAmount: 2800000,
+                pendingAmount: 2800000,
+                startDate: "2023-09-10",
+                estimatedEndDate: "2025-10-05",
+                clientName: "Metropolitan Transit Authority",
+                location: "Central Business District",
+                description: "Multi-modal transit center connecting bus, light rail, and subway systems with retail spaces and public plaza.",
+                completionPercentage: 45
+            },
+            {
+                id: 10,
+                name: "Harbor View Waterfront Park",
+                status: "completed",
+                totalCost: 1750000,
+                receivedAmount: 1750000,
+                pendingAmount: 0,
+                startDate: "2023-02-05",
+                endDate: "2024-03-30",
+                clientName: "Parks and Recreation Department",
+                location: "City Harbor",
+                description: "Waterfront recreational area with walking paths, bike lanes, pavilions, playground, and boat launch with ecological restoration elements.",
+                completionPercentage: 100
+            }
+        ];
+
+        // DOM elements
+        const projectsList = document.getElementById('projects-list');
+        const ongoingCount = document.getElementById('ongoing-count');
+        const completedCount = document.getElementById('completed-count');
+        const totalRevenue = document.getElementById('total-revenue');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const modal = document.getElementById('project-modal');
+        const closeModal = document.querySelector('.close-modal');
+
+        // Initialize dashboard
+        function initDashboard() {
+            renderProjects('all');
+            updateStats();
+            setupEventListeners();
+        }
+
+        // Render projects based on filter
+        function renderProjects(filter) {
+            projectsList.innerHTML = '';
+            
+            const filteredProjects = projects.filter(project => {
+                if (filter === 'all') return true;
+                return project.status === filter;
+            });
+            
+            if (filteredProjects.length === 0) {
+                projectsList.innerHTML = '<p class="no-projects">No projects found</p>';
+                return;
+            }
+            
+            filteredProjects.forEach(project => {
+                const projectCard = document.createElement('div');
+                projectCard.className = `project-card`;
+                
+                projectCard.innerHTML = `
+                    <div class="project-info">
+                        <h3>${project.name} <span class="status-badge status-${project.status}">${project.status}</span></h3>
+                        <div class="project-stats">
+                            <div class="stat">
+                                <span class="stat-label">Total Cost</span>
+                                <span class="stat-value">₹${formatNumber(project.totalCost)}</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Received</span>
+                                <span class="stat-value received">₹${formatNumber(project.receivedAmount)}</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Pending</span>
+                                <span class="stat-value pending">₹${formatNumber(project.pendingAmount)}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="details-button">View Details</button>
+                    <a href="revenue_form.html"><button class="details-button">Edit</button></a>
+                `;
+                
+                projectsList.appendChild(projectCard);
+            });
+        }
+
+        // Update dashboard statistics
+        function updateStats() {
+            const ongoingProjects = projects.filter(project => project.status === 'ongoing');
+            const completedProjects = projects.filter(project => project.status === 'completed');
+            
+            ongoingCount.textContent = ongoingProjects.length;
+            completedCount.textContent = completedProjects.length;
+            
+            const totalRevenueValue = projects.reduce((total, project) => {
+                return total + project.receivedAmount;
+            }, 0);
+            
+            totalRevenue.textContent = `₹${formatNumber(totalRevenueValue)}`;
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // Filter buttons
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const filter = button.dataset.filter;
+                    
+                    // Update active button
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    // Update projects list heading
+                    const projectsHeading = document.querySelector('.projects-section h2');
+                    if (filter === 'all') {
+                        projectsHeading.textContent = 'All Projects';
+                    } else if (filter === 'ongoing') {
+                        projectsHeading.textContent = 'Ongoing Projects';
+                    } else if (filter === 'completed') {
+                        projectsHeading.textContent = 'Completed Projects';
+                    }
+                    
+                    renderProjects(filter);
+                });
+            });
+            
+            // Project details button
+            projectsList.addEventListener('click', event => {
+                if (event.target.classList.contains('details-button')) {
+                    const projectId = parseInt(event.target.dataset.id);
+                    showProjectDetails(projectId);
+                }
+            });
+            
+            // Close modal
+            closeModal.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', event => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+
+        // Show project details in modal
+        function showProjectDetails(projectId) {
+            const project = projects.find(p => p.id === projectId);
+            if (!project) return;
+            
+            const modalProjectName = document.getElementById('modal-project-name');
+            const modalProjectDetails = document.getElementById('modal-project-details');
+            
+            modalProjectName.textContent = project.name;
+            
+            let endDateInfo = project.status === 'completed' 
+                ? `<div class="detail-row">
+                    <div class="detail-label">End Date</div>
+                    <div class="detail-value">${formatDate(project.endDate)}</div>
+                   </div>`
+                : `<div class="detail-row">
+                    <div class="detail-label">Estimated End Date</div>
+                    <div class="detail-value">${formatDate(project.estimatedEndDate)}</div>
+                   </div>`;
+            
+            modalProjectDetails.innerHTML = `
+                <div class="detail-row">
+                    <div class="detail-label">Status</div>
+                    <div class="detail-value">${capitalizeFirstLetter(project.status)}</div>
+                </div>
+                
+                <div class="detail-row">
+                    <div class="detail-label">Client</div>
+                    <div class="detail-value">${project.clientName}</div>
+                </div>
+                
+                <div class="detail-row">
+                    <div class="detail-label">Location</div>
+                    <div class="detail-value">${project.location}</div>
+                </div>
+                
+                <div class="detail-row">
+                    <div class="detail-label">Total Cost</div>
+                    <div class="detail-value">₹${formatNumber(project.totalCost)}</div>
+                </div>
+                
+                <div class="detail-row">
+                    <div class="detail-label">Received Amount</div>
+                    <div class="detail-value">₹${formatNumber(project.receivedAmount)} (${Math.round(project.receivedAmount / project.totalCost * 100)}%)</div>
+                </div>
+                
+                <div class="detail-row">
+                    <div class="detail-label">Pending Amount</div>
+                    <div class="detail-value">₹${formatNumber(project.pendingAmount)}</div>
+                </div>
+                
+                <div class="detail-row">
+                    <div class="detail-label">Start Date</div>
+                    <div class="detail-value">${formatDate(project.startDate)}</div>
+                </div>
+                
+                ${endDateInfo}
+                
+                <div class="detail-row">
+                    <div class="detail-label">Completion</div>
+                    <div class="detail-value">
+                        ${project.completionPercentage}%
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: ${project.completionPercentage}%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-row">
+                    <div class="detail-label">Description</div>
+                    <div class="detail-value">${project.description}</div>
+                </div>
+            `;
+            
+            modal.style.display = 'block';
+        }
+
+        // Utility functions
+        function formatNumber(number) {
+            return number.toLocaleString('en-US');
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        document.addEventListener('DOMContentLoaded', initDashboard);
+    </script>
+</body>
+</html>
