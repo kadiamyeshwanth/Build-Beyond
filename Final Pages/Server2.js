@@ -26,7 +26,7 @@ app.use("/uploads", express.static(path.join(__dirname, "Uploads")));
 
 // Session Store
 const store = new MongoDBStore({
-  uri: "mongodb://localhost:27017/build_and_beyond",
+  uri: "mongodb+srv://isaimanideepp:Sai62818@cluster0.mng20.mongodb.net/Build&Beyond?retryWrites=true&w=majority",
   collection: "sessions",
 });
 
@@ -49,10 +49,11 @@ app.use(
 );
 
 // MongoDB Connection
+const mongoURI = "mongodb+srv://isaimanideepp:Sai62818@cluster0.mng20.mongodb.net/Build&Beyond?retryWrites=true&w=majority";
 mongoose
-  .connect("mongodb://localhost:27017/build_and_beyond", {})
+  .connect(mongoURI, {})
   .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.error("MongoDB connection error:", err));
+  .catch((err) => console.error("MongoDB connection error:", err))
 
 // Multer Configuration
 const storage = multer.diskStorage({

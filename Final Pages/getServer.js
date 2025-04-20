@@ -36,7 +36,9 @@ app.get("/workerdashboard.html", (req, res) => {
 app.get("/workerjobs.html", (req, res) => {
   res.render("worker/worker_jobs");
 });
-
+app.get("/workerjoin_company.html", async (req, res) => {
+  res.render("worker/workers_join_company");
+});
 // Logout Route
 app.get("/logout", (req, res) => {
   res.render("signin_up_");
