@@ -2,12 +2,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 const ejs = require('ejs');
 const path = require('path');
-const bodyParser = require('body-parser');
 
 const app = express();
 
 // MongoDB connection
-mongoose.connect('mongodb://localhost:27017/constructionPortal', {
+mongoose.connect('mongodb://localhost:27017/architectPortal', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
@@ -15,102 +14,87 @@ mongoose.connect('mongodb://localhost:27017/constructionPortal', {
 .catch(err => console.error('MongoDB connection error:', err));
 
 // Define Schemas
-const workerSchema = new mongoose.Schema({
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    name: { type: String, required: true },
-    title: String,
-    profileImage: String,
-    bio: String,
-    specialties: [String],
-    rating: { type: Number, default: 0 },
-    projects: [{
-        name: String,
-        year: Number,
-        location: String,
-        image: String,
-        description: String
-    }],
-    stats: {
-        applications: { type: Number, default: 0 },
-        offers: { type: Number, default: 0 },
-        experience: { type: Number, default: 0 }
-    }
-});
-
 const companySchema = new mongoose.Schema({
-    name: { type: String, required: true },
+    id: String,
+    name: String,
     location: String,
     size: String,
+    founded: String,
     projectTypes: [String],
-    positions: [String],
-    tags: [{
-        name: String,
-        color: String
-    }],
-    createdAt: { type: Date, default: Date.now }
+    lookingFor: [String],
+    tags: [{ name: String, class: String }],
+    logo: String,
+    description: String,
+    benefits: [String],
+    status: { type: String, default: 'active' }
 });
 
-const offerSchema = new mongoose.Schema({
-    workerId: { type: mongoose.Schema.Types.ObjectId, ref: 'Worker', required: true },
-    companyId: { type: mongoose.Schema.Types.ObjectId, ref: 'Company', required: true },
+const applicationSchema = new mongoose.Schema({
+    userId: String,
+    companyId: String,
     companyName: String,
     position: String,
     location: String,
     salaryRange: String,
-    expiryDate: Date,
-    daysRemaining: Number,
-    status: { type: String, enum: ['current', 'expired', 'declined'], default: 'current' },
-    statusReason: String,
-    date: { type: Date, default: Date.now }
+    applicationDate: String,
+    specializations: [String],
+    status: { type: String, default: 'pending' } // pending, accepted, declined
 });
 
-const Worker = mongoose.model('Worker', workerSchema);
+const offerSchema = new mongoose.Schema({
+    userId: String,
+    companyId: String,
+    companyName: String,
+    position: String,
+    location: String,
+    salaryRange: String,
+    expires: String,
+    status: { type: String, default: 'pending' }, // pending, accepted, declined, expired
+    date: String
+});
+
+const userSchema = new mongoose.Schema({
+    name: String,
+    profileImage: String,
+    title: String,
+    applicationsCount: Number,
+    offersCount: Number,
+    experienceYears: Number
+});
+
 const Company = mongoose.model('Company', companySchema);
+const Application = mongoose.model('Application', applicationSchema);
 const Offer = mongoose.model('Offer', offerSchema);
+const User = mongoose.model('User', userSchema);
 
 // Middleware
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
-// Authentication middleware (simplified)
-const requireAuth = (req, res, next) => {
-    // In a real app, you would check session or JWT
-    next();
-};
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.get('/worker-profile', requireAuth, async (req, res) => {
+app.get('/workerjoin_company', async (req, res) => {
     try {
-        // In a real app, you would get the worker ID from the session
-        const workerId = '65d5f8a9b4c9b8c1f4e8f7d2'; // Example hardcoded ID
-        
-        const worker = await Worker.findById(workerId);
-        if (!worker) {
-            return res.status(404).send('Worker not found');
-        }
-        
-        // Add rating display
-        worker.ratingDisplay = '★'.repeat(Math.floor(worker.rating)) + '☆'.repeat(5 - Math.floor(worker.rating)) + ` (${worker.rating.toFixed(1)})`;
-        
-        const companies = await Company.find();
-        const currentOffers = await Offer.find({ 
-            workerId: worker._id, 
-            status: 'current' 
-        });
-        
-        const pastOffers = await Offer.find({ 
-            workerId: worker._id, 
-            status: { $in: ['expired', 'declined'] } 
-        }).sort({ date: -1 });
-        
-        res.render('worker_profile', {
-            worker,
-            stats: worker.stats,
+        const companies = await Company.find({ status: 'active' });
+        const applications = await Application.find({ userId: 'user123' }); // Replace with actual user ID
+        const offers = await Offer.find({ userId: 'user123', status: 'pending' });
+        const pastOffers = await Offer.find({ userId: 'user123', status: { $in: ['declined', 'expired'] } });
+        const user = await User.findOne({ _id: 'user123' }); // Replace with actual user ID
+
+        res.render('join_company', {
+            user: user || {
+                name: 'Avinash',
+                profileImage: 'https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg',
+                title: 'Principal Architect with 15 years experience',
+                applicationsCount: 12,
+                offersCount: 5,
+                experienceYears: 8
+            },
             companies,
-            currentOffers,
+            applications,
+            offers,
             pastOffers
         });
     } catch (err) {
@@ -119,33 +103,37 @@ app.get('/worker-profile', requireAuth, async (req, res) => {
     }
 });
 
-// API Endpoints
-app.post('/api/apply', requireAuth, async (req, res) => {
+app.post('/companies/:id/apply', async (req, res) => {
     try {
-        const { companyId } = req.body;
-        const company = await Company.findById(companyId);
-        
+        const company = await Company.findById(req.params.id);
         if (!company) {
             return res.status(404).json({ success: false, message: 'Company not found' });
         }
-        
-        // In a real app, you would create an application record
-        res.json({ 
-            success: true, 
-            message: 'Application submitted',
-            companyName: company.name
+
+        const application = new Application({
+            userId: 'user123', // Replace with actual user ID
+            companyId: req.params.id,
+            companyName: company.name,
+            position: req.body.position || company.lookingFor[0],
+            location: company.location,
+            salaryRange: req.body.salaryRange || 'Negotiable',
+            applicationDate: new Date().toISOString().split('T')[0],
+            specializations: req.body.specializations || company.projectTypes,
+            status: 'pending'
         });
+
+        await application.save();
+        res.json({ success: true, message: 'Application submitted successfully' });
     } catch (err) {
         console.error(err);
         res.status(500).json({ success: false, message: 'Server Error' });
     }
 });
 
-app.post('/api/offers/:id/accept', requireAuth, async (req, res) => {
+app.post('/offers/:id/accept', async (req, res) => {
     try {
-        const offer = await Offer.findByIdAndUpdate(
-            req.params.id,
-            { status: 'accepted' },
+        const offer = await Offer.findByIdAndUpdate(req.params.id, 
+            { status: 'accepted' }, 
             { new: true }
         );
         
@@ -153,22 +141,17 @@ app.post('/api/offers/:id/accept', requireAuth, async (req, res) => {
             return res.status(404).json({ success: false, message: 'Offer not found' });
         }
         
-        // In a real app, you would update the worker's status
-        res.json({ success: true, message: 'Offer accepted' });
+        res.json({ success: true, message: 'Offer accepted successfully' });
     } catch (err) {
         console.error(err);
         res.status(500).json({ success: false, message: 'Server Error' });
     }
 });
 
-app.post('/api/offers/:id/decline', requireAuth, async (req, res) => {
+app.post('/offers/:id/decline', async (req, res) => {
     try {
-        const offer = await Offer.findByIdAndUpdate(
-            req.params.id,
-            { 
-                status: 'declined',
-                statusReason: req.body.reason || 'No reason provided'
-            },
+        const offer = await Offer.findByIdAndUpdate(req.params.id, 
+            { status: 'declined' }, 
             { new: true }
         );
         
@@ -176,7 +159,7 @@ app.post('/api/offers/:id/decline', requireAuth, async (req, res) => {
             return res.status(404).json({ success: false, message: 'Offer not found' });
         }
         
-        res.json({ success: true, message: 'Offer declined' });
+        res.json({ success: true, message: 'Offer declined successfully' });
     } catch (err) {
         console.error(err);
         res.status(500).json({ success: false, message: 'Server Error' });
@@ -185,76 +168,54 @@ app.post('/api/offers/:id/decline', requireAuth, async (req, res) => {
 
 // Seed initial data
 async function seedDatabase() {
-    try {
-        // Check if worker exists
-        const workerCount = await Worker.countDocuments();
-        if (workerCount === 0) {
-            await Worker.create({
-                userId: new mongoose.Types.ObjectId(),
-                name: 'Avinash',
-                title: 'Principal Architect with 15 years experience',
-                profileImage: 'https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg',
-                bio: 'Avinash is an award-winning architect with expertise in sustainable design and urban development. He has worked on numerous high-profile projects across the globe.',
-                specialties: ['Sustainable design', 'Urban planning', 'Residential architecture'],
-                rating: 4.7,
-                projects: [
-                    {
-                        name: 'Eco Urban Center',
-                        year: 2022,
-                        location: 'Delhi',
-                        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZkV3_0Ft7onHGmmLz-TZbphv7KircKuOMqw&s',
-                        description: 'A LEED Platinum certified commercial complex featuring innovative green technologies and sustainable materials.'
-                    },
-                    {
-                        name: 'Riverside Residences',
-                        year: 2020,
-                        location: 'Chennai',
-                        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC7-RFA1xE4wTSP0DZJSJ1AJ8TitBYtkmEYA&s',
-                        description: 'A luxury residential development that seamlessly integrates with its natural surroundings and maximizes river views.'
-                    }
+    const companyCount = await Company.countDocuments();
+    if (companyCount === 0) {
+        const initialCompanies = [
+            {
+                id: 'modern-structures',
+                name: 'Modern Structures Inc.',
+                location: 'Chennai, Tamil Nadu',
+                size: 'Medium (50-200 employees)',
+                founded: '2005',
+                projectTypes: ['Commercial', 'Residential High-rise', 'Urban Development'],
+                lookingFor: ['Senior Architects', 'Project Managers'],
+                tags: [
+                    { name: 'Sustainable Design', class: 'badge-green' },
+                    { name: 'BIM Expertise', class: 'badge-blue' },
+                    { name: 'LEED Projects', class: 'badge-orange' }
                 ],
-                stats: {
-                    applications: 12,
-                    offers: 5,
-                    experience: 8
-                }
-            });
-        }
+                logo: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-1.2.1&auto=format&fit=crop&w=120&h=120',
+                description: 'Modern Structures Inc. is a leading architectural firm specializing in innovative commercial and residential high-rise designs...',
+                benefits: [
+                    'Competitive salary with performance bonuses',
+                    'Comprehensive health insurance and retirement plans',
+                    'Continuing education and professional development opportunities',
+                    'Collaborative work environment with cutting-edge technology',
+                    'Opportunity to work on high-profile, innovative projects',
+                    'Flexible work arrangements including remote options'
+                ]
+            },
+            // Add other companies similarly
+        ];
 
-        // Check if companies exist
-        const companyCount = await Company.countDocuments();
-        if (companyCount === 0) {
-            await Company.insertMany([
-                {
-                    name: 'Modern Structures Inc.',
-                    location: 'Chennai',
-                    size: 'Medium (50-200 employees)',
-                    projectTypes: ['Commercial', 'Residential High-rise', 'Urban Development'],
-                    positions: ['Senior Architects', 'Project Managers'],
-                    tags: [
-                        { name: 'Sustainable Design', color: 'green' },
-                        { name: 'BIM Expertise', color: 'blue' },
-                        { name: 'LEED Projects', color: 'orange' }
-                    ]
-                },
-                {
-                    name: 'Skyline Builders Group',
-                    location: 'Delhi',
-                    size: 'Large (500+ employees)',
-                    projectTypes: ['Skyscrapers', 'Public Buildings', 'International Projects'],
-                    positions: ['Design Architects', 'Technical Directors'],
-                    tags: [
-                        { name: 'Green Architecture', color: 'green' },
-                        { name: 'Parametric Design', color: 'blue' },
-                        { name: 'International Projects', color: 'orange' }
-                    ]
-                }
-            ]);
-        }
+        await Company.insertMany(initialCompanies);
+        console.log('Companies seeded');
+    }
 
-        console.log('Database seeded successfully');
-    } catch (err) {
-        console.error('Database seeding error:', err);
+    const userCount = await User.countDocuments();
+    if (userCount === 0) {
+        const initialUser = {
+            _id: 'user123',
+            name: 'Avinash',
+            profileImage: 'https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg',
+            title: 'Principal Architect with 15 years experience',
+            applicationsCount: 12,
+            offersCount: 5,
+            experienceYears: 8
+        };
+
+        await User.create(initialUser);
+        console.log('User seeded');
     }
 }
 
