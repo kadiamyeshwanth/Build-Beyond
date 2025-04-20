@@ -17,7 +17,7 @@ const bcrypt = require("bcrypt");
 const MongoDBStore = require("connect-mongodb-session")(session);
 
 app.set("view engine", "ejs");
-app.set("views","views");
+app.set("views", "views");
 
 // Middleware
 app.use(cors());
@@ -212,6 +212,17 @@ app.post("/signup", upload.array("documents", 10), async (req, res) => {
         .json({ message: "You must accept the terms and conditions" });
     }
 
+    // Check if email already exists in any collection
+    const email = data.email;
+    const existingUser =
+      (await Customer.findOne({ email })) ||
+      (await Company.findOne({ email })) ||
+      (await Worker.findOne({ email }));
+
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already exists" });
+    }
+
     let user;
     switch (role) {
       case "customer":
@@ -337,7 +348,7 @@ app.post("/login", async (req, res) => {
         redirect = "/companydashboard.html";
         break;
       case "worker":
-        redirect ="/workerdashboard.html";
+        redirect = "/workerdashboard.html";
         break;
       default:
         return res.status(500).json({ message: "Server error" });
