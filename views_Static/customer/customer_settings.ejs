@@ -3,15 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Settings</title>
+    <title>Settings - Build & Beyond</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
     <style>
         /* General Styles */
         :root {
-            --primary-color: #1a237e; 
-            --secondary-color: #e67e22; 
+            --primary-color: #1a237e; /* Dark blue from your nav bar */
+            --secondary-color: #e67e22; /* Orange to complement your sunset theme */
             --light-color: #f9f9f9;
             --dark-color: #333;
             --border-color: #ddd;
@@ -19,6 +22,7 @@
             --danger-color: #e74c3c;
         }
         * {
+            
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -29,66 +33,26 @@
             color: var(--dark-color);
             line-height: 1.6;
         }
-        .navbar {
-            position: sticky;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 60px;
-            background-color: #121639;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 20px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .logo {
+                font-size: 20px;
+            }
+            
+            .hero-text {
+                font-size: 32px;
+            }
         }
-
-        .navbar-left {
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-
-        .navbar-middle {
-            display: flex;
-            gap: 20px;
-        }
-
-        .navbar-middle a {
-            color: white;
-            text-decoration: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        .navbar-middle a:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .navbar-right {
-            display: flex;
-            align-items: center;
-        }
-
-        .profile-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #6c5ce7;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .profile-icon svg {
-            width: 24px;
-            height: 24px;
-            fill: white;
-        }
-        
+        /* Header styles would be included in your main CSS */
+        /* Settings Page Styles */
         .settings-container {
             max-width: 1200px;
             margin: 2rem auto;
@@ -213,167 +177,32 @@
         .btn-danger:hover {
             background-color: #c0392b;
         }
-
-
-        /* New Edit profile styling */
-        .right-content {
-            width: 100%;
-        }
-        
-        .right-content h2 {
-            margin-bottom: 15px;
-            color: #333;
-            font-size: 24px;
-        }
-        
-        .right-content .architect-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .architect-image-large {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 20px;
-            border: 3px solid #e0e0e0;
-        }
-        
-        .bio {
-            margin-bottom: 30px;
-        }
-        
-        .bio h3 {
-            margin-bottom: 10px;
-            color: #333;
-            font-size: 20px;
-        }
-        
-        .bio p {
-            color: #555;
-            line-height: 1.6;
-            margin-bottom: 10px;
-        }
-        
-        .projects {
-            margin-top: 30px;
-        }
-        
-        .projects h3 {
-            margin-bottom: 20px;
-            color: #333;
-            font-size: 20px;
-        }
-        
-        .project {
-            margin-bottom: 30px;
-            display: flex;
-            gap: 20px;
-        }
-        
-        .project-image-container {
-            flex: 0 0 300px;
-        }
-        
-        .project-content {
-            flex: 1;
-        }
-        
-        .project h4 {
-            margin-bottom: 10px;
-            color: #333;
-            font-size: 18px;
-        }
-        
-        .project-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .project p {
-            color: #555;
-            line-height: 1.6;
-            margin-bottom: 5px;
-        }
-        
-        .rating {
-            display: flex;
-            align-items: center;
-            margin-top: 5px;
-        }
-        
-        .rating .star {
-            color: #ffd700;
-            font-size: 16px;
-            margin-right: 2px;
-        }
-        
-        
-        .book-now-btn {
-            background-color: #f0c776;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s, transform 0.3s;
-            text-decoration: none;
-            display: inline-block;
-        }
-        
-        .book-now-btn:hover {
-            background-color: #eac019;
-            transform: translateY(-2px);
-        }
-        
-        .back-btn {
-            display: inline-block;
-            margin-right: 20px;
-            padding: 12px 24px;
-            background-color: #0d1a44;
-            color: white;
-            border-radius: 25px;
-            text-decoration: none;
-            transition: background-color 0.3s;
-        }
-        
-        .back-btn:hover {
-            background-color: #1a2f6b;
-        }
-        
-        .action-buttons {
-            margin-top: 30px;
-            text-align: center;
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+            .settings-sidebar {
+                margin-bottom: 1rem;
+            }
+            .settings-nav {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            .settings-nav li {
+                margin-bottom: 0;
+                flex-grow: 1;
+                min-width: 120px;
+            }
         }
     </style>
+    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="navbar-left">
-            Build & Beyond
-        </div>
-        <div class="navbar-middle">
-            <a href="/workerdashboard.html">Dashboard</a>
-            <a href="/workerjobs.html">New Jobs</a>
-            <a href="/workerjoin_company.html">Join a Company</a>
-        </div>
-        <div class="navbar-right">
-            <div class="profile-icon">
-                <a href="settings.html">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z" fill="white"/>
-                </svg></a>
-            </div>
-        </div>
-    </nav>
+    <%- include('navbar_customer') %>
+    <!--existing header/navigation will go here -->
     <div class="settings-container">
         <div class="settings-header">
             <h1>Account Settings</h1>
@@ -391,48 +220,55 @@
             <div class="settings-content">
                 <!-- Profile Section -->
                 <div id="profile" class="settings-section active">
-                    <div class="container">
-                    <div class="right-content">
-                        <div class="architect-header">
-                            <img src="<%= user.profileImage || 'https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg' %>" alt="<%= user.name %>" class="architect-image-large">
-                            <div>
-                                <h2><%= user.name %></h2>
-                                <p><strong><%= user.title %></strong> with <%= user.experience %> years experience</p>
-                                <div class="rating">
-                                    <% for(let i = 0; i < 5; i++) { %>
-                                        <% if(i < Math.floor(user.rating)) { %>
-                                            ★
-                                        <% } else { %>
-                                            ☆
-                                        <% } %>
-                                    <% } %>
-                                    <span>(<%= user.rating.toFixed(1) %>)</span>
-                                </div>
-                            </div>
+                    <h2>Profile Information</h2>
+                    <div id="profile-display">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <p><%= user.name %></p>
                         </div>
-                        
-                        <div class="bio">
-                            <h3>About</h3>
-                            <p><%= user.bio %></p>
-                            <p><strong>Specialties:</strong> <%= user.specialties.join(', ') %></p>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <p><%= user.email %></p>
                         </div>
-                        
-                        <div class="projects">
-                            <h3>Notable Projects</h3>
-                            <% user.projects.forEach(project => { %>
-                                <h4><%= project.name %> (<%= project.year %>)</h4>
-                                <p><strong>Location:</strong> <%= project.location %></p>
-                                <div class="project">
-                                    <img src="<%= project.image %>" alt="<%= project.name %>" class="project-image">
-                                    <p><%= project.description %></p>
-                                </div>
-                            <% }); %>
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <p>+91 78856 34429</p>
                         </div>
-                        <div class="action-buttons">
-                            <a href="/worker_profile_edit" class="book-now-btn">Edit Profile</a>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <p>Avenue Road , Meerut</p>
                         </div>
+                        <div class="form-group">
+                            <label>About Me</label>
+                            <p>I'm a homeowner looking to renovate my kitchen and add a deck to the back of my house.</p>
+                        </div>
+                        <button id="edit-profile-btn" class="btn">Edit Profile</button>
                     </div>
-                    </div>
+                    <form id="profile-edit" style="display: none;">
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" class="form-control" value="Aarav">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" class="form-control" value="aarav@gmail.com">
+                            <button type="button" id="verify-email-btn" class="btn btn-secondary" style="margin-top: 0.5rem; display: none;">Verify Email</button>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" class="form-control" value="aarav@gmail.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <textarea id="address" class="form-control" rows="3">Avenue Road , Meerut</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="bio">About Me</label>
+                            <textarea id="bio" class="form-control" rows="5">I'm a homeowner looking to renovate my kitchen and add a deck to the back of my house.</textarea>
+                        </div>
+                        <button type="button" id="cancel-edit-btn" class="btn btn-secondary" style="margin-right: 1rem;">Cancel</button>
+                        <button type="submit" class="btn">Save Changes</button>
+                    </form>
                 </div>
                 <!-- Security -->
                 <div id="security" class="settings-section">
@@ -454,7 +290,6 @@
                         <hr style="margin: 2rem 0;">
                     </form>
                 </div>
-                
                 <!-- Help Center -->
                 <div id="help-center" class="settings-section">
                 <h2>Help Center</h2>
@@ -489,30 +324,45 @@
                     <h2>Logout</h2>
                     <div style="margin-bottom: 2rem;">
                         <p style="margin-bottom: 1.5rem;">Are you sure you want to log out of your account?</p>
-                        <button class="btn btn-danger">Logout</button>
+                        <a href="/logout"><button class="btn btn-danger">Logout</button></a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <script>
-        //handle tab switching
+        const notificationIcon = document.getElementById('notificationIcon');
+        const notificationPanel = document.getElementById('notificationPanel');
+
+        notificationIcon.addEventListener('click', function(e) {
+            e.stopPropagation();
+            notificationPanel.classList.toggle('show');
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!notificationPanel.contains(e.target) && !notificationIcon.contains(e.target)) {
+                notificationPanel.classList.remove('show');
+            }
+        });
+        // Simple JavaScript to handle tab switching
         document.addEventListener('DOMContentLoaded', function() {
             const navLinks = document.querySelectorAll('.settings-nav a');
             const sections = document.querySelectorAll('.settings-section');
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
+                    // Remove active class from all links and sections
                     navLinks.forEach(link => link.classList.remove('active'));
                     sections.forEach(section => section.classList.remove('active'));
-                    // Add active class
+                    // Add active class to clicked link
                     this.classList.add('active');
+                    // Show corresponding section
                     const targetId = this.getAttribute('href').substring(1);
                     document.getElementById(targetId).classList.add('active');
                 });
             });
         });
-        // Profile edit
+        // Profile edit functionality
         const editProfileBtn=document.getElementById('edit-profile-btn');
         const cancelEditBtn=document.getElementById('cancel-edit-btn');
         const profileDisplay=document.getElementById('profile-display');
@@ -530,7 +380,7 @@
             cancelEditBtn.addEventListener('click', function() {
                 profileDisplay.style.display='block';
                 profileEdit.style.display='none';
-                // form reset
+                // Reset the form values (optional)
                 document.getElementById('profile-edit').reset();
                 // Hide verify button
                 verifyEmailBtn.style.display='none';

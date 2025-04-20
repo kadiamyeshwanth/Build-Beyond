@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title || 'Settings' %></title>
+    <title>Settings</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
@@ -429,28 +429,10 @@
                             <% }); %>
                         </div>
                         <div class="action-buttons">
-                            <a href="/edit-profile" class="book-now-btn">Edit Profile</a>
+                            <a href="/worker_profile_edit" class="book-now-btn">Edit Profile</a>
                         </div>
                     </div>
                     </div>
-                </div>
-                <!-- Appearance -->
-                <div id="appearance" class="settings-section">
-                    <h2>Appearance Settings</h2>
-                    <form>
-                        <div class="form-group">
-                            <label>Theme</label>
-                            <div class="form-check">
-                                <input type="radio" name="theme" id="themeLight" checked>
-                                <label for="themeLight">Light Mode</label>
-                            </div>
-                            <div class="form-check">
-                                <input type="radio" name="theme" id="themeDark">
-                                <label for="themeDark">Dark Mode</label>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn">Apply</button>
-                    </form>
                 </div>
                 <!-- Security -->
                 <div id="security" class="settings-section">
@@ -473,50 +455,29 @@
                     </form>
                 </div>
                 
-                <!-- Payments -->
-                <div id="payments" class="settings-section">
-                    <h2>Payment Settings</h2>
-                    <div>
-                        <h3 style="margin-bottom: 1rem; color: #555;">Invoices</h3>
-                        <table style="width: 100%; border-collapse: collapse;">
-                            <thead>
-                                <tr style="border-bottom: 2px solid var(--border-color);">
-                                    <th style="text-align: left; padding: 0.75rem;">Invoice #</th>
-                                    <th style="text-align: left; padding: 0.75rem;">Date</th>
-                                    <th style="text-align: left; padding: 0.75rem;">Amount</th>
-                                    <th style="text-align: left; padding: 0.75rem;">Status</th>
-                                    <th style="text-align: left; padding: 0.75rem;"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% invoices.forEach(invoice => { %>
-                                    <tr style="border-bottom: 1px solid var(--border-color);">
-                                        <td style="padding: 0.75rem;"><%= invoice.number %></td>
-                                        <td style="padding: 0.75rem;"><%= new Date(invoice.date).toLocaleDateString() %></td>
-                                        <td style="padding: 0.75rem;">₹<%= invoice.amount.toLocaleString('en-IN') %></td>
-                                        <td style="padding: 0.75rem; color: var(--success-color);"><%= invoice.status %></td>
-                                        <td style="padding: 0.75rem;">
-                                            <a href="<%= invoice.downloadLink %>" style="color: var(--primary-color);">Download</a>
-                                        </td>
-                                    </tr>
-                                <% }); %>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
                 <!-- Help Center -->
                 <div id="help-center" class="settings-section">
                 <h2>Help Center</h2>
                     <div style="margin-bottom: 2rem;">
                         <h3 style="margin-bottom: 1rem; color: #555;">Frequently Asked Questions</h3>
-                        <% faqs.forEach(faq => { %>
-                            <div style="padding: 1rem; border: 1px solid var(--border-color); border-radius: 4px; margin-bottom: 1rem;">
-                                <div>
-                                    <span style="font-weight: 600;"><%= faq.question %></span>
-                                    <p style="margin-top: 0.5rem; color: #666;"><%= faq.answer %></p>
-                                </div>
+                        <div style="padding: 1rem; border: 1px solid var(--border-color); border-radius: 4px; margin-bottom: 1rem;">
+                            <div>
+                                <span style="font-weight: 600;">How do I create a new project?</span>
+                                <p style="margin-top: 0.5rem; color: #666;">Go to the Dashboard and click on the "New Project" button in the top right corner.</p>
                             </div>
-                        <% }); %>
+                        </div>
+                        <div style="padding: 1rem; border: 1px solid var(--border-color); border-radius: 4px; margin-bottom: 1rem;">
+                            <div>
+                                <span style="font-weight: 600;">How do I invite team members?</span>
+                                <p style="margin-top: 0.5rem; color: #666;">Navigate to your project, click on "Team" tab, and use the "Invite Member" button.</p>
+                            </div>
+                        </div>
+                        <div style="padding: 1rem; border: 1px solid var(--border-color); border-radius: 4px; margin-bottom: 1rem;">
+                            <div>
+                                <span style="font-weight: 600;">How can I track my project's budget?</span>
+                                <p style="margin-top: 0.5rem; color: #666;">Use the "Finances" tab within your project to track expenses and compare with your budget.</p>
+                            </div>
+                        </div>
                     </div>
                     <div style="margin-bottom: 2rem;">
                         <h3 style="margin-bottom: 1rem; color: #555;">Support Options</h3>

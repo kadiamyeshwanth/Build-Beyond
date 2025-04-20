@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Construction Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+        body {
+            background-color: #ffffff;
+            color: #333333;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        header {
+            background-color: #000000;
+            color: #ffffff;
+            padding: 1rem 0;
+        }
+        
+        main {
+            padding: 2rem 0;
+        }
+        
+        .dashboard-header {
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .dashboard-title {
+            font-size: 1.75rem;
+            color: #000000;
+        }
+        
+        .filter-options {
+            display: flex;
+            align-items: center;
+        }
+        
+        .filter-options select {
+            padding: 0.5rem;
+            margin-left: 0.5rem;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+        }
+        .card-section {
+            margin-bottom: 3rem;
+        }
+        
+        .section-title {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: #000000;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #97f099;
+        }
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+        .card-header {
+            background-color: #f7f7f7;
+            padding: 1rem;
+            border-bottom: 1px solid #eeeeee;
+        }
+        .card-company {
+            font-size: 1.2rem;
+            color: #000000;
+            margin-bottom: 0.25rem;
+        }
+        .card-location {
+            font-size: 0.9rem;
+            color: #666666;
+            display: flex;
+            align-items: center;
+        }
+        .card-body {
+            padding: 1rem;
+        }
+        .card-description {
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        .card-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        .card-detail {
+            display: flex;
+            flex-direction: column;
+        }
+        .detail-label {
+            font-weight: bold;
+            color: #666666;
+            margin-bottom: 0.25rem;
+        }
+        .detail-value {
+            color: #000000;
+        }
+        .card-actions {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 1rem;
+            border-top: 1px solid #eeeeee;
+        }
+        .btn {
+            padding: 0.75rem 1.25rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        .btn-primary {
+            background-color: #97f099;
+            color: #070707;
+        }
+        
+        .btn-primary:hover {
+            background-color: #54dd59;
+        }
+    </style>
+</head>
+<body>
+    <%- include('worker_navbar') %>
+    <main>
+        <div class="container">
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">Welcome, Builder</h1>
+            </div>
+            <section class="card-section">
+                <h2 class="section-title">Recent Offers </h2>
+                <div class="cards-container">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-company">Metropolitan Builders</h3>
+                            <p class="card-location">Mumbai</p>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-description">We're impressed with your portfolio and would like to offer you a position as Senior Architect on our high-rise development team.</p>
+                            <div class="card-details">
+                                <div class="card-detail">
+                                    <span class="detail-label">Position</span>
+                                    <span class="detail-value">Senior Architect</span>
+                                </div>
+                                <div class="card-detail">
+                                    <span class="detail-label">Salary</span>
+                                    <span class="detail-value">₹95K - ₹120K</span>
+                                </div>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn btn-primary">View Offer</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-company">Reliable Infrastructure Inc.</h3>
+                            <p class="card-location">Chennai</p>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-description">Your civil engineering experience is exactly what we're looking for. We'd like to discuss a Architect Designer position with you.</p>
+                            <div class="card-details">
+                                <div class="card-detail">
+                                    <span class="detail-label">Position</span>
+                                    <span class="detail-value">Architect Designer</span>
+                                </div>
+                                <div class="card-detail">
+                                    <span class="detail-label">Salary</span>
+                                    <span class="detail-value">₹85K - ₹105K</span>
+                                </div>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn btn-primary">View Offer</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-company">Elite Homes Construction</h3>
+                            <p class="card-location">Delhi</p>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-description">We're expanding our residential division and believe your Architectural expertise would be a perfect fit for our custom home projects.</p>
+                            <div class="card-details">
+                                <div class="card-detail">
+                                    <span class="detail-label">Position</span>
+                                    <span class="detail-value">Architect</span>
+                                </div>
+                                <div class="card-detail">
+                                    <span class="detail-label">Salary</span>
+                                    <span class="detail-value">₹75K - ₹90K</span>
+                                </div>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn btn-primary">View Offer</button>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="card-section">
+                <h2 class="section-title">Companies You Can Join</h2>
+                <div class="cards-container">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-company">Skyline Developments</h3>
+                            <p class="card-location">Mumbai</p>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-description">Leading commercial construction company focused on high-rise office buildings and mixed-use developments. Currently hiring multiple positions.</p>
+                            <div class="card-details">
+                                <div class="card-detail">
+                                    <span class="detail-label">Industry</span>
+                                    <span class="detail-value">Commercial Construction</span>
+                                </div>
+                                <div class="card-detail">
+                                    <span class="detail-label">Size</span>
+                                    <span class="detail-value">500+ employees</span>
+                                </div>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn btn-primary">Apply Now</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-company">Premier Renovations</h3>
+                            <p class="card-location">Chennai</p>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-description">Boutique renovation company specializing in historic building restoration and luxury home remodeling projects.</p>
+                            <div class="card-details">
+                                <div class="card-detail">
+                                    <span class="detail-label">Industry</span>
+                                    <span class="detail-value">Residential Renovation</span>
+                                </div>
+                                <div class="card-detail">
+                                    <span class="detail-label">Size</span>
+                                    <span class="detail-value">20-50 employees</span>
+                                </div>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn btn-primary">Apply Now</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-company">BridgeWorks Engineering</h3>
+                            <p class="card-location">Delhi</p>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-description">Fast-growing civil engineering firm focused on infrastructure projects, bridge construction, and roadway development.</p>
+                            <div class="card-details">
+                                <div class="card-detail">
+                                    <span class="detail-label">Industry</span>
+                                    <span class="detail-value">Civil Engineering</span>
+                                </div>
+                                <div class="card-detail">
+                                    <span class="detail-label">Size</span>
+                                    <span class="detail-value">50-100 employees</span>
+                                </div>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn btn-primary">Apply Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="card-section">
+                <h2 class="section-title">New Jobs</h2>
+                <div class="cards-container">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-company">Guest house</h3>
+                            <p class="card-location">Rajyalakshmi Nagar,Guntur</p>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-description">Need you to build an house plan for a land of 700sft which contains a living room,2bedrooms,2bathrooms and a bit of open place.</p>
+                            <div class="card-details">
+                                <div class="card-detail">
+                                    <span class="detail-label">Timeline</span>
+                                    <span class="detail-value">2-weeks</span>
+                                </div>
+                                <div class="card-detail">
+                                    <span class="detail-label">Budget</span>
+                                    <span class="detail-value">₹10k</span>
+                                </div>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn btn-primary">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-company">Dream house</h3>
+                            <p class="card-location">Krishna Nagar,vijayawada</p>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-description">I want you to design a plan for a bungalow with 1500sft which contains a large swimming pool, large garden area etc.</p>
+                            <div class="card-details">
+                                <div class="card-detail">
+                                    <span class="detail-label">Timeline</span>
+                                    <span class="detail-value">2 weeks</span>
+                                </div>
+                                <div class="card-detail">
+                                    <span class="detail-label">Budget</span>
+                                    <span class="detail-value">₹20k</span>
+                                </div>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn btn-primary">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+</body>
+</html>

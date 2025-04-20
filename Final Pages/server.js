@@ -1,14 +1,19 @@
 const {express,app,PORT,bodyParser,session,SQLiteStore,cors,path,mongoose,router,multer,fs} = require("./getServer")
 
+// Configure storage for uploaded files
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/'); // make sure this folder exists
+    const uploadDir = 'public/uploads/';
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir);
   },
   filename: function (req, file, cb) {
-    cb(null, `${Date.now()}-${file.originalname}`);
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, uniqueSuffix + path.extname(file.originalname));
   }
 });
-
 // Create upload instance
 const upload = multer({ 
   storage: storage,
@@ -84,29 +89,62 @@ const companySchema = new mongoose.Schema({
 const Company = mongoose.model("Company", companySchema);
 
 // Worker Schema
+// const workerSchema = new mongoose.Schema({
+//   name: String,
+//   email: { type: String, unique: true },
+//   password: String,
+//   phone: String,
+//   aadharNumber: String,
+//   specialization: String,
+//   experience: Number,
+//   certificateFiles: [String],
+//   createdAt: { type: Date, default: Date.now },
+//   // New fields from architect form
+//   professionalTitle: String,
+//   about: String,
+//   specialties: [String],
+//   projects: [{
+//       name: String,
+//       year: Number,
+//       location: String,
+//       description: String,
+//       image: String
+//   }],
+//   profileImage: String,
+//   rating: Number
+// });
+// Worker Schema
 const workerSchema = new mongoose.Schema({
-  name: String,
-  email: { type: String, unique: true },
-  password: String,
-  phone: String,
-  aadharNumber: String,
-  specialization: String,
-  experience: Number,
-  certificateFiles: [String],
+  name: { type: String, required: true },
+  email: { type: String, unique: true, required: true },
+  password: { type: String, required: true },
+  phone: { type: String },
+  aadharNumber: { type: String },
+  specialization: { type: String },
+  experience: { type: Number, default: 0 },
+  certificateFiles: [{ type: String }], // Array of file paths
   createdAt: { type: Date, default: Date.now },
-  // New fields from architect form
-  professionalTitle: String,
-  about: String,
-  specialties: [String],
+  
+  // Architect-specific fields
+  profileImage: { type: String }, // Path to profile image
+  professionalTitle: { type: String },
+  about: { type: String },
+  specialties: [{ type: String }], // Array of specialties
   projects: [{
-      name: String,
-      year: Number,
-      location: String,
-      description: String,
-      image: String
+    name: { type: String },
+    year: { type: Number },
+    location: { type: String },
+    description: { type: String },
+    image: { type: String }, // Path to project image
+    createdAt: { type: Date, default: Date.now }
   }],
-  profileImage: String,
-  rating: Number
+  rating: { type: Number, default: 0, min: 0, max: 5 },
+  
+  // Additional useful fields
+  updatedAt: { type: Date, default: Date.now },
+  isArchitect: { type: Boolean, default: false }, // To distinguish architect profiles
+  servicesOffered: [{ type: String }], // Could be similar to specialties
+  availability: { type: String, enum: ['available', 'busy', 'unavailable'], default: 'available' }
 });
 const Worker = mongoose.model("Worker", workerSchema);
 // // Update worker profile endpoint
@@ -398,6 +436,7 @@ app.get("/workerjoin_company.html", async (req, res) => {
   const user = await Model.findById(req.session.user.id);
   res.render("worker/workers_join_company", { user });
 });
+
 app.get("/workersettings.html", async (req, res) => {
   const Model = getModelByRole(req.session.user.role);
   const user = await Model.findById(req.session.user.id);
@@ -544,3 +583,77 @@ function getRedirectUrl(role) {
   };
   return redirectUrls[role] || "/";
 }
+
+//Krishna added server code
+
+app.post(
+  "/worker_profile_edit_submit",
+  upload.fields([
+    { name: "profileImage", maxCount: 1 },
+    { name: "projectImages" },
+  ]),
+  async (req, res) => {
+    try {
+      const { name, title, experience, about } = req.body;
+
+      // Profile image
+      const profileImage = req.files["profileImage"]
+        ? req.files["profileImage"][0].path.replace("public", "")
+        : "";
+
+      // Specialties (checkboxes, can be array or single value)
+      const specialties = Array.isArray(req.body.specialties)
+        ? req.body.specialties
+        : [req.body.specialties];
+
+      // Handle dynamic projects
+      const projects = [];
+      const projectImages = req.files["projectImages"] || [];
+      const imageMap = {}; // Map to associate images with the right project
+
+      projectImages.forEach((file, index) => {
+        const imageKey = `projectImage-${index + 1}`;
+        imageMap[imageKey] = file.path.replace("public", "");
+      });
+
+      let count = 1;
+      while (req.body[`projectName-${count}`]) {
+        const project = {
+          name: req.body[`projectName-${count}`],
+          year: parseInt(req.body[`projectYear-${count}`]),
+          location: req.body[`projectLocation-${count}`],
+          description: req.body[`projectDescription-${count}`],
+          image: projectImages[count - 1]
+            ? projectImages[count - 1].path.replace("public", "")
+            : "",
+        };
+        projects.push(project);
+        count++;
+      }
+
+      // Create or update the worker (assuming the logged-in worker ID is passed in session or param)
+      const workerId = req.session.userId || req.body.workerId; // Adjust based on your auth system
+
+      const updatedWorker = await Worker.findByIdAndUpdate(
+        workerId,
+        {
+          name,
+          professionalTitle: title,
+          experience,
+          about,
+          profileImage,
+          specialties,
+          projects,
+          isArchitect: true,
+          updatedAt: new Date(),
+        },
+        { new: true, upsert: true }
+      );
+
+      res.redirect(`/workersettings.html`);
+    } catch (err) {
+      console.error(err);
+      res.status(500).send("Error saving profile");
+    }
+  }
+);

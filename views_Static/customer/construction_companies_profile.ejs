@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Construction Company Website</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: #f5f5f5;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+    .container {
+      display: flex;
+      max-width: 1400px;
+      width: 90%;
+      height: calc(95vh - 70px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 20px auto;
+    }
+
+    .left-section {
+      flex: 2;
+      overflow-y: auto;
+      padding: 30px;
+      background-color: white;
+      border-right: 1px solid #e0e0e0;
+    }
+
+    .right-section-details {
+      flex: 1;
+      padding: 0px 25px;
+      background-color: #f0f4f8;
+      color: #1a3c64;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-width: 350px;
+      max-height: calc(95vh - 70px);
+      overflow: hidden;
+      
+    }
+
+    .company-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .company-logo {
+      width: 80px;
+      height: 80px;
+      background-color: #1a3c64;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 20px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .right-logo {
+      width: 70px;
+      height: 70px;
+      background-color: #1a3c64;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    h1, h2 {
+      margin-bottom: 20px;
+      color: #1a3c64;
+    }
+
+    .right-section-details h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: #1a3c64;
+    }
+
+    .right-section-details h2 {
+      font-size: 18px;
+      margin-top: 15px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid rgba(26,60,100,0.2);
+      padding-bottom: 5px;
+    }
+
+    .section {
+      margin-bottom: 40px;
+    }
+
+    .team-member {
+      display: flex;
+      margin-bottom: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+    }
+
+    .team-member img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 15px;
+    }
+
+    .rating {
+      color: #ffc107;
+      margin-top: 5px;
+    }
+
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .project-card {
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .project-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .project-info {
+      padding: 15px;
+      background-color: white;
+    }
+
+    .services-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .service-item {
+      padding: 15px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+    }
+
+    .service-item i {
+      margin-right: 10px;
+      font-size: 24px;
+      color: #1a3c64;
+    }
+
+    .certifications {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .cert-badge {
+      padding: 10px 15px;
+      background-color: #e9f5ff;
+      border-radius: 20px;
+      color: #1a3c64;
+      font-weight: bold;
+    }
+
+    .testimonial {
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .testimonial::before {
+      content: '"';
+      font-size: 60px;
+      color: #dddddd;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+    }
+
+    .testimonial-content {
+      padding-left: 30px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .tagline {
+      font-style: italic;
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+
+    .core-stats {
+      margin-bottom: 15px;
+    }
+
+    .stat-item {
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+    }
+
+    .stat-item i {
+      font-size: 18px;
+      min-width: 25px;
+    }
+
+    .stat-item span {
+      margin-left: 10px;
+      font-size: 14px;
+    }
+
+    .book-now-btn {
+      background-color: #ff6b35;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s;
+      margin-top: 15px;
+      width: 100%;
+    }
+
+    .book-now-btn:hover {
+      background-color: #e55a2b;
+    }
+
+    .quality-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .quality-item i {
+      color: #48c774;
+      margin-right: 10px;
+      font-size: 18px;
+    }
+
+    .progress-container {
+      width: 100%;
+      background-color: rgba(26,60,100,0.1);
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .progress-bar {
+      height: 8px;
+      border-radius: 10px;
+      background-color: #838080;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 3px;
+      font-size: 14px;
+    }
+
+    .right-footer {
+      font-size: 11px;
+      text-align: center;
+      margin-top: 10px;
+      opacity: 0.7;
+    }
+
+    .quick-fact {
+      background-color: #f9f9f9;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+    }
+
+    .quick-fact i {
+      margin-right: 10px;
+      font-size: 18px;
+      color: #1a3c64;
+    }
+
+    .left-section::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .left-section::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    .left-section::-webkit-scrollbar-thumb {
+      background: #c9c9c9;
+      border-radius: 10px;
+    }
+
+    .left-section::-webkit-scrollbar-thumb:hover {
+      background: #a8a8a8;
+    }
+
+    .quality-metrics {
+      margin-bottom: 15px;
+    }
+
+    .quality-metric {
+      margin-bottom: 8px;
+    }
+
+    @media (max-width: 1100px) {
+      .container {
+        flex-direction: column;
+        height: auto;
+      }
+
+      .left-section, .right-section-details {
+        width: 100%;
+      }
+
+      .right-section-details {
+        min-height: 500px;
+        max-height: none;
+        overflow-y: auto;
+      }
+
+      .right-section-details::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .right-section-details::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+
+      .right-section-details::-webkit-scrollbar-thumb {
+        background: #a8c3e1;
+        border-radius: 10px;
+      }
+
+      .right-section-details::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 0 20px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .logo {
+        font-size: 20px;
+      }
+
+      .hero-text {
+        font-size: 32px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <%- include('navbar_customer') %>
+  <div class="container">
+    <!-- Left Section (Scrollable) -->
+    <div class="left-section">
+      <div class="company-header">
+        <div class="company-logo">BC</div>
+        <h1>BuildCraft Solutions</h1>
+      </div>
+      
+      <section class="section">
+        <h2>Company Overview</h2>
+        <p>Founded in 2005, we have established ourselves as a leading construction company in the region with a focus on quality, innovation, and customer satisfaction. Our journey began with small residential projects and has expanded to include commercial buildings, renovations, and large-scale developments.</p>
+        <p>We specialize in Residential Construction, Commercial Development, Renovation Projects, and Interior Design services, bringing expertise and professionalism to every project we undertake.</p>
+      </section>
+      
+      <section class="section">
+        <h2>Why Choose Us?</h2>
+        <div class="quality-list">
+          <div class="quality-item">
+            <i>✓</i>
+            <span>Fixed price contracts - no hidden costs</span>
+          </div>
+          <div class="quality-item">
+            <i>✓</i>
+            <span>Transparent milestone-based payment schedule</span>
+          </div>
+          <div class="quality-item">
+            <i>✓</i>
+            <span>In-house team of qualified professionals</span>
+          </div>
+          <div class="quality-item">
+            <i>✓</i>
+            <span>Sustainable building practices</span>
+          </div>
+          <div class="quality-item">
+            <i>✓</i>
+            <span>10-year structural warranty</span>
+          </div>
+        </div>
+      </section>
+      
+      <section class="section">
+        <h2>Team Members & Ratings</h2>
+        <div class="team-member">
+          <img src="/api/placeholder/80/80" alt="Team Member">
+          <div>
+            <h3>Prudhvi K</h3>
+            <p>Lead Architect</p>
+            <div class="rating">★★★★★ (4.9/5)</div>
+            <p>"Prudhvi's designs are innovative and perfectly capture our vision."</p>
+          </div>
+        </div>
+        <div class="team-member">
+          <img src="/api/placeholder/80/80" alt="Team Member">
+          <div>
+            <h3>Manideep</h3>
+            <p>Senior Project Manager</p>
+            <div class="rating">★★★★★ (4.8/5)</div>
+            <p>"Manideep's attention to detail and timeline management is exceptional."</p>
+          </div>
+        </div>
+        <div class="team-member">
+          <img src="/api/placeholder/80/80" alt="Team Member">
+          <div>
+            <h3>Krishna</h3>
+            <p>Interior Design Specialist</p>
+            <div class="rating">★★★★☆ (4.7/5)</div>
+            <p>"Krishna transformed our space with her creative vision and practical solutions."</p>
+          </div>
+        </div>
+        <div class="team-member">
+          <img src="/api/placeholder/80/80" alt="Team Member">
+          <div>
+            <h3>Avinash</h3>
+            <p>Structural Engineer</p>
+            <div class="rating">★★★★★ (4.9/5)</div>
+            <p>"Avinash's engineering expertise ensured our complex project was both safe and innovative."</p>
+          </div>
+        </div>
+      </section>
+      
+      <section class="section">
+        <h2>Completed Projects</h2>
+        <div class="projects">
+          <div class="project-card">
+            <img src="/api/placeholder/400/200" alt="Project">
+            <div class="project-info">
+              <h3>Modern Office Complex</h3>
+              <p>A 50,000 sq ft commercial space with sustainable features</p>
+              <div class="rating">★★★★★ (5.0/5)</div>
+            </div>
+          </div>
+          <div class="project-card">
+            <img src="/api/placeholder/400/200" alt="Project">
+            <div class="project-info">
+              <h3>Luxury Residential Tower</h3>
+              <p>25-story residential building with premium amenities</p>
+              <div class="rating">★★★★☆ (4.8/5)</div>
+            </div>
+          </div>
+          <div class="project-card">
+            <img src="/api/placeholder/400/200" alt="Project">
+            <div class="project-info">
+              <h3>Heritage Building Renovation</h3>
+              <p>Restoration of a historic 19th-century structure</p>
+              <div class="rating">★★★★★ (4.9/5)</div>
+            </div>
+          </div>
+          <div class="project-card">
+            <img src="/api/placeholder/400/200" alt="Project">
+            <div class="project-info">
+              <h3>Community Recreation Center</h3>
+              <p>Multi-purpose facility with sports courts and event spaces</p>
+              <div class="rating">★★★★☆ (4.7/5)</div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <section class="section">
+        <h2>Services Offered</h2>
+        <div class="services-list">
+          <div class="service-item">
+            <i>🏗️</i>
+            <span>Architectural Design</span>
+          </div>
+          <div class="service-item">
+            <i>🔨</i>
+            <span>Construction Management</span>
+          </div>
+          <div class="service-item">
+            <i>🏠</i>
+            <span>Residential Building</span>
+          </div>
+          <div class="service-item">
+            <i>🏢</i>
+            <span>Commercial Construction</span>
+          </div>
+          <div class="service-item">
+            <i>🛠️</i>
+            <span>Renovation & Remodeling</span>
+          </div>
+          <div class="service-item">
+            <i>🖌️</i>
+            <span>Interior Design</span>
+          </div>
+          <div class="service-item">
+            <i>🏗️</i>
+            <span>Structural Engineering</span>
+          </div>
+          <div class="service-item">
+            <i>🌿</i>
+            <span>Sustainable Building</span>
+          </div>
+        </div>
+      </section>
+      
+      <section class="section">
+        <h2>Did You Know?</h2>
+        <div class="quick-facts">
+          <div class="quick-fact">
+            <i>💡</i>
+            <span>We complete 95% of our projects ahead of schedule</span>
+          </div>
+          <div class="quick-fact">
+            <i>💡</i>
+            <span>Our sustainable designs save clients 30% on energy costs</span>
+          </div>
+          <div class="quick-fact">
+            <i>💡</i>
+            <span>We source 70% of materials locally</span>
+          </div>
+        </div>
+      </section>
+      
+      <section class="section">
+        <h2>Certifications & Awards</h2>
+        <div class="certifications">
+          <div class="cert-badge">ISO 9001:2015</div>
+          <div class="cert-badge">LEED Platinum</div>
+          <div class="cert-badge">Best Constructor 2023</div>
+          <div class="cert-badge">Safety Excellence Award</div>
+          <div class="cert-badge">Eco-Builder Certification</div>
+          <div class="cert-badge">Design Innovation Award</div>
+        </div>
+      </section>
+      
+      <section class="section">
+        <h2>Client Testimonials & Reviews</h2>
+        <div class="testimonial">
+          <div class="testimonial-content">
+            <p>Working with this team was an absolute pleasure. They delivered our dream home on time and within budget. Their attention to detail and quality craftsmanship exceeded our expectations.</p>
+            <p><strong>-Sankar, Homeowners</strong></p>
+            <div class="rating">★★★★★ (5.0/5)</div>
+          </div>
+        </div>
+        <div class="testimonial">
+          <div class="testimonial-content">
+            <p>As a commercial developer, I've worked with many construction firms, but none match the professionalism and expertise of this team. Our office complex project was handled with precision and care.</p>
+            <p><strong>- Hema, Commercial Developer</strong></p>
+            <div class="rating">★★★★☆ (4.8/5)</div>
+          </div>
+        </div>
+        <div class="testimonial">
+          <div class="testimonial-content">
+            <p>The renovation of our historic building presented numerous challenges, but this team navigated them all with expertise and creative solutions. The result preserves our building's character while adding modern functionality.</p>
+            <p><strong>- Balaji</strong></p>
+            <div class="rating">★★★★★ (4.9/5)</div>
+          </div>
+        </div>
+      </section>
+    </div>
+    
+    <!-- Right Section (Fixed) -->
+    <div class="right-section-details">
+      <div>
+        <div class="right-logo">
+          BC
+        </div>
+        <h1>BuildCraft Solutions</h1>
+        <p class="tagline">"Building Your Dreams with Excellence"</p>
+        
+        <div class="core-stats">
+          <div class="stat-item">
+            <i>📍</i>
+            <span>Tenkasi,Chennai</span>
+          </div>
+          <div class="stat-item">
+            <i>🏗</i>
+            <span>Years in Business: 18</span>
+          </div>
+          <div class="stat-item">
+            <i>👷</i>
+            <span>Total Employees: 250+</span>
+          </div>
+          <div class="stat-item">
+            <i>🏠</i>
+            <span>Projects Completed: 780</span>
+          </div>
+          <div class="stat-item">
+            <i>⭐</i>
+            <span>Average Rating: 4.8/5</span>
+          </div>
+        </div>
+        
+        <h2>Our Service Quality</h2>
+        <div class="quality-metrics">
+          <div class="quality-metric">
+            <div class="progress-label">
+              <span>On-time Completion</span>
+              <span>95%</span>
+            </div>
+            <div class="progress-container">
+              <div class="progress-bar" style="width: 95%"></div>
+            </div>
+          </div>
+          <div class="quality-metric">
+            <div class="progress-label">
+              <span>Budget Adherence</span>
+              <span>98%</span>
+            </div>
+            <div class="progress-container">
+              <div class="progress-bar" style="width: 98%"></div>
+            </div>
+          </div>
+          <div class="quality-metric">
+            <div class="progress-label">
+              <span>Customer Satisfaction</span>
+              <span>97%</span>
+            </div>
+            <div class="progress-container">
+              <div class="progress-bar" style="width: 97%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        <a href="/constructionform.html"><button class="book-now-btn">BOOK A CONSULTATION</button></a>
+        <p class="right-footer">Licensed & Insured • All Major Projects Bonded</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const notificationIcon = document.getElementById('notificationIcon');
+    const notificationPanel = document.getElementById('notificationPanel');
+    
+    notificationIcon.addEventListener('click', function(e) {
+      e.stopPropagation();
+      notificationPanel.classList.toggle('show');
+    });
+    
+    document.addEventListener('click', function(e) {
+      if (!notificationPanel.contains(e.target) && !notificationIcon.contains(e.target)) {
+        notificationPanel.classList.remove('show');
+      }
+    });
+  </script>
+</body>
+</html>

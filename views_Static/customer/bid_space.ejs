@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bid Management System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+    
+    body {
+      background-color: #f8f9fa;
+    }  
+    .container {
+      display: flex;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      gap: 20px;
+    }
+    
+    .section {
+      flex: 1;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      padding: 20px;
+      height: fit-content;
+    }
+    
+    .header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .title {
+      color: #1a365d;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    
+    .section-title {
+      color: #1a365d;
+      font-size: 20px;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e1e8f0;
+    }
+    
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e1e8f0;
+    }
+    
+    .bid-item {
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      background-color: #ffffff;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    
+    .bid-item:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+    
+    .bid-item.active {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .bid-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    
+    .bid-title {
+      font-weight: 600;
+      color: #2d3748;
+    }
+    
+    .bid-price {
+      font-weight: 600;
+      color: #f3b711;
+    }
+    
+    .bid-details {
+      font-size: 14px;
+      color: #4a5568;
+      margin-bottom: 5px;
+    }
+    
+    .bid-date {
+      font-size: 12px;
+      color: #718096;
+    }
+    
+    .company-bid {
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      background-color: #ffffff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    
+    .company-bid:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .bid-company {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .company-logo {
+      width: 40px;
+      height: 40px;
+      background-color: #2f855a;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      margin-right: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+    }
+    
+    .rating {
+      display: flex;
+      color: #ecc94b;
+      font-size: 14px;
+      margin-top: 3px;
+    }
+    
+    .bid-actions {
+      display: flex;
+      margin-top: 15px;
+      gap: 10px;
+    }
+    
+    .btn {
+      padding: 8px 15px;
+      border-radius: 5px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      transform: translateY(-1px);
+    }
+    
+    .btn-accept {
+      background-color: #38a169;
+      color: white;
+    }
+    
+    .btn-accept:hover {
+      background-color: #2f855a;
+    }
+    
+    .btn-deny {
+      background-color: #e53e3e;
+      color: white;
+    }
+    
+    .btn-deny:hover {
+      background-color: #c53030;
+    }
+    
+    .btn-create {
+      background-color: #e9c46a;
+      color: white;
+    }
+    
+    .btn-create:hover {
+      background-color: #eb9c26;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #718096;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    
+    .no-bids {
+      text-align: center;
+      padding: 40px 20px;
+      color: #718096;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    
+    .no-bids-text {
+      font-size: 16px;
+      color: #4a5568;
+    }
+    
+    .hidden {
+      display: none;
+    }
+
+    .message-banner {
+      background-color: #ebf8ff;
+      border-left: 4px solid #3182ce;
+      padding: 10px 15px;
+      margin-bottom: 15px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+    }
+
+    .message-icon {
+      color: #3182ce;
+      font-size: 18px;
+      margin-right: 10px;
+    }
+
+    .message-content {
+      color: #2c5282;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <%- include('navbar_customer') %>
+  <div class="container">
+    <div class="section">
+      <div class="message-banner">
+        <div class="message-icon">ℹ️</div>
+        <div class="message-content">Bid management is only available for large-scale projects with a minimum value of ₹10,00,000.</div>
+      </div>
+      
+      <div class="section-header">
+        <h2 class="section-title">Your Bid Requests</h2>
+        <a href="/bidform.html"><button class="btn btn-create" onclick="createNewBid()">Create New Bid</button></a>
+      </div>
+      
+      <div class="bid-list">
+        <div class="bid-item" onclick="selectBid(1)">
+          <div class="bid-header">
+            <div class="bid-title">Kitchen Renovation</div>
+            <div class="bid-price">₹12,00,000 - ₹16,00,000</div>
+          </div>
+          <div class="bid-details">Complete kitchen remodel including cabinets, countertops, and appliances</div>
+          <div class="bid-date">Posted: March 8, 2025</div>
+        </div>
+        
+        <div class="bid-item" onclick="selectBid(3)">
+          <div class="bid-header">
+            <div class="bid-title">Luxury Bathroom Suite</div>
+            <div class="bid-price">₹10,50,000 - ₹13,00,000</div>
+          </div>
+          <div class="bid-details">Spa-like bathroom with premium fixtures, heated floors, and custom tile work</div>
+          <div class="bid-date">Posted: March 5, 2025</div>
+        </div>
+        
+        <div class="bid-item" onclick="selectBid(4)">
+          <div class="bid-header">
+            <div class="bid-title">Backyard Landscaping</div>
+            <div class="bid-price">₹11,00,000 - ₹14,50,000</div>
+          </div>
+          <div class="bid-details">Complete landscape transformation with built-in pool, patio, and outdoor kitchen</div>
+          <div class="bid-date">Posted: March 1, 2025</div>
+        </div>
+        
+        <div class="bid-item" onclick="selectBid(5)">
+          <div class="bid-header">
+            <div class="bid-title">Home Theater Installation</div>
+            <div class="bid-price">₹10,20,000 - ₹12,50,000</div>
+          </div>
+          <div class="bid-details">Professional-grade home theater with acoustic treatments, premium equipment and seating</div>
+          <div class="bid-date">Posted: February 25, 2025</div>
+        </div>
+        
+        <div class="bid-item" onclick="selectBid(6)">
+          <div class="bid-header">
+            <div class="bid-title">Roof Replacement</div>
+            <div class="bid-price">₹10,80,000 - ₹13,60,000</div>
+          </div>
+          <div class="bid-details">Complete roof replacement with premium materials and upgraded insulation</div>
+          <div class="bid-date">Posted: February 20, 2025</div>
+        </div>
+        
+        <div class="bid-item" onclick="selectBid(2)">
+          <div class="bid-header">
+            <div class="bid-title">Full House Renovation</div>
+            <div class="bid-price">₹18,00,000 - ₹25,00,000</div>
+          </div>
+          <div class="bid-details">Complete house renovation including structural modifications and premium finishes</div>
+          <div class="bid-date">Posted: February 18, 2025</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section">
+      <h2 class="section-title">Company Bids</h2>
+      
+      <div id="empty-state" class="empty-state">
+        <p>Select a bid request to view company offers</p>
+      </div>
+      
+      <div id="bids-1" class="bids-container hidden">
+        <div class="company-bid">
+          <div class="bid-company">
+            <div class="company-logo">BC</div>
+            <div>
+              <div class="company-name">BuildCraft Solutions</div>
+              <div class="rating">★★★★☆ (4.8/5)</div>
+            </div>
+          </div>
+          <div class="bid-header">
+            <div class="bid-title">Kitchen Renovation Proposal</div>
+            <div class="bid-price">₹14,00,000</div>
+          </div>
+          <div class="bid-details">Complete renovation including premium cabinets, granite countertops, and new appliances. 3-week completion timeline.</div>
+          <div class="bid-date">Bid received: March 9, 2025</div>
+          <div class="bid-actions">
+            <button class="btn btn-accept">Accept Bid</button>
+            <button class="btn btn-deny">Decline</button>
+          </div>
+        </div>
+        
+        <div class="company-bid">
+          <div class="bid-company">
+            <div class="company-logo">RH</div>
+            <div>
+              <div class="company-name">Renovation Heroes</div>
+              <div class="rating">★★★★★ (4.9/5)</div>
+            </div>
+          </div>
+          <div class="bid-header">
+            <div class="bid-title">Kitchen Makeover</div>
+            <div class="bid-price">₹15,36,000</div>
+          </div>
+          <div class="bid-details">Luxury kitchen remodel with custom cabinetry, quartz countertops, and high-end appliances. 4-week timeline with dedicated project manager.</div>
+          <div class="bid-date">Bid received: March 10, 2025</div>
+          <div class="bid-actions">
+            <button class="btn btn-accept">Accept Bid</button>
+            <button class="btn btn-deny">Decline</button>
+          </div>
+        </div>
+      </div>
+      
+      <div id="bids-2" class="bids-container hidden">
+        <div class="company-bid">
+          <div class="bid-company">
+            <div class="company-logo">BC</div>
+            <div>
+              <div class="company-name">BuildCraft Solutions</div>
+              <div class="rating">★★★★☆ (4.8/5)</div>
+            </div>
+          </div>
+          <div class="bid-header">
+            <div class="bid-title">Complete House Transformation</div>
+            <div class="bid-price">₹22,50,000</div>
+          </div>
+          <div class="bid-details">Full-service renovation with architectural oversight, premium materials, and custom finishes. 2-month timeline with phased completion.</div>
+          <div class="bid-date">Bid received: February 20, 2025</div>
+          <div class="bid-actions">
+            <button class="btn btn-accept">Accept Bid</button>
+            <button class="btn btn-deny">Decline</button>
+          </div>
+        </div>
+        
+        <div class="company-bid">
+          <div class="bid-company">
+            <div class="company-logo">LR</div>
+            <div>
+              <div class="company-name">Luxury Renovations</div>
+              <div class="rating">★★★★★ (4.9/5)</div>
+            </div>
+          </div>
+          <div class="bid-header">
+            <div class="bid-title">Premium House Remodel Package</div>
+            <div class="bid-price">₹24,80,000</div>
+          </div>
+          <div class="bid-details">Comprehensive renovation with designer consultation, smart home integration, and energy-efficient upgrades. 10-week timeline with dedicated project team.</div>
+          <div class="bid-date">Bid received: February 22, 2025</div>
+          <div class="bid-actions">
+            <button class="btn btn-accept">Accept Bid</button>
+            <button class="btn btn-deny">Decline</button>
+          </div>
+        </div>
+      </div>
+      
+      <div id="bids-3" class="bids-container hidden">
+        <div class="company-bid">
+          <div class="bid-company">
+            <div class="company-logo">LS</div>
+            <div>
+              <div class="company-name">Luxury Spaces</div>
+              <div class="rating">★★★★☆ (4.7/5)</div>
+            </div>
+          </div>
+          <div class="bid-header">
+            <div class="bid-title">Premium Bathroom Suite</div>
+            <div class="bid-price">₹11,80,000</div>
+          </div>
+          <div class="bid-details">Luxury bathroom renovation with imported fixtures, marble flooring, and custom shower enclosure. 3-week completion timeline.</div>
+          <div class="bid-date">Bid received: March 6, 2025</div>
+          <div class="bid-actions">
+            <button class="btn btn-accept">Accept Bid</button>
+            <button class="btn btn-deny">Decline</button>
+          </div>
+        </div>
+      </div>
+      
+      <div id="bids-4" class="bids-container hidden">
+        <div class="company-bid">
+          <div class="bid-company">
+            <div class="company-logo">OL</div>
+            <div>
+              <div class="company-name">Outdoor Living</div>
+              <div class="rating">★★★★★ (5.0/5)</div>
+            </div>
+          </div>
+          <div class="bid-header">
+            <div class="bid-title">Backyard Paradise Package</div>
+            <div class="bid-price">₹13,40,000</div>
+          </div>
+          <div class="bid-details">Complete outdoor transformation with infinity pool, covered patio, and full outdoor kitchen. 6-week timeline with landscaping included.</div>
+          <div class="bid-date">Bid received: March 2, 2025</div>
+          <div class="bid-actions">
+            <button class="btn btn-accept">Accept Bid</button>
+            <button class="btn btn-deny">Decline</button>
+          </div>
+        </div>
+      </div>
+      
+      <div id="bids-5" class="bids-container hidden">
+        <div class="company-bid">
+          <div class="bid-company">
+            <div class="company-logo">HT</div>
+            <div>
+              <div class="company-name">Home Theater Pros</div>
+              <div class="rating">★★★★☆ (4.6/5)</div>
+            </div>
+          </div>
+          <div class="bid-header">
+            <div class="bid-title">Custom Theater Installation</div>
+            <div class="bid-price">₹11,20,000</div>
+          </div>
+          <div class="bid-details">Turnkey home theater with 4K projector, Dolby Atmos sound system, and custom seating. 2-week installation with calibration.</div>
+          <div class="bid-date">Bid received: February 26, 2025</div>
+          <div class="bid-actions">
+            <button class="btn btn-accept">Accept Bid</button>
+            <button class="btn btn-deny">Decline</button>
+          </div>
+        </div>
+      </div>
+      
+      <div id="bids-6" class="bids-container hidden">
+        <div class="company-bid">
+          <div class="bid-company">
+            <div class="company-logo">PR</div>
+            <div>
+              <div class="company-name">Premium Roofing</div>
+              <div class="rating">★★★★☆ (4.8/5)</div>
+            </div>
+          </div>
+          <div class="bid-header">
+            <div class="bid-title">Premium Roof Replacement</div>
+            <div class="bid-price">₹12,20,000</div>
+          </div>
+          <div class="bid-details">Complete roof replacement with 50-year warranty shingles, upgraded insulation, and improved ventilation system. 2-week timeline.</div>
+          <div class="bid-date">Bid received: February 21, 2025</div>
+          <div class="bid-actions">
+            <button class="btn btn-accept">Accept Bid</button>
+            <button class="btn btn-deny">Decline</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function selectBid(bidId) {
+      const bidItems = document.querySelectorAll('.bid-item');
+      bidItems.forEach(item => {
+        item.classList.remove('active');
+      });
+      
+      event.currentTarget.classList.add('active');
+      
+      const bidContainers = document.querySelectorAll('.bids-container');
+      bidContainers.forEach(container => {
+        container.classList.add('hidden');
+      });
+      
+      document.getElementById('empty-state').classList.add('hidden');
+      
+      document.getElementById(`bids-${bidId}`).classList.remove('hidden');
+    }
+
+    function createNewBid() {
+      console.log("Create new bid button clicked");
+    }
+    const notificationIcon = document.getElementById('notificationIcon');
+        const notificationPanel = document.getElementById('notificationPanel');
+        
+        notificationIcon.addEventListener('click', function(e) {
+            e.stopPropagation();
+            notificationPanel.classList.toggle('show');
+        });
+        
+        document.addEventListener('click', function(e) {
+            if (!notificationPanel.contains(e.target) && !notificationIcon.contains(e.target)) {
+                notificationPanel.classList.remove('show');
+            }
+        });
+  </script>
+</body>
+</html>
