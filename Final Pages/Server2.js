@@ -1,10 +1,25 @@
-const {express,app,PORT,bodyParser,session,SQLiteStore,cors,path,mongoose,router,multer,fs,bcrypt} = require("./getServer");
-const {Customer,Company,Worker,ArchitectHiring}=require("./Models.js")
+const {
+  express,
+  app,
+  PORT,
+  bodyParser,
+  session,
+  SQLiteStore,
+  cors,
+  path,
+  mongoose,
+  router,
+  multer,
+  fs,
+  bcrypt,
+} = require("./getServer");
+const { Customer, Company, Worker, ArchitectHiring } = require("./Models.js");
 
 const MongoDBStore = require("connect-mongodb-session")(session);
 
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "..", "views"));
+app.set("views", "views");
+
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
@@ -35,11 +50,12 @@ app.use(
 );
 
 // MongoDB Connection
-const mongoURI = "mongodb+srv://isaimanideepp:Sai62818@cluster0.mng20.mongodb.net/Build&Beyond?retryWrites=true&w=majority";
+const mongoURI =
+  "mongodb+srv://isaimanideepp:Sai62818@cluster0.mng20.mongodb.net/Build&Beyond?retryWrites=true&w=majority";
 mongoose
   .connect(mongoURI, {})
   .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.error("MongoDB connection error:", err))
+  .catch((err) => console.error("MongoDB connection error:", err));
 
 // Multer Configuration
 const storage = multer.diskStorage({
@@ -67,7 +83,6 @@ const upload = multer({
     cb(new Error("Only PDF, JPG, JPEG, and PNG files are allowed"));
   },
 });
-
 
 // Middleware to check if user is authenticated
 const isAuthenticated = (req, res, next) => {
@@ -215,116 +230,6 @@ app.post("/login", async (req, res) => {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
-    // Routes
-    app.post(
-      "/architect_submit",
-      upload.array("referenceImages", 10),
-      async (req, res) => {
-        console.log("Received POST to /architect_submit");
-        try {
-          // Temporary test customer ID (replace with auth logic)
-          const customerId = new mongoose.Types.ObjectId(
-            "000000000000000000000000"
-          );
-
-          const workerID = new mongoose.Types.ObjectId(
-            "000000000000000000000000"
-          );
-
-          // Extract form data
-          const {
-            fullName,
-            contactNumber,
-            email,
-            streetAddress,
-            city,
-            state,
-            zipCode,
-            plotLocation,
-            plotSize,
-            plotOrientation,
-            designType,
-            numFloors,
-            floorRequirements,
-            specialFeatures,
-            architecturalStyle,
-            budget,
-            completionDate,
-          } = req.body;
-
-          // Parse floorRequirements
-          let parsedFloorRequirements = [];
-          if (floorRequirements) {
-            parsedFloorRequirements = Array.isArray(floorRequirements)
-              ? floorRequirements
-              : JSON.parse(floorRequirements);
-          }
-
-          // Handle file uploads
-          const referenceImages = req.files.map((file) => ({
-            url: `/Uploads/${file.filename}`,
-            originalName: file.originalname,
-            mimeType: file.mimetype,
-            size: file.size,
-          }));
-
-          // Create document
-          const architectHiring = new ArchitectHiring({
-            customer: customerId,
-            customerDetails: {
-              fullName,
-              contactNumber,
-              email,
-            },
-            customerAddress: {
-              streetAddress,
-              city,
-              state,
-              zipCode,
-            },
-            plotInformation: {
-              plotLocation,
-              plotSize,
-              plotOrientation,
-            },
-            designRequirements: {
-              designType,
-              numFloors,
-              floorRequirements: parsedFloorRequirements.map(
-                (floor, index) => ({
-                  floorNumber: floor.floorNumber || index + 1,
-                  details: floor.details,
-                })
-              ),
-              specialFeatures,
-              architecturalStyle,
-            },
-            additionalDetails: {
-              budget,
-              completionDate: completionDate
-                ? new Date(completionDate)
-                : undefined,
-              referenceImages,
-            },
-          });
-
-          // Save to MongoDB
-          await architectHiring.save();
-
-          res
-            .status(200)
-            .redirect("/architect.html")
-        } catch (error) {
-          console.error("Error in /architect_submit:", error);
-          res
-            .status(400)
-            .json({
-              message: error.message || "Failed to submit design request",
-            });
-        }
-      }
-    );
-
     // Store user_id and role in session
     req.session.user = {
       user_id: user._id.toString(),
@@ -352,6 +257,141 @@ app.post("/login", async (req, res) => {
   }
 });
 
+app.post(
+  "/architect_submit",
+  upload.array("referenceImages", 10),
+  async (req, res) => {
+    try {
+
+      // Temporary test customer ID (replace with auth logic)
+      const customerId = new mongoose.Types.ObjectId(
+        "000000000000000000000000"
+      );
+      const workerId = new mongoose.Types.ObjectId("000000000000000000000000");
+
+      // Extract form data
+      const {
+        fullName,
+        contactNumber,
+        email,
+        streetAddress,
+        city,
+        state,
+        zipCode,
+        plotLocation,
+        plotSize,
+        plotOrientation,
+        designType,
+        numFloors,
+        floorRequirements,
+        specialFeatures,
+        architecturalStyle,
+        budget,
+        completionDate,
+      } = req.body;
+
+      // Validate required fields
+      const requiredFields = [
+        "fullName",
+        "contactNumber",
+        "email",
+        "streetAddress",
+        "city",
+        "state",
+        "zipCode",
+        "plotLocation",
+        "plotSize",
+        "plotOrientation",
+        "designType",
+        "numFloors",
+        "architecturalStyle",
+        "budget",
+      ];
+      for (const field of requiredFields) {
+        if (!req.body[field]) {
+          return res.status(400).json({
+            message: `Missing required field: ${field}`,
+          });
+        }
+      }
+
+      // Parse floorRequirements with error handling
+      let parsedFloorRequirements = [];
+      if (floorRequirements) {
+        try {
+          parsedFloorRequirements = Array.isArray(floorRequirements)
+            ? floorRequirements
+            : JSON.parse(floorRequirements);
+        } catch (parseError) {
+          console.error("Error parsing floorRequirements:", parseError);
+          return res.status(400).json({
+            message: "Invalid floorRequirements format",
+          });
+        }
+      }
+
+      // Handle file uploads safely
+      const referenceImages = req.files
+        ? req.files.map((file) => ({
+            url: `/Uploads/${file.filename}`,
+            originalName: file.originalname,
+            mimeType: file.mimetype,
+            size: file.size,
+          }))
+        : [];
+
+      // Create document
+      const architectHiring = new ArchitectHiring({
+        customer: customerId,
+        customerDetails: {
+          fullName,
+          contactNumber,
+          email,
+        },
+        customerAddress: {
+          streetAddress,
+          city,
+          state,
+          zipCode,
+        },
+        plotInformation: {
+          plotLocation,
+          plotSize,
+          plotOrientation,
+        },
+        designRequirements: {
+          designType,
+          numFloors,
+          floorRequirements: parsedFloorRequirements.map((floor, index) => ({
+            floorNumber: floor.floorNumber || index + 1,
+            details: floor.details,
+          })),
+          specialFeatures,
+          architecturalStyle,
+        },
+        additionalDetails: {
+          budget,
+          completionDate: completionDate ? new Date(completionDate) : undefined,
+          referenceImages,
+        },
+      });
+
+      // Save to MongoDB
+      await architectHiring.save();
+
+      // Return JSON with redirect URL
+      res.status(200).json({
+        message: "Form submitted successfully",
+        redirect: "/architect.html",
+      });
+    } catch (error) {
+      console.error("Error in /architect_submit:", error);
+      res.status(400).json({
+        message: error.message || "Failed to submit design request",
+      });
+    }
+  }
+);
 // Logout Endpoint
 app.post("/logout", (req, res) => {
   req.session.destroy((err) => {

@@ -468,47 +468,31 @@
         });
 
         // Form submission
-        document.getElementById('designRequestForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
-            const errorMessage = document.getElementById('errorMessage');
-            errorMessage.style.display = 'none';
-            
-            if (this.checkValidity()) {
-                try {
-                    const formData = new FormData(this);
-                    const response = await fetch('/architect_submit', {
-                        method: 'POST',
-                        body: formData
-                    });
-                    
-                    console.log('Response status:', response.status);
-                    console.log('Response headers:', response.headers.get('content-type'));
-                    
-                    if (!response.ok) {
-                        const contentType = response.headers.get('content-type');
-                        if (contentType && contentType.includes('application/json')) {
-                            const error = await response.json();
-                            throw new Error(error.message || 'Submission failed');
-                        } else {
-                            const text = await response.text();
-                            console.log('Non-JSON response:', text.slice(0, 200));
-                            throw new Error(`Unexpected response: ${text.slice(0, 50)}...`);
-                        }
-                    }
-                    
-                    const result = await response.json();
-                    alert(result.message || 'Design request submitted successfully!');
-                    this.reset();
-                    document.getElementById('imagePreviewContainer').innerHTML = '';
-                    document.getElementById('floorRequirements').innerHTML = '';
-                } catch (error) {
-                    console.error('Submission error:', error);
-                    errorMessage.textContent = `Error: ${error.message}`;
-                    errorMessage.style.display = 'block';
-                }
-            } else {
-                this.reportValidity();
+        // 
+        const form = document.querySelector("form");
+        form.addEventListener("submit", (e) => {
+        e.preventDefault(); // Prevent default form submission
+        fetch("/architect_submit", {
+            method: "POST",
+            body: new FormData(form),
+        })
+            .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
             }
+            return response.json(); // Parse JSON response
+            })
+            .then((data) => {
+            if (data.redirect) {
+                window.location.href = data.redirect; // Navigate to /architect
+            } else {
+                console.log(data.message); // Log message if no redirect
+            }
+            })
+            .catch((error) => {
+            console.error("Error:", error);
+            alert("Failed to submit form: " + error.message); // Show error to user
+            });
         });
     </script>
 </body>
