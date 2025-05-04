@@ -1,5 +1,5 @@
 const {express,app,PORT,bodyParser,cookieParser,SQLiteStore,cors,path,mongoose,router,multer,fs,bcrypt} = require("./getServer");
-const {Customer,Company,Worker,ArchitectHiring,ConstructionProjectSchema}=require("./Models.js")
+const {Customer,Company,Worker,ArchitectHiring,ConstructionProjectSchema,DesignRequest}=require("./Models.js")
 const jwt = require('jsonwebtoken');
 app.set("view engine", "ejs");
 app.set('views', path.join(__dirname,'..','views'));
@@ -523,3 +523,61 @@ app.post(
     }
   }
 );
+// POST Endpoint for Form Submission
+app.post('/design_request', upload.any(), async (req, res) => {
+  try {
+    const {
+      fullName,
+      email,
+      phone,
+      address,
+      roomType,
+      roomLength,
+      roomWidth,
+      dimensionUnit,
+      ceilingHeight,
+      heightUnit,
+      designPreference,
+      projectDescription,
+    } = req.body;
+
+    // Validate required fields
+    if (!fullName || !email || !phone || !address || !roomType || !roomLength || !roomWidth || !dimensionUnit) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    // Prepare image paths
+    const currentRoomImages = req.files['currentRoomImages']?.map(file => `/uploads/${file.filename}`) || [];
+    const inspirationImages = req.files['inspirationImages']?.map(file => `/uploads/${file.filename}`) || [];
+
+    // Create new design request
+    const designRequest = new DesignRequest({
+      fullName,
+      email,
+      phone,
+      address,
+      roomType,
+      roomSize: {
+        length: parseFloat(roomLength),
+        width: parseFloat(roomWidth),
+        unit: dimensionUnit,
+      },
+      ceilingHeight: ceilingHeight ? {
+        height: parseFloat(ceilingHeight),
+        unit: heightUnit,
+      } : undefined,
+      designPreference,
+      projectDescription,
+      currentRoomImages,
+      inspirationImages,
+    });
+
+    // Save to MongoDB
+    await designRequest.save();
+
+    res.status(201).json({ message: 'Design request submitted successfully' });
+  } catch (error) {
+    console.error('Error saving design request:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});

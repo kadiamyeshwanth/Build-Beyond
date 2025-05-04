@@ -462,8 +462,10 @@
         
         const form = document.getElementById('designRequestForm');
         const successMessage = document.getElementById('successMessage');
-        
-        form.addEventListener('submit', function(e) {
+        const errorMessage = document.getElementById('errorMessage');
+        const errorText = document.getElementById('errorText');
+
+        form.addEventListener('submit', async function(e) {
             e.preventDefault();
             
             // Form validation
@@ -483,29 +485,51 @@
             if (!roomTypeSelected) {
                 allValid = false;
                 document.querySelector('.room-selector').style.borderColor = '#e74c3c';
+            } else {
+                document.querySelector('.room-selector').style.borderColor = 'transparent';
             }
             
             if (allValid) {
-                // Create FormData object to collect all form data including files
-                const formData = new FormData(form);
-                
-                // For demonstration purposes, log the key form values
-                console.log('Form submission:');
-                console.log('Name:', formData.get('fullName'));
-                console.log('Email:', formData.get('email'));
-                console.log('Phone:', formData.get('phone'));
-                console.log('Address:', formData.get('address'));
-                console.log('Room Type:', formData.get('roomType'));
-                console.log('Room Size:', formData.get('roomLength') + ' × ' + formData.get('roomWidth') + ' ' + formData.get('dimensionUnit'));
-                
-                if (formData.get('ceilingHeight')) {
-                    console.log('Ceiling Height:', formData.get('ceilingHeight') + ' ' + formData.get('heightUnit'));
+                try {
+                    const formData = new FormData(form);
+                    
+                    // Add files from file inputs
+                    const currentRoomInput = document.getElementById('currentRoomImages');
+                    const inspirationInput = document.getElementById('inspirationImages');
+                    
+                    if (currentRoomInput.files.length > 0) {
+                        Array.from(currentRoomInput.files).forEach(file => {
+                            formData.append('currentRoomImages', file);
+                        });
+                    }
+                    
+                    if (inspirationInput.files.length > 0) {
+                        Array.from(inspirationInput.files).forEach(file => {
+                            formData.append('inspirationImages', file);
+                        });
+                    }
+                    
+                    const response = await fetch('/design_request', {
+                        method: 'POST',
+                        body: formData,
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (response.ok) {
+                        form.style.display = 'none';
+                        successMessage.style.display = 'block';
+                        errorMessage.style.display = 'none';
+                    } else {
+                        errorMessage.style.display = 'block';
+                        errorText.textContent = result.error || 'An error occurred. Please try again.';
+                        successMessage.style.display = 'none';
+                    }
+                } catch (error) {
+                    errorMessage.style.display = 'block';
+                    errorText.textContent = 'Network error. Please check your connection and try again.';
+                    successMessage.style.display = 'none';
                 }
-                
-                console.log('Design Preference:', formData.get('designPreference'));
-                console.log('Project Description:', formData.get('projectDescription'));
-                form.style.display = 'none';
-                successMessage.style.display = 'block';
             }
         });
         

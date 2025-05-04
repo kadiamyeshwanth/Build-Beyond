@@ -391,10 +391,34 @@ constructionProjectSchema.pre('save', function(next) {
   this.updatedAt = Date.now();
   next();
 });
+const designRequestSchema = new mongoose.Schema({
+  fullName: { type: String, required: true },
+  email: { type: String, required: true },
+  phone: { type: String, required: true },
+  address: { type: String, required: true },
+  roomType: { type: String, required: true },
+  roomSize: {
+    length: { type: Number, required: true },
+    width: { type: Number, required: true },
+    unit: { type: String, required: true, enum: ['feet', 'meters'] },
+  },
+  ceilingHeight: {
+    height: { type: Number },
+    unit: { type: String, enum: ['feet', 'meters'] },
+  },
+  designPreference: { type: String },
+  projectDescription: { type: String },
+  currentRoomImages: [{ type: String }], // Array of image paths
+  inspirationImages: [{ type: String }], // Array of image paths
+  createdAt: { type: Date, default: Date.now },
+});
+
+
 // Models
 const Customer = mongoose.model("Customer", customerSchema);
 const Company = mongoose.model("Company", companySchema);
 const Worker = mongoose.model("Worker", workerSchema);
 const ArchitectHiring = mongoose.model("ArchitectHiring",architectHiringSchema);
-const ConstructionProjectSchema = mongoose.model("ConstructionProjectSchema",constructionProjectSchema)
-module.exports = { Customer, Company, Worker, ArchitectHiring, ConstructionProjectSchema };
+const ConstructionProjectSchema = mongoose.model("ConstructionProjectSchema",constructionProjectSchema);
+const DesignRequest = mongoose.model('DesignRequest', designRequestSchema);
+module.exports = { Customer, Company, Worker, ArchitectHiring, ConstructionProjectSchema ,DesignRequest};
