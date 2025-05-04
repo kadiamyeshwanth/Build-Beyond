@@ -4,8 +4,7 @@ const {Customer,Company,Worker,ArchitectHiring}=require("./Models.js")
 const MongoDBStore = require("connect-mongodb-session")(session);
 
 app.set("view engine", "ejs");
-app.set("views", "views");
-
+app.set("views", path.join(__dirname, "..", "views"));
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
