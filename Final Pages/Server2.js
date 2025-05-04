@@ -215,6 +215,116 @@ app.post("/login", async (req, res) => {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
+    // Routes
+    app.post(
+      "/architect_submit",
+      upload.array("referenceImages", 10),
+      async (req, res) => {
+        console.log("Received POST to /architect_submit");
+        try {
+          // Temporary test customer ID (replace with auth logic)
+          const customerId = new mongoose.Types.ObjectId(
+            "000000000000000000000000"
+          );
+
+          const workerID = new mongoose.Types.ObjectId(
+            "000000000000000000000000"
+          );
+
+          // Extract form data
+          const {
+            fullName,
+            contactNumber,
+            email,
+            streetAddress,
+            city,
+            state,
+            zipCode,
+            plotLocation,
+            plotSize,
+            plotOrientation,
+            designType,
+            numFloors,
+            floorRequirements,
+            specialFeatures,
+            architecturalStyle,
+            budget,
+            completionDate,
+          } = req.body;
+
+          // Parse floorRequirements
+          let parsedFloorRequirements = [];
+          if (floorRequirements) {
+            parsedFloorRequirements = Array.isArray(floorRequirements)
+              ? floorRequirements
+              : JSON.parse(floorRequirements);
+          }
+
+          // Handle file uploads
+          const referenceImages = req.files.map((file) => ({
+            url: `/Uploads/${file.filename}`,
+            originalName: file.originalname,
+            mimeType: file.mimetype,
+            size: file.size,
+          }));
+
+          // Create document
+          const architectHiring = new ArchitectHiring({
+            customer: customerId,
+            customerDetails: {
+              fullName,
+              contactNumber,
+              email,
+            },
+            customerAddress: {
+              streetAddress,
+              city,
+              state,
+              zipCode,
+            },
+            plotInformation: {
+              plotLocation,
+              plotSize,
+              plotOrientation,
+            },
+            designRequirements: {
+              designType,
+              numFloors,
+              floorRequirements: parsedFloorRequirements.map(
+                (floor, index) => ({
+                  floorNumber: floor.floorNumber || index + 1,
+                  details: floor.details,
+                })
+              ),
+              specialFeatures,
+              architecturalStyle,
+            },
+            additionalDetails: {
+              budget,
+              completionDate: completionDate
+                ? new Date(completionDate)
+                : undefined,
+              referenceImages,
+            },
+          });
+
+          // Save to MongoDB
+          await architectHiring.save();
+
+          res
+            .status(200)
+            .redirect("/architect.html")
+        } catch (error) {
+          console.error("Error in /architect_submit:", error);
+          res
+            .status(400)
+            .json({
+              message: error.message || "Failed to submit design request",
+            });
+        }
+      }
+    );
+
     // Store user_id and role in session
     req.session.user = {
       user_id: user._id.toString(),
