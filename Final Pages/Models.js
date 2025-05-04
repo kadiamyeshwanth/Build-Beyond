@@ -1,22 +1,25 @@
 // Schemas
-const {
-  express,
-  app,
-  PORT,
-  bodyParser,
-  session,
-  SQLiteStore,
-  cors,
-  path,
-  mongoose,
-  router,
-  multer,
-  fs,
-  bcrypt,
-} = require("./getServer");
+// const {
+//   express,
+//   app,
+//   PORT,
+//   bodyParser,
+//   session,
+//   SQLiteStore,
+//   cors,
+//   path,
+//   mongoose,
+//   router,
+//   multer,
+//   fs,
+//   bcrypt
+// } = require("./getServer");
 
-app.set("view engine", "ejs");
-app.set("views", "views");
+// app.set("view engine", "ejs");
+// app.set("views", "views");
+
+const mongoose=require("mongoose")
+const bcrypt=require("bcrypt");
 
 const customerSchema = new mongoose.Schema(
   {

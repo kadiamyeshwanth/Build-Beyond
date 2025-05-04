@@ -1,19 +1,5 @@
-const {
-  express,
-  app,
-  PORT,
-  bodyParser,
-  session,
-  SQLiteStore,
-  cors,
-  path,
-  mongoose,
-  router,
-  multer,
-  fs,
-  bcrypt,
-} = require("./getServer");
-const { Customer, Company, Worker, ArchitectHiring } = require("./Models.js");
+const {express,app,PORT,bodyParser,session,SQLiteStore,cors,path,mongoose,router,multer,fs,bcrypt} = require("./getServer");
+const {Customer,Company,Worker,ArchitectHiring}=require("./Models.js")
 
 const MongoDBStore = require("connect-mongodb-session")(session);
 
@@ -50,12 +36,11 @@ app.use(
 );
 
 // MongoDB Connection
-const mongoURI =
-  "mongodb+srv://isaimanideepp:Sai62818@cluster0.mng20.mongodb.net/Build&Beyond?retryWrites=true&w=majority";
+const mongoURI = "mongodb+srv://isaimanideepp:Sai62818@cluster0.mng20.mongodb.net/Build&Beyond?retryWrites=true&w=majority";
 mongoose
   .connect(mongoURI, {})
   .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.error("MongoDB connection error:", err));
+  .catch((err) => console.error("MongoDB connection error:", err))
 
 // Multer Configuration
 const storage = multer.diskStorage({
@@ -83,6 +68,7 @@ const upload = multer({
     cb(new Error("Only PDF, JPG, JPEG, and PNG files are allowed"));
   },
 });
+
 
 // Middleware to check if user is authenticated
 const isAuthenticated = (req, res, next) => {
