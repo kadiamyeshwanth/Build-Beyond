@@ -82,6 +82,7 @@ const upload = multer({
   },
 });
 
+
 // Schemas
 const customerSchema = new mongoose.Schema(
   {

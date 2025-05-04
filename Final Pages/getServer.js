@@ -103,10 +103,10 @@ app.get("/constructionform.html", (req, res) => {
 app.get("/bidform.html", (req, res) => {
   res.render("customer/bid_form");
 });
+app.get("/customersettings.html", (req, res) => {
+  res.render("customer/customer_settings");
+});
 // Company routes
-// app.get("", (req, res) => {
-//   res.render("");
-// });
 app.get("/companybids.html", (req, res) => {
   res.render("company/company_bids");
 });
