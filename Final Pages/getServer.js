@@ -11,6 +11,8 @@ const router = express.Router();
 // Multer
 const multer = require("multer");
 const fs = require("fs");
+const bcrypt=require("bcrypt");
+const { Customer, Company, Worker, ArchitectHiring } = require("./Models.js");
 
 
 // Middleware
@@ -151,6 +153,7 @@ module.exports = {
   router,
   multer,
   fs,
+  bcrypt
 };
 
 // Start Server

@@ -11,9 +11,10 @@ const {
   router,
   multer,
   fs,
+  bcrypt,
 } = require("./getServer");
+const { Customer, Company, Worker, ArchitectHiring } = require("./Models.js");
 
-const bcrypt = require("bcrypt");
 const MongoDBStore = require("connect-mongodb-session")(session);
 
 app.set("view engine", "ejs");
@@ -49,11 +50,12 @@ app.use(
 );
 
 // MongoDB Connection
-const mongoURI = "mongodb+srv://isaimanideepp:Sai62818@cluster0.mng20.mongodb.net/Build&Beyond?retryWrites=true&w=majority";
+const mongoURI =
+  "mongodb+srv://isaimanideepp:Sai62818@cluster0.mng20.mongodb.net/Build&Beyond?retryWrites=true&w=majority";
 mongoose
   .connect(mongoURI, {})
   .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.error("MongoDB connection error:", err))
+  .catch((err) => console.error("MongoDB connection error:", err));
 
 // Multer Configuration
 const storage = multer.diskStorage({
@@ -81,113 +83,6 @@ const upload = multer({
     cb(new Error("Only PDF, JPG, JPEG, and PNG files are allowed"));
   },
 });
-
-
-// Schemas
-const customerSchema = new mongoose.Schema(
-  {
-    name: { type: String, required: true },
-    email: {
-      type: String,
-      unique: true,
-      required: true,
-      match: [/^\S+@\S+\.\S+$/, "Invalid email"],
-    },
-    dob: { type: Date, required: true },
-    phone: { type: String, required: true },
-    password: { type: String, required: true },
-    role: { type: String, default: "customer" },
-  },
-  { timestamps: true }
-);
-
-const companySchema = new mongoose.Schema(
-  {
-    companyName: { type: String, required: true },
-    contactPerson: { type: String, required: true },
-    email: {
-      type: String,
-      unique: true,
-      required: true,
-      match: [/^\S+@\S+\.\S+$/, "Invalid email"],
-    },
-    phone: { type: String, required: true },
-    companyDocuments: [{ type: String, default: [] }],
-    password: { type: String, required: true },
-    role: { type: String, default: "company" },
-  },
-  { timestamps: true }
-);
-
-const workerSchema = new mongoose.Schema(
-  {
-    name: { type: String, required: true },
-    email: {
-      type: String,
-      unique: true,
-      required: true,
-      match: [/^\S+@\S+\.\S+$/, "Invalid email"],
-    },
-    password: { type: String, required: true },
-    phone: { type: String, required: true },
-    aadharNumber: {
-      type: String,
-      required: true,
-      validate: {
-        validator: function (v) {
-          return /^\d{12}$/.test(v);
-        },
-        message: "Aadhaar number must be 12 digits",
-      },
-    },
-    dob: { type: Date, required: true },
-    specialization: { type: String, required: true },
-    experience: { type: Number, default: 0, min: 0 },
-    certificateFiles: [{ type: String }],
-    role: { type: String, default: "worker" },
-    profileImage: { type: String },
-    professionalTitle: { type: String },
-    about: { type: String },
-    specialties: [{ type: String, default: [] }],
-    projects: [
-      {
-        name: { type: String },
-        year: { type: Number },
-        location: { type: String },
-        description: { type: String },
-        image: { type: String },
-        createdAt: { type: Date, default: Date.now },
-      },
-    ],
-    rating: { type: Number, default: 0, min: 0, max: 5 },
-    isArchitect: { type: Boolean, default: false },
-    servicesOffered: [{ type: String, default: [] }],
-    availability: {
-      type: String,
-      enum: ["available", "busy", "unavailable"],
-      default: "available",
-    },
-  },
-  { timestamps: true }
-);
-
-// Index for faster queries on specialization
-workerSchema.index({ specialization: 1 });
-
-// Password Hashing Middleware
-[customerSchema, companySchema, workerSchema].forEach((schema) => {
-  schema.pre("save", async function (next) {
-    if (this.isModified("password")) {
-      this.password = await bcrypt.hash(this.password, 10);
-    }
-    next();
-  });
-});
-
-// Models
-const Customer = mongoose.model("Customer", customerSchema);
-const Company = mongoose.model("Company", companySchema);
-const Worker = mongoose.model("Worker", workerSchema);
 
 // Middleware to check if user is authenticated
 const isAuthenticated = (req, res, next) => {
@@ -405,4 +300,3 @@ app.get("/session", (req, res) => {
     res.status(200).json({ authenticated: false });
   }
 });
-
