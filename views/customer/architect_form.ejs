@@ -233,7 +233,7 @@
     <div class="container">
         <h1>Architectural Design Request Form</h1>
         
-        <form id="designRequestForm" enctype="multipart/form-data">
+        <form id="designRequestForm" enctype="multipart/form-data" action="/architect_submit" method="post">
             <!-- Customer Details -->
             <div class="section">
                 <h2 class="section-title">Customer Details</h2>
@@ -253,6 +253,7 @@
                 </div>
             </div>
             
+            <!-- Customer Address -->
             <div class="section">
                 <h2 class="section-title">Customer Address</h2>
                 <div class="form-group">
@@ -333,9 +334,7 @@
                     </div>
                 </div>
                 
-                <div id="floorRequirements">
-                    <!-- Added based on no.of floors -->
-                </div>
+                <div id="floorRequirements"></div>
                 
                 <div class="form-group">
                     <label for="specialFeatures">Special Features</label>
@@ -359,12 +358,13 @@
                 </div>
             </div>
             
+            <!-- Additional Details -->
             <div class="section">
                 <h2 class="section-title">Additional Details</h2>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="budget">Budget (if applicable)</label>
-                        <input type="text" id="budget" name="budget" placeholder="e.g., $50,000 - $100,000">
+                        <label for="budget">Max Budget (if applicable)</label>
+                        <input type="text" id="budget" name="budget" placeholder="e.g., 100000">
                     </div>
                     <div class="form-group">
                         <label for="completionDate">Preferred Design Completion Date</label>
@@ -376,118 +376,123 @@
                     <label>Reference Images/Sketches (if any)</label>
                     <div class="file-upload">
                         <label for="referenceImages">
-                            <span>Drop files here or click to upload<br>(JPG, PNG, PDF up to 10MB)</span>
+                            <span>Drop files here or click to upload<br>(JPG, PNG, PDF up to 5MB)</span>
                         </label>
-                        <input type="file" id="referenceImages" name="referenceImages" multiple accept=".jpg, .jpeg, .png, .pdf">
+                        <input type="file" id="referenceImages" name="referenceImages" multiple accept=". Wjpg,.jpeg,.png,.pdf">
                     </div>
                     <div id="imagePreviewContainer" class="image-preview-container"></div>
                 </div>
             </div>
             
+            <div id="errorMessage" class="error-message"></div>
             <button type="submit" class="btn-submit">Submit Design Request</button>
         </form>
     </div>
 
     <script>
+        // Dynamic floor requirements
         document.getElementById('numFloors').addEventListener('change', function() {
-            const numFloors = parseInt(this.value);
+            const numFloors = this.value === '5+' ? 5 : parseInt(this.value);
             const floorRequirements = document.getElementById('floorRequirements');
-            floorRequirements.innerHTML = ''; 
+            floorRequirements.innerHTML = '';
             if (!isNaN(numFloors)) {
-                const actualFloors = numFloors === 5 ? 5 : numFloors;
-                
-                for (let i = 1; i <= actualFloors; i++) {
+                for (let i = 1; i <= numFloors; i++) {
                     const floorDiv = document.createElement('div');
                     floorDiv.className = 'form-group';
                     floorDiv.innerHTML = `
                         <label for="floor${i}">Floor ${i} Room Requirements*</label>
-                        <textarea id="floor${i}" name="floor${i}" placeholder="e.g., 2 Bedrooms, 1 Bathroom, Living Room, etc." required></textarea>
+                        <textarea id="floor${i}" name="floorRequirements[${i-1}][details]" placeholder="e.g., 2 Bedrooms, 1 Bathroom, Living Room, etc." required></textarea>
+                        <input type="hidden" name="floorRequirements[${i-1}][floorNumber]" value="${i}">
                     `;
                     floorRequirements.appendChild(floorDiv);
                 }
             }
         });
 
-        // File upload and preview functionality
-        document.getElementById('referenceImages').addEventListener('change', handleFileSelect);
-
-        function handleFileSelect(event) {
+        // File upload and preview
+        document.getElementById('referenceImages').addEventListener('change', function(event) {
             const files = event.target.files;
             const previewContainer = document.getElementById('imagePreviewContainer');
+            const maxFileSize = 5 * 1024 * 1024; // 5MB
+            const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
             
-            if (files.length > 0) {
-                previewContainer.innerHTML = '';
+            previewContainer.innerHTML = '';
+            
+            Array.from(files).forEach((file, index) => {
+                if (file.size > maxFileSize) {
+                    alert(`File ${file.name} exceeds 5MB limit.`);
+                    return;
+                }
+                if (!allowedTypes.includes(file.type)) {
+                    alert(`File ${file.name} is not a valid type (JPG, PNG, PDF only).`);
+                    return;
+                }
                 
-                // Create a preview for each selected file
-                Array.from(files).forEach((file, index) => {
-                    const reader = new FileReader();
-                    const previewElement = document.createElement('div');
-                    previewElement.className = 'image-preview';
-                    
-                    // Add a remove button
-                    const removeButton = document.createElement('button');
-                    removeButton.className = 'remove-btn';
-                    removeButton.textContent = '×';
-                    removeButton.setAttribute('data-index', index);
-                    removeButton.addEventListener('click', function() {
-                        // Remove the preview element
-                        previewContainer.removeChild(previewElement);
-                        
-                        // Update the file input (more complex in actual implementation)
-                        // Note: This is a placeholder - fully removing files from a file input requires special handling
-                        if (previewContainer.children.length === 0) {
-                            document.getElementById('referenceImages').value = '';
-                        }
-                    });
-                    
-                    // Add file name
-                    const fileName = document.createElement('div');
-                    fileName.className = 'file-name';
-                    fileName.textContent = file.name;
-                    
-                    previewElement.appendChild(removeButton);
-                    previewElement.appendChild(fileName);
-                    
-                    if (file.type.startsWith('image/')) {
-                        reader.onload = function(e) {
-                            const img = document.createElement('img');
-                            img.src = e.target.result;
-                            previewElement.appendChild(img);
-                        };
-                        reader.readAsDataURL(file);
-                    } else if (file.type === 'application/pdf') {
-                        // For PDFs, show an icon instead
-                        previewElement.classList.add('pdf-preview');
-                        
-                        // Create a PDF icon (text-based for simplicity)
-                        const pdfIcon = document.createElement('div');
-                        pdfIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#d9534f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M9 15h6"></path><path d="M9 11h6"></path></svg>';
-                        
-                        previewElement.appendChild(pdfIcon);
+                const previewElement = document.createElement('div');
+                previewElement.className = 'image-preview';
+                
+                const removeButton = document.createElement('button');
+                removeButton.className = 'remove-btn';
+                removeButton.textContent = '×';
+                removeButton.addEventListener('click', function() {
+                    previewContainer.removeChild(previewElement);
+                    if (previewContainer.children.length === 0) {
+                        document.getElementById('referenceImages').value = '';
                     }
-                    
-                    previewContainer.appendChild(previewElement);
                 });
+                
+                const fileName = document.createElement('div');
+                fileName.className = 'file-name';
+                fileName.textContent = file.name;
+                
+                previewElement.appendChild(removeButton);
+                previewElement.appendChild(fileName);
+                
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        previewElement.appendChild(img);
+                    };
+                    reader.readAsDataURL(file);
+                } else if (file.type === 'application/pdf') {
+                    previewElement.classList.add('pdf-preview');
+                    const pdfIcon = document.createElement('div');
+                    pdfIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#d9534f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M9 15h6"></path><path d="M9 11h6"></path></svg>';
+                    previewElement.appendChild(pdfIcon);
+                }
+                
+                previewContainer.appendChild(previewElement);
+            });
+        });
+
+        // Form submission
+        // 
+        const form = document.querySelector("form");
+        form.addEventListener("submit", (e) => {
+        e.preventDefault(); // Prevent default form submission
+        fetch("/architect_submit", {
+            method: "POST",
+            body: new FormData(form),
+        })
+            .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
             }
-        }
-        
-        document.getElementById('designRequestForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            
-            // Validate form
-            if (this.checkValidity()) {
-                const formData = new FormData(this);
-                
-                console.log('Form submitted successfully!');
-                
-                alert('Design request submitted successfully! Our team will contact you shortly.');
-                
-                // this.reset();
-                // document.getElementById('imagePreviewContainer').innerHTML = '';
-                // document.getElementById('floorRequirements').innerHTML = '';
+            return response.json(); // Parse JSON response
+            })
+            .then((data) => {
+            if (data.redirect) {
+                window.location.href = data.redirect; // Navigate to /architect
             } else {
-                this.reportValidity();
+                console.log(data.message); // Log message if no redirect
             }
+            })
+            .catch((error) => {
+            console.error("Error:", error);
+            alert("Failed to submit form: " + error.message); // Show error to user
+            });
         });
     </script>
 </body>
