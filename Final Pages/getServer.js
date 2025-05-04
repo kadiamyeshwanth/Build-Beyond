@@ -39,6 +39,10 @@ app.get("/workerjobs.html", (req, res) => {
 app.get("/workerjoin_company.html", async (req, res) => {
   res.render("worker/workers_join_company");
 });
+app.get("/workersettings.html", async (req, res) => {
+  const user=await Worker.findById(req.session.user.user_id);
+  res.render("worker/worker_settings",{user});
+});
 // Logout Route
 app.get("/logout", (req, res) => {
   res.render("signin_up_");
