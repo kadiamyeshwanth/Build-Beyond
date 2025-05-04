@@ -2,8 +2,7 @@ const express = require("express");
 const app = express();
 const PORT = 4000;
 const bodyParser = require("body-parser");
-const session = require("express-session");
-const SQLiteStore = require("connect-sqlite3")(session);
+const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const path = require("path");
 const mongoose = require("mongoose");
@@ -12,15 +11,35 @@ const router = express.Router();
 const multer = require("multer");
 const fs = require("fs");
 const bcrypt=require("bcrypt");
-const { Customer, Company, Worker, ArchitectHiring } = require("./Models.js");
-
+const { Customer, Company, Worker, ArchitectHiring,ConstructionProjectSchema } = require("./Models.js");
+const jwt = require("jsonwebtoken");
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.static("Final Pages"));
-
+app.use(cors({
+  origin: true,
+  credentials: true 
+}));
+// JWT Authentication Middleware
+const isAuthenticated = (req, res, next) => {
+  const token = req.cookies.token;
+  if (!token) {
+    return res.redirect('/signin_up.html'); // Redirect to login if no token
+  }
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'cec1dc25cec256e194e609ba68d0e62b7554e7b664468a99d8ca788e0b657ec7');
+    req.user = decoded;
+    next();
+  } catch (error) {
+    console.error('JWT verification error:', error);
+    res.clearCookie('token');
+    return res.redirect('/signin_up.html');
+  }
+};
 // Landing Route
 app.get("/", (req, res) => {
   res.render("landing_page");
@@ -41,8 +60,8 @@ app.get("/workerjobs.html", (req, res) => {
 app.get("/workerjoin_company.html", async (req, res) => {
   res.render("worker/workers_join_company");
 });
-app.get("/workersettings.html", async (req, res) => {
-  const user=await Worker.findById(req.session.user.user_id);
+app.get("/workersettings.html", isAuthenticated,async (req, res) => {
+  const user=await Worker.findById(req.user.user_id);
   res.render("worker/worker_settings",{user});
 });
 // Logout Route
@@ -128,8 +147,9 @@ app.get("/companyrevenue.html", (req, res) => {
 app.get("/companyhiring.html", (req, res) => {
   res.render("company/hiring");
 });
-app.get("/companysettings.html", (req, res) => {
-  res.render("company/company_settings", { user: req.session.user });
+app.get("/companysettings.html", async(req, res) => {
+  const user=await Company.findById(req.user.user_id);
+  res.render("company/company_settings", { user });
 });
 app.get("/revenue_form.html", (req, res) => {
   res.render("company/revenue_form");
@@ -145,15 +165,15 @@ module.exports = {
   app,
   PORT,
   bodyParser,
-  session,
-  SQLiteStore,
+  cookieParser,
   cors,
   path,
   mongoose,
   router,
   multer,
   fs,
-  bcrypt
+  bcrypt,
+  jwt
 };
 
 // Start Server

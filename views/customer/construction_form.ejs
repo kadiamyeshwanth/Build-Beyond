@@ -134,7 +134,7 @@
     <div class="container">
         <h1>Construction Project Submission Form</h1>
         
-        <form id="constructionForm">
+        <form id="constructionForm" method="post" action ="/construction_form" enctype="multipart/form-data">
             <!-- Personal Information Section -->
             <div class="form-section">
                 <h2>Customer Information</h2>
@@ -314,31 +314,62 @@
             });
             
             // Form submission
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Validate  fields
-                const requiredFields = form.querySelectorAll('[required]');
-                let isValid = true;
-                
-                requiredFields.forEach(field => {
-                    if (!field.value.trim()) {
-                        isValid = false;
-                        field.style.borderColor = 'red';
-                    } else {
-                        field.style.borderColor = '#ddd';
-                    }
-                });
-                
-                if (!isValid) {
-                    alert('Please fill in all required fields');
-                    return;
+            form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Validate required fields
+            const requiredFields = form.querySelectorAll('[required]');
+            let isValid = true;
+            
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                isValid = false;
+                field.style.borderColor = 'red';
+                } else {
+                field.style.borderColor = '#ddd';
                 }
-                
-                alert('Form submitted successfully! In a real application, this would be sent to the server.');
-                
             });
             
+            if (!isValid) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            try {
+                // Create FormData object to handle file uploads
+                const formData = new FormData(form);
+                
+                // Show loading state
+                const submitBtn = form.querySelector('.submit-btn');
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Submitting...';
+                
+                // Send form data to server
+                const response = await fetch('/construction_form', {
+                method: 'POST',
+                body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                alert('Project submitted successfully!');
+                form.reset();
+                floorDetailsContainer.innerHTML = '';
+                } else {
+                throw new Error(result.message || 'Failed to submit project');
+                }
+            } catch (error) {
+                console.error('Submission error:', error);
+                alert(`Error: ${error.message}`);
+            } finally {
+                // Reset button state
+                const submitBtn = form.querySelector('.submit-btn');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Project';
+            }
+            });
+                        
             // Add or remove floors
             window.removeFloor = function(floorNumber) {
                 const floorElement = document.getElementById(`floor-${floorNumber}`);

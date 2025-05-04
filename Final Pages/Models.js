@@ -308,13 +308,93 @@ architectHiringSchema.pre("save", function (next) {
   next();
 });
 
+// Construction Form Schema
+const constructionProjectSchema = new mongoose.Schema({
+  // Customer Information
+  customerName: {
+    type: String,
+    required: true
+  },
+  customerEmail: {
+    type: String,
+    required: true,
+    match: [/.+\@.+\..+/, 'Please enter a valid email']
+  },
+  customerPhone: {
+    type: String,
+    required: true
+  },
+
+  // Project Details
+  projectAddress: {
+    type: String,
+    required: true
+  },
+  projectLocationPincode: {
+    type: String,
+    required: true
+  },
+  totalArea: {
+    type: Number,
+    required: true
+  },
+  buildingType: {
+    type: String,
+    enum: ['residential', 'commercial', 'industrial', 'mixedUse', 'other'],
+    required: true
+  },
+  estimatedBudget: Number,
+  projectTimeline: Number,
+
+  // Floor Plans
+  totalFloors: {
+    type: Number,
+    required: true,
+    min: 1
+  },
+  floors: [{
+    floorNumber: Number,
+    floorType: {
+      type: String,
+      enum: ['residential', 'commercial', 'parking', 'mechanical', 'other']
+    },
+    floorArea: Number,
+    floorDescription: String,
+    floorImagePath: String
+  }],
+
+  // Additional Requirements
+  specialRequirements: String,
+  accessibilityNeeds: {
+    type: String,
+    enum: ['wheelchair', 'elevators', 'ramps', 'other', 'none', '']
+  },
+  energyEfficiency: {
+    type: String,
+    enum: ['standard', 'leed', 'passive', 'netZero', 'other', '']
+  },
+  siteFilepaths: [String], // Array of file paths or URLs
+
+  // Timestamps
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+// Update the updatedAt field before saving
+constructionProjectSchema.pre('save', function(next) {
+  this.updatedAt = Date.now();
+  next();
+});
 // Models
 const Customer = mongoose.model("Customer", customerSchema);
 const Company = mongoose.model("Company", companySchema);
 const Worker = mongoose.model("Worker", workerSchema);
-const ArchitectHiring = mongoose.model(
-  "ArchitectHiring",
-  architectHiringSchema
-);
-
-module.exports = { Customer, Company, Worker, ArchitectHiring };
+const ArchitectHiring = mongoose.model("ArchitectHiring",architectHiringSchema);
+const ConstructionProjectSchema = mongoose.model("ConstructionProjectSchema",constructionProjectSchema)
+module.exports = { Customer, Company, Worker, ArchitectHiring, ConstructionProjectSchema };

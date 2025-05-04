@@ -1,39 +1,20 @@
-const {express,app,PORT,bodyParser,session,SQLiteStore,cors,path,mongoose,router,multer,fs,bcrypt} = require("./getServer");
-const {Customer,Company,Worker,ArchitectHiring}=require("./Models.js")
-
-const MongoDBStore = require("connect-mongodb-session")(session);
-
+const {express,app,PORT,bodyParser,cookieParser,SQLiteStore,cors,path,mongoose,router,multer,fs,bcrypt} = require("./getServer");
+const {Customer,Company,Worker,ArchitectHiring,ConstructionProjectSchema}=require("./Models.js")
+const jwt = require('jsonwebtoken');
 app.set("view engine", "ejs");
-app.set("views", "views");
+app.set('views', path.join(__dirname,'..','views'));
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: true,
+  credentials: true
+}));
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use("/uploads", express.static(path.join(__dirname, "Uploads")));
 
-// Session Store
-const store = new MongoDBStore({
-  uri: "mongodb+srv://isaimanideepp:Sai62818@cluster0.mng20.mongodb.net/Build&Beyond?retryWrites=true&w=majority",
-  collection: "sessions",
-});
-
-// Catch store errors
-store.on("error", function (error) {
-  console.error("Session store error:", error);
-});
-
-// Session Middleware
-app.use(
-  session({
-    secret: "your-secret-key", // Replace with a secure key in production
-    resave: false,
-    saveUninitialized: false,
-    store: store,
-    cookie: {
-      maxAge: 1000 * 60 * 60 * 24, // 1 day
-    },
-  })
-);
+// JWT Secret Key
+const JWT_SECRET = "cec1dc25cec256e194e609ba68d0e62b7554e7b664468a99d8ca788e0b657ec7"; // Replace with a secure key in production
 
 // MongoDB Connection
 const mongoURI = "mongodb+srv://isaimanideepp:Sai62818@cluster0.mng20.mongodb.net/Build&Beyond?retryWrites=true&w=majority";
@@ -42,10 +23,16 @@ mongoose
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err))
 
-// Multer Configuration
+// Create uploads directory (absolute path)
+const uploadDir = path.join(__dirname, 'Uploads');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+// Multer configuration
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "Uploads/");
+    cb(null, uploadDir);  // Use the absolute path
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
@@ -58,9 +45,7 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
     const filetypes = /pdf|jpg|jpeg|png/;
-    const extname = filetypes.test(
-      path.extname(file.originalname).toLowerCase()
-    );
+    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = filetypes.test(file.mimetype);
     if (extname && mimetype) {
       return cb(null, true);
@@ -69,13 +54,20 @@ const upload = multer({
   },
 });
 
-
 // Middleware to check if user is authenticated
 const isAuthenticated = (req, res, next) => {
-  if (req.session.user) {
-    return next();
+  const token = req.cookies.token;
+  if (!token) {
+    return res.status(401).json({ message: "Unauthorized. Please login." });
   }
-  res.status(401).json({ message: "Unauthorized. Please login." });
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (error) {
+    return res.status(401).json({ message: "Invalid token. Please login again." });
+  }
 };
 
 // Signup Endpoint
@@ -216,11 +208,23 @@ app.post("/login", async (req, res) => {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
-    // Store user_id and role in session
-    req.session.user = {
-      user_id: user._id.toString(),
-      role: user.role,
-    };
+    // Create JWT token
+    const token = jwt.sign(
+      {
+        user_id: user._id.toString(),
+        role: user.role
+      },
+      JWT_SECRET,
+      { expiresIn: '1d' }
+    );
+
+    // Set cookie
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production', // Use secure in production
+      maxAge: 1000 * 60 * 60 * 24, // 1 day
+      sameSite: 'lax'
+    });
 
     let redirect;
     switch (user.role) {
@@ -245,15 +249,11 @@ app.post("/login", async (req, res) => {
 
 // Logout Endpoint
 app.post("/logout", (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      return res.status(500).json({ message: "Failed to logout" });
-    }
-    res.status(200).json({ message: "Logout successful" });
-  });
+  res.clearCookie('token');
+  res.status(200).json({ message: "Logout successful" });
 });
 
-// Query Workers by Specialization (Protected Route)
+// Query Workers by Specialization - Now uses cookie auth
 app.get("/workers/:specialization", isAuthenticated, async (req, res) => {
   try {
     const specialization = req.params.specialization;
@@ -263,8 +263,8 @@ app.get("/workers/:specialization", isAuthenticated, async (req, res) => {
     res.status(200).json({
       workers,
       user: {
-        user_id: req.session.user.user_id,
-        role: req.session.user.role,
+        user_id: req.user.user_id,
+        role: req.user.role,
       },
     });
   } catch (error) {
@@ -272,17 +272,255 @@ app.get("/workers/:specialization", isAuthenticated, async (req, res) => {
   }
 });
 
-// Check Session Status
+// Check Authentication Status
 app.get("/session", (req, res) => {
-  if (req.session.user) {
+  const token = req.cookies.token;
+  
+  if (!token) {
+    return res.status(200).json({ authenticated: false });
+  }
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
     res.status(200).json({
       authenticated: true,
       user: {
-        user_id: req.session.user.user_id,
-        role: req.session.user.role,
+        user_id: decoded.user_id,
+        role: decoded.role,
       },
     });
-  } else {
+  } catch (error) {
     res.status(200).json({ authenticated: false });
   }
 });
+
+// Handle form submission
+app.post('/construction_form', upload.any(), async (req, res) => {
+  try {
+    // Extract form data from request body
+    const {
+      customerName,
+      customerEmail,
+      customerPhone,
+      projectAddress,
+      projectLocation,
+      totalArea,
+      buildingType,
+      estimatedBudget,
+      projectTimeline,
+      totalFloors,
+      specialRequirements,
+      accessibilityNeeds,
+      energyEfficiency
+    } = req.body;
+
+    // Process floor data
+    const floors = [];
+    for (let i = 1; i <= parseInt(totalFloors); i++) {
+      const floorType = req.body[`floorType-${i}`];
+      const floorArea = req.body[`floorArea-${i}`];
+      const floorDescription = req.body[`floorDescription-${i}`];
+      
+      // Find the corresponding floor image file
+      let floorImagePath = '';
+      if (req.files) {
+        const floorImageFile = req.files.find(file => 
+          file.fieldname === `floorImage-${i}`
+        );
+        if (floorImageFile) {
+          floorImagePath = floorImageFile.path;
+        }
+      }
+
+      floors.push({
+        floorNumber: i,
+        floorType,
+        floorArea,
+        floorDescription,
+        floorImagePath
+      });
+    }
+
+    // Process site files
+    const siteFilepaths = [];
+    if (req.files) {
+      const siteFiles = req.files.filter(file => 
+        file.fieldname === 'siteFiles'
+      );
+      siteFiles.forEach(file => {
+        siteFilepaths.push(file.path);
+      });
+    }
+
+    // Create new construction project document
+    const newProject = new ConstructionProjectSchema({
+      customerName,
+      customerEmail,
+      customerPhone,
+      projectAddress,
+      projectLocationPincode: projectLocation,
+      totalArea,
+      buildingType,
+      estimatedBudget,
+      projectTimeline,
+      totalFloors,
+      floors,
+      specialRequirements,
+      accessibilityNeeds,
+      energyEfficiency,
+      siteFilepaths
+    });
+
+    // Save to database
+    await newProject.save();
+
+    // Send success response
+    res.status(201).json({
+      success: true,
+      message: 'Project submitted successfully',
+      projectId: newProject._id
+    });
+  } catch (error) {
+    console.error('Error submitting project:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error submitting project',
+      error: error.message
+    });
+  }
+});
+app.post(
+  "/architect_submit",
+  upload.array("referenceImages", 10),
+  async (req, res) => {
+    try {
+
+      // Temporary test customer ID (replace with auth logic)
+      const customerId = new mongoose.Types.ObjectId(
+        "000000000000000000000000"
+      );
+      const workerId = new mongoose.Types.ObjectId("000000000000000000000000");
+
+      // Extract form data
+      const {
+        fullName,
+        contactNumber,
+        email,
+        streetAddress,
+        city,
+        state,
+        zipCode,
+        plotLocation,
+        plotSize,
+        plotOrientation,
+        designType,
+        numFloors,
+        floorRequirements,
+        specialFeatures,
+        architecturalStyle,
+        budget,
+        completionDate,
+      } = req.body;
+
+      // Validate required fields
+      const requiredFields = [
+        "fullName",
+        "contactNumber",
+        "email",
+        "streetAddress",
+        "city",
+        "state",
+        "zipCode",
+        "plotLocation",
+        "plotSize",
+        "plotOrientation",
+        "designType",
+        "numFloors",
+        "architecturalStyle",
+        "budget",
+      ];
+      for (const field of requiredFields) {
+        if (!req.body[field]) {
+          return res.status(400).json({
+            message: Missing required field: ${field},
+          });
+        }
+      }
+
+      // Parse floorRequirements with error handling
+      let parsedFloorRequirements = [];
+      if (floorRequirements) {
+        try {
+          parsedFloorRequirements = Array.isArray(floorRequirements)
+            ? floorRequirements
+            : JSON.parse(floorRequirements);
+        } catch (parseError) {
+          console.error("Error parsing floorRequirements:", parseError);
+          return res.status(400).json({
+            message: "Invalid floorRequirements format",
+          });
+        }
+      }
+
+      // Handle file uploads safely
+      const referenceImages = req.files
+        ? req.files.map((file) => ({
+            url: /Uploads/${file.filename},
+            originalName: file.originalname,
+            mimeType: file.mimetype,
+            size: file.size,
+          }))
+        : [];
+
+      // Create document
+      const architectHiring = new ArchitectHiring({
+        customer: customerId,
+        customerDetails: {
+          fullName,
+          contactNumber,
+          email,
+        },
+        customerAddress: {
+          streetAddress,
+          city,
+          state,
+          zipCode,
+        },
+        plotInformation: {
+          plotLocation,
+          plotSize,
+          plotOrientation,
+        },
+        designRequirements: {
+          designType,
+          numFloors,
+          floorRequirements: parsedFloorRequirements.map((floor, index) => ({
+            floorNumber: floor.floorNumber || index + 1,
+            details: floor.details,
+          })),
+          specialFeatures,
+          architecturalStyle,
+        },
+        additionalDetails: {
+          budget,
+          completionDate: completionDate ? new Date(completionDate) : undefined,
+          referenceImages,
+        },
+      });
+
+      // Save to MongoDB
+      await architectHiring.save();
+
+      // Return JSON with redirect URL
+      res.status(200).json({
+        message: "Form submitted successfully",
+        redirect: "/architect.html",
+      });
+    } catch (error) {
+      console.error("Error in /architect_submit:", error);
+      res.status(400).json({
+        message: error.message || "Failed to submit design request",
+      });
+    }
+  }
+);
