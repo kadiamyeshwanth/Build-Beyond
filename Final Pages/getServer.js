@@ -57,8 +57,9 @@ app.get("/workerdashboard.html", (req, res) => {
 app.get("/workerjobs.html", (req, res) => {
   res.render("worker/worker_jobs");
 });
-app.get("/workerjoin_company.html", async (req, res) => {
-  res.render("worker/workers_join_company");
+app.get("/workerjoin_company.html",isAuthenticated, async (req, res) => {
+  const user=await Worker.findById(req.user.user_id);
+  res.render("worker/workers_join_company",{user});
 });
 app.get("/workersettings.html", isAuthenticated,async (req, res) => {
   const user=await Worker.findById(req.user.user_id);
