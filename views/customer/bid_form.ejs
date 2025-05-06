@@ -134,7 +134,7 @@
     <div class="container">
         <h1>Bid Creation Form</h1>
         
-        <form id="constructionForm">
+        <form id="bidForm"  method="post" enctype="multipart/form-data" action="/bidForm_Submit">
             <div class="form-section">
                 <h2>Customer Information</h2>
                 <div class="form-group">
@@ -253,7 +253,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('constructionForm');
+            const form = document.getElementById('bidForm');
             const generateFloorsBtn = document.getElementById('generateFloors');
             const floorDetailsContainer = document.getElementById('floorDetails');
             
@@ -278,9 +278,10 @@
                             <h3>Floor ${i}</h3>
                             <button type="button" class="btn btn-remove" onclick="removeFloor(${i})">Remove</button>
                         </div>
+                        <input type="hidden" name="floors[${i-1}][floorNumber]" value="${i}">
                         <div class="form-group">
                             <label for="floorType-${i}">Floor Type</label>
-                            <select id="floorType-${i}" name="floorType-${i}" required>
+                            <select id="floorType-${i}" name="floors[${i-1}][floorType]" required>
                                 <option value="">Select Floor Type</option>
                                 <option value="residential">Residential</option>
                                 <option value="commercial">Commercial</option>
@@ -291,15 +292,15 @@
                         </div>
                         <div class="form-group">
                             <label for="floorArea-${i}">Floor Area (sq meters)</label>
-                            <input type="number" id="floorArea-${i}" name="floorArea-${i}" step="1" required>
+                            <input type="number" id="floorArea-${i}" name="floors[${i-1}][floorArea]" step="1" required>
                         </div>
                         <div class="form-group">
                             <label for="floorDescription-${i}">Floor Description</label>
-                            <textarea id="floorDescription-${i}" name="floorDescription-${i}" placeholder="Describe the layout and purpose of this floor"></textarea>
+                            <textarea id="floorDescription-${i}" name="floors[${i-1}][floorDescription]" placeholder="Describe the layout and purpose of this floor"></textarea>
                         </div>
                         <div class="form-group">
                             <label for="floorImage-${i}">Floor Plan Image</label>
-                            <input type="file" id="floorImage-${i}" name="floorImage-${i}" accept="image/*" onchange="previewImage(this, 'imagePreview-${i}')">
+                            <input type="file" id="floorImage-${i}" name="floorImages" accept="application/pdf,image/jpeg,image/png" onchange="previewImage(this, 'imagePreview-${i}')">
                             <img id="imagePreview-${i}" class="image-preview" src="#" alt="Floor Plan Preview">
                         </div>
                     `;
@@ -309,7 +310,7 @@
             });
             
             // Form submission
-            form.addEventListener('submit', function(e) {
+            form.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
                 // Validate required fields
@@ -329,9 +330,36 @@
                     alert('Please fill in all required fields');
                     return;
                 }
-                
-                alert('Form submitted successfully! In a real application, this would be sent to the server.');
-                
+
+                try {
+                    const formData = new FormData(form);
+                    // Log form data for debugging
+                    for (let [key, value] of formData.entries()) {
+                        console.log(`${key}:`, value);
+                    }
+                    
+                    const response = await fetch('/bidForm_Submit', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    if (response.redirected) {
+                        window.location.href = response.url; // Follow redirect
+                        return;
+                    }
+                    
+                    const result = await response.json();
+                    if (response.ok) {
+                        alert('Form submitted successfully!');
+                        form.reset();
+                        floorDetailsContainer.innerHTML = '';
+                    } else {
+                        alert(`Error submitting form: ${result.error || 'Please try again.'}`);
+                    }
+                } catch (error) {
+                    console.error('Submission error:', error);
+                    alert(`Error submitting form: ${error.message || 'Please try again.'}`);
+                }
             });
             
             // Add or remove floor functions
@@ -359,4 +387,3 @@
     </script>
 </body>
 </html>
-

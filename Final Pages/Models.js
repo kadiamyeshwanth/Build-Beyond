@@ -414,6 +414,122 @@ const designRequestSchema = new mongoose.Schema({
 });
 
 
+//Bid-form by Krishna
+const floorSchema = new mongoose.Schema({
+  floorNumber: {
+    type: Number,
+    required: true,
+  },
+  floorType: {
+    type: String,
+    enum: ["residential", "commercial", "parking", "mechanical", "other"],
+    required: true,
+  },
+  floorArea: {
+    type: Number,
+    required: true,
+    min: 0,
+  },
+  floorDescription: {
+    type: String,
+    trim: true,
+  },
+  floorImage: {
+    type: String, // Store file path or URL for the image
+    trim: true,
+  },
+});
+
+const BidSchema = new mongoose.Schema({
+  customerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Customer",
+    required: true,
+  },
+  customerName: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  customerEmail: {
+    type: String,
+    required: true,
+    trim: true,
+    lowercase: true,
+    match: [/^\S+@\S+\.\S+$/, "Please enter a valid email address"],
+  },
+  customerPhone: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  projectAddress: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  projectLocation: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  totalArea: {
+    type: Number,
+    required: true,
+    min: 0,
+  },
+  buildingType: {
+    type: String,
+    enum: ["residential", "commercial", "industrial", "mixedUse", "other"],
+    required: true,
+  },
+  estimatedBudget: {
+    type: Number,
+    min: 0,
+  },
+  projectTimeline: {
+    type: Number,
+    min: 0,
+  },
+  totalFloors: {
+    type: Number,
+    required: true,
+    min: 1,
+  },
+  floors: [floorSchema],
+  specialRequirements: {
+    type: String,
+    trim: true,
+  },
+  accessibilityNeeds: {
+    type: String,
+    enum: ["wheelchair", "elevators", "ramps", "other", "none", ""],
+  },
+  energyEfficiency: {
+    type: String,
+    enum: ["standard", "leed", "passive", "netZero", "other", ""],
+  },
+  siteFiles: [
+    {
+      type: String, // Store file paths or URLs for uploaded documents
+      trim: true,
+    },
+  ],
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+BidSchema.pre("save", function (next) {
+  this.updatedAt = Date.now();
+  next();
+});
+
 // Models
 const Customer = mongoose.model("Customer", customerSchema);
 const Company = mongoose.model("Company", companySchema);
@@ -421,4 +537,6 @@ const Worker = mongoose.model("Worker", workerSchema);
 const ArchitectHiring = mongoose.model("ArchitectHiring",architectHiringSchema);
 const ConstructionProjectSchema = mongoose.model("ConstructionProjectSchema",constructionProjectSchema);
 const DesignRequest = mongoose.model('DesignRequest', designRequestSchema);
-module.exports = { Customer, Company, Worker, ArchitectHiring, ConstructionProjectSchema ,DesignRequest};
+const Bid = mongoose.model("Bid", BidSchema);
+
+module.exports = { Customer, Company, Worker, ArchitectHiring, ConstructionProjectSchema ,DesignRequest,Bid};

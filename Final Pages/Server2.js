@@ -1,5 +1,5 @@
 const {express,app,PORT,bodyParser,cookieParser,SQLiteStore,cors,path,mongoose,router,multer,fs,bcrypt} = require("./getServer");
-const {Customer,Company,Worker,ArchitectHiring,ConstructionProjectSchema,DesignRequest}=require("./Models.js")
+const {Customer,Company,Worker,ArchitectHiring,ConstructionProjectSchema,DesignRequest,Bid}=require("./Models.js")
 const jwt = require('jsonwebtoken');
 app.set("view engine", "ejs");
 app.set('views', path.join(__dirname,'..','views'));
@@ -580,4 +580,72 @@ app.post('/design_request', upload.any(), async (req, res) => {
     console.error('Error saving design request:', error);
     res.status(500).json({ error: 'Server error' });
   }
+});
+
+
+//Bid-form Submit
+app.post('/bidForm_Submit', upload.fields([
+    { name: 'siteFiles', maxCount: 10 },
+    { name: 'floorImages', maxCount: 100 }
+]), async (req, res) => {
+    try {
+        // Placeholder customerId (replace with actual auth system)
+        const customerId = new mongoose.Types.ObjectId();
+
+        // Process site files (store filenames only)
+        const siteFiles = req.files.siteFiles ? 
+            req.files.siteFiles.map(file => path.basename(file.path)) : [];
+
+        // Process floor data
+        const floors = [];
+        if (req.body.floors && Array.isArray(req.body.floors)) {
+            req.body.floors.forEach((floor, index) => {
+                const floorImage = req.files.floorImages && req.files.floorImages[index] ?
+                    path.basename(req.files.floorImages[index].path) : '';
+                
+                floors.push({
+                    floorNumber: parseInt(floor.floorNumber),
+                    floorType: floor.floorType,
+                    floorArea: parseFloat(floor.floorArea),
+                    floorDescription: floor.floorDescription || '',
+                    floorImage: floorImage
+                });
+            });
+        } else {
+            console.log('No floors provided or invalid format');
+            throw new Error('No floor data provided');
+        }
+
+        const bidData = {
+            customerId,
+            customerName: req.body.customerName,
+            customerEmail: req.body.customerEmail,
+            customerPhone: req.body.customerPhone,
+            projectAddress: req.body.projectAddress,
+            projectLocation: req.body.projectLocation,
+            totalArea: parseFloat(req.body.totalArea),
+            buildingType: req.body.buildingType,
+            estimatedBudget: req.body.estimatedBudget ? parseFloat(req.body.estimatedBudget) : undefined,
+            projectTimeline: req.body.projectTimeline ? parseFloat(req.body.projectTimeline) : undefined,
+            totalFloors: parseInt(req.body.totalFloors),
+            floors,
+            specialRequirements: req.body.specialRequirements || '',
+            accessibilityNeeds: req.body.accessibilityNeeds || '',
+            energyEfficiency: req.body.energyEfficiency || '',
+            siteFiles,
+        };
+
+
+        const bid = new Bid(bidData);
+        await bid.save();
+        
+        // Redirect to bidspace.html
+        res.redirect('/bidspace.html');
+    } catch (error) {
+        console.error('Error saving bid:', error);
+        res.status(500).json({ 
+            error: error.message || 'Error saving bid',
+            details: error.name === 'ValidationError' ? error.errors : undefined
+        });
+    }
 });
