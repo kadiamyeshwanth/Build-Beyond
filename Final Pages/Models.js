@@ -653,9 +653,31 @@ const jobApplicationSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Create and export the model
-
-
+// Company To Worker Schema
+const companyToWorkerSchema = new mongoose.Schema({
+  position: {
+      type: String,
+      required: true
+  },
+  location: {
+      type: String,
+      required: true
+  },
+  salary: {
+      type: Number,
+      required: true
+  },
+  company: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Company',
+      required: true
+  },
+  worker: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Worker',
+      required: true
+  }
+});
 
 // Models
 const Customer = mongoose.model("Customer", customerSchema);
@@ -666,5 +688,5 @@ const ConstructionProjectSchema = mongoose.model("ConstructionProjectSchema",con
 const DesignRequest = mongoose.model('DesignRequest', designRequestSchema);
 const Bid = mongoose.model("Bid", BidSchema);
 const workertocompany = mongoose.model("workertocompany", jobApplicationSchema);
-
-module.exports = { Customer, Company, Worker, ArchitectHiring, ConstructionProjectSchema ,DesignRequest,Bid,workertocompany};
+const CompanytoWorker = mongoose.model("CompanytoWorker",companyToWorkerSchema);
+module.exports = { Customer, Company, Worker, ArchitectHiring, ConstructionProjectSchema ,DesignRequest,Bid,workertocompany,CompanytoWorker};

@@ -1,5 +1,5 @@
 const {express,app,PORT,bodyParser,cookieParser,SQLiteStore,cors,path,mongoose,router,multer,fs,bcrypt} = require("./getServer");
-const {Customer,Company,Worker,ArchitectHiring,ConstructionProjectSchema,DesignRequest,Bid,workertocompany}=require("./Models.js")
+const {Customer,Company,Worker,ArchitectHiring,ConstructionProjectSchema,DesignRequest,Bid,workertocompany,CompanytoWorker}=require("./Models.js")
 const jwt = require('jsonwebtoken');
 app.set("view engine", "ejs");
 app.set('views', path.join(__dirname,'..','views'));
@@ -911,5 +911,28 @@ app.post(
     }
   }
 );
+// Company to Worker 
+app.post('/companytoworker', isAuthenticated , async (req, res) => {
+  try {
+      const { position, location, salary } = req.body;
 
+      // Replace these with actual values (from session, auth, or hidden form inputs)
+      const dummyCompanyId = req.user.user_id;
+      const dummyWorkerId = req.user.user_id;
+
+      const newEntry = new CompanytoWorker({
+          position,
+          location,
+          salary,
+          company: dummyCompanyId,
+          worker: dummyWorkerId
+      });
+
+      await newEntry.save();
+      res.status(201).json({ message: 'Offer successfully saved.' });
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
