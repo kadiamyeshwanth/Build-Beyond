@@ -1194,346 +1194,345 @@
 </div>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Tab functionality
-      const tabs = document.querySelectorAll('.nav-link');
-      tabs.forEach(tab => {
-        tab.addEventListener('click', function() {
-          tabs.forEach(t => t.classList.remove('active'));
-          this.classList.add('active');
-          const tabPanes = document.querySelectorAll('.tab-pane');
-          tabPanes.forEach(pane => pane.classList.remove('active'));
-          const tabId = this.getAttribute('data-tab');
-          document.getElementById(tabId).classList.add('active');
-        });
-      });
-
-      // Search functionality
-      const searchInput = document.querySelector('.search-input');
-      const searchButton = document.querySelector('.search-button');
-      searchButton.addEventListener('click', function() {
-        searchButton.classList.add('loading');
-        setTimeout(() => searchButton.classList.remove('loading'), 1000);
-        const searchTerm = searchInput.value.toLowerCase().trim();
-        const cards = document.querySelectorAll('#join-company .card');
-        cards.forEach(card => {
-          const cardText = card.textContent.toLowerCase();
-          card.style.display = cardText.includes(searchTerm) || !searchTerm ? 'block' : 'none';
-        });
-      });
-
-      // Filter chip functionality
-      const filterChips = document.querySelectorAll('.filter-chip');
-      filterChips.forEach(chip => {
-        chip.addEventListener('click', function() {
-          filterChips.forEach(c => c.classList.remove('active'));
-          this.classList.add('active');
-          const filter = this.textContent.toLowerCase();
-          const timelineItems = document.querySelectorAll('.timeline-item');
-          timelineItems.forEach(item => {
-            const itemText = item.textContent.toLowerCase();
-            item.style.display = filter === 'all' || 
-                               (filter === 'expired' && itemText.includes('expired')) || 
-                               (filter === 'declined' && itemText.includes('declined')) 
-                               ? 'block' : 'none';
-          });
-        });
-      });
-
-      // Company data
-      const companies = {
-        'modern-structures': {
-          name: 'Modern Structures Inc.',
-          logo: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-1.2.1&auto=format&fit=crop&w=120&h=120',
-          location: 'Chennai, Tamil Nadu',
-          size: 'Medium (50-200 employees)',
-          founded: '2005',
-          specializations: ['Commercial', 'Residential High-rise', 'Urban Development'],
-          openings: ['Senior Architects', 'Project Managers', 'BIM Specialists'],
-          description: 'Modern Structures Inc. is a leading architectural firm specializing in innovative commercial and residential high-rise designs. With over 15 years of experience, we\'ve completed over 200 projects across India, focusing on sustainable and technologically advanced building solutions. Our team of 150 professionals includes architects, engineers, and designers who collaborate to create structures that are both functional and aesthetically groundbreaking.',
-          benefits: [
-            'Competitive salary with performance bonuses',
-            'Comprehensive health insurance and retirement plans',
-            'Continuing education and professional development opportunities',
-            'Collaborative work environment with cutting-edge technology',
-            'Opportunity to work on high-profile, innovative projects',
-            'Flexible work arrangements including remote options'
-          ]
-        },
-        'skyline-builders': {
-          name: 'Skyline Builders Group',
-          logo: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=120&h=120',
-          location: 'Delhi, NCR',
-          size: 'Large (500+ employees)',
-          founded: '1998',
-          specializations: ['Skyscrapers', 'Public Buildings', 'International Projects'],
-          openings: ['Design Architects', 'Technical Directors', 'Urban Planners'],
-          description: 'Skyline Builders Group is an internationally recognized firm known for our iconic skyscrapers and public buildings. With offices in 5 countries, we bring global expertise to every project while maintaining strong local connections. Our portfolio includes some of the tallest and most innovative structures in Asia, recognized for their engineering excellence and architectural beauty.',
-          benefits: [
-            'International project opportunities',
-            'Highly competitive compensation packages',
-            'State-of-the-art design studios',
-            'Annual international conference attendance',
-            'Leadership development programs',
-            'Comprehensive relocation assistance'
-          ]
-        },
-        'heritage-restoration': {
-          name: 'Heritage Restoration Partners',
-          logo: 'https://images.unsplash.com/photo-1517502884422-41eaead166d4?ixlib=rb-1.2.1&auto=format&fit=crop&w=120&h=120',
-          location: 'Mumbai, Maharashtra',
-          size: 'Small (10-50 employees)',
-          founded: '2010',
-          specializations: ['Historic Preservation', 'Restoration', 'Cultural Heritage'],
-          openings: ['Preservation Architects', 'Historical Consultants', 'Conservation Specialists'],
-          description: 'Heritage Restoration Partners is dedicated to preserving India\'s architectural heritage through careful restoration and adaptive reuse. Our team combines traditional craftsmanship with modern conservation techniques to breathe new life into historic structures while maintaining their cultural significance. We work closely with government agencies, NGOs, and private owners to protect our shared architectural legacy.',
-          benefits: [
-            'Meaningful work preserving cultural heritage',
-            'Small team with collaborative environment',
-            'Opportunities for international training',
-            'Flexible schedule for research and documentation',
-            'Access to rare historical archives',
-            'Participation in important preservation initiatives'
-          ]
-        },
-        'ecodesign': {
-          name: 'EcoDesign Construction',
-          logo: 'https://images.unsplash.com/photo-1560520031-3a4dc4e9de0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=120&h=120',
-          location: 'Kolkata, West Bengal',
-          size: 'Medium (50-200 employees)',
-          founded: '2012',
-          specializations: ['Sustainable Residential', 'Net-Zero Buildings', 'Eco Communities'],
-          openings: ['Sustainable Design Specialists', 'Green Technology Experts', 'Environmental Consultants'],
-          description: 'EcoDesign Construction is at the forefront of sustainable architecture in India. We specialize in creating buildings that minimize environmental impact while maximizing livability and beauty. Our approach combines passive design strategies, renewable energy systems, and cutting-edge materials to create structures that often produce more energy than they consume. We\'re committed to proving that sustainable design can be both economically viable and architecturally inspiring.',
-          benefits: [
-            'Mission-driven work environment',
-            'Cutting-edge sustainable technology',
-            'Professional certification support',
-            'Flexible work arrangements',
-            'Wellness-focused office spaces',
-            'Profit-sharing opportunities'
-          ]
-        }
-      };
-
-      // Modal functionality for company details
-      const companyModal = document.getElementById('companyModal');
-      const viewDetailButtons = document.querySelectorAll('.view-details');
-      const closeCompanyModal = companyModal.querySelector('.close-modal');
-
-      viewDetailButtons.forEach(button => {
-        button.addEventListener('click', function() {
-          const companyId = this.getAttribute('data-company');
-          const company = companies[companyId];
-          
-          document.getElementById('modalCompanyName').textContent = company.name;
-          document.getElementById('modalCompanyLogo').src = company.logo;
-          document.getElementById('modalLocation').textContent = company.location;
-          document.getElementById('modalSize').textContent = company.size;
-          document.getElementById('modalFounded').textContent = company.founded;
-          document.getElementById('modalDescription').textContent = company.description;
-          
-          const specializationsEl = document.getElementById('modalSpecializations');
-          specializationsEl.innerHTML = '';
-          company.specializations.forEach(spec => {
-            const badge = document.createElement('span');
-            badge.className = 'badge badge-green';
-            badge.textContent = spec;
-            specializationsEl.appendChild(badge);
-          });
-          
-          const openingsEl = document.getElementById('modalOpenings');
-          openingsEl.innerHTML = '';
-          company.openings.forEach(opening => {
-            const badge = document.createElement('span');
-            badge.className = 'badge badge-blue';
-            badge.textContent = opening;
-            openingsEl.appendChild(badge);
-          });
-          
-          const benefitsEl = document.getElementById('modalBenefits');
-          benefitsEl.innerHTML = '';
-          company.benefits.forEach(benefit => {
-            const li = document.createElement('li');
-            li.textContent = benefit;
-            benefitsEl.appendChild(li);
-          });
-          
-          companyModal.style.display = 'block';
-          document.body.style.overflow = 'hidden';
-        });
-      });
-
-      closeCompanyModal.addEventListener('click', function() {
-        companyModal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-      });
-
-      window.addEventListener('click', function(event) {
-        if (event.target === companyModal) {
-          companyModal.style.display = 'none';
-          document.body.style.overflow = 'auto';
-        }
-      });
-
-      // Application Form Modal functionality
-      const applicationModal = document.getElementById('applicationModal');
-      const applyButtons = document.querySelectorAll('.apply-now');
-      const closeFormButtons = document.querySelectorAll('.close-form');
-      const closeApplicationModal = applicationModal.querySelector('.close-modal');
-      const jobApplicationForm = document.getElementById('jobApplicationForm');
-
-      applyButtons.forEach(button => {
-        button.addEventListener('click', function() {
-          const companyId = this.getAttribute('data-company');
-          const company = companies[companyId];
-          document.getElementById('applicationCompanyName').textContent = `Apply to ${company.name}`;
-          const positionInput = document.getElementById('positionApplying');
-          positionInput.value = company.openings[0] || 'General Application';
-          applicationModal.style.display = 'block';
-          document.body.style.overflow = 'hidden';
-        });
-      });
-
-      closeFormButtons.forEach(button => {
-        button.addEventListener('click', function() {
-          applicationModal.style.display = 'none';
-          document.body.style.overflow = 'auto';
-          jobApplicationForm.reset();
-          document.querySelectorAll('.form-file-upload').forEach(upload => {
-            upload.classList.remove('file-selected');
-            upload.querySelector('.form-file-label').textContent = upload.querySelector('.form-file-label').dataset.originalText || 'Click to upload';
-          });
-        });
-      });
-
-      closeApplicationModal.addEventListener('click', function() {
-        applicationModal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-        jobApplicationForm.reset();
-        document.querySelectorAll('.form-file-upload').forEach(upload => {
-          upload.classList.remove('file-selected');
-          upload.querySelector('.form-file-label').textContent = upload.querySelector('.form-file-label').dataset.originalText || 'Click to upload';
-        });
-      });
-
-      window.addEventListener('click', function(event) {
-        if (event.target === applicationModal) {
-          applicationModal.style.display = 'none';
-          document.body.style.overflow = 'auto';
-          jobApplicationForm.reset();
-          document.querySelectorAll('.form-file-upload').forEach(upload => {
-            upload.classList.remove('file-selected');
-            upload.querySelector('.form-file-label').textContent = upload.querySelector('.form-file-label').dataset.originalText || 'Click to upload';
-          });
-        }
-      });
-
-      // File upload handling
-      const fileUploads = document.querySelectorAll('.form-file-upload');
-      fileUploads.forEach(upload => {
-        const input = upload.querySelector('.form-file-input');
-        const label = upload.querySelector('.form-file-label');
-        label.dataset.originalText = label.textContent;
-
-        input.addEventListener('change', function() {
-          if (this.files.length > 0) {
-            upload.classList.add('file-selected');
-            label.textContent = this.files[0].name;
-          } else {
-            upload.classList.remove('file-selected');
-            label.textContent = label.dataset.originalText;
-          }
-        });
-      });
-
-      // Update the form submission handler to match your simplified fields
-jobApplicationForm.addEventListener('submit', function(event) {
-  event.preventDefault();
-  
-  // Validate form
-  if (!this.checkValidity()) {
-    this.reportValidity();
-    return;
-  }
-
-  // Collect form data (only the fields you kept)
-  const formData = {
-    fullName: document.getElementById('fullName').value,
-    email: document.getElementById('email').value,
-    location: document.getElementById('location').value,
-    linkedin: document.getElementById('linkedin').value,
-    experience: document.getElementById('experience').value,
-    expectedSalary: document.getElementById('expectedSalary').value,
-    positionApplying: document.getElementById('positionApplying').value,
-    primarySkills: document.getElementById('primarySkills').value,
-    workExperience: document.getElementById('workExperience').value,
-    resume: document.getElementById('resume').files[0]?.name || 'No file selected'
-  };
-
-  // Here you would typically send this data to your server
-  console.log('Form data to submit:', formData);
-  
-  // Show success message
-  alert(`Application submitted successfully to ${document.getElementById('applicationCompanyName').textContent}!`);
-  
-  // Close modal and reset form
-  applicationModal.style.display = 'none';
-  document.body.style.overflow = 'auto';
-  this.reset();
-  
-  // Reset file upload displays
-  document.querySelectorAll('.form-file-upload').forEach(upload => {
-    upload.classList.remove('file-selected');
-    upload.querySelector('.form-file-label').textContent = 
-      upload.querySelector('.form-file-label').dataset.originalText || 'Click to upload';
+  // Tab functionality
+  const tabs = document.querySelectorAll('.nav-link');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', function() {
+      tabs.forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+      const tabPanes = document.querySelectorAll('.tab-pane');
+      tabPanes.forEach(pane => pane.classList.remove('active'));
+      const tabId = this.getAttribute('data-tab');
+      document.getElementById(tabId).classList.add('active');
+    });
   });
-});
 
-// Update the apply button click handler to set position correctly
-applyButtons.forEach(button => {
-  button.addEventListener('click', function() {
-    const companyId = this.getAttribute('data-company');
-    const company = companies[companyId];
-    
-    // Set company name in modal title
-    document.getElementById('applicationCompanyName').textContent = `Apply to ${company.name}`;
-    
-    // Set default position (first opening or general application)
-    const positionInput = document.getElementById('positionApplying');
-    positionInput.value = company.openings[0] || 'Architect Position';
-    
-    // Show the modal
-    applicationModal.style.display = 'block';
-    document.body.style.overflow = 'hidden';
-    
-    // Auto-focus first field for better UX
-    document.getElementById('fullName').focus();
+  // Search functionality
+  const searchInput = document.querySelector('.search-input');
+  const searchButton = document.querySelector('.search-button');
+  searchButton.addEventListener('click', function() {
+    searchButton.classList.add('loading');
+    setTimeout(() => searchButton.classList.remove('loading'), 1000);
+    const searchTerm = searchInput.value.toLowerCase().trim();
+    const cards = document.querySelectorAll('#join-company .card');
+    cards.forEach(card => {
+      const cardText = card.textContent.toLowerCase();
+      card.style.display = cardText.includes(searchTerm) || !searchTerm ? 'block' : 'none';
+    });
   });
-});
-      // Offer acceptance/decline buttons
-      const saveButtons = document.querySelectorAll('.btn-outline');
-      saveButtons.forEach(button => {
-        button.addEventListener('click', function() {
-          if (this.textContent === 'Decline') {
-            if (confirm('Are you sure you want to decline this offer?')) {
-              alert('Offer declined. The company has been notified.');
-            }
-          }
-        });
-      });
 
-      const acceptButtons = document.querySelectorAll('.btn-primary:not(.apply-now):not(.view-details)');
-      acceptButtons.forEach(button => {
-        button.addEventListener('click', function() {
-          if (this.textContent === 'Accept Offer') {
-            const companyName = this.closest('.card').querySelector('h3').textContent;
-            if (confirm(`Are you sure you want to accept the offer from ${companyName}?`)) {
-              alert(`Congratulations! You have accepted the offer from ${companyName}.`);
-            }
-          }
-        });
+  // Filter chip functionality
+  const filterChips = document.querySelectorAll('.filter-chip');
+  filterChips.forEach(chip => {
+    chip.addEventListener('click', function() {
+      filterChips.forEach(c => c.classList.remove('active'));
+      this.classList.add('active');
+      const filter = this.textContent.toLowerCase();
+      const timelineItems = document.querySelectorAll('.timeline-item');
+      timelineItems.forEach(item => {
+        const itemText = item.textContent.toLowerCase();
+        item.style.display = filter === 'all' ||
+                            (filter === 'expired' && itemText.includes('expired')) ||
+                            (filter === 'declined' && itemText.includes('declined'))
+                            ? 'block' : 'none';
       });
     });
+  });
+
+  // Company data (extended with companyId)
+  const companies = {
+    'modern-structures': {
+      name: 'Modern Structures Inc.',
+      companyId: '670000000000000000000001', // Replace with actual MongoDB ObjectId
+      logo: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-1.2.1&auto=format&fit=crop&w=120&h=120',
+      location: 'Chennai, Tamil Nadu',
+      size: 'Medium (50-200 employees)',
+      founded: '2005',
+      specializations: ['Commercial', 'Residential High-rise', 'Urban Development'],
+      openings: ['Senior Architects', 'Project Managers', 'BIM Specialists'],
+      description: 'Modern Structures Inc. is a leading architectural firm specializing in innovative commercial and residential high-rise designs. With over 15 years of experience, we\'ve completed over 200 projects across India, focusing on sustainable and technologically advanced building solutions. Our team of 150 professionals includes architects, engineers, and designers who collaborate to create structures that are both functional and aesthetically groundbreaking.',
+      benefits: [
+        'Competitive salary with performance bonuses',
+        'Comprehensive health insurance and retirement plans',
+        'Continuing education and professional development opportunities',
+        'Collaborative work environment with cutting-edge technology',
+        'Opportunity to work on high-profile, innovative projects',
+        'Flexible work arrangements including remote options'
+      ]
+    },
+    'skyline-builders': {
+      name: 'Skyline Builders Group',
+      companyId: '670000000000000000000002', // Replace with actual MongoDB ObjectId
+      logo: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=120&h=120',
+      location: 'Delhi, NCR',
+      size: 'Large (500+ employees)',
+      founded: '1998',
+      specializations: ['Skyscrapers', 'Public Buildings', 'International Projects'],
+      openings: ['Design Architects', 'Technical Directors', 'Urban Planners'],
+      description: 'Skyline Builders Group is an internationally recognized firm known for our iconic skyscrapers and public buildings. With offices in 5 countries, we bring global expertise to every project while maintaining strong local connections. Our portfolio includes some of the tallest and most innovative structures in Asia, recognized for their engineering excellence and architectural beauty.',
+      benefits: [
+        'International project opportunities',
+        'Highly competitive compensation packages',
+        'State-of-the-art design studios',
+        'Annual international conference attendance',
+        'Leadership development programs',
+        'Comprehensive relocation assistance'
+      ]
+    },
+    'heritage-restoration': {
+      name: 'Heritage Restoration Partners',
+      companyId: '670000000000000000000003', // Replace with actual MongoDB ObjectId
+      logo: 'https://images.unsplash.com/photo-1517502884422-41eaead166d4?ixlib=rb-1.2.1&auto=format&fit=crop&w=120&h=120',
+      location: 'Mumbai, Maharashtra',
+      size: 'Small (10-50 employees)',
+      founded: '2010',
+      specializations: ['Historic Preservation', 'Restoration', 'Cultural Heritage'],
+      openings: ['Preservation Architects', 'Historical Consultants', 'Conservation Specialists'],
+      description: 'Heritage Restoration Partners is dedicated to preserving India\'s architectural heritage through careful restoration and adaptive reuse. Our team combines traditional craftsmanship with modern conservation techniques to breathe new life into historic structures while maintaining their cultural significance. We work closely with government agencies, NGOs, and private owners to protect our shared architectural legacy.',
+      benefits: [
+        'Meaningful work preserving cultural heritage',
+        'Small team with collaborative environment',
+        'Opportunities for international training',
+        'Flexible schedule for research and documentation',
+        'Access to rare historical archives',
+        'Participation in important preservation initiatives'
+      ]
+    },
+    'ecodesign': {
+      name: 'EcoDesign Construction',
+      companyId: '670000000000000000000004', // Replace with actual MongoDB ObjectId
+      logo: 'https://images.unsplash.com/photo-1560520031-3a4dc4e9de0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=120&h=120',
+      location: 'Kolkata, West Bengal',
+      size: 'Medium (50-200 employees)',
+      founded: '2012',
+      specializations: ['Sustainable Residential', 'Net-Zero Buildings', 'Eco Communities'],
+      openings: ['Sustainable Design Specialists', 'Green Technology Experts', 'Environmental Consultants'],
+      description: 'EcoDesign Construction is at the forefront of sustainable architecture in India. We specialize in creating buildings that minimize environmental impact while maximizing livability and beauty. Our approach combines passive design strategies, renewable energy systems, and cutting-edge materials to create structures that often produce more energy than they consume. We\'re committed to proving that sustainable design can be both economically viable and architecturally inspiring.',
+      benefits: [
+        'Mission-driven work environment',
+        'Cutting-edge sustainable technology',
+        'Professional certification support',
+        'Flexible work arrangements',
+        'Wellness-focused office spaces',
+        'Profit-sharing opportunities'
+      ]
+    }
+  };
+
+  // Modal functionality for company details
+  const companyModal = document.getElementById('companyModal');
+  const viewDetailButtons = document.querySelectorAll('.view-details');
+  const closeCompanyModal = companyModal.querySelector('.close-modal');
+
+  viewDetailButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const companyId = this.getAttribute('data-company');
+      const company = companies[companyId];
+      
+      document.getElementById('modalCompanyName').textContent = company.name;
+      document.getElementById('modalCompanyLogo').src = company.logo;
+      document.getElementById('modalLocation').textContent = company.location;
+      document.getElementById('modalSize').textContent = company.size;
+      document.getElementById('modalFounded').textContent = company.founded;
+      document.getElementById('modalDescription').textContent = company.description;
+      
+      const specializationsEl = document.getElementById('modalSpecializations');
+      specializationsEl.innerHTML = '';
+      company.specializations.forEach(spec => {
+        const badge = document.createElement('span');
+        badge.className = 'badge badge-green';
+        badge.textContent = spec;
+        specializationsEl.appendChild(badge);
+      });
+      
+      const openingsEl = document.getElementById('modalOpenings');
+      openingsEl.innerHTML = '';
+      company.openings.forEach(opening => {
+        const badge = document.createElement('span');
+        badge.className = 'badge badge-blue';
+        badge.textContent = opening;
+        openingsEl.appendChild(badge);
+      });
+      
+      const benefitsEl = document.getElementById('modalBenefits');
+      benefitsEl.innerHTML = '';
+      company.benefits.forEach(benefit => {
+        const li = document.createElement('li');
+        li.textContent = benefit;
+        benefitsEl.appendChild(li);
+      });
+      
+      companyModal.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  closeCompanyModal.addEventListener('click', function() {
+    companyModal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+  });
+
+  window.addEventListener('click', function(event) {
+    if (event.target === companyModal) {
+      companyModal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+  });
+
+  // Application Form Modal functionality
+  const applicationModal = document.getElementById('applicationModal');
+  const applyButtons = document.querySelectorAll('.apply-now');
+  const closeFormButtons = document.querySelectorAll('.close-form');
+  const closeApplicationModal = applicationModal.querySelector('.close-modal');
+  const jobApplicationForm = document.getElementById('jobApplicationForm');
+
+  applyButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const companyId = this.getAttribute('data-company');
+      const company = companies[companyId];
+      document.getElementById('applicationCompanyName').textContent = `Apply to ${company.name}`;
+      const positionInput = document.getElementById('positionApplying');
+      positionInput.value = company.openings[0] || 'Architect Position';
+      jobApplicationForm.dataset.companyId = companyId;
+      applicationModal.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+      document.getElementById('fullName').focus();
+    });
+  });
+
+  closeFormButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      applicationModal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+      jobApplicationForm.reset();
+      document.querySelectorAll('.form-file-upload').forEach(upload => {
+        upload.classList.remove('file-selected');
+        upload.querySelector('.form-file-label').textContent = upload.querySelector('.form-file-label').dataset.originalText || 'Click to upload';
+      });
+    });
+  });
+
+  closeApplicationModal.addEventListener('click', function() {
+    applicationModal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+    jobApplicationForm.reset();
+    document.querySelectorAll('.form-file-upload').forEach(upload => {
+      upload.classList.remove('file-selected');
+      upload.querySelector('.form-file-label').textContent = upload.querySelector('.form-file-label').dataset.originalText || 'Click to upload';
+    });
+  });
+
+  window.addEventListener('click', function(event) {
+    if (event.target === applicationModal) {
+      applicationModal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+      jobApplicationForm.reset();
+      document.querySelectorAll('.form-file-upload').forEach(upload => {
+        upload.classList.remove('file-selected');
+        upload.querySelector('.form-file-label').textContent = upload.querySelector('.form-file-label').dataset.originalText || 'Click to upload';
+      });
+    }
+  });
+
+  // File upload handling
+  const fileUploads = document.querySelectorAll('.form-file-upload');
+  fileUploads.forEach(upload => {
+    const input = upload.querySelector('.form-file-input');
+    const label = upload.querySelector('.form-file-label');
+    label.dataset.originalText = label.textContent;
+
+    input.addEventListener('change', function() {
+      if (this.files.length > 0) {
+        upload.classList.add('file-selected');
+        label.textContent = this.files[0].name;
+      } else {
+        upload.classList.remove('file-selected');
+        label.textContent = label.dataset.originalText;
+      }
+    });
+  });
+
+  // Form submission handler
+  jobApplicationForm.addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+    // Validate form
+    if (!this.checkValidity()) {
+      this.reportValidity();
+      return;
+    }
+
+    // Create FormData object
+    const formData = new FormData();
+    formData.append('fullName', document.getElementById('fullName').value);
+    formData.append('email', document.getElementById('email').value);
+    formData.append('location', document.getElementById('location').value);
+    formData.append('linkedin', document.getElementById('linkedin').value);
+    formData.append('experience', document.getElementById('experience').value);
+    formData.append('expectedSalary', document.getElementById('expectedSalary').value);
+    formData.append('positionApplying', document.getElementById('positionApplying').value);
+    formData.append('primarySkills', document.getElementById('primarySkills').value);
+    formData.append('workExperience', document.getElementById('workExperience').value);
+    formData.append('termsAgree', document.getElementById('termsAgree').checked);
+    formData.append('companyId', companies[this.dataset.companyId]?.companyId || '');
+
+    const resumeFile = document.getElementById('resume').files[0];
+    if (!resumeFile) {
+      alert('Please upload a resume (PDF, JPG, JPEG, or PNG).');
+      return;
+    }
+    formData.append('resume', resumeFile);
+
+    try {
+      const response = await fetch('/worker_request_Company', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const result = await response.json();
+      if (response.ok && result.success) {
+        window.location.href = result.redirect;
+      } else {
+        let errorMessage = result.error;
+        if (result.missing) {
+          errorMessage += ': ' + Object.keys(result.missing)
+            .filter(key => result.missing[key])
+            .join(', ');
+        } else if (result.details) {
+          errorMessage += ': ' + result.details;
+        }
+        alert(`Error submitting application: ${errorMessage}`);
+      }
+    } catch (error) {
+      console.error('Client-side error submitting form:', error);
+      alert('An error occurred while submitting your application. Please try again.');
+    }
+  });
+
+  // Offer acceptance/decline buttons
+  const saveButtons = document.querySelectorAll('.btn-outline');
+  saveButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      if (this.textContent === 'Decline') {
+        if (confirm('Are you sure you want to decline this offer?')) {
+          alert('Offer declined. The company has been notified.');
+        }
+      }
+    });
+  });
+
+  const acceptButtons = document.querySelectorAll('.btn-primary:not(.apply-now):not(.view-details)');
+  acceptButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      if (this.textContent === 'Accept Offer') {
+        const companyName = this.closest('.card').querySelector('h3').textContent;
+        if (confirm(`Are you sure you want to accept the offer from ${companyName}?`)) {
+          alert(`Congratulations! You have accepted the offer from ${companyName}.`);
+        }
+      }
+    });
+  });
+});
   </script>
 </body>
 </html>

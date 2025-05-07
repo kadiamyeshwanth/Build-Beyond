@@ -1,5 +1,5 @@
 const {express,app,PORT,bodyParser,cookieParser,SQLiteStore,cors,path,mongoose,router,multer,fs,bcrypt} = require("./getServer");
-const {Customer,Company,Worker,ArchitectHiring,ConstructionProjectSchema,DesignRequest,Bid,workertocompany,CompanytoWorker}=require("./Models.js")
+const {Customer,Company,Worker,ArchitectHiring,ConstructionProjectSchema,DesignRequest,Bid,WorkerToCompany}=require("./Models.js")
 const jwt = require('jsonwebtoken');
 app.set("view engine", "ejs");
 app.set('views', path.join(__dirname,'..','views'));
@@ -936,3 +936,116 @@ app.post('/companytoworker', isAuthenticated , async (req, res) => {
   }
 });
 
+
+// Worker to company request
+// POST route for job application
+app.post(
+  "/worker_request_Company",
+  isAuthenticated,
+  upload.single("resume"),
+  async (req, res) => {
+    try {
+      const {
+        fullName,
+        email,
+        location,
+        linkedin,
+        experience,
+        expectedSalary,
+        positionApplying,
+        primarySkills,
+        workExperience,
+        termsAgree,
+        companyId,
+      } = req.body;
+
+      const workerId = req.user.user_id;
+      // Validate required fields
+      if (
+        !fullName ||
+        !email ||
+        !location ||
+        !experience ||
+        !expectedSalary ||
+        !positionApplying ||
+        !primarySkills ||
+        !workExperience ||
+        !termsAgree ||
+        !workerId ||
+        !companyId ||
+        !req.file
+      ) {
+        return res.status(400).json({
+          error: "Missing required fields",
+          missing: {
+            fullName: !fullName,
+            email: !email,
+            location: !location,
+            experience: !experience,
+            expectedSalary: !expectedSalary,
+            positionApplying: !positionApplying,
+            primarySkills: !primarySkills,
+            workExperience: !workExperience,
+            termsAgree: !termsAgree,
+            workerId: !workerId,
+            companyId: !companyId,
+            resume: !req.file,
+          },
+        });
+      }
+
+      // Validate companyId format
+      if (!mongoose.Types.ObjectId.isValid(companyId)) {
+        return res.status(400).json({ error: "Invalid companyId format" });
+      }
+
+      // Split primarySkills into an array
+      const skillsArray = primarySkills.split(",").map((skill) => skill.trim());
+
+      // Create new job application
+      const jobApplication = new WorkerToCompany({
+        fullName,
+        email,
+        location,
+        linkedin: linkedin || null,
+        experience: parseInt(experience),
+        expectedSalary: parseInt(expectedSalary),
+        positionApplying,
+        primarySkills: skillsArray,
+        workExperience,
+        resume: req.file.filename,
+        termsAgree: termsAgree === "true" || termsAgree === true,
+        workerId,
+        companyId,
+      });
+
+      // Save to MongoDB
+      await jobApplication.save();
+
+      res.json({ success: true, redirect: "/workerjoin_company.html" });
+    } catch (error) {
+      console.error("Error in /worker_request_Company:", {
+        message: error.message,
+        stack: error.stack,
+        body: req.body,
+        file: req.file,
+      });
+      if (error instanceof multer.MulterError) {
+        return res
+          .status(400)
+          .json({ error: `Multer error: ${error.message}` });
+      }
+      if (error.name === "ValidationError") {
+        return res
+          .status(400)
+          .json({ error: `Validation error: ${error.message}` });
+      }
+      res
+        .status(500)
+        .json({
+          error: "Server error while processing application",
+          details: error.message,
+        });
+    }
+  }
+);
