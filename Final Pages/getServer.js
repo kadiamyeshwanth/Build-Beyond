@@ -160,6 +160,9 @@ app.get("/addnewproject_form.html", (req, res) => {
   res.render("company/addnewproject_form");
 });
 
+app.get("/worker_edit", (req, res) => {
+  res.render("worker/worker_profile_edit");
+});
 
 module.exports = {
   express,

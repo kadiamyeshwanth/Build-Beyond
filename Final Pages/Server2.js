@@ -582,7 +582,6 @@ app.post('/design_request', upload.any(), async (req, res) => {
   }
 });
 
-
 //Bid-form Submit
 app.post('/bidForm_Submit', upload.fields([
     { name: 'siteFiles', maxCount: 10 },
