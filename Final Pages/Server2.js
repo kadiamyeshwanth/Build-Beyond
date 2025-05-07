@@ -1,5 +1,5 @@
 const {express,app,PORT,bodyParser,cookieParser,SQLiteStore,cors,path,mongoose,router,multer,fs,bcrypt} = require("./getServer");
-const {Customer,Company,Worker,ArchitectHiring,ConstructionProjectSchema,DesignRequest,Bid,WorkerToCompany}=require("./Models.js")
+const {Customer,Company,Worker,ArchitectHiring,ConstructionProjectSchema,DesignRequest,Bid,WorkerToCompany,CompanytoWorker}=require("./Models.js")
 const jwt = require('jsonwebtoken');
 app.set("view engine", "ejs");
 app.set('views', path.join(__dirname,'..','views'));

@@ -675,5 +675,6 @@ const ConstructionProjectSchema = mongoose.model("ConstructionProjectSchema",con
 const DesignRequest = mongoose.model('DesignRequest', designRequestSchema);
 const Bid = mongoose.model("Bid", BidSchema);
 const WorkerToCompany = mongoose.model("WorkerToCompany", jobApplicationSchema);
+const CompanytoWorker = mongoose.model("CompanytoWorker",companyToWorkerSchema);
 
-module.exports = { Customer, Company, Worker, ArchitectHiring, ConstructionProjectSchema ,DesignRequest,Bid,WorkerToCompany};
+module.exports = { Customer, Company, Worker, ArchitectHiring, ConstructionProjectSchema ,DesignRequest,Bid,WorkerToCompany,CompanytoWorker};
