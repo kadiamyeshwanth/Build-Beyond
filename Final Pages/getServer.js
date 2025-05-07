@@ -178,8 +178,14 @@ app.get("/companyclients.html", (req, res) => {
 app.get("/companyrevenue.html", (req, res) => {
   res.render("company/revenue");
 });
-app.get("/companyhiring.html", (req, res) => {
-  res.render("company/hiring");
+app.get("/companyhiring.html", isAuthenticated, async (req, res) => {
+  try {
+      const workers = await Worker.find({});
+      res.render("company/hiring", { workers });
+  } catch (err) {
+      console.error('Error fetching workers:', err);
+      res.status(500).send('Server error');
+  }
 });
 app.get("/companysettings.html", async(req, res) => {
   const user=await Company.findById(req.user.user_id);
