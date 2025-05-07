@@ -20,6 +20,7 @@
 
 const mongoose=require("mongoose")
 const bcrypt=require("bcrypt");
+const Schema=mongoose.Schema;
 
 const customerSchema = new mongoose.Schema(
   {
@@ -60,11 +61,33 @@ const companySchema = new mongoose.Schema(
       postalCode: { type: String },
     },
     description: { type: String },
+    aboutCompany: { type: String }, // For worker profile
+    whyJoinUs: { type: String }, // For worker profile
+    currentOpenings: [{ type: String }], // For worker profile
     specialization: [{ type: String }], // Array of specializations
     size: {
       type: String,
       enum: ["1-10", "11-50", "51-200", "201-500", "501-1000", "1000+"],
     },
+    // For customer profile
+    projectsCompleted: { type: String },
+    yearsInBusiness: { type: String },
+    teamMembers: [{
+      name: { type: String },
+      position: { type: String },
+      image: { type: String }
+    }],
+    completedProjects: [{
+      title: { type: String },
+      description: { type: String },
+      image: { type: String }
+    }],
+    didYouKnow: { type: String },
+    profileType: { 
+      type: String, 
+      enum: ["worker", "customer"], 
+      default: "worker" 
+    }
   },
   { timestamps: true }
 );
@@ -96,8 +119,8 @@ const workerSchema = new mongoose.Schema(
     certificateFiles: [{ type: String }],
     role: { type: String, default: "worker" },
     profileImage: { type: String },
-    professionalTitle: { type: String, required: true },
-    about: { type: String, required: true },
+    professionalTitle: { type: String},
+    about: { type: String},
     specialties: [{ type: String, default: [] }],
     projects: [
       {
@@ -532,6 +555,108 @@ BidSchema.pre("save", function (next) {
   next();
 });
 
+
+
+//Worker to Company
+const jobApplicationSchema = new mongoose.Schema(
+  {
+    // Personal Information
+    fullName: {
+      type: String,
+      required: [true, "Full name is required"],
+      trim: true,
+    },
+    email: {
+      type: String,
+      required: [true, "Email address is required"],
+      trim: true,
+      lowercase: true,
+      match: [/^\S+@\S+\.\S+$/, "Please enter a valid email address"],
+    },
+    location: {
+      type: String,
+      required: [true, "Current location is required"],
+      trim: true,
+    },
+    linkedin: {
+      type: String,
+      trim: true,
+      match: [
+        /^https?:\/\/(www\.)?linkedin\.com\/.*$/,
+        "Please enter a valid LinkedIn URL",
+      ],
+      default: null,
+    },
+
+    // Professional Details
+    experience: {
+      type: Number,
+      required: [true, "Years of experience is required"],
+      min: [0, "Experience cannot be negative"],
+    },
+    expectedSalary: {
+      type: Number,
+      required: [true, "Expected salary is required"],
+      min: [0, "Expected salary cannot be negative"],
+    },
+    positionApplying: {
+      type: String,
+      required: [true, "Position applying for is required"],
+      trim: true,
+    },
+
+    // Skills & Specialties
+    primarySkills: {
+      type: [String],
+      required: [true, "Primary skills are required"],
+      validate: {
+        validator: function (array) {
+          return array.length > 0;
+        },
+        message: "At least one primary skill is required",
+      },
+    },
+
+    // Work Experience
+    workExperience: {
+      type: String,
+      required: [true, "Previous work experience is required"],
+      trim: true,
+    },
+
+    // Attachments
+    resume: {
+      type: String,
+      required: [true, "Resume is required"],
+      trim: true,
+    },
+
+    // Terms Agreement
+    termsAgree: {
+      type: Boolean,
+      required: [true, "You must agree to the terms"],
+      enum: [true],
+    },
+
+    // Additional Fields
+    workerId: {
+      type: Schema.Types.ObjectId,
+      ref: "Worker",
+      required: [true, "Worker ID is required"],
+    },
+    companyId: {
+      type: Schema.Types.ObjectId,
+      ref: "Company",
+      required: [true, "Company ID is required"],
+    },
+  },
+  { timestamps: true }
+);
+
+// Create and export the model
+
+
+
 // Models
 const Customer = mongoose.model("Customer", customerSchema);
 const Company = mongoose.model("Company", companySchema);
@@ -540,5 +665,6 @@ const ArchitectHiring = mongoose.model("ArchitectHiring",architectHiringSchema);
 const ConstructionProjectSchema = mongoose.model("ConstructionProjectSchema",constructionProjectSchema);
 const DesignRequest = mongoose.model('DesignRequest', designRequestSchema);
 const Bid = mongoose.model("Bid", BidSchema);
+const workertocompany = mongoose.model("workertocompany", jobApplicationSchema);
 
-module.exports = { Customer, Company, Worker, ArchitectHiring, ConstructionProjectSchema ,DesignRequest,Bid};
+module.exports = { Customer, Company, Worker, ArchitectHiring, ConstructionProjectSchema ,DesignRequest,Bid,workertocompany};
