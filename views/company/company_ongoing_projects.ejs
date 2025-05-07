@@ -337,14 +337,11 @@
     .filter-button.inactive:hover {
       background-color: #D0D0D0;
     }
-
-    
   </style>
 </head>
 <body>
   <%- include('navbar_company') %>
   <div class="container">
- 
     <div class="header">
       <h1>Company Dashboard</h1>
       <a href="/addnewproject_form.html" style="text-decoration: none;"><button class="add-project-btn">+ Add New Project</button></a>
@@ -369,9 +366,9 @@
       </div>
     </div>
     
- 
     <div class="content-wrapper">
       <div class="left-section">
+        <!-- First Project -->
         <div class="project-display">
           <div class="project-image">
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqjSRsiV4Q22mOElSnkcct2oZmd-1iVrNOcQ&s" alt="Project Image">
@@ -398,12 +395,12 @@
             
             <p>Current phase: Interior work</p>
             <div class="action-buttons">
-              <button class="view-details-btn">View Details</button>
+              <button class="view-details-btn" data-project="1">View Details</button>
               <a href="addnewproject_form.html" style="text-decoration: none;"><button class="edit-btn">Edit</button></a>
             </div>
           </div>
         </div>
-        <div class="view-details">
+        <div class="view-details" id="details-1">
           <h3>All Images</h3>
           <div class="images">
             <img src="https://via.placeholder.com/150" alt="Project Image 1">
@@ -415,16 +412,67 @@
             <div class="update">
               <img src="https://via.placeholder.com/100" alt="Update Image 1">
               <p>Interior work is progressing as planned. The living room and kitchen areas are nearing completion.</p>
-              
             </div>
             <div class="update">
               <img src="https://via.placeholder.com/100" alt="Update Image 2">
               <p>Exterior painting has started. The color scheme has been finalized and approved by the clients.</p>
-              
+            </div>
+          </div>
+        </div>
+
+        <!-- Second Project -->
+        <div class="project-display">
+          <div class="project-image">
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Project Image">
+          </div>
+          <div class="project-details">
+            <h2>Green Valley Estates</h2>
+            <div class="location">
+              <span>📍 Mountain View, California</span>
+            </div>
+            <div>
+              <span class="project-tag">Eco-Friendly</span>
+              <span class="status-tag">Planning Phase</span>
+            </div>
+            
+            <div class="progress-container">
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 25%;"></div>
+              </div>
+              <div class="progress-text">
+                <span>Project Completion: 25%</span>
+                <span>Target: December 2026</span>
+              </div>
+            </div>
+            
+            <p>Current phase: Architectural approvals</p>
+            <div class="action-buttons">
+              <button class="view-details-btn" data-project="2">View Details</button>
+              <a href="addnewproject_form.html" style="text-decoration: none;"><button class="edit-btn">Edit</button></a>
+            </div>
+          </div>
+        </div>
+        <div class="view-details" id="details-2">
+          <h3>All Images</h3>
+          <div class="images">
+            <img src="https://via.placeholder.com/150" alt="Project Image 1">
+            <img src="https://via.placeholder.com/150" alt="Project Image 2">
+            <img src="https://via.placeholder.com/150" alt="Project Image 3">
+          </div>
+          <h3>Recent Updates</h3>
+          <div class="recent-updates">
+            <div class="update">
+              <img src="https://via.placeholder.com/100" alt="Update Image 1">
+              <p>Initial eco-friendly designs submitted for approval. Solar panel integration plans are being finalized.</p>
+            </div>
+            <div class="update">
+              <img src="https://via.placeholder.com/100" alt="Update Image 2">
+              <p>Environmental impact assessment underway. Site preparation will begin after approval.</p>
             </div>
           </div>
         </div>
       </div>
+      
       <div class="right-section">
         <div class="filter-properties">
           <h2>Filter Properties</h2>
@@ -437,12 +485,44 @@
   </div>
 
   <script>
- 
-    const viewDetailsBtn = document.querySelector('.view-details-btn');
-    const viewDetailsSection = document.querySelector('.view-details');
-
-    viewDetailsBtn.addEventListener('click', () => {
-      viewDetailsSection.classList.toggle('active');
+    // Toggle View Details Section for multiple projects
+    const viewDetailsBtns = document.querySelectorAll('.view-details-btn');
+    
+    viewDetailsBtns.forEach(button => {
+      button.addEventListener('click', () => {
+        const projectId = button.getAttribute('data-project');
+        const viewDetailsSection = document.getElementById(`details-${projectId}`);
+        
+        // Hide all other details sections first
+        document.querySelectorAll('.view-details').forEach(section => {
+          if (section.id !== `details-${projectId}`) {
+            section.classList.remove('active');
+          }
+        });
+        
+        // Toggle the clicked section
+        viewDetailsSection.classList.toggle('active');
+        
+        // Update button text based on state
+        if (viewDetailsSection.classList.contains('active')) {
+          button.textContent = 'Hide Details';
+        } else {
+          button.textContent = 'View Details';
+        }
+      });
+    });
+    
+    // Filter buttons functionality
+    const filterButtons = document.querySelectorAll('.filter-button');
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        filterButtons.forEach(btn => {
+          btn.classList.remove('active');
+          btn.classList.add('inactive');
+        });
+        button.classList.remove('inactive');
+        button.classList.add('active');
+      });
     });
   </script>
 </body>
