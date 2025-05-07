@@ -41,7 +41,7 @@ const isAuthenticated = (req, res, next) => {
   }
 };
 // Landing Route
-app.get("/", (req, res) => {
+app.get("/", (req, res) => {  
   res.render("landing_page");
 });
 app.get("/signin_up.html", (req, res) => {
@@ -54,9 +54,37 @@ app.get("/adminpage.html", (req, res) => {
 app.get("/workerdashboard.html", (req, res) => {
   res.render("worker/worker_dashboard");
 });
-app.get("/workerjobs.html", (req, res) => {
-  res.render("worker/worker_jobs");
+
+
+app.get("/workerjobs.html", isAuthenticated, async (req, res) => {
+  try {
+    // Validate req.user and req.user.user_id
+    if (!req.user || !req.user.user_id) {
+      return res.status(401).json({ error: "Unauthorized: User not found" });
+    }
+
+    // Query worker by ID
+    const worker = await Worker.findById(req.user.user_id).select(
+      "isArchitect"
+    );
+
+    // Check if worker exists
+    if (!worker) {
+      return res.status(404).json({ error: "Worker not found" });
+    }
+
+    // Render appropriate view based on isArchitect
+    const view = worker.isArchitect
+      ? "worker/worker_jobs"
+      : "worker/InteriorDesigner_Jobs";
+    res.render(view, { user: req.user }); // Pass user data to the view if needed
+  } catch (error) {
+    console.error("Error fetching worker:", error.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
+
+
 app.get("/workerjoin_company.html",isAuthenticated, async (req, res) => {
   const user=await Worker.findById(req.user.user_id);
   res.render("worker/workers_join_company",{user});

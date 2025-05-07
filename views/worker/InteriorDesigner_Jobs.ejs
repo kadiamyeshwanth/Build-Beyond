@@ -287,11 +287,16 @@ body {
 
 .job-details-content {
     animation: fadeIn 0.3s ease-in-out;
+    display: none;
+}
+
+.job-details-content.active {
+    display: block;
 }
 
 .details-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-Transparent;
     align-items: flex-start;
     margin-bottom: 30px;
     padding-bottom: 20px;
@@ -479,7 +484,36 @@ body {
                     <i class="fas fa-search search-icon"></i>
                 </div>
                 <div class="jobs-container" id="jobList">
-                    <!-- Interior Design Job Cards will be added dynamically -->
+                    <div class="job-card" data-id="1">
+                        <span class="job-type interior">interior</span>
+                        <h3 class="job-title">Modern Kitchen Redesign</h3>
+                        <p class="job-budget">₹8k - ₹12k</p>
+                        <p class="job-summary">Complete kitchen renovation with modern appliances and open concept layout</p>
+                    </div>
+                    <div class="job-card" data-id="2">
+                        <span class="job-type interior">interior</span>
+                        <h3 class="job-title">Luxury Bedroom Makeover</h3>
+                        <p class="job-budget">₹10k - ₹15k</p>
+                        <p class="job-summary">Complete bedroom redesign with walk-in closet and ensuite bathroom</p>
+                    </div>
+                    <div class="job-card" data-id="3">
+                        <span class="job-type interior">interior</span>
+                        <h3 class="job-title">Living Room Redesign</h3>
+                        <p class="job-budget">₹7k - ₹10k</p>
+                        <p class="job-summary">Modern living room with entertainment center and fireplace</p>
+                    </div>
+                    <div class="job-card" data-id="4">
+                        <span class="job-type interior">interior</span>
+                        <h3 class="job-title">Home Office Design</h3>
+                        <p class="job-budget">₹5k - ₹8k</p>
+                        <p class="job-summary">Ergonomic home office with built-in shelving and natural lighting</p>
+                    </div>
+                    <div class="job-card" data-id="5">
+                        <span class="job-type interior">interior</span>
+                        <h3 class="job-title">Bathroom Renovation</h3>
+                        <p class="job-budget">₹6k - ₹9k</p>
+                        <p class="job-summary">Complete bathroom renovation with walk-in shower and modern fixtures</p>
+                    </div>
                 </div>
             </section>
             <section class="job-details-panel" id="jobDetailsPanel">
@@ -488,192 +522,16 @@ body {
                     <h2>No Job Selected</h2>
                     <p>Click on a job offer from the list to view its details</p>
                 </div>
-                <!-- Job Details Content will be added dynamically -->
-            </section>
-        </div>
-    </main>
-
-    <script>
-        // Sample interior design requests data (would come from backend in real app)
-        const interiorDesignRequests = [
-            {
-                id: 1,
-                type: "interior",
-                title: "Modern Kitchen Redesign",
-                budget: "₹8k - ₹12k",
-                summary: "Complete kitchen renovation with modern appliances and open concept layout",
-                completionDate: "June 30, 2025",
-                customer: {
-                    name: "Priya Sharma",
-                    contact: "9876543210",
-                    email: "priya.sharma@example.com",
-                    address: "45 Green Park, Bangalore, Karnataka 560001"
-                },
-                roomInfo: {
-                    type: "Kitchen",
-                    size: "12 × 15 feet",
-                    ceilingHeight: "9 feet",
-                    style: "Modern",
-                    features: "Island counter, breakfast bar, smart appliances"
-                },
-                images: [
-                    "https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3",
-                    "https://images.unsplash.com/photo-1600210492493-0946911123ea?auto=format&fit=crop&q=80&w=1974&ixlib=rb-4.0.3"
-                ]
-            },
-            {
-                id: 2,
-                type: "interior",
-                title: "Luxury Bedroom Makeover",
-                budget: "₹10k - ₹15k",
-                summary: "Complete bedroom redesign with walk-in closet and ensuite bathroom",
-                completionDate: "July 15, 2025",
-                customer: {
-                    name: "Rahul Verma",
-                    contact: "8765432109",
-                    email: "rahul.verma@example.com",
-                    address: "78 Palm Avenue, Mumbai, Maharashtra 400001"
-                },
-                roomInfo: {
-                    type: "Bedroom",
-                    size: "18 × 20 feet",
-                    ceilingHeight: "10 feet",
-                    style: "Contemporary",
-                    features: "Walk-in closet, ensuite bathroom, smart lighting"
-                },
-                images: [
-                    "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3",
-                    "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&q=80&w=2032&ixlib=rb-4.0.3"
-                ]
-            },
-            {
-                id: 3,
-                type: "interior",
-                title: "Living Room Redesign",
-                budget: "₹7k - ₹10k",
-                summary: "Modern living room with entertainment center and fireplace",
-                completionDate: "August 1, 2025",
-                customer: {
-                    name: "Ananya Patel",
-                    contact: "7654321098",
-                    email: "ananya.patel@example.com",
-                    address: "23 Lakeview Road, Hyderabad, Telangana 500001"
-                },
-                roomInfo: {
-                    type: "Living Room",
-                    size: "20 × 25 feet",
-                    ceilingHeight: "10 feet",
-                    style: "Minimalist",
-                    features: "Entertainment center, fireplace, smart home integration"
-                },
-                images: [
-                    "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&q=80&w=2032&ixlib=rb-4.0.3",
-                    "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=2003&ixlib=rb-4.0.3"
-                ]
-            },
-            {
-                id: 4,
-                type: "interior",
-                title: "Home Office Design",
-                budget: "₹5k - ₹8k",
-                summary: "Ergonomic home office with built-in shelving and natural lighting",
-                completionDate: "May 20, 2025",
-                customer: {
-                    name: "Vikram Singh",
-                    contact: "6543210987",
-                    email: "vikram.singh@example.com",
-                    address: "12 Tech Park, Pune, Maharashtra 411001"
-                },
-                roomInfo: {
-                    type: "Home Office",
-                    size: "10 × 12 feet",
-                    ceilingHeight: "9 feet",
-                    style: "Scandinavian",
-                    features: "Built-in shelving, ergonomic furniture, soundproofing"
-                },
-                images: [
-                    "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&q=80&w=2069&ixlib=rb-4.0.3",
-                    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&q=80&w=1976&ixlib=rb-4.0.3"
-                ]
-            },
-            {
-                id: 5,
-                type: "interior",
-                title: "Bathroom Renovation",
-                budget: "₹6k - ₹9k",
-                summary: "Complete bathroom renovation with walk-in shower and modern fixtures",
-                completionDate: "June 10, 2025",
-                customer: {
-                    name: "Meera Nair",
-                    contact: "5432109876",
-                    email: "meera.nair@example.com",
-                    address: "34 Wellness Lane, Kochi, Kerala 682001"
-                },
-                roomInfo: {
-                    type: "Bathroom",
-                    size: "8 × 10 feet",
-                    ceilingHeight: "8 feet",
-                    style: "Modern",
-                    features: "Walk-in shower, double vanity, heated floors"
-                },
-                images: [
-                    "https://images.unsplash.com/photo-1600566752227-8f3b1a5a0d5a?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3",
-                    "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3"
-                ]
-            }
-        ];
-
-        // DOM elements
-        const jobListContainer = document.getElementById('jobList');
-        const jobDetailsPanel = document.getElementById('jobDetailsPanel');
-        const emptyState = document.getElementById('emptyState');
-
-        // Generate job cards
-        function generateJobCards() {
-            jobListContainer.innerHTML = '';
-            
-            interiorDesignRequests.forEach(request => {
-                const jobCard = document.createElement('div');
-                jobCard.className = 'job-card';
-                jobCard.dataset.id = request.id;
-                
-                jobCard.innerHTML = `
-                    <span class="job-type interior">interior</span>
-                    <h3 class="job-title">${request.title}</h3>
-                    <p class="job-budget">${request.budget}</p>
-                    <p class="job-summary">${request.summary}</p>
-                `;
-                
-                jobCard.addEventListener('click', () => showJobDetails(request.id));
-                jobListContainer.appendChild(jobCard);
-            });
-        }
-
-        // Show job details
-        function showJobDetails(jobId) {
-            const request = interiorDesignRequests.find(r => r.id == jobId);
-            if (!request) return;
-            
-            // Update active state of job cards
-            document.querySelectorAll('.job-card').forEach(card => {
-                card.classList.toggle('active', card.dataset.id == jobId);
-            });
-            
-            // Hide empty state
-            emptyState.style.display = 'none';
-            
-            // Create and show job details
-            jobDetailsPanel.innerHTML = `
-                <div class="job-details-content">
+                <div class="job-details-content" data-id="1">
                     <div class="details-header">
                         <div class="details-header-left">
-                            <h2>${request.title}</h2>
+                            <h2>Modern Kitchen Redesign</h2>
                             <span class="job-type interior">interior</span>
-                            <p class="job-budget">${request.budget}</p>
+                            <p class="job-budget">₹8k - ₹12k</p>
                         </div>
                         <div class="details-header-right">
                             <p class="detail-label">Preferred Completion</p>
-                            <p class="detail-value">${request.completionDate}</p>
+                            <p class="detail-value">June 30, 2025</p>
                         </div>
                     </div>
                     <div class="details-section">
@@ -681,19 +539,19 @@ body {
                         <div class="details-grid">
                             <div class="detail-item">
                                 <p class="detail-label">Name</p>
-                                <p class="detail-value">${request.customer.name}</p>
+                                <p class="detail-value">Priya Sharma</p>
                             </div>
                             <div class="detail-item">
                                 <p class="detail-label">Contact</p>
-                                <p class="detail-value">${request.customer.contact}</p>
+                                <p class="detail-value">9876543210</p>
                             </div>
                             <div class="detail-item">
                                 <p class="detail-label">Email</p>
-                                <p class="detail-value">${request.customer.email}</p>
+                                <p class="detail-value">priya.sharma@example.com</p>
                             </div>
                             <div class="detail-item">
                                 <p class="detail-label">Address</p>
-                                <p class="detail-value">${request.customer.address}</p>
+                                <p class="detail-value">45 Green Park, Bangalore, Karnataka 560001</p>
                             </div>
                         </div>
                     </div>
@@ -702,32 +560,31 @@ body {
                         <div class="details-grid">
                             <div class="detail-item">
                                 <p class="detail-label">Room Type</p>
-                                <p class="detail-value">${request.roomInfo.type}</p>
+                                <p class="detail-value">Kitchen</p>
                             </div>
                             <div class="detail-item">
                                 <p class="detail-label">Size</p>
-                                <p class="detail-value">${request.roomInfo.size}</p>
+                                <p class="detail-value">12 × 15 feet</p>
                             </div>
                             <div class="detail-item">
                                 <p class="detail-label">Ceiling Height</p>
-                                <p class="detail-value">${request.roomInfo.ceilingHeight}</p>
+                                <p class="detail-value">9 feet</p>
                             </div>
                             <div class="detail-item">
                                 <p class="detail-label">Preferred Style</p>
-                                <p class="detail-value">${request.roomInfo.style}</p>
+                                <p class="detail-value">Modern</p>
                             </div>
                         </div>
                         <div class="special-features">
                             <p class="detail-label">Special Features</p>
-                            <p class="detail-value">${request.roomInfo.features}</p>
+                            <p class="detail-value">Island counter, breakfast bar, smart appliances</p>
                         </div>
                     </div>
                     <div class="details-section">
                         <h3><i class="fas fa-images"></i> Reference Images</h3>
                         <div class="reference-images">
-                            ${request.images.map(img => `
-                                <div class="reference-image" style="background-image: url('${img}')"></div>
-                            `).join('')}
+                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3')"></div>
+                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1600210492493-0946911123ea?auto=format&fit=crop&q=80&w=1974&ixlib=rb-4.0.3')"></div>
                         </div>
                     </div>
                     <div class="job-action-buttons">
@@ -739,32 +596,370 @@ body {
                         </button>
                     </div>
                 </div>
-            `;
-            
-            // Add event listeners to action buttons
-            document.querySelector('.accept-button').addEventListener('click', () => {
-                alert(`Job "${request.title}" accepted!`);
+                <div class="job-details-content" data-id="2">
+                    <div class="details-header">
+                        <div class="details-header-left">
+                            <h2>Luxury Bedroom Makeover</h2>
+                            <span class="job-type interior">interior</span>
+                            <p class="job-budget">₹10k - ₹15k</p>
+                        </div>
+                        <div class="details-header-right">
+                            <p class="detail-label">Preferred Completion</p>
+                            <p class="detail-value">July 15, 2025</p>
+                        </div>
+                    </div>
+                    <div class="details-section">
+                        <h3><i class="fas fa-user"></i> Customer Details</h3>
+                        <div class="details-grid">
+                            <div class="detail-item">
+                                <p class="detail-label">Name</p>
+                                <p class="detail-value">Rahul Verma</p>
+                            </div>
+                            <div class="detail-item">
+                                <p class="detail-label">Contact</p>
+                                <p class="detail-value">8765432109</p>
+                            </div>
+                            <div class="detail-item">
+                                <p class="detail-label">Email</p>
+                                <p class="detail-value">rahul.verma@example.com</p>
+                            </div>
+                            <div class="detail-item">
+                                <p class="detail-label">Address</p>
+                                <p class="detail-value">78 Palm Avenue, Mumbai, Maharashtra 400001</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-section">
+                        <h3><i class="fas fa-home"></i> Room Information</h3>
+                        <div class="details-grid">
+                            <div class="detail-item">
+                                <p class="detail-label">Room Type</p>
+                                <p class="detail-value">Bedroom</p>
+                            </div>
+                            <div class="detail-item">
+                                <p class="detail-label">Size</p>
+                                <p class="detail-value">18 × 20 feet</p>
+                            </div>
+                            <div class="detail-item">
+                                <p class="detail-label">Ceiling Height</p>
+                                <p class="detail-value">10 feet</p>
+                            </div>
+                            <div class="detail-item">
+                                <p class="detail-label">Preferred Style</p>
+                                <p class="detail-value">Contemporary</p>
+                            </div>
+                        </div>
+                        <div class="special-features">
+                            <p class="detail-label">Special Features</p>
+                            <p class="detail-value">Walk-in closet, ensuite bathroom, smart lighting</p>
+                        </div>
+                    </div>
+                    <div class="details-section">
+                        <h3><i class="fas fa-images"></i> Reference Images</h3>
+                        <div class="reference-images">
+                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3')"></div>
+                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&q=80&w=2032&ixlib=rb-4.0.3')"></div>
+                        </div>
+                    </div>
+                    <div class="job-action-buttons">
+                        <button class="job-action-button accept-button">
+                            <i class="fas fa-check"></i> Accept Job
+                        </button>
+                        <button class="job-action-button deny-button">
+                            <i class="fas fa-times"></i> Deny Job
+                        </button>
+                    </div>
+                </div>
+                <div class="job-details-content" data-id="3">
+                    <div class="details-header">
+                        <div class="details-header-left">
+                            <h2>Living Room Redesign</h2>
+                            <span class="job-type interior">interior</span>
+                            <p class="job-budget">₹7k - ₹10k</p>
+                        </div>
+                        <div class="details-header-right">
+                            <p class="detail-label">Preferred Completion</p>
+                            <p class="detail-value">August 1, 2025</p>
+                        </div>
+                    </div>
+                    <div class="details-section">
+                        <h3><i class="fas fa-user"></i> Customer Details</h3>
+                        <div class="details-grid">
+                            <div class="detail-item">
+                                <p class="detail-label">Name</p>
+                                <p class="detail-value">Ananya Patel</p>
+                            </div>
+                            <div class="detail-item">
+                                <p class="detail-label">Contact</p>
+                                <p class="detail-value">7654321098</p>
+                            </div>
+                            <div class="detail-item">
+                                <p class="detail-label">Email</p>
+                                <p class="detail-value">ananya.patel@example.com</p>
+                            </div>
+                            <div class="detail-item">
+                                <p class="detail-label">Address</p>
+                                <p class="detail-value">23 Lakeview Road, Hyderabad, Telangana 500001</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-section">
+                        <h3><i class="fas fa-home"></i> Room Information</h3>
+                        <div class="details-grid">
+                            <div class="detail-item">
+                                <p class="detail-label">Room Type</p>
+                                <p class="detail-value">Living Room</p>
+                            </div>
+                            <div class="detail-item">
+                                <p class="detail-label">Size</p>
+                                <p class="detail-value">20 × 25 feet</p>
+                            </div>
+                            <div class="detail-item">
+                                <p class="detail-label">Ceiling Height</p>
+                                <p class="detail-value">10 feet</p>
+                            </div>
+                            <div class="detail-item">
+                                <p class="detail-label">Preferred Style</p>
+                                <p class="detail-value">Minimalist</p>
+                            </div>
+                        </div>
+                        <div class="special-features">
+                            <p class="detail-label">Special Features</p>
+                            <p class="detail-value">Entertainment center, fireplace, smart home integration</p>
+                        </div>
+                    </div>
+                    <div class="details-section">
+                        <h3><i class="fas fa-images"></i> Reference Images</h3>
+                        <div class="reference-images">
+                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&q=80&w=2032&ixlib=rb-4.0.3')"></div>
+                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=2003&ixlib=rb-4.0.3')"></div>
+                        </div>
+                    </div>
+                    <div class="job-action-buttons">
+                        <button class="job-action-button accept-button">
+                            <i class="fas fa-check"></i> Accept Job
+                        </button>
+                        <button class="job-action-button deny-button">
+                            <i class="fas fa-times"></i> Deny Job
+                        </button>
+                    </div>
+                </div>
+                <div class="job-details-content" data-id="4">
+                    <div class="details-header">
+                        <div class="details-header-left">
+                            <h2>Home Office Design</h2>
+                            <span class="job-type interior">interior</span>
+                            <p class="job-budget">₹5k - ₹8k</p>
+                        </div>
+                        <div class="details-header-right">
+                            <p class="detail-label">Preferred Completion</p>
+                            <p class="detail-value">May 20, 2025</p>
+                        </div>
+                    </div>
+                    <div class="details-section">
+                        <h3><i class="fas fa-user"></i> Customer Details</h3>
+                        <div class="details-grid">
+                            <div class="detail-item">
+                                <p class="detail-label">Name</p>
+                                <p class="detail-value">Vikram Singh</p>
+                            </div>
+                            <div class="detail-item">
+                                <p class="detail-label">Contact</p>
+                                <p class="detail-value">6543210987</p>
+                            </div>
+                            <div class="detail-item">
+                                <p class="detail-label">Email</p>
+                                <p class="detail-value">vikram.singh@example.com</p>
+                            </div>
+                            <div class="detail-item">
+                                <p class="detail-label">Address</p>
+                                <p class="detail-value">12 Tech Park, Pune, Maharashtra 411001</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-section">
+                        <h3><i class="fas fa-home"></i> Room Information</h3>
+                        <div class="details-grid">
+                            <div class="detail-item">
+                                <p class="detail-label">Room Type</p>
+                                <p class="detail-value">Home Office</p>
+                            </div>
+                            <div class="detail-item">
+                                <p classolare-label">Size</p>
+                                <p class="detail-value">10 × 12 feet</p>
+                            </div>
+                            <div class="detail-item">
+                                <p class="detail-label">Ceiling Height</p>
+                                <p class="detail-value">9 feet</p>
+                            </div>
+                            <div class="detail-item">
+                                <p class="detail-label">Preferred Style</p>
+                                <p class="detail-value">Scandinavian</p>
+                            </div>
+                        </div>
+                        <div class="special-features">
+                            <p class="detail-label">Special Features</p>
+                            <p class="detail-value">Built-in shelving, ergonomic furniture, soundproofing</p>
+                        </div>
+                    </div>
+                    <div class="details-section">
+                        <h3><i class="fas fa-images"></i> Reference Images</h3>
+                        <div class="reference-images">
+                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&q=80&w=2069&ixlib=rb-4.0.3')"></div>
+                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&q=80&w=1976&ixlib=rb-4.0.3')"></div>
+                        </div>
+                    </div>
+                    <div class="job-action-buttons">
+                        <button class="job-action-button accept-button">
+                            <i class="fas fa-check"></i> Accept Job
+                        </button>
+                        <button class="job-action-button deny-button">
+                            <i class="fas fa-times"></i> Deny Job
+                        </button>
+                    </div>
+                </div>
+                <div class="job-details-content" data-id="5">
+                    <div class="details-header">
+                        <div class="details-header-left">
+                            <h2>Bathroom Renovation</h2>
+                            <span class="job-type interior">interior</span>
+                            <p class="job-budget">₹6k - ₹9k</p>
+                        </div>
+                        <div class="details-header-right">
+                            <p class="detail-label">Preferred Completion</p>
+                            <p class="detail-value">June 10, 2025</p>
+                        </div>
+                    </div>
+                    <div class="details-section">
+                        <h3><i class="fas fa-user"></i> Customer Details</h3>
+                        <div class="details-grid">
+                            <div class="detail-item">
+                                <p class="detail-label">Name</p>
+                                <p class="detail-value">Meera Nair</p>
+                            </div>
+                            <div class="detail-item">
+                                <p class="detail-label">Contact</p>
+                                <p class="detail-value">5432109876</p>
+                            </div>
+                            <div class="detail-item">
+                                <p class="detail-label">Email</p>
+                                <p class="detail-value">meera.nair@example.com</p>
+                            </div>
+                            <div class="detail-item">
+                                <p class="detail-label">Address</p>
+                                <p class="detail-value">34 Wellness Lane, Kochi, Kerala 682001</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-section">
+                        <h3><i class="fas fa-home"></i> Room Information</h3>
+                        <div class="details-grid">
+                            <div class="detail-item">
+                                <p class="detail-label">Room Type</p>
+                                <p class="detail-value">Bathroom</p>
+                            </div>
+                            <div class="detail-item">
+                                <p class="detail-label">Size</p>
+                                <p class="detail-value">8 × 10 feet</p>
+                            </div>
+                            <div class="detail-item">
+                                <p class="detail-label">Ceiling Height</p>
+                                <p class="detail-value">8 feet</p>
+                            </div>
+                            <div class="detail-item">
+                                <p class="detail-label">Preferred Style</p>
+                                <p class="detail-value">Modern</p>
+                            </div>
+                        </div>
+                        <div class="special-features">
+                            <p class="detail-label">Special Features</p>
+                            <p class="detail-value">Walk-in shower, double vanity, heated floors</p>
+                        </div>
+                    </div>
+                    <div class="details-section">
+                        <h3><i class="fas fa-images"></i> Reference Images</h3>
+                        <div class="reference-images">
+                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1600566752227-8f3b1a5a0d5a?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3')"></div>
+                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3')"></div>
+                        </div>
+                    </div>
+                    <div class="job-action-buttons">
+                        <button class="job-action-button accept-button">
+                            <i class="fas fa-check"></i> Accept Job
+                        </button>
+                        <button class="job-action-button deny-button">
+                            <i class="fas fa-times"></i> Deny Job
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        // DOM elements
+        const jobListContainer = document.getElementById('jobList');
+        const jobDetailsPanel = document.getElementById('jobDetailsPanel');
+        const emptyState = document.getElementById('emptyState');
+
+        // Show job details
+        function showJobDetails(jobId) {
+            // Update active state of job cards
+            document.querySelectorAll('.job-card').forEach(card => {
+                card.classList.toggle('active', card.dataset.id === jobId);
             });
-            
-            document.querySelector('.deny-button').addEventListener('click', () => {
-                alert(`Job "${request.title}" declined.`);
+
+            // Hide empty state and all job details
+            emptyState.style.display = 'none';
+            document.querySelectorAll('.job-details-content').forEach(content => {
+                content.classList.remove('active');
             });
+
+            // Show selected job details
+            const selectedJob = document.querySelector(`.job-details-content[data-id="${jobId}"]`);
+            if (selectedJob) {
+                selectedJob.classList.add('active');
+                
+                // Get job title from the selected job details
+                const jobTitle = selectedJob.querySelector('.details-header-left h2').textContent;
+
+                // Add event listeners to action buttons
+                const acceptButton = selectedJob.querySelector('.accept-button');
+                const denyButton = selectedJob.querySelector('.deny-button');
+
+                // Remove existing listeners to prevent duplicates
+                const newAcceptButton = acceptButton.cloneNode(true);
+                const newDenyButton = denyButton.cloneNode(true);
+                acceptButton.replaceWith(newAcceptButton);
+                denyButton.replaceWith(newDenyButton);
+
+                newAcceptButton.addEventListener('click', () => {
+                    alert(`Job "${jobTitle}" accepted!`);
+                });
+
+                newDenyButton.addEventListener('click', () => {
+                    alert(`Job "${jobTitle}" declined.`);
+                });
+            }
         }
 
         // Initialize the page
         document.addEventListener('DOMContentLoaded', () => {
-            generateJobCards();
-            
+            // Add click event listeners to job cards
+            document.querySelectorAll('.job-card').forEach(card => {
+                card.addEventListener('click', () => showJobDetails(card.dataset.id));
+            });
+
             // Show empty state initially
             emptyState.style.display = 'flex';
-            
+
             // Search functionality
             document.getElementById('searchInput').addEventListener('input', (e) => {
                 const searchTerm = e.target.value.toLowerCase();
                 document.querySelectorAll('.job-card').forEach(card => {
                     const title = card.querySelector('.job-title').textContent.toLowerCase();
                     const summary = card.querySelector('.job-summary').textContent.toLowerCase();
-                    card.style.display = (title.includes(searchTerm) || summary.includes(searchTerm) ? 'block' : 'none');
+                    card.style.display = (title.includes(searchTerm) || summary.includes(searchTerm)) ? 'block' : 'none';
                 });
             });
         });

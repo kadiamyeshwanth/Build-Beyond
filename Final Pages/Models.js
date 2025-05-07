@@ -118,8 +118,8 @@ const workerSchema = new mongoose.Schema(
     certificateFiles: [{ type: String }],
     role: { type: String, default: "worker" },
     profileImage: { type: String },
-    professionalTitle: { type: String, required: true },
-    about: { type: String, required: true },
+    professionalTitle: { type: String},
+    about: { type: String},
     specialties: [{ type: String, default: [] }],
     projects: [
       {
