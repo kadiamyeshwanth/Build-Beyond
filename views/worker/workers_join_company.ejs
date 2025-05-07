@@ -1084,270 +1084,114 @@
     </div>
   </div>
 
-  <!-- Application Form Modal -->
-  <div id="applicationModal" class="modal">
-    <div class="modal-content application-modal">
-      <span class="close-modal">×</span>
-      <div class="modal-header">
-        <h2 id="applicationCompanyName">Apply to Company</h2>
-      </div>
-      <div class="modal-body">
-        <form id="jobApplicationForm" class="form-container">
-          <!-- 1. Personal Information -->
-          <div class="form-section">
-            <h3 class="form-section-title">Personal Information</h3>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="fullName" class="form-label">Full Name *</label>
-                <input type="text" class="form-input" id="fullName" name="fullName" required>
-              </div>
-              <div class="form-group">
-                <label for="email" class="form-label">Email Address *</label>
-                <input type="email" class="form-input" id="email" name="email" required>
-              </div>
+<!-- Application Form Modal -->
+<div id="applicationModal" class="modal">
+  <div class="modal-content application-modal">
+    <span class="close-modal">×</span>
+    <div class="modal-header">
+      <h2 id="applicationCompanyName">Apply to Company</h2>
+    </div>
+    <div class="modal-body">
+      <form id="jobApplicationForm" class="form-container">
+        <!-- 1. Personal Information -->
+        <div class="form-section">
+          <h3 class="form-section-title">Personal Information</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fullName" class="form-label">Full Name *</label>
+              <input type="text" class="form-input" id="fullName" name="fullName" required>
             </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="phone" class="form-label">Phone Number *</label>
-                <input type="tel" class="form-input" id="phone" name="phone" required>
-              </div>
-              <div class="form-group">
-                <label for="location" class="form-label">Current Location/City *</label>
-                <input type="text" class="form-input" id="location" name="location" required>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="portfolio" class="form-label">Portfolio Website</label>
-                <input type="url" class="form-input" id="portfolio" name="portfolio" placeholder="https://">
-              </div>
-              <div class="form-group">
-                <label for="linkedin" class="form-label">LinkedIn Profile</label>
-                <input type="url" class="form-input" id="linkedin" name="linkedin" placeholder="https://">
-              </div>
+            <div class="form-group">
+              <label for="email" class="form-label">Email Address *</label>
+              <input type="email" class="form-input" id="email" name="email" required>
             </div>
           </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="location" class="form-label">Current Location/City *</label>
+              <input type="text" class="form-input" id="location" name="location" required>
+            </div>
+            <div class="form-group">
+              <label for="linkedin" class="form-label">LinkedIn Profile</label>
+              <input type="url" class="form-input" id="linkedin" name="linkedin" placeholder="https://">
+            </div>
+          </div>
+        </div>
 
-          <!-- 2. Professional Details -->
-          <div class="form-section">
-            <h3 class="form-section-title">Professional Details</h3>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="experience" class="form-label">Years of Experience *</label>
-                <input type="number" class="form-input" id="experience" name="experience" min="0" required>
-              </div>
-              <div class="form-group">
-                <label for="education" class="form-label">Highest Education *</label>
-                <select class="form-select" id="education" name="education" required>
-                  <option value="">Select your highest education</option>
-                  <option value="B.Arch">B.Arch (Bachelor of Architecture)</option>
-                  <option value="M.Arch">M.Arch (Master of Architecture)</option>
-                  <option value="Ph.D">Ph.D in Architecture</option>
-                  <option value="Diploma">Diploma in Architecture</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
+        <!-- 2. Professional Details -->
+        <div class="form-section">
+          <h3 class="form-section-title">Professional Details</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="experience" class="form-label">Years of Experience *</label>
+              <input type="number" class="form-input" id="experience" name="experience" min="0" required>
             </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="currentPosition" class="form-label">Current Position *</label>
-                <input type="text" class="form-input" id="currentPosition" name="currentPosition" required>
-              </div>
-              <div class="form-group">
-                <label for="currentCompany" class="form-label">Current/Previous Company *</label>
-                <input type="text" class="form-input" id="currentCompany" name="currentCompany" required>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="expectedSalary" class="form-label">Expected Salary (₹ per month) *</label>
-                <input type="number" class="form-input" id="expectedSalary" name="expectedSalary" required>
-              </div>
-              <div class="form-group">
-                <label for="noticePeriod" class="form-label">Notice Period (days) *</label>
-                <input type="number" class="form-input" id="noticePeriod" name="noticePeriod" required>
-              </div>
+            <div class="form-group">
+              <label for="expectedSalary" class="form-label">Expected Salary (₹ per month) *</label>
+              <input type="number" class="form-input" id="expectedSalary" name="expectedSalary" required>
             </div>
           </div>
+          <div class="form-row">
+            <div class="form-group full-width">
+              <label for="positionApplying" class="form-label">Position Applying For *</label>
+              <input type="text" class="form-input" id="positionApplying" name="positionApplying" required>
+            </div>
+          </div>
+        </div>
 
-          <!-- 3. Skills & Expertise -->
-          <div class="form-section">
-            <h3 class="form-section-title">Skills & Expertise</h3>
-            <div class="form-row">
-              <div class="form-group full-width">
-                <label for="primarySkills" class="form-label">Primary Skills *</label>
-                <input type="text" class="form-input" id="primarySkills" name="primarySkills" placeholder="e.g., Sustainable Design, BIM, Urban Planning" required>
-                <p class="form-hint">Separate multiple skills with commas</p>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group full-width">
-                <label for="softwareProficiency" class="form-label">Software Proficiency *</label>
-                <input type="text" class="form-input" id="softwareProficiency" name="softwareProficiency" placeholder="e.g., AutoCAD, Revit, SketchUp" required>
-                <p class="form-hint">Separate multiple software with commas</p>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group full-width">
-                <label for="certifications" class="form-label">Certifications</label>
-                <input type="text" class="form-input" id="certifications" name="certifications" placeholder="e.g., LEED, GRIHA">
-                <p class="form-hint">Separate multiple certifications with commas</p>
-              </div>
+        <!-- 3. Skills & Expertise -->
+        <div class="form-section">
+          <h3 class="form-section-title">Skills & Specialties</h3>
+          <div class="form-row">
+            <div class="form-group full-width">
+              <label for="primarySkills" class="form-label">Primary Skills/Specialties *</label>
+              <input type="text" class="form-input" id="primarySkills" name="primarySkills" placeholder="e.g., Sustainable Design, BIM, Urban Planning" required>
+              <p class="form-hint">Separate multiple skills with commas</p>
             </div>
           </div>
+        </div>
 
-          <!-- 4. Work Experience -->
-          <div class="form-section">
-            <h3 class="form-section-title">Work Experience</h3>
-            <div class="form-row">
-              <div class="form-group full-width">
-                <label for="workExperience" class="form-label">Previous Companies & Roles *</label>
-                <textarea class="form-textarea" id="workExperience" name="workExperience" required></textarea>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group full-width">
-                <label for="keyProjects" class="form-label">Key Projects Worked On *</label>
-                <textarea class="form-textarea" id="keyProjects" name="keyProjects" required></textarea>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group full-width">
-                <label for="achievements" class="form-label">Achievements/Awards</label>
-                <textarea class="form-textarea" id="achievements" name="achievements"></textarea>
-              </div>
+        <!-- 4. Work Experience -->
+        <div class="form-section">
+          <h3 class="form-section-title">Work Experience</h3>
+          <div class="form-row">
+            <div class="form-group full-width">
+              <label for="workExperience" class="form-label">Previous Work Experience *</label>
+              <textarea class="form-textarea" id="workExperience" name="workExperience" required></textarea>
             </div>
           </div>
+        </div>
 
-          <!-- 5. Application-Specific Details -->
-          <div class="form-section">
-            <h3 class="form-section-title">Application Details</h3>
-            <div class="form-row">
-              <div class="form-group full-width">
-                <label for="positionApplying" class="form-label">Position Applying For *</label>
-                <input type="text" class="form-input" id="positionApplying" name="positionApplying" readonly>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group full-width">
-                <label for="whyJoin" class="form-label">Why do you want to join this company? *</label>
-                <textarea class="form-textarea" id="whyJoin" name="whyJoin" required></textarea>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group full-width">
-                <label for="skillsAlign" class="form-label">How do your skills align with the company's projects? *</label>
-                <textarea class="form-textarea" id="skillsAlign" name="skillsAlign" required></textarea>
+        <!-- 5. Attachments -->
+        <div class="form-section">
+          <h3 class="form-section-title">Attachments</h3>
+          <div class="form-row">
+            <div class="form-group full-width">
+              <label class="form-label">Resume/CV (PDF) *</label>
+              <div class="form-file-upload" id="resumeUpload">
+                <div class="form-file-icon">📄</div>
+                <div class="form-file-label">Click to upload your resume (PDF)</div>
+                <input type="file" class="form-file-input" id="resume" name="resume" accept=".pdf" required>
               </div>
             </div>
           </div>
+        </div>
 
-          <!-- 6. Attachments -->
-          <div class="form-section">
-            <h3 class="form-section-title">Attachments</h3>
-            <div class="form-row">
-              <div class="form-group">
-                <label class="form-label">Resume/CV (PDF) *</label>
-                <div class="form-file-upload" id="resumeUpload">
-                  <div class="form-file-icon">📄</div>
-                  <div class="form-file-label">Click to upload your resume (PDF)</div>
-                  <input type="file" class="form-file-input" id="resume" name="resume" accept=".pdf" required>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Portfolio (PDF) *</label>
-                <div class="form-file-upload" id="portfolioUpload">
-                  <div class="form-file-icon">🎨</div>
-                  <div class="form-file-label">Click to upload your portfolio (PDF)</div>
-                  <input type="file" class="form-file-input" id="portfolioPdf" name="portfolioPdf" accept=".pdf" required>
-                </div>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group full-width">
-                <label class="form-label">Cover Letter (optional)</label>
-                <div class="form-file-upload" id="coverLetterUpload">
-                  <div class="form-file-icon">✉️</div>
-                  <div class="form-file-label">Click to upload your cover letter (PDF)</div>
-                  <input type="file" class="form-file-input" id="coverLetter" name="coverLetter" accept=".pdf">
-                </div>
-              </div>
-            </div>
+        <div class="form-section">
+          <div class="checkbox-group">
+            <input type="checkbox" class="checkbox-input" id="termsAgree" name="termsAgree" required>
+            <label for="termsAgree" class="checkbox-label">I confirm that all information provided is accurate and complete *</label>
           </div>
+        </div>
 
-          <!-- 7. Availability -->
-          <div class="form-section">
-            <h3 class="form-section-title">Availability</h3>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="joiningDate" class="form-label">Earliest Joining Date *</label>
-                <input type="date" class="form-input" id="joiningDate" name="joiningDate" required>
-              </div>
-              <div class="form-group">
-                <label for="relocate" class="form-label">Willing to Relocate? *</label>
-                <select class="form-select" id="relocate" name="relocate" required>
-                  <option value="">Select an option</option>
-                  <option value="Yes">Yes</option>
-                  <option value="No">No</option>
-                  <option value="Maybe">Maybe, depends on location</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group full-width">
-                <label for="remotePreference" class="form-label">Remote Work Preference *</label>
-                <select class="form-select" id="remotePreference" name="remotePreference" required>
-                  <option value="">Select an option</option>
-                  <option value="Fully Remote">Fully Remote</option>
-                  <option value="Hybrid">Hybrid (Remote + Office)</option>
-                  <option value="Office">In-Office</option>
-                  <option value="Flexible">Flexible (Any Option)</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <!-- 8. References -->
-          <div class="form-section">
-            <h3 class="form-section-title">References (Optional)</h3>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="referenceName" class="form-label">Reference Name</label>
-                <input type="text" class="form-input" id="referenceName" name="referenceName">
-              </div>
-              <div class="form-group">
-                <label for="referencePosition" class="form-label">Position</label>
-                <input type="text" class="form-input" id="referencePosition" name="referencePosition">
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="referenceCompany" class="form-label">Company</label>
-                <input type="text" class="form-input" id="referenceCompany" name="referenceCompany">
-              </div>
-              <div class="form-group">
-                <label for="referenceContact" class="form-label">Contact (Email/Phone)</label>
-                <input type="text" class="form-input" id="referenceContact" name="referenceContact">
-              </div>
-            </div>
-          </div>
-
-          <div class="form-section">
-            <div class="checkbox-group">
-              <input type="checkbox" class="checkbox-input" id="termsAgree" name="termsAgree" required>
-              <label for="termsAgree" class="checkbox-label">I confirm that all information provided is accurate and complete *</label>
-            </div>
-          </div>
-
-          <div class="form-actions">
-            <button type="button" class="btn btn-outline close-form">Cancel</button>
-            <button type="submit" class="btn btn-primary">Submit Application</button>
-          </div>
-        </form>
-      </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-outline close-form">Cancel</button>
+          <button type="submit" class="btn btn-primary">Submit Application</button>
+        </div>
+      </form>
     </div>
   </div>
-
+</div>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       // Tab functionality
@@ -1602,24 +1446,70 @@
         });
       });
 
-      // Form submission handling
-      jobApplicationForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-        if (!this.checkValidity()) {
-          this.reportValidity();
-          return;
-        }
+      // Update the form submission handler to match your simplified fields
+jobApplicationForm.addEventListener('submit', function(event) {
+  event.preventDefault();
+  
+  // Validate form
+  if (!this.checkValidity()) {
+    this.reportValidity();
+    return;
+  }
 
-        alert('Application submitted successfully!');
-        applicationModal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-        this.reset();
-        document.querySelectorAll('.form-file-upload').forEach(upload => {
-          upload.classList.remove('file-selected');
-          upload.querySelector('.form-file-label').textContent = upload.querySelector('.form-file-label').dataset.originalText || 'Click to upload';
-        });
-      });
+  // Collect form data (only the fields you kept)
+  const formData = {
+    fullName: document.getElementById('fullName').value,
+    email: document.getElementById('email').value,
+    location: document.getElementById('location').value,
+    linkedin: document.getElementById('linkedin').value,
+    experience: document.getElementById('experience').value,
+    expectedSalary: document.getElementById('expectedSalary').value,
+    positionApplying: document.getElementById('positionApplying').value,
+    primarySkills: document.getElementById('primarySkills').value,
+    workExperience: document.getElementById('workExperience').value,
+    resume: document.getElementById('resume').files[0]?.name || 'No file selected'
+  };
 
+  // Here you would typically send this data to your server
+  console.log('Form data to submit:', formData);
+  
+  // Show success message
+  alert(`Application submitted successfully to ${document.getElementById('applicationCompanyName').textContent}!`);
+  
+  // Close modal and reset form
+  applicationModal.style.display = 'none';
+  document.body.style.overflow = 'auto';
+  this.reset();
+  
+  // Reset file upload displays
+  document.querySelectorAll('.form-file-upload').forEach(upload => {
+    upload.classList.remove('file-selected');
+    upload.querySelector('.form-file-label').textContent = 
+      upload.querySelector('.form-file-label').dataset.originalText || 'Click to upload';
+  });
+});
+
+// Update the apply button click handler to set position correctly
+applyButtons.forEach(button => {
+  button.addEventListener('click', function() {
+    const companyId = this.getAttribute('data-company');
+    const company = companies[companyId];
+    
+    // Set company name in modal title
+    document.getElementById('applicationCompanyName').textContent = `Apply to ${company.name}`;
+    
+    // Set default position (first opening or general application)
+    const positionInput = document.getElementById('positionApplying');
+    positionInput.value = company.openings[0] || 'Architect Position';
+    
+    // Show the modal
+    applicationModal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+    
+    // Auto-focus first field for better UX
+    document.getElementById('fullName').focus();
+  });
+});
       // Offer acceptance/decline buttons
       const saveButtons = document.querySelectorAll('.btn-outline');
       saveButtons.forEach(button => {
