@@ -1,5 +1,5 @@
 const {express,app,PORT,bodyParser,cookieParser,SQLiteStore,cors,path,mongoose,router,multer,fs,bcrypt} = require("./getServer");
-const {Customer,Company,Worker,ArchitectHiring,ConstructionProjectSchema,DesignRequest,Bid}=require("./Models.js")
+const {Customer,Company,Worker,ArchitectHiring,ConstructionProjectSchema,DesignRequest,Bid,workertocompany}=require("./Models.js")
 const jwt = require('jsonwebtoken');
 app.set("view engine", "ejs");
 app.set('views', path.join(__dirname,'..','views'));
@@ -389,6 +389,8 @@ app.post('/construction_form', upload.any(), async (req, res) => {
     });
   }
 });
+
+//Architect 
 app.post(
   "/architect_submit",
   upload.array("referenceImages", 10),
@@ -523,6 +525,8 @@ app.post(
     }
   }
 );
+
+//Interiror design
 app.post('/design_request', upload.any(), async (req, res) => {
   try {
     const {
@@ -656,6 +660,7 @@ app.post('/bidForm_Submit', upload.fields([
         });
     }
 });
+
 app.post(
   '/worker_profile_edit_submit',
   isAuthenticated,
