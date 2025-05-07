@@ -794,55 +794,117 @@ app.post(
     }
   }
 );
-// Update Password Route 
-app.post('/update-password', isAuthenticated, async (req, res) => {
-  const { currentPassword, newPassword } = req.body;
-  const userId = req.user.user_id; // From JWT payload
-  const role = req.user.role; // From JWT payload
+// Update company profile
+app.post(
+  '/update-company-profile',
+  isAuthenticated,
+  upload.fields([
+    { name: 'memberImages', maxCount: 10 },
+    { name: 'projectImages', maxCount: 10 },
+  ]),
+  async (req, res) => {
+    try {
+      const {
+        profileType,
+        companyName,
+        companyLocation,
+        companySize,
+        specializations,
+        currentOpenings,
+        aboutCompany,
+        whyJoinUs,
+        projectsCompleted,
+        yearsInBusiness,
+        customerAboutCompany,
+        didYouKnow,
+        teamMembers,
+        completedProjects,
+      } = req.body;
 
-  try {
-    // Validate input
-    if (!currentPassword || !newPassword) {
-      return res.status(400).json({ message: 'All fields are required.' });
+      const companyId = req.user.user_id;
+      const company = await Company.findById(companyId);
+
+      if (!company) {
+        return res.status(404).json({ message: 'Company not found' });
+      }
+
+      const normalizeArray = (input) => {
+        if (Array.isArray(input)) return input.map(s => s.trim()).filter(Boolean);
+        if (typeof input === 'string' && input) return input.split(',').map(s => s.trim()).filter(Boolean);
+        return [];
+      };
+
+      // Helper to get relative path from \Uploads\
+      const getRelativePath = (filePath) => {
+        const uploadsIndex = filePath.lastIndexOf('Uploads');
+        if (uploadsIndex !== -1) {
+          return '\\' + filePath.substring(uploadsIndex).replace(/\//g, '\\');
+        }
+        return '\\' + filePath.replace(/^.*[\\/]/, '').replace(/\//g, '\\');
+      };
+
+      // Basic fields update
+      company.companyName = companyName || company.companyName;
+      company.location = { city: companyLocation || company.location.city };
+      company.size = companySize || company.size;
+      company.specialization = normalizeArray(specializations);
+
+      if (profileType === 'worker') {
+        // Worker profile
+        company.aboutCompany = aboutCompany || company.aboutCompany;
+        company.whyJoinUs = whyJoinUs || company.whyJoinUs;
+        company.currentOpenings = normalizeArray(currentOpenings);
+        company.profileType = 'worker';
+      } else {
+        // Customer profile
+        company.projectsCompleted = projectsCompleted || company.projectsCompleted;
+        company.yearsInBusiness = yearsInBusiness || company.yearsInBusiness;
+        company.description = customerAboutCompany || company.description;
+        company.didYouKnow = didYouKnow || company.didYouKnow;
+        company.profileType = 'customer';
+
+        const memberImages = req.files['memberImages'] || [];
+        const projectImages = req.files['projectImages'] || [];
+
+        // Team members
+        if (teamMembers) {
+          const parsedTeamMembers = JSON.parse(teamMembers);
+          company.teamMembers = parsedTeamMembers.map((member, index) => ({
+            name: member.name,
+            position: member.position,
+            image: memberImages[index]
+              ? getRelativePath(memberImages[index].path)
+              : member.image || '',
+          }));
+        }
+
+        // Completed projects
+        if (completedProjects) {
+          const parsedProjects = JSON.parse(completedProjects);
+          company.completedProjects = parsedProjects.map((project, index) => ({
+            title: project.title,
+            description: project.description,
+            image: projectImages[index]
+              ? getRelativePath(projectImages[index].path)
+              : project.image || '',
+          }));
+        }
+      }
+
+      await company.save();
+
+      res.status(200).json({
+        message: 'Profile updated successfully',
+        company,
+      });
+    } catch (error) {
+      console.error('Error updating company profile:', error);
+      res.status(500).json({
+        message: 'Error updating profile',
+        error: error.message,
+      });
     }
-
-    if (newPassword.length < 8) {
-      return res.status(400).json({ message: 'New password must be at least 8 characters long.' });
-    }
-
-    // Find user based on role
-    let user;
-    switch (role) {
-      case 'customer':
-        user = await Customer.findById(userId);
-        break;
-      case 'company':
-        user = await Company.findById(userId);
-        break;
-      case 'worker':
-        user = await Worker.findById(userId);
-        break;
-      default:
-        return res.status(400).json({ message: 'Invalid user role.' });
-    }
-
-    if (!user) {
-      return res.status(404).json({ message: 'User not found.' });
-    }
-
-    // Verify current password
-    const isMatch = await bcrypt.compare(currentPassword, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ message: 'Current password is incorrect.' });
-    }
-
-    // Set the new plain-text password (middleware will hash it)
-    user.password = newPassword;
-    await user.save();
-
-    res.status(200).json({ message: 'Password updated successfully.' });
-  } catch (error) {
-    console.error('Error updating password:', error);
-    res.status(500).json({ message: 'Server error.' });
   }
-});
+);
+
+

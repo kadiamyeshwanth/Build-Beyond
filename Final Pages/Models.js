@@ -60,11 +60,33 @@ const companySchema = new mongoose.Schema(
       postalCode: { type: String },
     },
     description: { type: String },
+    aboutCompany: { type: String }, // For worker profile
+    whyJoinUs: { type: String }, // For worker profile
+    currentOpenings: [{ type: String }], // For worker profile
     specialization: [{ type: String }], // Array of specializations
     size: {
       type: String,
       enum: ["1-10", "11-50", "51-200", "201-500", "501-1000", "1000+"],
     },
+    // For customer profile
+    projectsCompleted: { type: String },
+    yearsInBusiness: { type: String },
+    teamMembers: [{
+      name: { type: String },
+      position: { type: String },
+      image: { type: String }
+    }],
+    completedProjects: [{
+      title: { type: String },
+      description: { type: String },
+      image: { type: String }
+    }],
+    didYouKnow: { type: String },
+    profileType: { 
+      type: String, 
+      enum: ["worker", "customer"], 
+      default: "worker" 
+    }
   },
   { timestamps: true }
 );
