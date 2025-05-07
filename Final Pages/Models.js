@@ -96,15 +96,15 @@ const workerSchema = new mongoose.Schema(
     certificateFiles: [{ type: String }],
     role: { type: String, default: "worker" },
     profileImage: { type: String },
-    professionalTitle: { type: String },
-    about: { type: String },
+    professionalTitle: { type: String, required: true },
+    about: { type: String, required: true },
     specialties: [{ type: String, default: [] }],
     projects: [
       {
-        name: { type: String },
-        year: { type: Number },
-        location: { type: String },
-        description: { type: String },
+        name: { type: String, required: true },
+        year: { type: Number, required: true, min: 1900, max: 2100 },
+        location: { type: String, required: true },
+        description: { type: String, required: true },
         image: { type: String },
         createdAt: { type: Date, default: Date.now },
       },
@@ -121,8 +121,10 @@ const workerSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Index for faster queries on specialization
+// Optional indexes for performance
 workerSchema.index({ specialization: 1 });
+workerSchema.index({ isArchitect: 1 });
+workerSchema.index({ availability: 1 });
 
 // Password Hashing Middleware
 [customerSchema, companySchema, workerSchema].forEach((schema) => {

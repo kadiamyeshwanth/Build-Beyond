@@ -656,3 +656,141 @@ app.post('/bidForm_Submit', upload.fields([
         });
     }
 });
+app.post(
+  '/worker_profile_edit_submit',
+  isAuthenticated,
+  upload.any(), // Handle all file uploads
+  async (req, res) => {
+    try {
+      // Extract user ID from JWT
+      const workerId = req.user.user_id;
+
+      // Log the incoming files for debugging
+      console.log('Uploaded files:', req.files);
+      console.log('Field names in req.files:', req.files.map(file => file.fieldname));
+
+      // Fetch the existing worker to get old project images
+      const existingWorker = await Worker.findById(workerId);
+      if (!existingWorker) {
+        return res.status(404).json({ message: 'Worker not found' });
+      }
+
+      // Collect old project image paths for cleanup
+      const oldProjectImages = existingWorker.projects
+        .filter(project => project.image) // Only include projects with images
+        .map(project => project.image); // Get the image paths
+      console.log('Old project images to delete:', oldProjectImages);
+
+      // Extract form data
+      const {
+        name,
+        title: professionalTitle,
+        experience,
+        about,
+        specialties
+      } = req.body;
+
+      // Validate required fields
+      const requiredFields = ['name', 'title', 'experience', 'about'];
+      for (const field of requiredFields) {
+        if (!req.body[field]) {
+          return res.status(400).json({ message: `Missing required field: ${field}` });
+        }
+      }
+
+      // Process specialties (checkboxes may send multiple values)
+      let parsedSpecialties = [];
+      if (specialties) {
+        parsedSpecialties = Array.isArray(specialties) ? specialties : [specialties];
+      }
+
+      // Process profile image
+      let profileImagePath = '';
+      const profileImage = req.files.find(file => file.fieldname === 'profileImage');
+      if (profileImage) {
+        profileImagePath = `/Uploads/${profileImage.filename}`;
+        console.log('Profile image path:', profileImagePath);
+      } else {
+        console.log('No profile image uploaded');
+      }
+
+      // Process projects
+      const projects = [];
+      const projectItems = Object.keys(req.body).filter(key => key.startsWith('projectName-'));
+      const projectIds = projectItems.map(key => key.split('-')[1]);
+      console.log('Project IDs:', projectIds);
+
+      for (const id of projectIds) {
+        const project = {
+          name: req.body[`projectName-${id}`],
+          year: parseInt(req.body[`projectYear-${id}`]),
+          location: req.body[`projectLocation-${id}`],
+          description: req.body[`projectDescription-${id}`]
+        };
+
+        // Find corresponding project image
+        const projectImage = req.files.find(file => file.fieldname === `projectImage-${id}`);
+        if (projectImage) {
+          project.image = `/Uploads/${projectImage.filename}`;
+          console.log(`Project ${id} image path:`, project.image);
+        } else {
+          console.log(`No image found for project ${id}`);
+          project.image = ''; // Clear the image field if no new image is provided
+        }
+
+        projects.push(project);
+      }
+
+      // Update worker document, completely overwriting the projects array
+      const updateData = {
+        name,
+        professionalTitle,
+        experience: parseInt(experience),
+        about,
+        specialties: parsedSpecialties,
+        projects // Overwrite the entire projects array
+      };
+
+      // Only update profileImage if a new one was uploaded
+      if (profileImagePath) {
+        updateData.profileImage = profileImagePath;
+      }
+
+      const updatedWorker = await Worker.findByIdAndUpdate(
+        workerId,
+        { $set: updateData },
+        { new: true, runValidators: true }
+      );
+
+      if (!updatedWorker) {
+        return res.status(404).json({ message: 'Worker not found' });
+      }
+
+      // Clean up old project images
+      if (oldProjectImages.length > 0) {
+        const uploadDir = path.join(__dirname, 'Uploads');
+        oldProjectImages.forEach(imagePath => {
+          const filePath = path.join(uploadDir, path.basename(imagePath));
+          fs.unlink(filePath, err => {
+            if (err) {
+              console.error(`Failed to delete old project image ${filePath}:`, err);
+            } else {
+              console.log(`Deleted old project image: ${filePath}`);
+            }
+          });
+        });
+      }
+
+      res.status(200).json({
+        message: 'Profile updated successfully',
+        redirect: '/workerdashboard.html'
+      });
+    } catch (error) {
+      console.error('Error updating worker profile:', error);
+      res.status(500).json({
+        message: 'Failed to update profile',
+        error: error.message
+      });
+    }
+  }
+);

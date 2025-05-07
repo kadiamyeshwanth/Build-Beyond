@@ -251,75 +251,75 @@
             let projectCount = 0;
             
             addProjectBtn.addEventListener('click', function() {
-                projectCount++;
+            projectCount++;
+            
+            const projectItem = document.createElement('div');
+            projectItem.className = 'project-item';
+            projectItem.id = `project-${projectCount}`;
+            
+            projectItem.innerHTML = `
+                <div class="form-group">
+                    <label for="projectName-${projectCount}">Project Name</label>
+                    <input type="text" id="projectName-${projectCount}" name="projectName-${projectCount}" required>
+                </div>
                 
-                const projectItem = document.createElement('div');
-                projectItem.className = 'project-item';
-                projectItem.id = `project-${projectCount}`;
+                <div class="form-group">
+                    <label for="projectYear-${projectCount}">Year</label>
+                    <input type="number" id="projectYear-${projectCount}" name="projectYear-${projectCount}" min="1900" max="2100" required>
+                </div>
                 
-                projectItem.innerHTML = `
-                    <div class="form-group">
-                        <label for="projectName-${projectCount}">Project Name</label>
-                        <input type="text" id="projectName-${projectCount}" name="projectName-${projectCount}" required>
+                <div class="form-group">
+                    <label for="projectLocation-${projectCount}">Location</label>
+                    <input type="text" id="projectLocation-${projectCount}" name="projectLocation-${projectCount}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="projectDescription-${projectCount}">Description</label>
+                    <textarea id="projectDescription-${projectCount}" name="projectDescription-${projectCount}" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="projectImage-${projectCount}">Project Image</label>
+                    <input type="file" id="projectImage-${projectCount}" name="projectImage-${projectCount}" accept="image/*" class="project-image-input">
+                    <div class="project-image-preview" id="projectImagePreview-${projectCount}">
+                        <span>Project Image</span>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="projectYear-${projectCount}">Year</label>
-                        <input type="number" id="projectYear-${projectCount}" name="projectYear-${projectCount}" min="1900" max="2100" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="projectLocation-${projectCount}">Location</label>
-                        <input type="text" id="projectLocation-${projectCount}" name="projectLocation-${projectCount}" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="projectDescription-${projectCount}">Description</label>
-                        <textarea id="projectDescription-${projectCount}" name="projectDescription-${projectCount}" required></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="projectImage-${projectCount}">Project Image</label>
-                        <input type="file" id="projectImage-${projectCount}" name="projectImages" accept="image/*" class="project-image-input">
-                        <div class="project-image-preview" id="projectImagePreview-${projectCount}">
-                            <span>Project Image</span>
-                        </div>
-                    </div>
-                    
-                    <button type="button" class="remove-project-btn" data-project="${projectCount}">Remove Project</button>
-                `;
+                </div>
                 
-                projectsContainer.appendChild(projectItem);
-                
-                // Add event listener for project image preview
-                const projectImageInput = document.getElementById(`projectImage-${projectCount}`);
-                const projectImagePreview = document.getElementById(`projectImagePreview-${projectCount}`);
-                
-                projectImageInput.addEventListener('change', function() {
-                    const file = this.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            projectImagePreview.innerHTML = '';
-                            const img = document.createElement('img');
-                            img.src = e.target.result;
-                            projectImagePreview.appendChild(img);
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                });
-                
-                // Add event listener for remove project button
-                const removeBtn = projectItem.querySelector('.remove-project-btn');
-                removeBtn.addEventListener('click', function() {
-                    const projectId = this.getAttribute('data-project');
-                    const projectToRemove = document.getElementById(`project-${projectId}`);
-                    projectsContainer.removeChild(projectToRemove);
-                });
+                <button type="button" class="remove-project-btn" data-project="${projectCount}">Remove Project</button>
+            `;
+            
+            projectsContainer.appendChild(projectItem);
+            
+            // Add event listener for project image preview
+            const projectImageInput = document.getElementById(`projectImage-${projectCount}`);
+            const projectImagePreview = document.getElementById(`projectImagePreview-${projectCount}`);
+            
+            projectImageInput.addEventListener('change', function() {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        projectImagePreview.innerHTML = '';
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        projectImagePreview.appendChild(img);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+            // Add event listener for remove project button
+            const removeBtn = projectItem.querySelector('.remove-project-btn');
+            removeBtn.addEventListener('click', function() {
+                const projectId = this.getAttribute('data-project');
+                const projectToRemove = document.getElementById(`project-${projectId}`);
+                projectsContainer.removeChild(projectToRemove);
             });
         });
+        });
         // Function to fetch worker data and populate the form
-document.addEventListener('DOMContentLoaded', async function() {
+    document.addEventListener('DOMContentLoaded', async function() {
     try {
         // Get worker ID from URL query parameter or session storage
         const urlParams = new URLSearchParams(window.location.search);
@@ -408,69 +408,38 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 });
 
-// // Modify form submission
-// document.getElementById('architectForm').addEventListener('submit', async function(e) {
-//     e.preventDefault();
-    
-//     try {
-        
-//         const workerId = "";
-        
-//         if (!workerId) {
-//             console.error('No worker ID provided');
-//             return;
-//         }
-        
-//         const formData = new FormData(this);
-        
-//         // Add worker ID
-//         formData.append('workerId', workerId);
-        
-//         // Collect specialties
-//         const specialtiesChecked = document.querySelectorAll('input[name="specialties"]:checked');
-//         const specialties = Array.from(specialtiesChecked).map(checkbox => checkbox.value);
-//         formData.delete('specialties'); // Remove existing entries
-//         specialties.forEach(specialty => formData.append('specialties', specialty));
-        
-//         // Collect projects data
-//         const projects = [];
-//         const projectItems = document.querySelectorAll('.project-item');
-        
-//         projectItems.forEach((item, index) => {
-//             const projectId = item.id.split('-')[1];
-//             const project = {
-//                 name: document.getElementById(`projectName-${projectId}`).value,
-//                 year: document.getElementById(`projectYear-${projectId}`).value,
-//                 location: document.getElementById(`projectLocation-${projectId}`).value,
-//                 description: document.getElementById(`projectDescription-${projectId}`).value
-//             };
-//             projects.push(project);
-//         });
-        
-//         // Add projects as JSON string
-//         formData.append('projects', JSON.stringify(projects));
-        
-//         // Send data to server
-//         const response = await fetch(`/api/workers/${workerId}`, {
-//             method: 'PUT',
-//             body: formData
-//         });
-        
-//         if (!response.ok) {
-//             throw new Error('Failed to update profile');
-//         }
-        
-//         const result = await response.json();
-//         alert('Profile updated successfully!');
-        
-//         // Redirect to profile page or dashboard
-//         window.location.href = '/workerdashboard.html';
-        
-//     } catch (error) {
-//         console.error('Error updating profile:', error);
-//         alert('Failed to update profile. Please try again later.');
-//     }
-// });
+// Modify form submission
+document.getElementById('architectForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  try {
+    const formData = new FormData(this);
+
+    // Collect specialties
+    const specialtiesChecked = document.querySelectorAll('input[name="specialties"]:checked');
+    const specialties = Array.from(specialtiesChecked).map(checkbox => checkbox.value);
+    formData.delete('specialties'); // Remove existing entries
+    specialties.forEach(specialty => formData.append('specialties', specialty));
+
+    // Send data to server
+    const response = await fetch('/worker_profile_edit_submit', {
+      method: 'POST',
+      body: formData
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.message || 'Failed to update profile');
+    }
+
+    alert(result.message);
+    window.location.href = result.redirect || '/workerdashboard.html';
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    alert('Failed to update profile: ' + error.message);
+  }
+});
     </script>
 </body>
 </html>
