@@ -65,6 +65,11 @@ app.get("/workersettings.html", isAuthenticated,async (req, res) => {
   const user=await Worker.findById(req.user.user_id);
   res.render("worker/worker_settings",{user});
 });
+
+app.get("/worker_edit", (req, res) => {
+  res.render("worker/worker_profile_edit");
+});
+
 // Logout Route
 app.get("/logout", (req, res) => {
   res.render("signin_up_");
@@ -160,9 +165,9 @@ app.get("/addnewproject_form.html", (req, res) => {
   res.render("company/addnewproject_form");
 });
 
-app.get("/worker_edit", (req, res) => {
-  res.render("worker/worker_profile_edit");
-});
+app.get("/companySettings",(req,res)=>{
+  res.render("company/company_settings");
+})
 
 module.exports = {
   express,
