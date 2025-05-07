@@ -380,7 +380,7 @@
                             <img src="<%= user.profileImage || 'https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg' %>" alt="<%= user.name %>" class="architect-image-large">
                             <div>
                                 <h2><%= user.name %></h2>
-                                <p><strong><%= user.title %></strong> with <%= user.experience %> years experience</p>
+                                <p><strong><%= user.professionalTitle %></strong> with <%= user.experience %> years experience</p>
                                 <div class="rating">
                                     <% for(let i = 0; i < 5; i++) { %>
                                         <% if(i < Math.floor(user.rating)) { %>
@@ -396,7 +396,7 @@
                         
                         <div class="bio">
                             <h3>About</h3>
-                            <p><%= user.bio %></p>
+                            <p><%= user.about %></p>
                             <p><strong>Specialties:</strong> <%= user.specialties.join(', ') %></p>
                         </div>
                         

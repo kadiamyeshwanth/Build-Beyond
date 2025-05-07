@@ -800,12 +800,12 @@
     <h1>Join a Company</h1>
     
     <div class="profile-header">
-      <img src="https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg" alt="Avinash" class="profile-image">
+      <img src="<%= user.profileImage || 'https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg' %>" alt="<%= user.name %>" class="profile-image">
       <div class="profile-info">
-        <h1>Avinash</h1>
-        <div class="profile-title">Principal Architect with 15 years experience</div>
+        <h1><%= user.name %></h1>
+        <div class="profile-title"><p><strong><%= user.professionalTitle %></strong> with <%= user.experience %> years experience</p></div>
       </div>
-      <button class="btn btn-outline">Edit Profile</button>
+      <a href="/worker_edit"><button class="btn btn-outline">Edit Profile</button></a>
     </div>
     
     <div class="profile-stats">
