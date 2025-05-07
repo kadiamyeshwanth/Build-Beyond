@@ -794,3 +794,55 @@ app.post(
     }
   }
 );
+// Update Password Route 
+app.post('/update-password', isAuthenticated, async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+  const userId = req.user.user_id; // From JWT payload
+  const role = req.user.role; // From JWT payload
+
+  try {
+    // Validate input
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({ message: 'All fields are required.' });
+    }
+
+    if (newPassword.length < 8) {
+      return res.status(400).json({ message: 'New password must be at least 8 characters long.' });
+    }
+
+    // Find user based on role
+    let user;
+    switch (role) {
+      case 'customer':
+        user = await Customer.findById(userId);
+        break;
+      case 'company':
+        user = await Company.findById(userId);
+        break;
+      case 'worker':
+        user = await Worker.findById(userId);
+        break;
+      default:
+        return res.status(400).json({ message: 'Invalid user role.' });
+    }
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+
+    // Verify current password
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Current password is incorrect.' });
+    }
+
+    // Set the new plain-text password (middleware will hash it)
+    user.password = newPassword;
+    await user.save();
+
+    res.status(200).json({ message: 'Password updated successfully.' });
+  } catch (error) {
+    console.error('Error updating password:', error);
+    res.status(500).json({ message: 'Server error.' });
+  }
+});
