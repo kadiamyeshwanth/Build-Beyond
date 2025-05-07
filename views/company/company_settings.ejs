@@ -21,7 +21,6 @@
             --danger-color: #e74c3c;
         }
         * {
-            
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -156,6 +155,131 @@
         .btn-danger:hover {
             background-color: #c0392b;
         }
+        .profile-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+        }
+        .profile-tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+        }
+        .profile-tab.active {
+            border-bottom-color: var(--primary-color);
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        .profile-content {
+            display: none;
+        }
+        .profile-content.active {
+            display: block;
+        }
+        .skills-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        .skill-tag {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+        .team-member {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+        .team-member img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 1rem;
+        }
+        .team-member-info h4 {
+            margin-bottom: 0.25rem;
+        }
+        .team-member-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .project-item {
+            display: flex;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+        .project-item img {
+            width: 120px;
+            height: 80px;
+            object-fit: cover;
+            margin-right: 1rem;
+            border-radius: 4px;
+        }
+        .project-info h4 {
+            margin-bottom: 0.25rem;
+        }
+        .project-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .did-you-know {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 4px;
+            border-left: 4px solid var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+        .did-you-know h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        .company-size-selector {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+        .company-size-option {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .company-size-option.selected {
+            border-color: var(--primary-color);
+            background-color: rgba(77, 122, 112, 0.1);
+        }
+        .company-size-option input {
+            display: none;
+        }
+        .current-opening-item {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+        .current-opening-item h4 {
+            margin-bottom: 0.25rem;
+        }
+        .current-opening-item p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
     </style>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -164,72 +288,249 @@
     <%- include('navbar_company') %>
     <div class="settings-container">
         <div class="settings-header">
-            <h1>Account Settings</h1>
-            <p>Manage your account preferences and project settings</p>
+            <h1>Company Settings</h1>
+            <p>Manage your company profile and settings</p>
         </div>
         <div class="settings-grid">
             <div class="settings-sidebar">
                 <ul class="settings-nav">
-                    <li><a href="#profile" class="active"><i class="fas fa-user"></i> Profile</a></li>
+                    <li><a href="#profile" class="active"><i class="fas fa-building"></i> Company Profile</a></li>
                     <li><a href="#security"><i class="fas fa-lock"></i> Security</a></li>
                     <li><a href="#help-center"><i class="fas fa-question-circle"></i> Help Center</a></li>
                     <li><a href="#logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                 </ul>
             </div>
             <div class="settings-content">
- 
                 <div id="profile" class="settings-section active">
-                    <h2>Profile Information</h2>
-                    <div id="profile-display">
-                        <div class="form-group">
-                            <label>Company Name</label>
-                            <p>L&T</p>
-                        </div>
-                        <div class="form-group">
-                            <label>Email Address</label>
-                            <p>L&T@gmail.com</p>
-                        </div>
-                        <div class="form-group">
-                            <label>Phone Number</label>
-                            <p>+91 78856 34429</p>
-                        </div>
-                        <div class="form-group">
-                            <label>Address</label>
-                            <p>Avenue Road , Meerut</p>
-                        </div>
-                        <div class="form-group">
-                            <label>About Me</label>
-                            <p>I'm a homeowner looking to renovate my kitchen and add a deck to the back of my house.</p>
-                        </div>
-                        <button id="edit-profile-btn" class="btn">Edit Profile</button>
+                    <h2>Company Profile</h2>
+                    
+                    <div class="profile-tabs">
+                        <div class="profile-tab active" data-tab="worker">Worker Profile</div>
+                        <div class="profile-tab" data-tab="customer">Customer Profile</div>
                     </div>
-                    <form id="profile-edit" style="display: none;">
-                        <div class="form-group">
-                            <label for="fullName">Full Name</label>
-                            <input type="text" id="fullName" class="form-control" value="Aarav">
+                    
+                    <!-- Worker Profile -->
+                    <div id="worker-profile" class="profile-content active">
+                        <div id="worker-profile-display">
+                            <div class="form-group">
+                                <label>Company Name</label>
+                                <p>L&T Construction</p>
+                            </div>
+                            <div class="form-group">
+                                <label>Company Size</label>
+                                <p>1000+ Employees</p>
+                            </div>
+                            <div class="form-group">
+                                <label>Specializations</label>
+                                <div class="skills-tags">
+                                    <span class="skill-tag">Commercial Construction</span>
+                                    <span class="skill-tag">High-Rise Buildings</span>
+                                    <span class="skill-tag">Infrastructure</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Current Openings</label>
+                                <div class="current-opening-item">
+                                    <h4>Project Manager</h4>
+                                </div>
+                                <div class="current-opening-item">
+                                    <h4>Site Engineer</h4>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>About the Company</label>
+                                <p>L&T Construction is a leading construction company with over 25 years of experience in delivering high-quality commercial and infrastructure projects across the country. We pride ourselves on innovation, safety, and timely project delivery.</p>
+                            </div>
+                            <div class="form-group">
+                                <label>Why Join Our Team?</label>
+                                <p>We offer competitive salaries, comprehensive benefits, opportunities for career growth, and the chance to work on landmark projects that shape skylines. Our team culture values collaboration, continuous learning, and work-life balance.</p>
+                            </div>
+                            <button id="edit-worker-profile-btn" class="btn">Edit Worker Profile</button>
                         </div>
-                        <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" id="email" class="form-control" value="aarav@gmail.com">
-                            <button type="button" id="verify-email-btn" class="btn btn-secondary" style="margin-top: 0.5rem; display: none;">Verify Email</button>
+                        
+                        <form id="worker-profile-edit" style="display: none;">
+                            <div class="form-group">
+                                <label for="companyName">Company Name</label>
+                                <input type="text" id="companyName" class="form-control" value="L&T Construction">
+                            </div>
+                            <div class="form-group">
+                                <label>Company Size</label>
+                                <div class="company-size-selector">
+                                    <label class="company-size-option selected">
+                                        <input type="radio" name="companySize" value="1-10" checked> 1-10 Employees
+                                    </label>
+                                    <label class="company-size-option">
+                                        <input type="radio" name="companySize" value="11-50"> 11-50 Employees
+                                    </label>
+                                    <label class="company-size-option">
+                                        <input type="radio" name="companySize" value="51-200"> 51-200 Employees
+                                    </label>
+                                    <label class="company-size-option">
+                                        <input type="radio" name="companySize" value="201-1000"> 201-1000 Employees
+                                    </label>
+                                    <label class="company-size-option">
+                                        <input type="radio" name="companySize" value="1000+"> 1000+ Employees
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="specializations">Specializations (comma separated)</label>
+                                <input type="text" id="specializations" class="form-control" value="Commercial Construction, High-Rise Buildings, Infrastructure">
+                            </div>
+                            <div class="form-group">
+                                <label>Current Openings</label>
+                                <div class="current-opening-item">
+                                    <input type="text" class="form-control" value="Project Manager">
+                                </div>
+                                <div class="current-opening-item" style="margin-top: 1rem;">
+                                    <input type="text" class="form-control" value="Site Engineer">
+                                </div>
+                                <button type="button" class="btn btn-secondary" style="margin-top: 0.5rem;">+ Add Opening</button>
+                            </div>
+                            <div class="form-group">
+                                <label for="aboutCompany">About the Company</label>
+                                <textarea id="aboutCompany" class="form-control">L&T Construction is a leading construction company with over 25 years of experience in delivering high-quality commercial and infrastructure projects across the country. We pride ourselves on innovation, safety, and timely project delivery.</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="whyJoinUs">Why Join Our Team?</label>
+                                <textarea id="whyJoinUs" class="form-control">We offer competitive salaries, comprehensive benefits, opportunities for career growth, and the chance to work on landmark projects that shape skylines. Our team culture values collaboration, continuous learning, and work-life balance.</textarea>
+                            </div>
+                            <button type="button" id="cancel-worker-edit-btn" class="btn btn-secondary" style="margin-right: 1rem;">Cancel</button>
+                            <button type="submit" class="btn">Save Changes</button>
+                        </form>
+                    </div>
+                    
+                    <!-- Customer Profile -->
+                    <div id="customer-profile" class="profile-content">
+                        <div id="customer-profile-display">
+                            <div class="form-group">
+                                <label>Company Name</label>
+                                <p>L&T Corporation</p>
+                            </div>
+                            <div class="form-group">
+                                <label>Projects Completed</label>
+                                <p>150+</p>
+                            </div>
+                            <div class="form-group">
+                                <label>Years in Business</label>
+                                <p>25 years</p>
+                            </div>
+                            <div class="form-group">
+                                <label>About the Company</label>
+                                <p>L&T Corporation is a diversified conglomerate with interests in technology, manufacturing, and real estate development. We've been transforming ideas into reality for over two decades, creating spaces that inspire and endure.</p>
+                            </div>
+                            <div class="form-group">
+                                <label>Team Members</label>
+                                <div class="team-member">
+                                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Team Member">
+                                    <div class="team-member-info">
+                                        <h4>Rajesh Kumar</h4>
+                                        <p>CEO & Founder</p>
+                                    </div>
+                                </div>
+                                <div class="team-member">
+                                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Team Member">
+                                    <div class="team-member-info">
+                                        <h4>Priya Sharma</h4>
+                                        <p>Head of Projects</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Completed Projects</label>
+                                <div class="project-item">
+                                    <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Project">
+                                    <div class="project-info">
+                                        <h4>Downtown Office Complex</h4>
+                                        <p>A 25-story commercial tower with retail spaces and premium office accommodations in the heart of the city.</p>
+                                    </div>
+                                </div>
+                                <div class="project-item">
+                                    <img src="https://images.unsplash.com/photo-1505692952047-1a78307da8f2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Project">
+                                    <div class="project-info">
+                                        <h4>Tech Park Campus</h4>
+                                        <p>A 10-acre integrated technology park with office spaces, research facilities, and recreational areas.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="did-you-know">
+                                <h4>Did You Know?</h4>
+                                <p>Our company was the first in the region to implement sustainable construction practices across all projects, reducing environmental impact by 40% compared to industry standards.</p>
+                            </div>
+                            <button id="edit-customer-profile-btn" class="btn">Edit Customer Profile</button>
                         </div>
-                        <div class="form-group">
-                            <label for="phone">Phone Number</label>
-                            <input type="tel" id="phone" class="form-control" value="aarav@gmail.com">
-                        </div>
-                        <div class="form-group">
-                            <label for="address">Address</label>
-                            <textarea id="address" class="form-control" rows="3">Avenue Road , Meerut</textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="bio">About Me</label>
-                            <textarea id="bio" class="form-control" rows="5">I'm a homeowner looking to renovate my kitchen and add a deck to the back of my house.</textarea>
-                        </div>
-                        <button type="button" id="cancel-edit-btn" class="btn btn-secondary" style="margin-right: 1rem;">Cancel</button>
-                        <button type="submit" class="btn">Save Changes</button>
-                    </form>
+                        
+                        <form id="customer-profile-edit" style="display: none;">
+                            <div class="form-group">
+                                <label for="customerCompanyName">Company Name</label>
+                                <input type="text" id="customerCompanyName" class="form-control" value="L&T Corporation">
+                            </div>
+                            <div class="form-group">
+                                <label for="projectsCompleted">Projects Completed</label>
+                                <input type="text" id="projectsCompleted" class="form-control" value="150+">
+                            </div>
+                            <div class="form-group">
+                                <label for="yearsInBusiness">Years in Business</label>
+                                <input type="text" id="yearsInBusiness" class="form-control" value="25 years">
+                            </div>
+                            <div class="form-group">
+                                <label for="customerAboutCompany">About the Company</label>
+                                <textarea id="customerAboutCompany" class="form-control">L&T Corporation is a diversified conglomerate with interests in technology, manufacturing, and real estate development. We've been transforming ideas into reality for over two decades, creating spaces that inspire and endure.</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Team Members</label>
+                                <div class="team-member">
+                                    <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Team Member" style="margin-right: 1rem;">
+                                        <input type="file" id="member1Image" style="display: none;">
+                                        <button type="button" class="btn btn-secondary" onclick="document.getElementById('member1Image').click()">Change Image</button>
+                                    </div>
+                                    <input type="text" class="form-control" value="Rajesh Kumar" style="margin-bottom: 0.5rem;">
+                                    <input type="text" class="form-control" value="CEO & Founder">
+                                </div>
+                                <div class="team-member" style="margin-top: 1rem;">
+                                    <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Team Member" style="margin-right: 1rem;">
+                                        <input type="file" id="member2Image" style="display: none;">
+                                        <button type="button" class="btn btn-secondary" onclick="document.getElementById('member2Image').click()">Change Image</button>
+                                    </div>
+                                    <input type="text" class="form-control" value="Priya Sharma" style="margin-bottom: 0.5rem;">
+                                    <input type="text" class="form-control" value="Head of Projects">
+                                </div>
+                                <button type="button" class="btn btn-secondary" style="margin-top: 0.5rem;">+ Add Team Member</button>
+                            </div>
+                            <div class="form-group">
+                                <label>Completed Projects</label>
+                                <div class="project-item">
+                                    <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                                        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Project" style="margin-right: 1rem;">
+                                        <input type="file" id="project1Image" style="display: none;">
+                                        <button type="button" class="btn btn-secondary" onclick="document.getElementById('project1Image').click()">Change Image</button>
+                                    </div>
+                                    <input type="text" class="form-control" value="Downtown Office Complex" style="margin-bottom: 0.5rem;">
+                                    <textarea class="form-control">A 25-story commercial tower with retail spaces and premium office accommodations in the heart of the city.</textarea>
+                                </div>
+                                <div class="project-item" style="margin-top: 1rem;">
+                                    <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                                        <img src="https://images.unsplash.com/photo-1505692952047-1a78307da8f2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Project" style="margin-right: 1rem;">
+                                        <input type="file" id="project2Image" style="display: none;">
+                                        <button type="button" class="btn btn-secondary" onclick="document.getElementById('project2Image').click()">Change Image</button>
+                                    </div>
+                                    <input type="text" class="form-control" value="Tech Park Campus" style="margin-bottom: 0.5rem;">
+                                    <textarea class="form-control">A 10-acre integrated technology park with office spaces, research facilities, and recreational areas.</textarea>
+                                </div>
+                                <button type="button" class="btn btn-secondary" style="margin-top: 0.5rem;">+ Add Project</button>
+                            </div>
+                            <div class="form-group">
+                                <label for="didYouKnow">Did You Know?</label>
+                                <textarea id="didYouKnow" class="form-control">Our company was the first in the region to implement sustainable construction practices across all projects, reducing environmental impact by 40% compared to industry standards.</textarea>
+                            </div>
+                            <button type="button" id="cancel-customer-edit-btn" class="btn btn-secondary" style="margin-right: 1rem;">Cancel</button>
+                            <button type="submit" class="btn">Save Changes</button>
+                        </form>
+                    </div>
                 </div>
- 
+
                 <div id="security" class="settings-section">
                     <h2>Security Settings</h2>
                     <form>
@@ -249,7 +550,7 @@
                         <hr style="margin: 2rem 0;">
                     </form>
                 </div>
- 
+
                 <div id="help-center" class="settings-section">
                 <h2>Help Center</h2>
                     <div style="margin-bottom: 2rem;">
@@ -278,7 +579,7 @@
                         <button class="btn" style="margin-right: 1rem;">Contact Support</button>
                     </div>
                 </div>
- 
+
                 <div id="logout" class="settings-section">
                     <h2>Logout</h2>
                     <div style="margin-bottom: 2rem;">
@@ -290,60 +591,91 @@
         </div>
     </div>
     <script>
- 
         document.addEventListener('DOMContentLoaded', function() {
+            // Main tab navigation
             const navLinks = document.querySelectorAll('.settings-nav a');
             const sections = document.querySelectorAll('.settings-section');
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
- 
+
                     navLinks.forEach(link => link.classList.remove('active'));
                     sections.forEach(section => section.classList.remove('active'));
- 
+
                     this.classList.add('active');
- 
+
                     const targetId = this.getAttribute('href').substring(1);
                     document.getElementById(targetId).classList.add('active');
                 });
             });
+            
+            // Profile sub-tabs navigation
+            const profileTabs = document.querySelectorAll('.profile-tab');
+            const profileContents = document.querySelectorAll('.profile-content');
+            
+            profileTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const targetTab = this.getAttribute('data-tab');
+                    
+                    profileTabs.forEach(t => t.classList.remove('active'));
+                    profileContents.forEach(c => c.classList.remove('active'));
+                    
+                    this.classList.add('active');
+                    document.getElementById(`${targetTab}-profile`).classList.add('active');
+                });
+            });
+            
+            // Worker profile edit functionality
+            const editWorkerProfileBtn = document.getElementById('edit-worker-profile-btn');
+            const cancelWorkerEditBtn = document.getElementById('cancel-worker-edit-btn');
+            const workerProfileDisplay = document.getElementById('worker-profile-display');
+            const workerProfileEdit = document.getElementById('worker-profile-edit');
+            
+            if (editWorkerProfileBtn) {
+                editWorkerProfileBtn.addEventListener('click', function() {
+                    workerProfileDisplay.style.display = 'none';
+                    workerProfileEdit.style.display = 'block';
+                });
+            }
+            
+            if (cancelWorkerEditBtn) {
+                cancelWorkerEditBtn.addEventListener('click', function() {
+                    workerProfileDisplay.style.display = 'block';
+                    workerProfileEdit.style.display = 'none';
+                });
+            }
+            
+            // Customer profile edit functionality
+            const editCustomerProfileBtn = document.getElementById('edit-customer-profile-btn');
+            const cancelCustomerEditBtn = document.getElementById('cancel-customer-edit-btn');
+            const customerProfileDisplay = document.getElementById('customer-profile-display');
+            const customerProfileEdit = document.getElementById('customer-profile-edit');
+            
+            if (editCustomerProfileBtn) {
+                editCustomerProfileBtn.addEventListener('click', function() {
+                    customerProfileDisplay.style.display = 'none';
+                    customerProfileEdit.style.display = 'block';
+                });
+            }
+            
+            if (cancelCustomerEditBtn) {
+                cancelCustomerEditBtn.addEventListener('click', function() {
+                    customerProfileDisplay.style.display = 'block';
+                    customerProfileEdit.style.display = 'none';
+                });
+            }
+            
+            // Company size selector
+            const companySizeOptions = document.querySelectorAll('.company-size-option');
+            companySizeOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    companySizeOptions.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    const radio = this.querySelector('input');
+                    radio.checked = true;
+                });
+            });
         });
- 
-        const editProfileBtn=document.getElementById('edit-profile-btn');
-        const cancelEditBtn=document.getElementById('cancel-edit-btn');
-        const profileDisplay=document.getElementById('profile-display');
-        const profileEdit=document.getElementById('profile-edit');
-        const emailInput=document.getElementById('email');
-        const verifyEmailBtn=document.getElementById('verify-email-btn');
-        const originalEmail=emailInput?emailInput.value:'';
-        if (editProfileBtn && profileDisplay && profileEdit) {
-            editProfileBtn.addEventListener('click', function() {
-                profileDisplay.style.display = 'none';
-                profileEdit.style.display = 'block';
-            });
-        }
-        if (cancelEditBtn && profileDisplay && profileEdit) {
-            cancelEditBtn.addEventListener('click', function() {
-                profileDisplay.style.display='block';
-                profileEdit.style.display='none';
- 
-                document.getElementById('profile-edit').reset();
- 
-                verifyEmailBtn.style.display='none';
-            });
-        }
-        if (emailInput && verifyEmailBtn) {
-            emailInput.addEventListener('input', function() {
-                if (this.value !== originalEmail) {
-                    verifyEmailBtn.style.display='block';
-                } else {
-                    verifyEmailBtn.style.display='none';
-                }
-            });
-            verifyEmailBtn.addEventListener('click', function() {
-                alert('Verification email sent to '+emailInput.value);
-            });
-        }
     </script>
 </body>
 </html>
