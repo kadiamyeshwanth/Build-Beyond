@@ -523,7 +523,6 @@ app.post(
     }
   }
 );
-// POST Endpoint for Form Submission
 app.post('/design_request', upload.any(), async (req, res) => {
   try {
     const {
@@ -546,9 +545,14 @@ app.post('/design_request', upload.any(), async (req, res) => {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    // Prepare image paths
-    const currentRoomImages = req.files['currentRoomImages']?.map(file => `/uploads/${file.filename}`) || [];
-    const inspirationImages = req.files['inspirationImages']?.map(file => `/uploads/${file.filename}`) || [];
+    // Extract image files by fieldname
+    const currentRoomImages = req.files
+      .filter(file => file.fieldname === 'currentRoomImages')
+      .map(file => `/uploads/${file.filename}`);
+
+    const inspirationImages = req.files
+      .filter(file => file.fieldname === 'inspirationImages')
+      .map(file => `/uploads/${file.filename}`);
 
     // Create new design request
     const designRequest = new DesignRequest({
@@ -575,7 +579,11 @@ app.post('/design_request', upload.any(), async (req, res) => {
     // Save to MongoDB
     await designRequest.save();
 
-    res.status(201).json({ message: 'Design request submitted successfully' });
+    // Return JSON with redirect URL
+    res.status(200).json({
+      message: 'Form submitted successfully',
+      redirect: '/interior_design.html',
+    });
   } catch (error) {
     console.error('Error saving design request:', error);
     res.status(500).json({ error: 'Server error' });
