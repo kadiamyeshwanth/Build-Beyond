@@ -190,8 +190,27 @@ app.get("/customersettings.html", (req, res) => {
   res.render("customer/customer_settings");
 });
 // Company routes
-app.get("/companybids.html", (req, res) => {
-  res.render("company/company_bids");
+// Updated route for company bids page
+app.get("/companybids.html", async (req, res) => {
+  try {
+    // Fetch all bids from the bids collection
+    const bids = await db.collection("bids").find({});
+    
+    // Check if a specific bid is requested
+    const selectedBidId = req.query.bidId;
+    let selectedBid = null;
+    
+    if (selectedBidId) {
+      // If a bid ID is provided, find it in the database
+      selectedBid = await db.collection("bids").findOne({ _id: ObjectId(selectedBidId) });
+    }
+    
+    // Pass the bids data and selected bid to the EJS template
+    res.render("company/company_bids", { bids, selectedBid });
+  } catch (error) {
+    console.error("Error fetching bids:", error);
+    res.status(500).send("Error loading bids");
+  }
 });
 app.get("/companyongoing_projects.html", (req, res) => {
   res.render("company/company_ongoing_projects");

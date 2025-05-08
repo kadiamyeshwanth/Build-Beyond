@@ -916,18 +916,17 @@ app.post(
 // Company to Worker 
 app.post('/companytoworker', isAuthenticated , async (req, res) => {
   try {
-      const { position, location, salary } = req.body;
+      const { position, location, salary ,workerId} = req.body;
 
       // Replace these with actual values (from session, auth, or hidden form inputs)
       const dummyCompanyId = req.user.user_id;
-      const dummyWorkerId = req.user.user_id;
 
       const newEntry = new CompanytoWorker({
           position,
           location,
           salary,
           company: dummyCompanyId,
-          worker: dummyWorkerId
+          worker: workerId
       });
 
       await newEntry.save();

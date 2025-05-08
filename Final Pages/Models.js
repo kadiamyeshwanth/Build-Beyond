@@ -466,6 +466,29 @@ const floorSchema = new mongoose.Schema({
   },
 });
 
+// Define the company bid sub-schema
+const companyBidSchema = new mongoose.Schema({
+  companyId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Company', // Reference to the Company model
+    required: true,
+  },
+  companyName: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  bidPrice: {
+    type: Number,
+    required: true,
+    min: 0,
+  },
+  bidDate: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
 const BidSchema = new mongoose.Schema({
   customerId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -541,6 +564,7 @@ const BidSchema = new mongoose.Schema({
       trim: true,
     },
   ],
+  companyBids: [companyBidSchema],
   createdAt: {
     type: Date,
     default: Date.now,
