@@ -4,7 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Construction Projects Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
     <style>
         :root {
             --primary-green: #4D7A70;
@@ -60,7 +65,6 @@
             gap: 1rem;
         }
 
-        
         .dashboard {
             padding: 2rem;
             max-width: 1440px;
@@ -424,28 +428,16 @@
             color: var(--white);
         }
 
-        .status-new {
+        .status-pending {
             background-color: var(--secondary-green);
-        }
-
-        .status-inprogress {
-            background-color: var(--primary-green);
-        }
-
-        .status-completed {
-            background-color: #4D7A70;
-        }
-
-        .status-onhold {
-            background-color: #A3C5BB;
         }
 
         .status-accepted {
-            background-color: var(--secondary-green);
+            background-color: var(--primary-green);
         }
 
         .status-rejected {
-            background-color: var(--primary-green);
+            background-color: #A3C5BB;
         }
 
         @media (max-width: 768px) {
@@ -457,14 +449,6 @@
             }
 
             .header-actions {
-                width: 100%;
-            }
-
-            .search-bar {
-                width: 100%;
-            }
-
-            .search-bar input {
                 width: 100%;
             }
 
@@ -514,145 +498,34 @@
         </div>
 
         <div class="cards-container">
-            <!-- Project P1001 -->
-            <div class="card">
-                <div class="card-header">
-                    <h3>Riverfront Residences</h3>
-                </div>
-                <div class="card-body">
-                    <div class="card-info">
-                        <p><strong>Customer</strong> <span>Rajesh Patel</span></p>
-                        <p><strong>Contact</strong> <span>+91 9876543210</span></p>
-                        <p><strong>Building Type</strong> <span>Residential</span></p>
-                        <p><strong>Total Area</strong> <span>3500 sq.m</span></p>
+            <% projects.forEach(project => { %>
+                <div class="card">
+                    <div class="card-header">
+                        <h3><%= project.projectName %></h3>
                     </div>
-                    <div class="card-actions">
-                        <button class="card-btn btn-view" onclick="showProjectDetails('P1001')">
-                            <i class="fas fa-eye"></i> View Details
-                        </button>
-                    </div>
-                    <div class="card-actions" style="margin-top: 0.75rem;">
-                        <button class="card-btn btn-accept">
-                            <i class="fas fa-check"></i> Accept
-                        </button>
-                        <button class="card-btn btn-reject">
-                            <i class="fas fa-times"></i> Reject
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project P1002 -->
-            <div class="card">
-                <div class="card-header">
-                    <h3>Tech Hub Office Space</h3>
-                </div>
-                <div class="card-body">
-                    <div class="card-info">
-                        <p><strong>Customer</strong> <span>Priya Sharma</span></p>
-                        <p><strong>Contact</strong> <span>+91 8765432109</span></p>
-                        <p><strong>Building Type</strong> <span>Commercial</span></p>
-                        <p><strong>Total Area</strong> <span>8000 sq.m</span></p>
-                    </div>
-                    <div class="card-actions">
-                        <button class="card-btn btn-view" onclick="showProjectDetails('P1002')">
-                            <i class="fas fa-eye"></i> View Details
-                        </button>
-                    </div>
-                    <div class="card-actions" style="margin-top: 0.75rem;">
-                        <button class="card-btn btn-accept">
-                            <i class="fas fa-check"></i> Accept
-                        </button>
-                        <button class="card-btn btn-reject">
-                            <i class="fas fa-times"></i> Reject
-                        </button>
+                    <div class="card-body">
+                        <div class="card-info">
+                            <p><strong>Customer</strong> <span><%= project.customerName %></span></p>
+                            <p><strong>Contact</strong> <span><%= project.customerPhone %></span></p>
+                            <p><strong>Building Type</strong> <span><%= project.buildingType.charAt(0).toUpperCase() + project.buildingType.slice(1) %></span></p>
+                            <p><strong>Total Area</strong> <span><%= project.totalArea %> sq.m</span></p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="card-btn btn-view" onclick="showProjectDetails('<%= project._id %>')">
+                                <i class="fas fa-eye"></i> View Details
+                            </button>
+                        </div>
+                        <div class="card-actions" style="margin-top: 0.75rem;">
+                            <button class="card-btn btn-accept" onclick="updateProjectStatus('<%= project._id %>', 'accepted')">
+                                <i class="fas fa-check"></i> Accept
+                            </button>
+                            <button class="card-btn btn-reject" onclick="updateProjectStatus('<%= project._id %>', 'rejected')">
+                                <i class="fas fa-times"></i> Reject
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Project P1003 -->
-            <div class="card">
-                <div class="card-header">
-                    <h3>Green Valley Apartments</h3>
-                </div>
-                <div class="card-body">
-                    <div class="card-info">
-                        <p><strong>Customer</strong> <span>Anand Reddy</span></p>
-                        <p><strong>Contact</strong> <span>+91 7654321098</span></p>
-                        <p><strong>Building Type</strong> <span>Residential</span></p>
-                        <p><strong>Total Area</strong> <span>15000 sq.m</span></p>
-                    </div>
-                    <div class="card-actions">
-                        <button class="card-btn btn-view" onclick="showProjectDetails('P1003')">
-                            <i class="fas fa-eye"></i> View Details
-                        </button>
-                    </div>
-                    <div class="card-actions" style="margin-top: 0.75rem;">
-                        <button class="card-btn btn-accept">
-                            <i class="fas fa-check"></i> Accept
-                        </button>
-                        <button class="card-btn btn-reject">
-                            <i class="fas fa-times"></i> Reject
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project P1005 -->
-            <div class="card">
-                <div class="card-header">
-                    <h3>Heritage Villa Restoration</h3>
-                </div>
-                <div class="card-body">
-                    <div class="card-info">
-                        <p><strong>Customer</strong> <span>Vikram Singh</span></p>
-                        <p><strong>Contact</strong> <span>+91 5432109876</span></p>
-                        <p><strong>Building Type</strong> <span>Residential</span></p>
-                        <p><strong>Total Area</strong> <span>2200 sq.m</span></p>
-                    </div>
-                    <div class="card-actions">
-                        <button class="card-btn btn-view" onclick="showProjectDetails('P1005')">
-                            <i class="fas fa-eye"></i> View Details
-                        </button>
-                    </div>
-                    <div class="card-actions" style="margin-top: 0.75rem;">
-                        <button class="card-btn btn-accept">
-                            <i class="fas fa-check"></i> Accept
-                        </button>
-                        <button class="card-btn btn-reject">
-                            <i class="fas fa-times"></i> Reject
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project P1006 -->
-            <div class="card">
-                <div class="card-header">
-                    <h3>Eco-Farm Resort</h3>
-                </div>
-                <div class="card-body">
-                    <div class="card-info">
-                        <p><strong>Customer</strong> <span>Sanjay Agarwal</span></p>
-                        <p><strong>Contact</strong> <span>+91 4321098765</span></p>
-                        <p><strong>Building Type</strong> <span>Mixed Use</span></p>
-                        <p><strong>Total Area</strong> <span>12000 sq.m</span></p>
-                    </div>
-                    <div class="card-actions">
-                        <button class="card-btn btn-view" onclick="showProjectDetails('P1006')">
-                            <i class="fas fa-eye"></i> View Details
-                        </button>
-                    </div>
-                    <div class="card-actions" style="margin-top: 0.75rem;">
-                        <button class="card-btn btn-accept">
-                            <i class="fas fa-check"></i> Accept
-                        </button>
-                        <button class="card-btn btn-reject">
-                            <i class="fas fa-times"></i> Reject
-                        </button>
-                    </div>
-                </div>
-            </div>
+            <% }) %>
         </div>
     </main>
 
@@ -672,247 +545,165 @@
     </div>
 
     <script>
-        const projects = [
-            {
-                id: 'P1001',
-                projectName: 'Riverfront Residences',
-                customerName: 'Rajesh Patel',
-                email: 'rajesh.patel@example.com',
-                phone: '+91 9876543210',
-                address: '42 Riverside Avenue, Jubilee Hills, Hyderabad',
-                pincode: '500033',
-                totalArea: 3500,
-                buildingType: 'Residential',
-                budget: 4500000,
-                timeline: 18,
-                floors: [
-                    { floorNumber: 1, floorType: 'Residential', floorArea: 1200, description: 'Living room, kitchen, dining area, 2 bedrooms with attached bathrooms, powder room, and balcony' },
-                    { floorNumber: 2, floorType: 'Residential', floorArea: 1100, description: 'Master bedroom with walk-in closet and bathroom, 2 additional bedrooms, family room, and terrace garden' }
-                ],
-                specialRequirements: 'Solar panel installation, rainwater harvesting system, and home automation',
-                accessibilityNeeds: 'Elevator',
-                energyEfficiency: 'LEED Certified',
-                status: 'new',
-                submissionDate: '2025-05-02'
-            },
-            {
-                id: 'P1002',
-                projectName: 'Tech Hub Office Space',
-                customerName: 'Priya Sharma',
-                email: 'priya.sharma@techcorp.com',
-                phone: '+91 8765432109',
-                address: 'Plot 15, HITEC City, Madhapur, Hyderabad',
-                pincode: '500081',
-                totalArea: 8000,
-                buildingType: 'Commercial',
-                budget: 12000000,
-                timeline: 24,
-                floors: [
-                    { floorNumber: 1, floorType: 'Commercial', floorArea: 2000, description: 'Reception area, meeting rooms, cafeteria, and break-out spaces' },
-                    { floorNumber: 2, floorType: 'Commercial', floorArea: 2000, description: 'Open office space with 80 workstations, 4 conference rooms, and executive offices' },
-                    { floorNumber: 3, floorType: 'Commercial', floorArea: 2000, description: 'Development team area with collaborative spaces, training room, and recreation zone' },
-                    { floorNumber: 4, floorType: 'Mechanical', floorArea: 1000, description: 'Server room, HVAC systems, and maintenance area' }
-                ],
-                specialRequirements: 'High-speed internet infrastructure, advanced security systems, and uninterrupted power supply',
-                accessibilityNeeds: 'Elevators, Ramps',
-                energyEfficiency: 'Net Zero',
-                status: 'inprogress',
-                submissionDate: '2025-04-15'
-            },
-            {
-                id: 'P1003',
-                projectName: 'Green Valley Apartments',
-                customerName: 'Anand Reddy',
-                email: 'anand.reddy@greenvalley.com',
-                phone: '+91 7654321098',
-                address: '78 Green Valley, Gachibowli, Hyderabad',
-                pincode: '500032',
-                totalArea: 15000,
-                buildingType: 'Residential',
-                budget: 25000000,
-                timeline: 36,
-                floors: [
-                    { floorNumber: 1, floorType: 'Parking', floorArea: 3000, description: 'Basement parking for 60 vehicles, security office, and maintenance room' },
-                    { floorNumber: 2, floorType: 'Commercial', floorArea: 2000, description: 'Retail spaces, gym, swimming pool, and community hall' },
-                    { floorNumber: 3, floorType: 'Residential', floorArea: 2500, description: '8 apartments (4 2-BHK and 4 3-BHK)' },
-                    { floorNumber: 4, floorType: 'Residential', floorArea: 2500, description: '8 apartments (4 2-BHK and 4 3-BHK)' },
-                    { floorNumber: 5, floorType: 'Residential', floorArea: 2500, description: '6 luxury apartments (3-BHK and 4-BHK)' }
-                ],
-                specialRequirements: 'Rooftop garden, EV charging stations, and waste management system',
-                accessibilityNeeds: 'Elevators, Ramps, Wheelchair Accessibility',
-                energyEfficiency: 'LEED Certified',
-                status: 'inprogress',
-                submissionDate: '2025-03-20'
-            },
-            {
-                id: 'P1005',
-                projectName: 'Heritage Villa Restoration',
-                customerName: 'Vikram Singh',
-                email: 'vikram.singh@heritagetrust.org',
-                phone: '+91 5432109876',
-                address: '5 Heritage Lane, Old City, Hyderabad',
-                pincode: '500002',
-                totalArea: 2200,
-                buildingType: 'Residential',
-                budget: 8500000,
-                timeline: 15,
-                floors: [
-                    { floorNumber: 1, floorType: 'Residential', floorArea: 1100, description: 'Entrance hall, living room, dining room, kitchen, library, and guest bedroom' },
-                    { floorNumber: 2, floorType: 'Residential', floorArea: 1100, description: 'Master bedroom, three additional bedrooms, family room, and terrace' }
-                ],
-                specialRequirements: 'Restoration of historical features, period-appropriate materials, and strengthening of structural elements',
-                accessibilityNeeds: 'None',
-                energyEfficiency: 'Standard',
-                status: 'completed',
-                submissionDate: '2025-01-15'
-            },
-            {
-                id: 'P1006',
-                projectName: 'Eco-Farm Resort',
-                customerName: 'Sanjay Agarwal',
-                email: 'sanjay.agarwal@ecofarm.com',
-                phone: '+91 4321098765',
-                address: 'Outer Ring Road, Shamshabad, Hyderabad',
-                pincode: '501218',
-                totalArea: 12000,
-                buildingType: 'Mixed Use',
-                budget: 30000000,
-                timeline: 30,
-                floors: [
-                    { floorNumber: 1, floorType: 'Commercial', floorArea: 3000, description: 'Reception, restaurant, kitchen, spa, conference rooms, and administrative offices' },
-                    { floorNumber: 2, floorType: 'Residential', floorArea: 4000, description: '20 luxury cottages with private gardens' },
-                    { floorNumber: 3, floorType: 'Commercial', floorArea: 2000, description: 'Indoor activity center, yoga studio, and organic farm product store' }
-                ],
-                specialRequirements: 'Organic farm integration, nature trails, sustainability features, and eco-friendly waste management',
-                accessibilityNeeds: 'Ramps, Wheelchair Accessibility',
-                energyEfficiency: 'Net Zero',
-                status: 'new',
-                submissionDate: '2025-05-05'
-            }
-        ];
+        async function showProjectDetails(projectId) {
+            try {
+                const response = await fetch(`/api/projects/${projectId}`);
+                const project = await response.json();
 
-        function showProjectDetails(projectId) {
-            const project = projects.find(p => p.id === projectId);
-            if (!project) return;
-            
-            const modalTitle = document.getElementById('modalTitle');
-            const modalStatus = document.getElementById('modalStatus');
-            const modalContent = document.getElementById('modalContent');
-            
-            modalTitle.textContent = `${project.projectName} (${project.id})`;
-            modalStatus.textContent = getStatusText(project.status);
-            modalStatus.className = `modal-status status-${project.status}`;
-            
-            let floorsHtml = '';
-            project.floors.forEach(floor => {
-                floorsHtml += `
-                    <div class="floor-box">
-                        <h4>
-                            Floor ${floor.floorNumber}
-                            <span class="floor-badge">${floor.floorType}</span>
-                        </h4>
+                const modalTitle = document.getElementById('modalTitle');
+                const modalStatus = document.getElementById('modalStatus');
+                const modalContent = document.getElementById('modalContent');
+
+                modalTitle.textContent = `${project.projectName} (${project._id})`;
+                modalStatus.textContent = getStatusText(project.status);
+                modalStatus.className = `modal-status status-${project.status}`;
+
+                let floorsHtml = '';
+                project.floors.forEach(floor => {
+                    floorsHtml += `
+                        <div class="floor-box">
+                            <h4>
+                                Floor ${floor.floorNumber}
+                                <span class="floor-badge">${floor.floorType.charAt(0).toUpperCase() + floor.floorType.slice(1)}</span>
+                            </h4>
+                            <div class="detail-grid">
+                                <div class="detail-item">
+                                    <strong>Area:</strong>
+                                    <span>${floor.floorArea} sq.m</span>
+                                </div>
+                                <div class="detail-item detail-full">
+                                    <strong>Description:</strong>
+                                    <span>${floor.floorDescription || 'N/A'}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                modalContent.innerHTML = `
+                    <div class="detail-section">
+                        <h3>Customer Information</h3>
                         <div class="detail-grid">
                             <div class="detail-item">
-                                <strong>Area:</strong>
-                                <span>${floor.floorArea} sq.m</span>
+                                <strong>Name:</strong>
+                                <span>${project.customerName}</span>
                             </div>
-                            <div class="detail-item detail-full">
-                                <strong>Description:</strong>
-                                <span>${floor.description}</span>
+                            <div class="detail-item">
+                                <strong>Email:</strong>
+                                <span>${project.customerEmail}</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Phone:</strong>
+                                <span>${project.customerPhone}</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Submission Date:</strong>
+                                <span>${formatDate(project.createdAt)}</span>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>Project Details</h3>
+                        <div class="detail-grid">
+                            <div class="detail-item">
+                                <strong>Building Type:</strong>
+                                <span>${project.buildingType.charAt(0).toUpperCase() + project.buildingType.slice(1)}</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Total Area:</strong>
+                                <span>${project.totalArea} sq.m</span>
+                            </div>
+                            ${project.estimatedBudget ? `
+                                <div class="detail-item">
+                                    <strong>Budget:</strong>
+                                    <span>₹${formatMoney(project.estimatedBudget)}</span>
+                                </div>
+                            ` : ''}
+                            ${project.projectTimeline ? `
+                                <div class="detail-item">
+                                    <strong>Timeline:</strong>
+                                    <span>${project.projectTimeline} months</span>
+                                </div>
+                            ` : ''}
+                            <div class="detail-item detail-full">
+                                <strong>Address:</strong>
+                                <span>${project.projectAddress}</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Pincode:</strong>
+                                <span>${project.projectLocationPincode}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>Floor Plans (${project.floors.length})</h3>
+                        ${floorsHtml}
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>Additional Requirements</h3>
+                        <div class="detail-grid">
+                            ${project.specialRequirements ? `
+                                <div class="detail-item detail-full">
+                                    <strong>Special Requirements:</strong>
+                                    <span>${project.specialRequirements}</span>
+                                </div>
+                            ` : ''}
+                            ${project.accessibilityNeeds ? `
+                                <div class="detail-item">
+                                    <strong>Accessibility Needs:</strong>
+                                    <span>${project.accessibilityNeeds.charAt(0).toUpperCase() + project.accessibilityNeeds.slice(1)}</span>
+                                </div>
+                            ` : ''}
+                            ${project.energyEfficiency ? `
+                                <div class="detail-item">
+                                    <strong>Energy Efficiency:</strong>
+                                    <span>${project.energyEfficiency.charAt(0).toUpperCase() + project.energyEfficiency.slice(1)}</span>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+
+                    <div class="modal-actions">
+                        <button class="modal-btn modal-btn-accept" onclick="updateProjectStatus('${project._id}', 'accepted')">
+                            <i class="fas fa-check"></i> Accept Project
+                        </button>
+                        <button class="modal-btn modal-btn-reject" onclick="updateProjectStatus('${project._id}', 'rejected')">
+                            <i class="fas fa-times"></i> Reject Project
+                        </button>
                     </div>
                 `;
-            });
-            
-            modalContent.innerHTML = `
-                <div class="detail-section">
-                    <h3>Customer Information</h3>
-                    <div class="detail-grid">
-                        <div class="detail-item">
-                            <strong>Name:</strong>
-                            <span>${project.customerName}</span>
-                        </div>
-                        <div class="detail-item">
-                            <strong>Email:</strong>
-                            <span>${project.email}</span>
-                        </div>
-                        <div class="detail-item">
-                            <strong>Phone:</strong>
-                            <span>${project.phone}</span>
-                        </div>
-                        <div class="detail-item">
-                            <strong>Submission Date:</strong>
-                            <span>${formatDate(project.submissionDate)}</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="detail-section">
-                    <h3>Project Details</h3>
-                    <div class="detail-grid">
-                        <div class="detail-item">
-                            <strong>Building Type:</strong>
-                            <span>${project.buildingType}</span>
-                        </div>
-                        <div class="detail-item">
-                            <strong>Total Area:</strong>
-                            <span>${project.totalArea} sq.m</span>
-                        </div>
-                        <div class="detail-item">
-                            <strong>Budget:</strong>
-                            <span>₹${formatMoney(project.budget)}</span>
-                        </div>
-                        <div class="detail-item">
-                            <strong>Timeline:</strong>
-                            <span>${project.timeline} months</span>
-                        </div>
-                        <div class="detail-item detail-full">
-                            <strong>Address:</strong>
-                            <span>${project.address}</span>
-                        </div>
-                        <div class="detail-item">
-                            <strong>Pincode:</strong>
-                            <span>${project.pincode}</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="detail-section">
-                    <h3>Floor Plans (${project.floors.length})</h3>
-                    ${floorsHtml}
-                </div>
-                
-                <div class="detail-section">
-                    <h3>Additional Requirements</h3>
-                    <div class="detail-grid">
-                        <div class="detail-item detail-full">
-                            <strong>Special Requirements:</strong>
-                            <span>${project.specialRequirements}</span>
-                        </div>
-                        <div class="detail-item">
-                            <strong>Accessibility Needs:</strong>
-                            <span>${project.accessibilityNeeds}</span>
-                        </div>
-                        <div class="detail-item">
-                            <strong>Energy Efficiency:</strong>
-                            <span>${project.energyEfficiency}</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="modal-actions">
-                    <button class="modal-btn modal-btn-accept">
-                        <i class="fas fa-check"></i> Accept Project
-                    </button>
-                    <button class="modal-btn modal-btn-reject">
-                        <i class="fas fa-times"></i> Reject Project
-                    </button>
-                </div>
-            `;
-            
-            const modal = document.getElementById('projectModal');
-            modal.classList.add('active');
+
+                const modal = document.getElementById('projectModal');
+                modal.classList.add('active');
+            } catch (error) {
+                console.error('Error fetching project details:', error);
+                alert('Failed to load project details.');
+            }
+        }
+
+        async function updateProjectStatus(projectId, status) {
+            try {
+                const response = await fetch(`/api/projects/${projectId}/status`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ status })
+                });
+
+                if (response.ok) {
+                    alert(`Project ${status} successfully!`);
+                    location.reload(); // Refresh to reflect updated status
+                } else {
+                    throw new Error('Failed to update status');
+                }
+            } catch (error) {
+                console.error('Error updating project status:', error);
+                alert('Failed to update project status.');
+            }
         }
 
         function closeModal() {
@@ -934,10 +725,7 @@
 
         function getStatusText(status) {
             const statusMap = {
-                'new': 'New',
-                'inprogress': 'In Progress',
-                'completed': 'Completed',
-                'onhold': 'On Hold',
+                'pending': 'Pending',
                 'accepted': 'Accepted',
                 'rejected': 'Rejected'
             };
@@ -946,7 +734,7 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('closeModal').addEventListener('click', closeModal);
-            
+
             document.getElementById('projectModal').addEventListener('click', function(e) {
                 if (e.target === this) {
                     closeModal();

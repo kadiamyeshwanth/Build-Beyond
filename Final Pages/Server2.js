@@ -1470,3 +1470,49 @@ app.post('/decline-bid', isAuthenticated, async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });
+// Get all projects
+app.get('/api/projects', async (req, res) => {
+  try {
+      const projects = await ConstructionProjectSchema.find({status: 'pending'}).lean();
+      res.render('projects', { projects });
+  } catch (error) {
+      console.error('Error fetching projects:', error);
+      res.status(500).json({ error: 'Failed to fetch projects' });
+  }
+});
+
+// Get single project by ID
+app.get('/api/projects/:id', async (req, res) => {
+  try {
+      const project = await ConstructionProjectSchema.findById(req.params.id).lean();
+      if (!project) {
+          return res.status(404).json({ error: 'Project not found' });
+      }
+      res.json(project);
+  } catch (error) {
+      console.error('Error fetching project:', error);
+      res.status(500).json({ error: 'Failed to fetch project' });
+  }
+});
+
+// Update project status
+app.patch('/api/projects/:id/status', async (req, res) => {
+  try {
+      const { status } = req.body;
+      if (!['accepted', 'rejected'].includes(status)) {
+          return res.status(400).json({ error: 'Invalid status' });
+      }
+      const project = await ConstructionProjectSchema.findByIdAndUpdate(
+          req.params.id,
+          { status, updatedAt: Date.now() },
+          { new: true }
+      );
+      if (!project) {
+          return res.status(404).json({ error: 'Project not found' });
+      }
+      res.json({ message: 'Status updated successfully' });
+  } catch (error) {
+      console.error('Error updating project status:', error);
+      res.status(500).json({ error: 'Failed to update status' });
+  }
+});
