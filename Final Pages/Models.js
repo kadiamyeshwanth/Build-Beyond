@@ -432,6 +432,15 @@ const designRequestSchema = new mongoose.Schema({
   projectDescription: { type: String },
   currentRoomImages: [{ type: String }], // Array of image paths
   inspirationImages: [{ type: String }], // Array of image paths
+  customerId: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'User', // Reference to the User model (assuming you have one)
+    required: true 
+  },
+  workerId: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'User' // Reference to the User model (or 'Worker' if you have a separate model)
+  },
   createdAt: { type: Date, default: Date.now },
 });
 

@@ -178,8 +178,19 @@ app.get("/architecht_form", (req, res) => {
   res.render("customer/architect_form", { workerId });
 });
 
-app.get("/interior_designer.html", (req, res) => {
-  res.render("customer/interior_design");
+app.get("/interior_designer.html",isAuthenticated, async(req, res) => {
+  try {
+    // Find all workers that are architects (isArchitect = false)
+    const designers = await Worker.find({ 
+        isArchitect: false
+    });
+    
+    // Render the EJS template with architect data
+    res.render('customer/interior_design', { designers });
+} catch (error) {
+    console.error('Error fetching architects:', error);
+    res.status(500).json({ message: 'Failed to fetch architects' });
+}
 });
 app.get("/ongoing_projects.html", (req, res) => {
   res.render("customer/ongoing_projects");
