@@ -329,6 +329,27 @@ architectHiringSchema.pre("save", function (next) {
 
 // Construction Form Schema
 const constructionProjectSchema = new mongoose.Schema({
+  // Project Identification
+  projectName: {
+    type: String,
+    required: true,
+  },
+  status: {
+    type: String,
+    enum: ["pending", "accepted", "rejected"],
+    default: "pending",
+  },
+  customerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Customer',
+    required: true,
+  },
+  companyId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Company',
+    required: true,
+  },
+
   // Customer Information
   customerName: {
     type: String,
@@ -412,6 +433,7 @@ constructionProjectSchema.pre("save", function (next) {
   this.updatedAt = Date.now();
   next();
 });
+
 const designRequestSchema = new mongoose.Schema({
   projectName: { type: String, required: true },
   fullName: { type: String, required: true },

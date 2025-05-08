@@ -300,6 +300,7 @@ app.post('/construction_form', upload.any(), async (req, res) => {
   try {
     // Extract form data from request body
     const {
+      projectName,
       customerName,
       customerEmail,
       customerPhone,
@@ -312,7 +313,8 @@ app.post('/construction_form', upload.any(), async (req, res) => {
       totalFloors,
       specialRequirements,
       accessibilityNeeds,
-      energyEfficiency
+      energyEfficiency,
+      companyId,
     } = req.body;
 
     // Process floor data
@@ -355,6 +357,7 @@ app.post('/construction_form', upload.any(), async (req, res) => {
 
     // Create new construction project document
     const newProject = new ConstructionProjectSchema({
+      projectName,
       customerName,
       customerEmail,
       customerPhone,
@@ -369,7 +372,9 @@ app.post('/construction_form', upload.any(), async (req, res) => {
       specialRequirements,
       accessibilityNeeds,
       energyEfficiency,
-      siteFilepaths
+      siteFilepaths,
+      companyId,
+      customerId,
     });
 
     // Save to database
@@ -426,6 +431,7 @@ app.post(
         architecturalStyle,
         budget,
         completionDate,
+        companyId,
       } = req.body;
 
       // Validate required fields
