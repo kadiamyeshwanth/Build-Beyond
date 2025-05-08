@@ -177,10 +177,6 @@ app.get("/architecht_form", (req, res) => {
   // Render the form template with the workerId
   res.render("customer/architect_form", { workerId });
 });
-
-app.get("/interior_designer.html", (req, res) => {
-  res.render("customer/interior_design");
-});
 app.get("/ongoing_projects.html", (req, res) => {
   res.render("customer/ongoing_projects");
 });
@@ -190,10 +186,26 @@ app.get("/design_ideas.html", (req, res) => {
 app.get("/architecht_form.html", (req, res) => {
   res.render("customer/architect_form");
 });
+app.get("/interiordesign_form", isAuthenticated,async(req, res) => {
+  const { workerId } = req.query;
+  // Render the form template with the workerId
+  res.render("customer/interiordesign_form", { workerId });
+}); 
 
-app.get("/interiordesign_form.html", (req, res) => {
-  res.render("customer/interiordesign_form");
-});
+app.get("/interior_designer.html",isAuthenticated, async(req, res) => {
+  try {
+    // Find all workers that are architects (isArchitect = false)
+    const designers = await Worker.find({ 
+        isArchitect: false
+    });
+    
+    // Render the EJS template with architect data
+    res.render('customer/interior_design', { designers });
+} catch (error) {
+    console.error('Error fetching architects:', error);
+    res.status(500).json({ message: 'Failed to fetch architects' });
+}});
+
 app.get("/constructionform.html", (req, res) => {
   res.render("customer/construction_form");
 });
