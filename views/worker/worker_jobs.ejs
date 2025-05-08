@@ -147,32 +147,32 @@ body {
     margin-bottom: 10px;
 }
 
-.job-type.residential {
+.job-type.residential, .job-type.Residential {
     background-color: #e3f2fd;
     color: #1976d2;
 }
 
-.job-type.commercial {
+.job-type.commercial, .job-type.Commercial {
     background-color: #fff8e1;
     color: #ff8f00;
 }
 
-.job-type.landscape {
+.job-type.landscape, .job-type.Landscape {
     background-color: #e8f5e9;
     color: #388e3c;
 }
 
-.job-type.mixed-use {
+.job-type.mixed-use, .job-type.Mixed-Use {
     background-color: #f3e5f5;
     color: #7b1fa2;
 }
 
-.job-type.industrial {
+.job-type.industrial, .job-type.Industrial {
     background-color: #e8eaf6;
     color: #3f51b5;
 }
 
-.job-type.other, .job-type.public {
+.job-type.other, .job-type.Other, .job-type.public {
     background-color: #eeeeee;
     color: #616161;
 }
@@ -430,922 +430,145 @@ body {
                     <i class="fas fa-search search-icon"></i>
                 </div>
                 <div class="jobs-container" id="jobList">
-                    <!-- Job Card 1 -->
-                    <div class="job-card active" data-id="1">
-                        <span class="job-type residential">residential</span>
-                        <h3 class="job-title">Modern Hillside Residence</h3>
-                        <p class="job-budget">₹5k - ₹10k</p>
-                        <p class="job-summary">Design a contemporary 3-bedroom home with panoramic views, sustainable features, and indoor-outdoor living spaces.</p>
-                    </div>
-                    <!-- Job Card 2 -->
-                    <div class="job-card" data-id="2">
-                        <                                <span class="job-type commercial">commercial</span>
-                        <h3 class="job-title">Downtown Boutique Shop Renovation</h3>
-                        <p class="job-budget">₹15k - ₹20k</p>
-                        <p class="job-summary">Convert an existing 1920s building into a modern boutique clothing store while preserving historical elements.</p>
-                    </div>
-                    <!-- Job Card 3 -->
-                    <div class="job-card" data-id="3">
-                        <span class="job-type landscape">landscape</span>
-                        <h3 class="job-title">Urban Park Redesign</h3>
-                        <p class="job-budget">₹4k - ₹9k</p>
-                        <p class="job-summary">Revitalize a 2-acre urban park with sustainable landscaping, recreational areas, and community gathering spaces.</p>
-                    </div>
-                    <!-- Job Card 4 -->
-                    <div class="job-card" data-id="4">
-                        <span class="job-type mixed-use">mixed-use</span>
-                        <h3 class="job-title">Tech Company Headquarters</h3>
-                        <p class="job-budget">₹5k - ₹7k</p>
-                        <p class="job-summary">Design a modern headquarters for a growing tech company with office spaces, retail areas, and residential units.</p>
-                    </div>
-                    <!-- Job Card 5 -->
-                    <div class="job-card" data-id="5">
-                        <span class="job-type industrial">industrial</span>
-                        <h3 class="job-title">Advanced Manufacturing Facility</h3>
-                        <p class="job-budget">₹3.5k - ₹9k</p>
-                        <p class="job-summary">Design an efficient, modern manufacturing facility for precision medical devices with clean rooms and office space.</p>
-                    </div>
-                    <!-- Job Card 6 -->
-                    <div class="job-card" data-id="6">
-                        <span class="job-type residential">residential</span>
-                        <h3 class="job-title">Luxury Beachfront Villa</h3>
-                        <p class="job-budget">₹12k - ₹15k</p>
-                        <p class="job-summary">Design a luxurious 5-bedroom beachfront villa with modern amenities and breathtaking ocean views.</p>
-                    </div>
-                    <!-- Job Card 7 -->
-                    <div class="job-card" data-id="7">
-                        <span class="job-type commercial">commercial</span>
-                        <h3 class="job-title">Heritage Hotel Restoration</h3>
-                        <p class="job-budget">₹9k - ₹12k</p>
-                        <p class="job-summary">Restore a 19th-century heritage building into a luxury boutique hotel while preserving its historical charm.</p>
-                    </div>
-                    <!-- Job Card 8 -->
-                    <div class="job-card" data-id="8">
-                        <span class="job-type residential">residential</span>
-                        <h3 class="job-title">Eco-Friendly Farmhouse</h3>
-                        <p class="job-budget">₹4k - ₹10k</p>
-                        <p class="job-summary">Design a sustainable farmhouse with eco-friendly materials and energy-efficient systems.</p>
-                    </div>
-                    <!-- Job Card 9 -->
-                    <div class="job-card" data-id="9">
-                        <span class="job-type commercial">commercial</span>
-                        <h3 class="job-title">Modern Art Gallery</h3>
-                        <p class="job-budget">₹7k - ₹12k</p>
-                        <p class="job-summary">Design a modern art gallery with flexible exhibition spaces, a cafe, and a rooftop event area.</p>
-                    </div>
-                    <!-- Job Card 10 -->
-                    <div class="job-card" data-id="10">
-                        <span class="job-type public">public</span>
-                        <h3 class="job-title">Community Health Center</h3>
-                        <p class="job-budget">₹8k - ₹10k</p>
-                        <p class="job-summary">Design a community health center with consultation rooms, a pharmacy, and a wellness area.</p>
-                    </div>
+                    <% if (jobOffers && jobOffers.length > 0) { %>
+                        <% jobOffers.forEach((job, index) => { %>
+                            <div class="job-card <%= index === 0 ? 'active' : '' %>" data-id="<%= job._id %>">
+                                <span class="job-type <%= job.designRequirements.designType.toLowerCase() %>"><%= job.designRequirements.designType.toLowerCase() %></span>
+                                <h3 class="job-title"><%= job.projectName %></h3>
+                                <p class="job-budget">₹<%= job.additionalDetails.budget %></p>
+                                <p class="job-summary">
+                                    <%= job.designRequirements.specialFeatures ? (job.designRequirements.specialFeatures.length > 100 ? 
+                                    job.designRequirements.specialFeatures.substring(0, 100) + '...' : 
+                                    job.designRequirements.specialFeatures) : 'No details provided' %>
+                                </p>
+                            </div>
+                        <% }); %>
+                    <% } else { %>
+                        <div class="no-jobs">
+                            <p>No job offers available at the moment.</p>
+                        </div>
+                    <% } %>
                 </div>
             </section>
             <section class="job-details-panel" id="jobDetailsPanel">
-                <div class="empty-state" id="emptyState" style="display: none;">
+                <div class="empty-state" id="emptyState" <%= jobOffers && jobOffers.length > 0 ? 'style="display: none;"' : '' %>>
                     <i class="fas fa-clipboard-list empty-icon"></i>
                     <h2>No Job Selected</h2>
                     <p>Click on a job offer from the list to view its details</p>
                 </div>
-                <!-- Job Details 1 -->
-                <div class="job-details-content" id="jobDetails1">
-                    <div class="details-header">
-                        <div class="details-header-left">
-                            <h2>Modern Hillside Residence</h2>
-                            <span class="job-type residential">residential</span>
-                            <p class="job-budget">₹5k - ₹10k</p>
-                        </div>
-                        <div class="details-header-right">
-                            <p class="detail-label">Preferred Completion</p>
-                            <p class="detail-value">June 15, 2025</p>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-user"></i> Customer Details</h3>
-                        <div class="details-grid">
-                            <div class="detail-item">
-                                <p class="detail-label">Name</p>
-                                <p class="detail-value">Krishna</p>
+                
+                <% if (jobOffers && jobOffers.length > 0) { %>
+                    <% jobOffers.forEach((job, index) => { %>
+                        <div class="job-details-content" id="jobDetails<%= job._id %>" <%= index === 0 ? '' : 'style="display: none;"' %>>
+                            <div class="details-header">
+                                <div class="details-header-left">
+                                    <h2><%= job.projectName %></h2>
+                                    <span class="job-type <%= job.designRequirements.designType.toLowerCase() %>"><%= job.designRequirements.designType.toLowerCase() %></span>
+                                    <p class="job-budget">₹<%= job.additionalDetails.budget %></p>
+                                </div>
+                                <div class="details-header-right">
+                                    <p class="detail-label">Preferred Completion</p>
+                                    <p class="detail-value"><%= new Date(job.additionalDetails.completionDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %></p>
+                                </div>
                             </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Contact</p>
-                                <p class="detail-value">123456789</p>
+                            <div class="details-section">
+                                <h3><i class="fas fa-user"></i> Customer Details</h3>
+                                <div class="details-grid">
+                                    <div class="detail-item">
+                                        <p class="detail-label">Name</p>
+                                        <p class="detail-value"><%= job.customerDetails.fullName %></p>
+                                    </div>
+                                    <div class="detail-item">
+                                        <p class="detail-label">Contact</p>
+                                        <p class="detail-value"><%= job.customerDetails.contactNumber %></p>
+                                    </div>
+                                    <div class="detail-item">
+                                        <p class="detail-label">Email</p>
+                                        <p class="detail-value"><%= job.customerDetails.email %></p>
+                                    </div>
+                                    <div class="detail-item">
+                                        <p class="detail-label">Address</p>
+                                        <p class="detail-value">
+                                            <%= job.customerAddress.streetAddress %>, 
+                                            <%= job.customerAddress.city %>, 
+                                            <%= job.customerAddress.state %> 
+                                            <%= job.customerAddress.zipCode %>
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Email</p>
-                                <p class="detail-value">krishna@gmail.com</p>
+                            <div class="details-section">
+                                <h3><i class="fas fa-map-marker-alt"></i> Plot Information</h3>
+                                <div class="details-grid">
+                                    <div class="detail-item">
+                                        <p class="detail-label">Location</p>
+                                        <p class="detail-value"><%= job.plotInformation.plotLocation %></p>
+                                    </div>
+                                    <div class="detail-item">
+                                        <p class="detail-label">Size</p>
+                                        <p class="detail-value"><%= job.plotInformation.plotSize %></p>
+                                    </div>
+                                    <div class="detail-item">
+                                        <p class="detail-label">Orientation</p>
+                                        <p class="detail-value"><%= job.plotInformation.plotOrientation %></p>
+                                    </div>
+                                    <div class="detail-item">
+                                        <p class="detail-label">Floors</p>
+                                        <p class="detail-value"><%= job.designRequirements.numFloors %></p>
+                                    </div>
+                                    <div class="detail-item">
+                                        <p class="detail-label">Room Requirements</p>
+                                        <p class="detail-value">
+                                            <% if (job.designRequirements.floorRequirements && job.designRequirements.floorRequirements.length > 0) { %>
+                                                <% job.designRequirements.floorRequirements.forEach((floor, i) => { %>
+                                                    Floor <%= floor.floorNumber %>: <%= floor.details %><%= i < job.designRequirements.floorRequirements.length - 1 ? ',' : '' %> 
+                                                <% }); %>
+                                            <% } else { %>
+                                                No specific requirements provided
+                                            <% } %>
+                                        </p>
+                                    </div>
+                                    <div class="detail-item">
+                                        <p class="detail-label">Preferred Style</p>
+                                        <p class="detail-value"><%= job.designRequirements.architecturalStyle %></p>
+                                    </div>
+                                </div>
+                                <div class="special-features">
+                                    <p class="detail-label">Special Features</p>
+                                    <p class="detail-value"><%= job.designRequirements.specialFeatures || 'None specified' %></p>
+                                </div>
                             </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Address</p>
-                                <p class="detail-value">425 Highland Drive, Ooty, Tamil Nadu 643001</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-map-marker-alt"></i> Plot Information</h3>
-                        <div class="details-grid">
-                            <div class="detail-item">
-                                <p class="detail-label">Location</p>
-                                <p class="detail-value">785 Vista Way, Ooty, Tamil Nadu 643001</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Size</p>
-                                <p class="detail-value">8,500 sq.ft</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Orientation</p>
-                                <p class="detail-value">South-West</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Floors</p>
-                                <p class="detail-value">2</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Room Requirements</p>
-                                <p class="detail-value">3 bedrooms, 2.5 baths, home office, open concept kitchen/living</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Preferred Style</p>
-                                <p class="detail-value">Modern</p>
-                            </div>
-                        </div>
-                        <div class="special-features">
-                            <p class="detail-label">Special Features</p>
-                            <p class="detail-value">Infinity pool, rooftop terrace, solar panels, electric vehicle charging station</p>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-images"></i> Reference Images</h3>
-                        <div class="reference-images">
-                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1513584684374-8bab748fbf90?auto=format&fit=crop&q=80&w=2346&ixlib=rb-4.0.3')"></div>
-                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=2075&ixlib=rb-4.0.3')"></div>
-                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=2053&ixlib=rb-4.0.3')"></div>
-                        </div>
-                    </div>
-                    <div class="job-action-buttons">
-                        <button class="job-action-button accept-button">
-                            <i class="fas fa-check"></i> Accept Job
-                        </button>
-                        <button class="job-action-button deny-button">
-                            <i class="fas fa-times"></i> Deny Job
-                        </button>
-                    </div>
-                </div>
-                <!-- Job Details 2 -->
-                <div class="job-details-content" id="jobDetails2" style="display: none;">
-                    <div class="details-header">
-                        <div class="details-header-left">
-                            <h2>Downtown Boutique Shop Renovation</h2>
-                            <span class="job-type commercial">commercial</span>
-                            <p class="job-budget">₹15k - ₹20k</p>
-                        </div>
-                        <div class="details-header-right">
-                            <p class="detail-label">Preferred Completion</p>
-                            <p class="detail-value">April 30, 2025</p>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-user"></i> Customer Details</h3>
-                        <div class="details-grid">
-                            <div class="detail-item">
-                                <p class="detail-label">Name</p>
-                                <p class="detail-value">Balaji</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Contact</p>
-                                <p class="detail-value">123456789</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Email</p>
-                                <p class="detail-value">balaji@gmail.com</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Address</p>
-                                <p class="detail-value">1200 luluu mall, Metropolitan, Karnataka 54002</p>
+                            <% if (job.additionalDetails.referenceImages && job.additionalDetails.referenceImages.length > 0) { %>
+                                <div class="details-section">
+                                    <h3><i class="fas fa-images"></i> Reference Images</h3>
+                                    <div class="reference-images">
+                                        <% job.additionalDetails.referenceImages.forEach(image => { %>
+                                            <div class="reference-image" style="background-image: url('<%= image.url %>')"></div>
+                                        <% }); %>
+                                    </div>
+                                </div>
+                            <% } %>
+                            <div class="job-action-buttons">
+                                <button class="job-action-button accept-button" data-id="<%= job._id %>">
+                                    <i class="fas fa-check"></i> Accept Job
+                                </button>
+                                <button class="job-action-button deny-button" data-id="<%= job._id %>">
+                                    <i class="fas fa-times"></i> Deny Job
+                                </button>
                             </div>
                         </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-map-marker-alt"></i> Plot Information</h3>
-                        <div class="details-grid">
-                            <div class="detail-item">
-                                <p class="detail-label">Location</p>
-                                <p class="detail-value">1200 luluu mall, Metropolitan, Karnataka 54002</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Size</p>
-                                <p class="detail-value">1,800 sq.ft</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Orientation</p>
-                                <p class="detail-value">East</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Floors</p>
-                                <p class="detail-value">1</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Room Requirements</p>
-                                <p class="detail-value">Main retail area, fitting rooms (3), stockroom, employee lounge, restroom</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Preferred Style</p>
-                                <p class="detail-value">Industrial with modern elements</p>
-                            </div>
-                        </div>
-                        <div class="special-features">
-                            <p class="detail-label">Special Features</p>
-                            <p class="detail-value">Preserve original brick walls and ceiling details, new storefront facade, energy-efficient lighting</p>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-images"></i> Reference Images</h3>
-                        <div class="reference-images">
-                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1604871000636-074fa5117945?auto=format&fit=crop&q=80&w=1974&ixlib=rb-4.0.3')"></div>
-                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3')"></div>
-                        </div>
-                    </div>
-                    <div class="job-action-buttons">
-                        <button class="job-action-button accept-button">
-                            <i class="fas fa-check"></i> Accept Job
-                        </button>
-                        <button class="job-action-button deny-button">
-                            <i class="fas fa-times"></i> Deny Job
-                        </button>
-                    </div>
-                </div>
-                <!-- Job Details 3 -->
-                <div class="job-details-content" id="jobDetails3" style="display: none;">
-                    <div class="details-header">
-                        <div class="details-header-left">
-                            <h2>Urban Park Redesign</h2>
-                            <span class="job-type landscape">landscape</span>
-                            <p class="job-budget">₹4k - ₹9k</p>
-                        </div>
-                        <div class="details-header-right">
-                            <p class="detail-label">Preferred Completion</p>
-                            <p class="detail-value">August 30, 2025</p>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-user"></i> Customer Details</h3>
-                        <div class="details-grid">
-                            <div class="detail-item">
-                                <p class="detail-label">Name</p>
-                                <p class="detail-value">Palvash</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Contact</p>
-                                <p class="detail-value">123456789</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Email</p>
-                                <p class="detail-value">palvash@gmail.com</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Address</p>
-                                <p class="detail-value">100 City Plaza, New Delhi, Delhi 98103</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-map-marker-alt"></i> Plot Information</h3>
-                        <div class="details-grid">
-                            <div class="detail-item">
-                                <p class="detail-label">Location</p>
-                                <p class="detail-value">Elm Street & 4th Avenue, New Delhi, Delhi 98103</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Size</p>
-                                <p class="detail-value">87,120 sq.ft (2 acres)</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Orientation</p>
-                                <p class="detail-value">Open layout</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Floors</p>
-                                <p class="detail-value">N/A</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Room Requirements</p>
-                                <p class="detail-value">N/A</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Preferred Style</p>
-                                <p class="detail-value">Natural, eco-friendly</p>
-                            </div>
-                        </div>
-                        <div class="special-features">
-                            <p class="detail-label">Special Features</p>
-                            <p class="detail-value">Water-efficient native plantings, children's playground, walking paths, small amphitheater, community garden plots</p>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-images"></i> Reference Images</h3>
-                        <div class="reference-images">
-                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1516253593875-bd7ba052fbc5?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3')"></div>
-                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1617925109341-2b99305baa9a?auto=format&fit=crop&q=80&w=1974&ixlib=rb-4.0.3')"></div>
-                        </div>
-                    </div>
-                    <div class="job-action-buttons">
-                        <button class="job-action-button accept-button">
-                            <i class="fas fa-check"></i> Accept Job
-                        </button>
-                        <button class="job-action-button deny-button">
-                            <i class="fas fa-times"></i> Deny Job
-                        </button>
-                    </div>
-                </div>
-                <!-- Job Details 4 -->
-                <div class="job-details-content" id="jobDetails4" style="display: none;">
-                    <div class="details-header">
-                        <div class="details-header-left">
-                            <h2>Tech Company Headquarters</h2>
-                            <span class="job-type mixed-use">mixed-use</span>
-                            <p class="job-budget">₹5k - ₹7k</p>
-                        </div>
-                        <div class="details-header-right">
-                            <p class="detail-label">Preferred Completion</p>
-                            <p class="detail-value">December 1, 2025</p>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-user"></i> Customer Details</h3>
-                        <div class="details-grid">
-                            <div class="detail-item">
-                                <p class="detail-label">Name</p>
-                                <p class="detail-value">InnovateTech Inc.</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Contact</p>
-                                <p class="detail-value">123456789</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Email</p>
-                                <p class="detail-value">facilities@innovatetech.com</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Address</p>
-                                <p class="detail-value">888 amilpur, Hyderabad, Telengana 94025</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-map-marker-alt"></i> Plot Information</h3>
-                        <div class="details-grid">
-                            <div class="detail-item">
-                                <p class="detail-label">Location</p>
-                                <p class="detail-value">400 Innovation Drive, Hyderabad, Telengana 94025</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Size</p>
-                                <p class="detail-value">65,000 sq.ft</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Orientation</p>
-                                <p class="detail-value">South</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Floors</p>
-                                <p class="detail-value">6</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Room Requirements</p>
-                                <p class="detail-value">Open offices, 15 conference rooms, cafeteria, gym, rooftop garden, 12 residential units, 5 retail spaces</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Preferred Style</p>
-                                <p class="detail-value">Contemporary, sustainable</p>
-                            </div>
-                        </div>
-                        <div class="special-features">
-                            <p class="detail-label">Special Features</p>
-                            <p class="detail-value">Smart19;Smart building technology, bike storage, EV charging stations, rooftop solar array, rainwater harvesting</p>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-images"></i> Reference Images</h3>
-                        <div class="reference-images">
-                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3')"></div>
-                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1554435493-93422e8d1a41?auto=format&fit=crop&q=80&w=1974&ixlib=rb-4.0.3')"></div>
-                        </div>
-                    </div>
-                    <div class="job-action-buttons">
-                        <button class="job-action-button accept-button">
-                            <i class="fas fa-check"></i> Accept Job
-                        </button>
-                        <button class="job-action-button deny-button">
-                            <i class="fas fa-times"></i> Deny Job
-                        </button>
-                    </div>
-                </div>
-                <!-- Job Details 5 -->
-                <div class="job-details-content" id="jobDetails5" style="display: none;">
-                    <div class="details-header">
-                        <div class="details-header-left">
-                            <h2>Advanced Manufacturing Facility</h2>
-                            <span class="job-type industrial">industrial</span>
-                            <p class="job-budget">₹3.5k - ₹9k</p>
-                        </div>
-                        <div class="details-header-right">
-                            <p class="detail-label">Preferred Completion</p>
-                            <p class="detail-value">September 15, 2025</p>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-user"></i> Customer Details</h3>
-                        <div class="details-grid">
-                            <div class="detail-item">
-                                <p class="detail-label">Name</p>
-                                <p class="detail-value">MediPrecision Manufacturing</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Contact</p>
-                                <p class="detail-value">123456789</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Email</p>
-                                <p class="detail-value">operations@mediprecision.com</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Address</p>
-                                <p class="detail-value">2200 brodipet, guntur, Andhra Pradesh 02155</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-map-marker-alt"></i> Plot Information</h3>
-                        <div class="details-grid">
-                            <div class="detail-item">
-                                <p class="detail-label">Location</p>
-                                <p class="detail-value">75 Technology Park, guntur, AndhraPradesh 02155</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Size</p>
-                                <p class="detail-value">40,000 sq.ft</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Orientation</p>
-                                <p class="detail-value">North</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Floors</p>
-                                <p class="detail-value">1</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Room Requirements</p>
-                                <p class="detail-value">Manufacturing floor, 3 clean rooms, QA lab, shipping/receiving, offices, break room, 2 conference rooms</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Preferred Style</p>
-                                <p class="detail-value">Modern industrial</p>
-                            </div>
-                        </div>
-                        <div class="special-features">
-                            <p class="detail-label">Special Features</p>
-                            <p class="detail-value">High bay ceilings, reinforced floors, specialized ventilation, loading docks, energy management systems</p>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-images"></i> Reference Images</h3>
-                        <div class="reference-images">
-                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1581092921461-7384ed02e1b0?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3')"></div>
-                        </div>
-                    </div>
-                    <div class="job-action-buttons">
-                        <button class="job-action-button accept-button">
-                            <i class="fas fa-check"></i> Accept Job
-                        </button>
-                        <button class="job-action-button deny-button">
-                            <i class="fas fa-times"></i> Deny Job
-                        </button>
-                    </div>
-                </div>
-                <!-- Job Details 6 -->
-                <div class="job-details-content" id="jobDetails6" style="display: none;">
-                    <div class="details-header">
-                        <div class="details-header-left">
-                            <h2>Luxury Beachfront Villa</h2>
-                            <span class="job-type residential">residential</span>
-                            <p class="job-budget">₹12k - ₹15k</p>
-                        </div>
-                        <div class="details-header-right">
-                            <p class="detail-label">Preferred Completion</p>
-                            <p class="detail-value">November 30, 2025</p>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-user"></i> Customer Details</h3>
-                        <div class="details-grid">
-                            <div class="detail-item">
-                                <p class="detail-label">Name</p>
-                                <p class="detail-value">Rajesh Kumar</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Contact</p>
-                                <p class="detail-value">123456789</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Email</p>
-                                <p class="detail-value">rajesh.kumar@example.com</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Address</p>
-                                <p class="detail-value">12 Palm Beach Road, Goa, Goa 403001</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-map-marker-alt"></i> Plot Information</h3>
-                        <div class="details-grid">
-                            <div class="detail-item">
-                                <p class="detail-label">Location</p>
-                                <p class="detail-value">12 Palm Beach Road, Goa 403001</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Size</p>
-                                <p class="detail-value">10,000 sq.ft</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Orientation</p>
-                                <p class="detail-value">West</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Floors</p>
-                                <p class="detail-value">3</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Room Requirements</p>
-                                <p class="detail-value">5 bedrooms, 4 baths, home theater, gym, infinity pool, rooftop terrace</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Preferred Style</p>
-                                <p class="detail-value">Contemporary</p>
-                            </div>
-                        </div>
-                        <div class="special-features">
-                            <p class="detail-label">Special Features</p>
-                            <p class="detail-value">Private beach access, solar panels, rainwater harvesting, smart home technology</p>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-images"></i> Reference Images</h3>
-                        <div class="reference-images">
-                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3')"></div>
-                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3')"></div>
-                        </div>
-                    </div>
-                    <div class="job-action-buttons">
-                        <button class="job-action-button accept-button">
-                            <i class="fas fa-check"></i> Accept Job
-                        </button>
-                        <button class="job-action-button deny-button">
-                            <i class="fas fa-times"></i> Deny Job
-                        </button>
-                    </div>
-                </div>
-                <!-- Job Details 7 -->
-                <div class="job-details-content" id="jobDetails7" style="display: none;">
-                    <div class="details-header">
-                        <div class="details-header-left">
-                            <h2>Heritage Hotel Restoration</h2>
-                            <span class="job-type commercial">commercial</span>
-                            <p class="job-budget">₹9k - ₹12k</p>
-                        </div>
-                        <div class="details-header-right">
-                            <p class="detail-label">Preferred Completion</p>
-                            <p class="detail-value">March 15, 2026</p>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-user"></i> Customer Details</h3>
-                        <div class="details-grid">
-                            <div class="detail-item">
-                                <p class="detail-label">Name</p>
-                                <p class="detail-value">Ananya Desai</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Contact</p>
-                                <p class="detail-value">123456789</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Email</p>
-                                <p class="detail-value">ananya.desai@heritagehotels.com</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Address</p>
-                                <p class="detail-value">45 Heritage Lane, Mysore, Karnataka 570001</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-map-marker-alt"></i> Plot Information</h3>
-                        <div class="details-grid">
-                            <div class="detail-item">
-                                <p class="detail-label">Location</p>
-                                <p class="detail-value">45 Heritage Lane, Mysore, Karnataka 570001</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Size</p>
-                                <p class="detail-value">25,000 sq.ft</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Orientation</p>
-                                <p class="detail-value">East</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Floors</p>
-                                <p class="detail-value">4</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Room Requirements</p>
-                                <p class="detail-value">20 guest rooms, restaurant, spa, conference room, rooftop bar</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Preferred Style</p>
-                                <p class="detail-value">Colonial with modern touches</p>
-                            </div>
-                        </div>
-                        <div class="special-features">
-                            <p class="detail-label">Special Features</p>
-                            <p class="detail-value">Preserve original architecture, modern amenities, landscaped gardens, vintage decor</p>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-images"></i> Reference Images</h3>
-                        <div class="reference-images">
-                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3')"></div>
-                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1601918774946-25832a4be0d6?auto=format&fit=crop&q=80&w=2069&ixlib=rb-4.0.3')"></div>
-                        </div>
-                    </div>
-                    <div class="job-action-buttons">
-                        <button class="job-action-button accept-button">
-                            <i class="fas fa-check"></i> Accept Job
-                        </button>
-                        <button class="job-action-button deny-button">
-                            <i class="fas fa-times"></i> Deny Job
-                        </button>
-                    </div>
-                </div>
-                <!-- Job Details 8 -->
-                <div class="job-details-content" id="jobDetails8" style="display: none;">
-                    <div class="details-header">
-                        <div class="details-header-left">
-                            <h2>Eco-Friendly Farmhouse</h2>
-                            <span class="job-type residential">residential</span>
-                            <p class="job-budget">₹4k - ₹10k</p>
-                        </div>
-                        <div class="details-header-right">
-                            <p class="detail-label">Preferred Completion</p>
-                            <p class="detail-value">July 1, 2025</p>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-user"></i> Customer Details</h3>
-                        <div class="details-grid">
-                            <div class="detail-item">
-                                <p class="detail-label">Name</p>
-                                <p class="detail-value">Priya Reddy</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Contact</p>
-                                <p class="detail-value">(555) 555-6666</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Email</p>
-                                <p class="detail-value">priya.reddy@example.com</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Address</p>
-                                <p class="detail-value">78 Green Valley Road, Coimbatore, Tamil Nadu 641001</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-map-marker-alt"></i> Plot Information</h3>
-                        <div class="details-grid">
-                            <div class="detail-item">
-                                <p class="detail-label">Location</p>
-                                <p class="detail-value">78 Green Valley Road, Coimbatore, Tamil Nadu 641001</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Size</p>
-                                <p class="detail-value">5,000 sq.ft</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Orientation</p>
-                                <p class="detail-value">North-East</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Floors</p>
-                                <p class="detail-value">2</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Room Requirements</p>
-                                <p class="detail-value">3 bedrooms, 2 baths, kitchen, living area, veranda</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Preferred Style</p>
-                                <p class="detail-value">Rustic</p>
-                            </div>
-                        </div>
-                        <div class="special-features">
-                            <p class="detail-label">Special Features</p>
-                            <p class="detail-value">Solar panels, rainwater harvesting, organic garden, compost pit</p>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-images"></i> Reference Images</h3>
-                        <div class="reference-images">
-                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3')"></div>
-                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3')"></div>
-                        </div>
-                    </div>
-                    <div class="job-action-buttons">
-                        <button class="job-action-button accept-button">
-                            <i class="fas fa-check"></i> Accept Job
-                        </button>
-                        <button class="job-action-button deny-button">
-                            <i class="fas fa-times"></i> Deny Job
-                        </button>
-                    </div>
-                </div>
-                <!-- Job Details 9 -->
-                <div class="job-details-content" id="jobDetails9" style="display: none;">
-                    <div class="details-header">
-                        <div class="details-header-left">
-                            <h2>Modern Art Gallery</h2>
-                            <span class="job-type commercial">commercial</span>
-                            <p class="job-budget">₹7k - ₹12k</p>
-                        </div>
-                        <div class="details-header-right">
-                            <p class="detail-label">Preferred Completion</p>
-                            <p class="detail-value">October 15, 2025</p>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-user"></i> Customer Details</h3>
-                        <div class="details-grid">
-                            <div class="detail-item">
-                                <p class="detail-label">Name</p>
-                                <p class="detail-value">Arjun Menon</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Contact</p>
-                                <p class="detail-value">123456789</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Email</p>
-                                <p class="detail-value">arjun.menon@artgallery.com</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Address</p>
-                                <p class="detail-value">23 Art Street, Bangalore, Karnataka 560001</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-map-marker-alt"></i> Plot Information</h3>
-                        <div class="details-grid">
-                            <div class="detail-item">
-                                <p class="detail-label">Location</p>
-                                <p class="detail-value">23 Art Street, Bangalore, Karnataka 560001</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Size</p>
-                                <p class="detail-value">15,000 sq.ft</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Orientation</p>
-                                <p class="detail-value">South</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Floors</p>
-                                <p class="detail-value">3</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Room Requirements</p>
-                                <p class="detail-value">Exhibition halls, cafe, rooftop event space, storage, office</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Preferred Style</p>
-                                <p class="detail-value">Minimalist</p>
-                            </div>
-                        </div>
-                        <div class="special-features">
-                            <p class="detail-label">Special Features</p>
-                            <p class="detail-value">Natural lighting, modular walls, rooftop garden, solar panels</p>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-images"></i> Reference Images</h3>
-                        <div class="reference-images">
-                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1605236453806-6ff36851237e?auto=format&fit=crop&q=80&w=2069&ixlib=rb-4.0.3')"></div>
-                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1601918774946-25832a4be0d6?auto=format&fit=crop&q=80&w=2069&ixlib=rb-4.0.3')"></div>
-                        </div>
-                    </div>
-                    <div class="job-action-buttons">
-                        <button class="job-action-button accept-button">
-                            <i class="fas fa-check"></i> Accept Job
-                        </button>
-                        <button class="job-action-button deny-button">
-                            <i class="fas fa-times"></i> Deny Job
-                        </button>
-                    </div>
-                </div>
-                <!-- Job Details 10 -->
-                <div class="job-details-content" id="jobDetails10" style="display: none;">
-                    <div class="details-header">
-                        <div class="details-header-left">
-                            <h2>Community Health Center</h2>
-                            <span class="job-type public">public</span>
-                            <p class="job-budget">₹8k - ₹10k</p>
-                        </div>
-                        <div class="details-header-right">
-                            <p class="detail-label">Preferred Completion</p>
-                            <p class="detail-value">February 28, 2026</p>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-user"></i> Customer Details</h3>
-                        <div class="details-grid">
-                            <div class="detail-item">
-                                <p class="detail-label">Name</p>
-                                <p class="detail-value">Dr. Meera Nair</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Contact</p>
-                                <p class="detail-value">123456789</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Email</p>
-                                <p class="detail-value">meera.nair@healthcenter.com</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Address</p>
-                                <p class="detail-value">34 Wellness Lane, Kochi, Kerala 682001</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-map-marker-alt"></i> Plot Information</h3>
-                        <div class="details-grid">
-                            <div class="detail-item">
-                                <p class="detail-label">Location</p>
-                                <p class="detail-value">34 Wellness Lane, Kochi, Kerala 682001</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Size</p>
-                                <p class="detail-value">12,000 sq.ft</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Orientation</p>
-                                <p class="detail-value">East</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Floors</p>
-                                <p class="detail-value">2</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Room Requirements</p>
-                                <p class="detail-value">Consultation rooms, pharmacy, wellness area, waiting lounge, office</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Preferred Style</p>
-                                <p class="detail-value">Modern and welcoming</p>
-                            </div>
-                        </div>
-                        <div class="special-features">
-                            <p class="detail-label">Special Features</p>
-                            <p class="detail-value">Energy-efficient lighting, rainwater harvesting, solar panels, wheelchair accessibility</p>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-images"></i> Reference Images</h3>
-                        <div class="reference-images">
-                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1581092921461-7384ed02e1b0?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3')"></div>
-                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1601918774946-25832a4be0d6?auto=format&fit=crop&q=80&w=2069&ixlib=rb-4.0.3')"></div>
-                        </div>
-                    </div>
-                    <div class="job-action-buttons">
-                        <button class="job-action-button accept-button">
-                            <i class="fas fa-check"></i> Accept Job
-                        </button>
-                        <button class="job-action-button deny-button">
-                            <i class="fas fa-times"></i> Deny Job
-                        </button>
-                    </div>
-                </div>
+                    <% }); %>
+                <% } %>
             </section>
         </div>
     </main>
     <script>
-        const jobListContainer = document.getElementById('jobList');
-        const jobDetailsPanel = document.getElementById('jobDetailsPanel');
-
-        function setupJobCardClicks() {
+        document.addEventListener('DOMContentLoaded', function() {
+            const jobListContainer = document.getElementById('jobList');
+            const jobDetailsPanel = document.getElementById('jobDetailsPanel');
+            const searchInput = document.getElementById('searchInput');
+            
+            // Handle job card clicks
             jobListContainer.addEventListener('click', function(e) {
                 const jobCard = e.target.closest('.job-card');
                 if (jobCard) {
@@ -1353,15 +576,20 @@ body {
                     document.querySelectorAll('.job-card').forEach(card => 
                         card.classList.remove('active')
                     );
+                    
                     // Add active class to clicked job card
                     jobCard.classList.add('active');
-                    const jobId = parseInt(jobCard.dataset.id);
+                    
+                    const jobId = jobCard.dataset.id;
+                    
                     // Hide all job details
                     document.querySelectorAll('.job-details-content').forEach(details => {
                         details.style.display = 'none';
                     });
-                    // Show empty state
+                    
+                    // Show empty state if no job is found
                     document.getElementById('emptyState').style.display = 'none';
+                    
                     // Show selected job details
                     const selectedJobDetails = document.getElementById(`jobDetails${jobId}`);
                     if (selectedJobDetails) {
@@ -1369,9 +597,64 @@ body {
                     }
                 }
             });
-        }
-
-        document.addEventListener('DOMContentLoaded', setupJobCardClicks);
+            
+            // Search functionality
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                
+                // Filter job cards based on search term
+                document.querySelectorAll('.job-card').forEach(card => {
+                    const title = card.querySelector('.job-title').textContent.toLowerCase();
+                    const type = card.querySelector('.job-type').textContent.toLowerCase();
+                    const summary = card.querySelector('.job-summary').textContent.toLowerCase();
+                    
+                    if (title.includes(searchTerm) || type.includes(searchTerm) || summary.includes(searchTerm)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Handle accept/deny button clicks
+            document.querySelectorAll('.accept-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const jobId = this.dataset.id;
+                    updateJobStatus(jobId, 'Accepted');
+                });
+            });
+            
+            document.querySelectorAll('.deny-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const jobId = this.dataset.id;
+                    updateJobStatus(jobId, 'Rejected');
+                });
+            });
+            
+            // Function to update job status
+            // function updateJobStatus(jobId, status) {
+            //     fetch(`/architect-jobs/${jobId}/update-status`, {
+            //         method: 'POST',
+            //         headers: {
+            //             'Content-Type': 'application/json',
+            //         },
+            //         body: JSON.stringify({ status: status, workerId: '<= currentUser._id %>' }),
+            //     })
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         if (data.success) {
+            //             // Refresh the page or update UI accordingly
+            //             window.location.reload();
+            //         } else {
+            //             alert('Failed to update job status. Please try again.');
+            //         }
+            //     })
+            //     .catch(error => {
+            //         console.error('Error:', error);
+            //         alert('An error occurred. Please try again.');
+            //     });
+            // }
+        });
     </script>
 </body>
 </html>

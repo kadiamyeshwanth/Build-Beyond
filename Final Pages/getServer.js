@@ -56,33 +56,48 @@ app.get("/workerdashboard.html", (req, res) => {
 });
 
 
+// Route for showing pending jobs for both architects and interior designers
 app.get("/workerjobs.html", isAuthenticated, async (req, res) => {
   try {
-    // Validate req.user and req.user.user_id
-    if (!req.user || !req.user.user_id) {
+      if (!req.user || !req.user.user_id) {
       return res.status(401).json({ error: "Unauthorized: User not found" });
     }
 
-    // Query worker by ID
     const worker = await Worker.findById(req.user.user_id).select(
       "isArchitect"
     );
 
-    // Check if worker exists
     if (!worker) {
       return res.status(404).json({ error: "Worker not found" });
     }
 
-    // Render appropriate view based on isArchitect
-    const view = worker.isArchitect
-      ? "worker/worker_jobs"
-      : "worker/InteriorDesigner_Jobs";
-    res.render(view, { user: req.user }); // Pass user data to the view if needed
+    if (worker.isArchitect) {
+      const Jobs = await ArchitectHiring.find({
+        worker: req.user.user_id,
+        status: "Pending"
+      }).sort({ updatedAt: -1 });
+
+      return res.render("worker/worker_jobs", {
+        user: req.user,
+        jobOffers: Jobs
+      });
+    } else {
+      const Jobs = await DesignRequest.find({
+        worker: req.user.user_id,
+        status: "Pending",
+      }).sort({ updatedAt: -1 });
+
+      return res.render("worker/InteriorDesigner_Jobs", {
+        user: req.user,
+        jobOffers: Jobs
+      });
+    }
   } catch (error) {
-    console.error("Error fetching worker:", error.message);
+    console.error("Error fetching accepted projects:", error.message);
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
 
 
 app.get("/workerjoin_company.html", isAuthenticated, async (req, res) => {
