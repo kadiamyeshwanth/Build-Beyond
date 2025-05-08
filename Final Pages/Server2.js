@@ -1,3 +1,4 @@
+const { request } = require("express");
 const {express,app,PORT,bodyParser,cookieParser,SQLiteStore,cors,path,mongoose,router,multer,fs,bcrypt} = require("./getServer");
 const {Customer,Company,Worker,ArchitectHiring,ConstructionProjectSchema,DesignRequest,Bid,WorkerToCompany,CompanytoWorker}=require("./Models.js")
 const jwt = require('jsonwebtoken');
@@ -570,9 +571,11 @@ app.post(
   }
 );
 //Interiror design
-app.post('/design_request', upload.any(), async (req, res) => {
+app.post('/design_request',isAuthenticated, upload.any(), async (req, res) => {
   try {
+    console.log(req.user.user_id)
     const {
+      projectName,
       fullName,
       email,
       phone,
@@ -585,10 +588,13 @@ app.post('/design_request', upload.any(), async (req, res) => {
       heightUnit,
       designPreference,
       projectDescription,
+      workerId, // Extract workerId from form body
     } = req.body;
 
+    console.log(req.body); // Debug: Check if workerId is received
+
     // Validate required fields
-    if (!fullName || !email || !phone || !address || !roomType || !roomLength || !roomWidth || !dimensionUnit) {
+    if (!projectName || !fullName || !email || !phone || !address || !roomType || !roomLength || !roomWidth || !dimensionUnit) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
@@ -603,6 +609,7 @@ app.post('/design_request', upload.any(), async (req, res) => {
 
     // Create new design request
     const designRequest = new DesignRequest({
+      projectName,
       fullName,
       email,
       phone,
@@ -621,6 +628,8 @@ app.post('/design_request', upload.any(), async (req, res) => {
       projectDescription,
       currentRoomImages,
       inspirationImages,
+      workerId, // Store workerId from form submission
+      customerId: req.user.user_id // Store customerId from authenticated session
     });
 
     // Save to MongoDB
@@ -636,7 +645,6 @@ app.post('/design_request', upload.any(), async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });
-
 //Bid-form Submit
 app.post('/bidForm_Submit', upload.fields([
     { name: 'siteFiles', maxCount: 10 },

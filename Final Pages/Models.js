@@ -434,14 +434,19 @@ const designRequestSchema = new mongoose.Schema({
   inspirationImages: [{ type: String }], // Array of image paths
   customerId: { 
     type: mongoose.Schema.Types.ObjectId, 
-    ref: 'User', // Reference to the User model (assuming you have one)
-    required: true 
+    ref: 'User',
+    required: false 
   },
   workerId: { 
     type: mongoose.Schema.Types.ObjectId, 
-    ref: 'User' // Reference to the User model (or 'Worker' if you have a separate model)
+    ref: 'User' // or 'Worker' if you have a separate model
   },
   createdAt: { type: Date, default: Date.now },
+  status: { 
+    type: String, 
+    enum: ["pending", "in_progress", "completed", "cancelled", "rejected"],
+    default: "pending"
+  }
 });
 
 //Bid-form by Krishna

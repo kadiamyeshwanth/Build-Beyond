@@ -18,6 +18,10 @@
         body {
             background-color: #f5f5f5;
         } 
+        .heading{
+            width: max-content;
+            margin: 2rem auto;
+        }
         .container {
             display: flex;
             width: 90%;
@@ -259,40 +263,56 @@
         .company-info ul li {
             margin-bottom: 10px;
         }
+        
+        .designer-details {
+            display: none;
+        }
+        
+        .designer-details.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
     <%- include('navbar_customer') %>
-    <h1 class="heading" style="width: max-content;">Interior Designers</h1>
+    <h1 class="heading">Interior Designers</h1>
     <div class="container">
         <div class="left-section" id="designerList">
-            <% designers.forEach(designer => { %>
-                <div class="designer-card" data-id="<%= designer.id %>">
-                    <img src="<%= designer.profileImage %>" alt="<%= designer.name %>" class="designer-image-small">
-                    <div class="designer-info">
-                        <h3><%= designer.name %></h3>
-                        <p><%= designer.professionalTitle %></p>
-                        <p><%= designer.experience %> experience</p>
-                        <div class="rating">
-                            <% for (let i = 0; i < Math.floor(designer.rating); i++) { %>
-                                <span class="star">★</span>
-                            <% } %>
-                            <% if (designer.rating % 1 !== 0) { %>
-                                <span class="star">½</span>
-                            <% } %>
-                            <span>(<%= designer.rating %>)</span>
+            <% if (designers && designers.length > 0) { %>
+                <% designers.forEach((designer, index) => { %>
+                    <div class="designer-card" data-id="<%= designer._id %>">
+                        <img src="<%= designer.profileImage || 'https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg' %>" 
+                             alt="<%= designer.name %>" class="designer-image-small">
+                        <div class="designer-info">
+                            <h3><%= designer.name %></h3>
+                            <p><%= designer.professionalTitle || 'Interior Designer' %></p>
+                            <p><%= designer.experience %> years experience</p>
+                            <div class="rating">
+                                <% for(let i = 0; i < Math.floor(designer.rating); i++) { %>
+                                    <span class="star">★</span>
+                                <% } %>
+                                <% if(designer.rating % 1 >= 0.5) { %>
+                                    <span class="star">½</span>
+                                <% } %>
+                                <span>(<%= designer.rating %>)</span>
+                            </div>
                         </div>
                     </div>
+                <% }); %>
+            <% } else { %>
+                <div class="no-designers">
+                    <p>No interior designers are currently available.</p>
                 </div>
-            <% }); %>
+            <% } %>
         </div>
         
         <div class="i_right_section">
             <div class="right-content" id="designerDetails">
+                <!-- Initial welcome message -->
                 <div class="initial-message">
                     <div class="company-info">
                         <h2>Welcome to Build & Beyond Interior Designers</h2>
-                        <p>Build & Beyond Interior Designers is a leading design firm dedicated to creating innovative and sustainable interior spaces that inspire and transform communities. With over 20 years of experience, our team of talented interior designers has delivered award-winning projects across the globe.</p>
+                        <p>Build & Beyond Interior Designers is a leading design firm dedicated to creating innovative and sustainable interior spaces that inspire and transform communities. With over 20 years of experience, our team of talented designers has delivered award-winning projects across the globe.</p>
                         <h3>Our Mission</h3>
                         <p>Our mission is to design spaces that enhance the quality of life, promote sustainability, and reflect the unique identity of our clients. We believe in the power of interior design to shape the future and create lasting impact.</p>
                         <h3>Our Services</h3>
@@ -307,129 +327,134 @@
                         </ul>
                     </div>
                 </div>
+                
+                <!-- Dynamic Designer Details -->
+                <% if (designers && designers.length > 0) { %>
+                    <% designers.forEach(designer => { %>
+                        <div class="designer-details" id="designer-<%= designer._id %>">
+                            <div class="designer-header">
+                                <img src="<%= designer.profileImage || 'https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg' %>" 
+                                     alt="<%= designer.name %>" class="designer-image-large">
+                                <div>
+                                    <h2><%= designer.name %></h2>
+                                    <p><strong><%= designer.professionalTitle || 'Interior Designer' %></strong> with <%= designer.experience %> years experience</p>
+                                    <div class="rating">
+                                        <% for(let i = 0; i < Math.floor(designer.rating); i++) { %>
+                                            <span class="star">★</span>
+                                        <% } %>
+                                        <% if(designer.rating % 1 >= 0.5) { %>
+                                            <span class="star">½</span>
+                                        <% } %>
+                                        <span>(<%= designer.rating %>)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bio">
+                                <h3>About</h3>
+                                <p><%= designer.about || 'Information not available' %></p>
+                                <p><strong>Specialties:</strong> <%= designer.specialties && designer.specialties.length > 0 ? designer.specialties.join(', ') : 'Information not available' %></p>
+                            </div>
+                            
+                            <div class="projects">
+                                <h3>Notable Projects</h3>
+                                <% if (designer.projects && designer.projects.length > 0) { %>
+                                    <% designer.projects.forEach(project => { %>
+                                        <div class="project">
+                                            <h4><%= project.name %> (<%= project.year %>)</h4>
+                                            <p><strong>Location:</strong> <%= project.location %></p>
+                                            <img src="<%= project.image || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC7-RFA1xE4wTSP0DZJSJ1AJ8TitBYtkmEYA&s' %>" 
+                                                 alt="<%= project.name %>" class="project-image">
+                                            <p><%= project.description %></p>
+                                        </div>
+                                    <% }); %>
+                                <% } else { %>
+                                    <p>No projects available for this designer.</p>
+                                <% } %>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } %>
             </div>
             
             <div class="book-now-container">
-                <a href="/interiordesign_form.html"><button class="book-now-btn" id="bookNowBtn">Book Now</button></a>
+                <form id="bookDesignerForm" action="/interiordesign_form" method="GET">
+                    <input type="hidden" name="workerId" id="selectedWorkerId" value="">
+                    <button type="submit" class="book-now-btn" id="bookNowBtn">Book Now</button>
+                </form>
             </div>
         </div>
     </div>
     
     <script>
-        // Navbar
+        // Navbar functionality
         const notificationIcon = document.getElementById('notificationIcon');
         const notificationPanel = document.getElementById('notificationPanel');
         
-        notificationIcon.addEventListener('click', function(e) {
-            e.stopPropagation();
-            notificationPanel.classList.toggle('show');
-        });
-        
-        document.addEventListener('click', function(e) {
-            if (!notificationPanel.contains(e.target) && !notificationIcon.contains(e.target)) {
-                notificationPanel.classList.remove('show');
-            }
-        });
-
-        // Designer data from server
-        <!-- const designersData = <%- JSON.stringify(designers) %>; -->
-        
-        // Function to render star rating
-        function renderRating(rating) {
-            const fullStars = Math.floor(rating);
-            const halfStar = rating % 1 !== 0;
-            let starsHTML = '';
-
-            for (let i = 0; i < fullStars; i++) {
-                starsHTML += '<span class="star">★</span>';
-            }
-
-            if (halfStar) {
-                starsHTML += '<span class="star">½</span>';
-            }
-
-            return `<div class="rating">${starsHTML} <span>(${rating})</span></div>`;
-        }
-        
-        // Show designer details
-        function showDesignerDetails(designerId) {
-            const designer = designersData.find(d => d.id === designerId);
-            const detailsContainer = document.getElementById('designerDetails');
+        if (notificationIcon && notificationPanel) {
+            notificationIcon.addEventListener('click', function(e) {
+                e.stopPropagation();
+                notificationPanel.classList.toggle('show');
+            });
             
-            if (designer) {
-                let projectsHTML = '';
-                
-                designer.projects.forEach(project => {
-                    projectsHTML += `
-                        <div class="project">
-                            <h4>${project.name} (${project.year})</h4>
-                            <p><strong>Location:</strong> ${project.location}</p>
-                            <img src="${project.image}" alt="${project.name}" class="project-image">
-                            <p>${project.description}</p>
-                        </div>
-                    `;
-                });
-                
-                detailsContainer.innerHTML = `
-                    <div class="designer-header">
-                        <img src="${designer.image}" alt="${designer.name}" class="designer-image-large">
-                        <div>
-                            <h2>${designer.name}</h2>
-                            <p><strong>${designer.title}</strong> with ${designer.experience} experience</p>
-                            ${renderRating(designer.rating)}
-                        </div>
-                    </div>
-                    
-                    <div class="bio">
-                        <h3>About</h3>
-                        <p>${designer.bio}</p>
-                        <p><strong>Specialties:</strong> ${designer.specialties}</p>
-                    </div>
-                    
-                    <div class="projects">
-                        <h3>Notable Projects</h3>
-                        ${projectsHTML}
-                    </div>
-                `;
-            }
-        }
-        
-        // Handle Book Now button
-        function setupBookNowButton() {
-            const bookNowBtn = document.getElementById('bookNowBtn');
-            
-            bookNowBtn.addEventListener('click', () => {
-                const activeCard = document.querySelector('.designer-card.active');
-                
-                if (activeCard) {
-                    const designerId = parseInt(activeCard.dataset.id);
-                    const designer = designersData.find(d => d.id === designerId);
-                    // You can use the designer data here if needed
-                } else {
-                    alert('Please select an interior designer before booking.');
+            document.addEventListener('click', function(e) {
+                if (!notificationPanel.contains(e.target) && !notificationIcon.contains(e.target)) {
+                    notificationPanel.classList.remove('show');
                 }
             });
         }
         
-        // Initialize the page
+        // Designer selection functionality
         document.addEventListener('DOMContentLoaded', () => {
-            // Add click event to designer cards
-            document.querySelectorAll('.designer-card').forEach(card => {
+            // Get all designer cards
+            const designerCards = document.querySelectorAll('.designer-card');
+            const initialMessage = document.querySelector('.initial-message');
+            const bookNowBtn = document.getElementById('bookNowBtn');
+            const selectedWorkerIdInput = document.getElementById('selectedWorkerId');
+            const bookDesignerForm = document.getElementById('bookDesignerForm');
+            let activeDesignerId = null;
+            
+            // Add click event to each designer card
+            designerCards.forEach(card => {
                 card.addEventListener('click', () => {
                     // Remove active class from all cards
-                    document.querySelectorAll('.designer-card').forEach(el => {
-                        el.classList.remove('active');
-                    });
+                    designerCards.forEach(c => c.classList.remove('active'));
                     
                     // Add active class to clicked card
                     card.classList.add('active');
                     
-                    // Show designer details
-                    showDesignerDetails(parseInt(card.dataset.id));
+                    // Get designer ID
+                    const designerId = card.getAttribute('data-id');
+                    activeDesignerId = designerId;
+                    
+                    // Update the hidden input with worker ID
+                    selectedWorkerIdInput.value = designerId;
+                    
+                    // Hide initial message
+                    initialMessage.style.display = 'none';
+                    
+                    // Hide all designer details
+                    document.querySelectorAll('.designer-details').forEach(detail => {
+                        detail.classList.remove('active');
+                    });
+                    
+                    // Show selected designer details
+                    const selectedDesigner = document.getElementById(`designer-${designerId}`);
+                    if (selectedDesigner) {
+                        selectedDesigner.classList.add('active');
+                    }
                 });
             });
             
-            setupBookNowButton();
+            // Book Now button functionality
+            if (bookDesignerForm) {
+                bookDesignerForm.addEventListener('submit', (e) => {
+                    if (!activeDesignerId) {
+                        e.preventDefault();
+                        alert('Please select an interior designer before booking.');
+                    }
+                });
+            }
         });
     </script>
 </body>
