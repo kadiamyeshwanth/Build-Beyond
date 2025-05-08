@@ -151,6 +151,12 @@
         .btn-primary:hover {
             background-color: #54dd59;
         }
+        .no-data {
+            font-size: 1rem;
+            color: #666666;
+            text-align: center;
+            padding: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -158,198 +164,105 @@
     <main>
         <div class="container">
             <div class="dashboard-header">
-                <h1 class="dashboard-title">Welcome, Builder</h1>
+                <h1 class="dashboard-title">Welcome <%= workerName%></h1>
             </div>
             <section class="card-section">
-                <h2 class="section-title">Recent Offers </h2>
+                <h2 class="section-title">Recent Offers</h2>
                 <div class="cards-container">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-company">Metropolitan Builders</h3>
-                            <p class="card-location">Mumbai</p>
-                        </div>
-                        <div class="card-body">
-                            <p class="card-description">We're impressed with your portfolio and would like to offer you a position as Senior Architect on our high-rise development team.</p>
-                            <div class="card-details">
-                                <div class="card-detail">
-                                    <span class="detail-label">Position</span>
-                                    <span class="detail-value">Senior Architect</span>
+                    <% if (offers && offers.length) { %>
+                        <% offers.forEach(offer => { %>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-company"><%= offer.company.companyName %></h3>
+                                    <p class="card-location"><%= offer.location || 'Not specified' %></p>
                                 </div>
-                                <div class="card-detail">
-                                    <span class="detail-label">Salary</span>
-                                    <span class="detail-value">₹95K - ₹120K</span>
-                                </div>
-                            </div>
-                            <div class="card-actions">
-                                <button class="btn btn-primary">View Offer</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-company">Reliable Infrastructure Inc.</h3>
-                            <p class="card-location">Chennai</p>
-                        </div>
-                        <div class="card-body">
-                            <p class="card-description">Your civil engineering experience is exactly what we're looking for. We'd like to discuss a Architect Designer position with you.</p>
-                            <div class="card-details">
-                                <div class="card-detail">
-                                    <span class="detail-label">Position</span>
-                                    <span class="detail-value">Architect Designer</span>
-                                </div>
-                                <div class="card-detail">
-                                    <span class="detail-label">Salary</span>
-                                    <span class="detail-value">₹85K - ₹105K</span>
+                                <div class="card-body">
+                                    <p class="card-description">We are excited to offer you a position with our team. Your skills align perfectly with our project needs.</p>
+                                    <div class="card-details">
+                                        <div class="card-detail">
+                                            <span class="detail-label">Position</span>
+                                            <span class="detail-value"><%= offer.position || 'Not specified' %></span>
+                                        </div>
+                                        <div class="card-detail">
+                                            <span class="detail-label">Salary</span>
+                                            <span class="detail-value">₹<%= offer.salary ? offer.salary.toLocaleString('en-IN') : 'TBD' %></span>
+                                        </div>
+                                    </div>
+                                    <div class="card-actions">
+                                        <a href="/workerjoin_company.html"><button class="btn btn-primary">View Offer</button></a>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="card-actions">
-                                <button class="btn btn-primary">View Offer</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-company">Elite Homes Construction</h3>
-                            <p class="card-location">Delhi</p>
-                        </div>
-                        <div class="card-body">
-                            <p class="card-description">We're expanding our residential division and believe your Architectural expertise would be a perfect fit for our custom home projects.</p>
-                            <div class="card-details">
-                                <div class="card-detail">
-                                    <span class="detail-label">Position</span>
-                                    <span class="detail-value">Architect</span>
-                                </div>
-                                <div class="card-detail">
-                                    <span class="detail-label">Salary</span>
-                                    <span class="detail-value">₹75K - ₹90K</span>
-                                </div>
-                            </div>
-                            <div class="card-actions">
-                                <button class="btn btn-primary">View Offer</button>
-                                
-                            </div>
-                        </div>
-                    </div>
+                        <% }) %>
+                    <% } else { %>
+                        <p class="no-data">No recent offers available.</p>
+                    <% } %>
                 </div>
             </section>
             <section class="card-section">
                 <h2 class="section-title">Companies You Can Join</h2>
                 <div class="cards-container">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-company">Skyline Developments</h3>
-                            <p class="card-location">Mumbai</p>
-                        </div>
-                        <div class="card-body">
-                            <p class="card-description">Leading commercial construction company focused on high-rise office buildings and mixed-use developments. Currently hiring multiple positions.</p>
-                            <div class="card-details">
-                                <div class="card-detail">
-                                    <span class="detail-label">Industry</span>
-                                    <span class="detail-value">Commercial Construction</span>
+                    <% if (companies && companies.length) { %>
+                        <% companies.forEach(company => { %>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-company"><%= company.companyName %></h3>
+                                    <p class="card-location"><%= company.location.city || 'Not specified' %></p>
                                 </div>
-                                <div class="card-detail">
-                                    <span class="detail-label">Size</span>
-                                    <span class="detail-value">500+ employees</span>
-                                </div>
-                            </div>
-                            <div class="card-actions">
-                                <button class="btn btn-primary">Apply Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-company">Premier Renovations</h3>
-                            <p class="card-location">Chennai</p>
-                        </div>
-                        <div class="card-body">
-                            <p class="card-description">Boutique renovation company specializing in historic building restoration and luxury home remodeling projects.</p>
-                            <div class="card-details">
-                                <div class="card-detail">
-                                    <span class="detail-label">Industry</span>
-                                    <span class="detail-value">Residential Renovation</span>
-                                </div>
-                                <div class="card-detail">
-                                    <span class="detail-label">Size</span>
-                                    <span class="detail-value">20-50 employees</span>
+                                <div class="card-body">
+                                    <p class="card-description"><%= company.description || 'No description available' %></p>
+                                    <div class="card-details">
+                                        <div class="card-detail">
+                                            <span class="detail-label">Industry</span>
+                                            <span class="detail-value"><%= company.specialization.join(', ') || 'General Construction' %></span>
+                                        </div>
+                                        <div class="card-detail">
+                                            <span class="detail-label">Size</span>
+                                            <span class="detail-value"><%= company.size || 'Not specified' %></span>
+                                        </div>
+                                    </div>
+                                    <div class="card-actions">
+                                        <a href="/workerjoin_company.html"><button class="btn btn-primary">Apply Now</button></a>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="card-actions">
-                                <button class="btn btn-primary">Apply Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-company">BridgeWorks Engineering</h3>
-                            <p class="card-location">Delhi</p>
-                        </div>
-                        <div class="card-body">
-                            <p class="card-description">Fast-growing civil engineering firm focused on infrastructure projects, bridge construction, and roadway development.</p>
-                            <div class="card-details">
-                                <div class="card-detail">
-                                    <span class="detail-label">Industry</span>
-                                    <span class="detail-value">Civil Engineering</span>
-                                </div>
-                                <div class="card-detail">
-                                    <span class="detail-label">Size</span>
-                                    <span class="detail-value">50-100 employees</span>
-                                </div>
-                            </div>
-                            <div class="card-actions">
-                                <button class="btn btn-primary">Apply Now</button>
-                            </div>
-                        </div>
-                    </div>
+                        <% }) %>
+                    <% } else { %>
+                        <p class="no-data">No companies available.</p>
+                    <% } %>
                 </div>
             </section>
             <section class="card-section">
                 <h2 class="section-title">New Jobs</h2>
                 <div class="cards-container">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-company">Guest house</h3>
-                            <p class="card-location">Rajyalakshmi Nagar,Guntur</p>
-                        </div>
-                        <div class="card-body">
-                            <p class="card-description">Need you to build an house plan for a land of 700sft which contains a living room,2bedrooms,2bathrooms and a bit of open place.</p>
-                            <div class="card-details">
-                                <div class="card-detail">
-                                    <span class="detail-label">Timeline</span>
-                                    <span class="detail-value">2-weeks</span>
+                    <% if (jobs && jobs.length) { %>
+                        <% jobs.forEach(job => { %>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-company"><%= job.projectName %></h3>
+                                    <p class="card-location"><%= job.address || 'Not specified' %></p>
                                 </div>
-                                <div class="card-detail">
-                                    <span class="detail-label">Budget</span>
-                                    <span class="detail-value">₹10k</span>
-                                </div>
-                            </div>
-                            <div class="card-actions">
-                                <button class="btn btn-primary">View Details</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-company">Dream house</h3>
-                            <p class="card-location">Krishna Nagar,vijayawada</p>
-                        </div>
-                        <div class="card-body">
-                            <p class="card-description">I want you to design a plan for a bungalow with 1500sft which contains a large swimming pool, large garden area etc.</p>
-                            <div class="card-details">
-                                <div class="card-detail">
-                                    <span class="detail-label">Timeline</span>
-                                    <span class="detail-value">2 weeks</span>
-                                </div>
-                                <div class="card-detail">
-                                    <span class="detail-label">Budget</span>
-                                    <span class="detail-value">₹20k</span>
+                                <div class="card-body">
+                                    <p class="card-description"><%= job.projectDescription || 'No description provided' %></p>
+                                    <div class="card-details">
+                                        <div class="card-detail">
+                                            <span class="detail-label">Timeline</span>
+                                            <span class="detail-value"><%= job.timeline || 'Not specified' %></span>
+                                        </div>
+                                        <div class="card-detail">
+                                            <span class="detail-label">Budget</span>
+                                            <span class="detail-value">₹<%= job.budget ? job.budget.toLocaleString('en-IN') : 'TBD' %></span>
+                                        </div>
+                                    </div>
+                                    <div class="card-actions">
+                                        <a href="/workerjobs.html"><button class="btn btn-primary">View Details</button></a>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="card-actions">
-                                <button class="btn btn-primary">View Details</button>
-                            </div>
-                        </div>
-                    </div>
+                        <% }) %>
+                    <% } else { %>
+                        <p class="no-data">No new jobs available.</p>
+                    <% } %>
                 </div>
             </section>
         </div>

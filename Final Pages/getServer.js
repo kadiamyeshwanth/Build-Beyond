@@ -50,12 +50,6 @@ app.get("/signin_up.html", (req, res) => {
 app.get("/adminpage.html", (req, res) => {
   res.render("adminlogin");
 });
-// Worker Routes
-app.get("/workerdashboard.html", (req, res) => {
-  res.render("worker/worker_dashboard");
-});
-
-
 // Route for showing pending jobs for both architects and interior designers
 app.get("/workerjobs.html", isAuthenticated, async (req, res) => {
   try {
@@ -153,7 +147,7 @@ app.get('/companydashboard.html',isAuthenticated, async (req, res) => {
 
     // Fetch all projects for the company
     const projects = await ConstructionProjectSchema.find({
-      companyId: req.user ? req.user._id : null
+      companyId: req.user ? req.user.user_id : null
     })
       .sort({ createdAt: -1 })
       .lean();
@@ -187,11 +181,69 @@ app.get('/companydashboard.html',isAuthenticated, async (req, res) => {
 app.get("/customerdashboard.html", (req, res) => {
   res.render("customer/customer_dashboard");
 });
+app.get('/workerdashboard.html', isAuthenticated, async (req, res) => {
+  try {
+    // Check authentication
+    if (!req.user || !req.user.user_id) {
+      console.error('Authentication error - missing user ID');
+      return res.status(401).send('Unauthorized: User not authenticated');
+    }
 
-app.get("/workerdashboard.html", (req, res) => {
-  res.render("worker/worker_dashboard");
+    // Fetch worker details
+    const worker = await Worker.findById(req.user.user_id).lean();
+    if (!worker) {
+      console.error(`Worker not found for ID: ${req.user.user_id}`);
+      return res.status(404).send('Worker not found');
+    }
+
+    // Parallel data fetching
+    const [offers, companies, jobs] = await Promise.all([
+      // Recent offers
+      CompanytoWorker.find({ worker: req.user.user_id, status: 'Pending' })
+        .populate('company', 'companyName')
+        .sort({ createdAt: -1 })
+        .limit(3)
+        .lean(),
+
+      // Companies
+      Company.find({ profileType: 'worker' })
+        .sort({ createdAt: -1 })
+        .limit(3)
+        .lean(),
+
+      // Design jobs
+      DesignRequest.find({ workerId: req.user.user_id, status: 'pending' })
+      .sort({ createdAt: -1 })
+      .limit(3)
+      .lean()
+    ]);
+
+    // Enhance jobs data
+    const enhancedJobs = jobs.map(job => ({
+      ...job,
+      timeline: job.roomType === 'Residential' ? '2 weeks' : '1 month',
+      budget: job.roomSize?.length && job.roomSize?.width 
+        ? job.roomSize.length * job.roomSize.width * 1000 
+        : 0
+    }));
+
+    // Render dashboard view
+    res.render('worker/worker_dashboard', {
+      workerName: worker.name || 'Builder',
+      offers: offers,
+      companies: companies,
+      jobs: enhancedJobs,
+      user: req.user // Pass user data to view if needed
+    });
+
+  } catch (error) {
+    console.error('Dashboard error:', error);
+    res.status(500).render('error', {
+      message: 'Dashboard Loading Failed',
+      error: process.env.NODE_ENV === 'development' ? error : {}
+    });
+  }
 });
-
 app.get("/admindashboard.html", (req, res) => {
   res.render("admin/admin_dashboard");
 });
