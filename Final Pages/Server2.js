@@ -1058,3 +1058,115 @@ app.post(
     }
   }
 );
+app.post('/company/worker-request/accept', isAuthenticated, async (req, res) => {
+  try {
+      console.log('Accepting request:', req.body); // Add logging
+      const { requestId } = req.body;
+      const request = await WorkerToCompany.findOne({ _id: requestId, company: req.user.user_id });
+      if (!request) {
+          console.log('Request not found:', requestId); // Add logging
+          return res.status(404).json({ error: 'Request not found or not authorized' });
+      }
+      request.status = 'accepted';
+      await request.save();
+      console.log('Request accepted:', requestId); // Add logging
+      res.status(200).json({ message: 'Request accepted successfully' });
+  } catch (err) {
+      console.error('Error accepting request:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+app.post('/company/worker-request/accept', isAuthenticated, async (req, res) => {
+  try {
+      const { requestId } = req.body;
+      console.log('Accept Request - requestId:', requestId);
+      console.log('Accept Request - companyId:', req.user.user_id);
+
+      const request = await WorkertoCompany.findOne({
+          _id: new mongoose.Types.ObjectId(requestId),
+          companyId: new mongoose.Types.ObjectId(req.user.user_id)
+      });
+
+      console.log('Accept Request - Found Document:', request);
+
+      if (!request) {
+          return res.status(404).json({ error: 'Request not found or not authorized' });
+      }
+
+      request.status = 'accepted';
+      await request.save();
+      console.log('Accept Request - Updated Document:', request);
+      res.status(200).json({ message: 'Request accepted successfully' });
+  } catch (err) {
+      console.error('Error accepting request:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+app.post('/company/worker-request/reject', isAuthenticated, async (req, res) => {
+  try {
+      const { requestId } = req.body;
+      console.log('Reject Request - requestId:', requestId);
+      console.log('Reject Request - companyId:', req.user.user_id);
+
+      const request = await WorkertoCompany.findOne({
+          _id: new mongoose.Types.ObjectId(requestId),
+          companyId: new mongoose.Types.ObjectId(req.user.user_id)
+      });
+
+      console.log('Reject Request - Found Document:', request);
+
+      if (!request) {
+          return res.status(404).json({ error: 'Request not found or not authorized' });
+      }
+
+      request.status = 'rejected';
+      await request.save();
+      console.log('Reject Request - Updated Document:', request);
+      res.status(200).json({ message: 'Request rejected successfully' });
+  } catch (err) {
+      console.error('Error rejecting request:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+// Get worker details by ID
+app.get('/api/workers/:id', isAuthenticated, async (req, res) => {
+  try {
+      const worker = await Worker.findById(req.params.id)
+          .select('name email title rating about specialties projects contact location linkedin previousWork profileImage')
+          .lean();
+      
+      if (!worker) {
+          return res.status(404).json({ error: 'Worker not found' });
+      }
+
+      // Ensure profile image exists
+      worker.profileImage = worker.profileImage || 
+          `https://api.dicebear.com/9.x/male/svg?seed=${encodeURIComponent(worker.name.replace(/\s+/g, ''))}&mouth=smile`;
+      
+      res.json(worker);
+  } catch (err) {
+      console.error('Error fetching worker:', err);
+      res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Cancel worker request
+app.delete('/api/worker-requests/:id', isAuthenticated, async (req, res) => {
+  try {
+      const request = await WorkertoCompany.findOneAndDelete({
+          _id: req.params.id,
+          companyId: req.user.user_id,
+          status: 'pending'
+      });
+
+      if (!request) {
+          return res.status(404).json({ error: 'Request not found or cannot be cancelled' });
+      }
+
+      res.json({ message: 'Request cancelled successfully' });
+  } catch (err) {
+      console.error('Error cancelling request:', err);
+      res.status(500).json({ error: 'Server error' });
+  }
+});

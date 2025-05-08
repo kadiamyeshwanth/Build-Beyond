@@ -864,168 +864,47 @@
             </div>
             
             <div class="worker-grid">
-                <div class="worker-card">
+                <% workers.forEach(worker => { %>
+                  <div class="worker-card">
                     <div class="worker-card-header">
-                        <img src="https://api.dicebear.com/9.x/male/svg?seed=KedharJadhav&mouth=smile" alt="Profile" class="profile-image">
-                        <div class="worker-rating">
-                            <span><i class="fas fa-star"></i> 4.5</span>
-                        </div>
+                      <img src="<%= worker.profileImage %>" alt="Profile" class="profile-image">
+                      <div class="worker-rating">
+                        <span><i class="fas fa-star"></i> <%= worker.rating %></span>
+                      </div>
                     </div>
                     <div class="worker-info">
-                        <h3>Kedhar Jadhav</h3>
-                        <p class="experience"><i class="fas fa-briefcase"></i> 10+ years experience</p>
-                        <p class="email"><i class="fas fa-envelope"></i> kedhar.jadhav@example.com</p>
-                        <div class="tags">
-                            <span class="tag">Carpentry</span>
-                            <span class="tag">Woodworking</span>
-                            <span class="tag">Stonework</span>
-                        </div>
+                      <h3><%= worker.name %></h3>
+                      <p class="experience"><i class="fas fa-briefcase"></i> <%= worker.experience %> experience</p>
+                      <p class="email"><i class="fas fa-envelope"></i> <%= worker.email %></p>
+                      <div class="tags">
+                        <% worker.specialties.forEach(skill => { %>
+                          <span class="tag"><%= skill %></span>
+                        <% }) %>
+                      </div>
                     </div>
                     <div class="worker-actions">
-                        <button class="btn btn-view" data-worker="Kedhar Jadhav" data-title="Master Carpenter with 10+ years experience" data-rating="4.5" data-about="Kedhar is a skilled carpenter specializing in custom furniture and structural woodwork." data-specialties="Carpentry, Woodworking, Stonework" data-projects='[{"title": "Eco Urban Center", "location": "Guntur, Andhra Pradesh", "description": "A LEED Platinum certified commercial complex featuring innovative green technologies.", "image": "https://images.unsplash.com/photo-1486406146923-c857e18d9078?w=300&h=200&fit=crop"}]' data-contact="+91-9876543210" data-location="Guntur, Andhra Pradesh" data-linkedin="linkedin.com/in/kedhar-jadhav" data-previous-work="Built custom furniture for luxury hotels in Guntur and worked on structural woodwork for commercial buildings.">
-                            <i class="fas fa-eye"></i> View Profile
-                        </button>
-                        <button class="btn btn-hire hire-btn" data-worker="Kedhar Jadhav">
-                            <i class="fas fa-user-plus"></i> Hire
-                        </button>
+                      <button class="btn btn-view" 
+                              data-worker="<%= worker.name %>" 
+                              data-title="<%= worker.title %>" 
+                              data-rating="<%= worker.rating %>" 
+                              data-about="<%= worker.about %>" 
+                              data-specialties="<%= worker.specialties.join(', ') %>" 
+                              data-projects='<%= JSON.stringify(worker.projects) %>' 
+                              data-contact="<%= worker.contact %>" 
+                              data-location="<%= worker.location %>" 
+                              data-linkedin="<%= worker.linkedin %>" 
+                              data-previous-work="<%= worker.previousWork %>">
+                        <i class="fas fa-eye"></i> View Profile
+                      </button>
+                      <button class="btn btn-hire hire-btn" 
+                              data-worker="<%= worker.name %>" 
+                              data-worker-id="<%= worker._id %>">
+                        <i class="fas fa-user-plus"></i> Hire
+                      </button>
                     </div>
-                </div>
-
-                <div class="worker-card">
-                    <div class="worker-card-header">
-                        <img src="https://api.dicebear.com/9.x/male/svg?seed=ArjunSuresh&mouth=smile" alt="Profile" class="profile-image">
-                        <div class="worker-rating">
-                            <span><i class="fas fa-star"></i> 4.2</span>
-                        </div>
-                    </div>
-                    <div class="worker-info">
-                        <h3>Arjun Suresh</h3>
-                        <p class="experience"><i class="fas fa-briefcase"></i> 5-10 years experience</p>
-                        <p class="email"><i class="fas fa-envelope"></i> arjun.suresh@example.com</p>
-                        <div class="tags">
-                            <span class="tag">Electrical</span>
-                            <span class="tag">Wiring</span>
-                            <span class="tag">Installation</span>
-                        </div>
-                    </div>
-                    <div class="worker-actions">
-                        <button class="btn btn-view" data-worker="Arjun Suresh" data-title="Electrical Engineer with 7 years experience" data-rating="4.2" data-about="Arjun specializes in electrical systems for commercial buildings." data-specialties="Electrical, Wiring, Installation" data-projects='[]' data-contact="+91-8765432109" data-location="Chennai, Tamil Nadu" data-linkedin="linkedin.com/in/arjun-suresh" data-previous-work="Installed electrical systems for office complexes in Chennai and maintained industrial wiring projects.">
-                            <i class="fas fa-eye"></i> View Profile
-                        </button>
-                        <button class="btn btn-hire hire-btn" data-worker="Arjun Suresh">
-                            <i class="fas fa-user-plus"></i> Hire
-                        </button>
-                    </div>
-                </div>
-
-                <div class="worker-card">
-                    <div class="worker-card-header">
-                        <img src="https://api.dicebear.com/9.x/male/svg?seed=RavindraJosh&mouth=smile" alt="Profile" class="profile-image">
-                        <div class="worker-rating">
-                            <span><i class="fas fa-star"></i> 4.0</span>
-                        </div>
-                    </div>
-                    <div class="worker-info">
-                        <h3>Ravindra Josh</h3>
-                        <p class="experience"><i class="fas fa-briefcase"></i> 3-5 years experience</p>
-                        <p class="email"><i class="fas fa-envelope"></i> ravindra.josh@example.com</p>
-                        <div class="tags">
-                            <span class="tag">Plumbing</span>
-                            <span class="tag">Piping</span>
-                            <span class="tag">Maintenance</span>
-                        </div>
-                    </div>
-                    <div class="worker-actions">
-                        <button class="btn btn-view" data-worker="Ravindra Josh" data-title="Master Plumber with 4 years experience" data-rating="4.0" data-about="Ravindra is an expert in plumbing systems for residential projects." data-specialties="Plumbing, Piping, Maintenance" data-projects='[]' data-contact="+91-7654321098" data-location="Pune, Maharashtra" data-linkedin="linkedin.com/in/ravindra-josh" data-previous-work="Handled plumbing installations for residential apartments in Pune and performed maintenance for community centers.">
-                            <i class="fas fa-eye"></i> View Profile
-                        </button>
-                        <button class="btn btn-hire hire-btn" data-worker="Ravindra Josh">
-                            <i class="fas fa-user-plus"></i> Hire
-                        </button>
-                    </div>
-                </div>
-
-                <div class="worker-card">
-                    <div class="worker-card-header">
-                        <img src="https://api.dicebear.com/9.x/male/svg?seed=MaheshKrishna&mouth=smile" alt="Profile" class="profile-image">
-                        <div class="worker-rating">
-                            <span><i class="fas fa-star"></i> 4.8</span>
-                        </div>
-                    </div>
-                    <div class="worker-info">
-                        <h3>Mahesh Krishna</h3>
-                        <p class="experience"><i class="fas fa-briefcase"></i> 10+ years experience</p>
-                        <p class="email"><i class="fas fa-envelope"></i> mahesh.krishna@example.com</p>
-                        <div class="tags">
-                            <span class="tag">Masonry</span>
-                            <span class="tag">Stonework</span>
-                            <span class="tag">Construction</span>
-                        </div>
-                    </div>
-                    <div class="worker-actions">
-                        <button class="btn btn-view" data-worker="Mahesh Krishna" data-title="Master Mason with 12 years experience" data-rating="4.8" data-about="Mahesh has extensive experience in stonework and structural masonry." data-specialties="Masonry, Stonework, Construction" data-projects='[]' data-contact="+91-6543210987" data-location="Hyderabad, Telangana" data-linkedin="linkedin.com/in/mahesh-krishna" data-previous-work="Constructed stone facades for commercial buildings in Hyderabad and worked on structural masonry for bridges.">
-                            <i class="fas fa-eye"></i> View Profile
-                        </button>
-                        <button class="btn btn-hire hire-btn" data-worker="Mahesh Krishna">
-                            <i class="fas fa-user-plus"></i> Hire
-                        </button>
-                    </div>
-                </div>
-
-                <div class="worker-card">
-                    <div class="worker-card-header">
-                        <img src="https://api.dicebear.com/9.x/male/svg?seed=SureshKarthik&mouth=smile" alt="Profile" class="profile-image">
-                        <div class="worker-rating">
-                            <span><i class="fas fa-star"></i> 4.3</span>
-                        </div>
-                    </div>
-                    <div class="worker-info">
-                        <h3>Suresh Karthik</h3>
-                        <p class="experience"><i class="fas fa-briefcase"></i> 5-10 years experience</p>
-                        <p class="email"><i class="fas fa-envelope"></i> suresh.karthik@example.com</p>
-                        <div class="tags">
-                            <span class="tag">Painting</span>
-                            <span class="tag">Finishing</span>
-                            <span class="tag">Decorating</span>
-                        </div>
-                    </div>
-                    <div class="worker-actions">
-                        <button class="btn btn-view" data-worker="Suresh Karthik" data-title="Professional Painter with 6 years experience" data-rating="4.3" data-about="Suresh specializes in high-quality painting and finishing." data-specialties="Painting, Finishing, Decorating" data-projects='[]' data-contact="+91-5432109876" data-location="Bangalore, Karnataka" data-linkedin="linkedin.com/in/suresh-karthik" data-previous-work="Painted interiors for luxury apartments in Bangalore and handled decorative finishes for office spaces.">
-                            <i class="fas fa-eye"></i> View Profile
-                        </button>
-                        <button class="btn btn-hire hire-btn" data-worker="Suresh Karthik">
-                            <i class="fas fa-user-plus"></i> Hire
-                        </button>
-                    </div>
-                </div>
-
-                <div class="worker-card">
-                    <div class="worker-card-header">
-                        <img src="https://api.dicebear.com/9.x/male/svg?seed=TharunGenesh&mouth=smile" alt="Profile" class="profile-image">
-                        <div class="worker-rating">
-                            <span><i class="fas fa-star"></i> 4.6</span>
-                        </div>
-                    </div>
-                    <div class="worker-info">
-                        <h3>Tharun Genesh</h3>
-                        <p class="experience"><i class="fas fa-briefcase"></i> 5-10 years experience</p>
-                        <p class="email"><i class="fas fa-envelope"></i> tharun.genesh@example.com</p>
-                        <div class="tags">
-                            <span class="tag">HVAC</span>
-                            <span class="tag">Installation</span>
-                            <span class="tag">Maintenance</span>
-                        </div>
-                    </div>
-                    <div class="worker-actions">
-                        <button class="btn btn-view" data-worker="Tharun Genesh" data-title="HVAC Specialist with 8 years experience" data-rating="4.6" data-about="Tharun is an expert in HVAC systems for commercial and residential buildings." data-specialties="HVAC, Installation, Maintenance" data-projects='[]' data-contact="+91-4321098765" data-location="Delhi" data-linkedin="linkedin.com/in/tharun-genesh" data-previous-work="Installed HVAC systems for malls in Delhi and performed maintenance for residential complexes.">
-                            <i class="fas fa-eye"></i> View Profile
-                        </button>
-                        <button class="btn btn-hire hire-btn" data-worker="Tharun Genesh">
-                            <i class="fas fa-user-plus"></i> Hire
-                        </button>
-                    </div>
-                </div>
-            </div>
+                  </div>
+                <% }) %>
+              </div>
         </div>
 
         <!-- Worker Requests Section -->
@@ -1038,183 +917,82 @@
             </div>
 
             <div class="request-list">
-                <div class="request-card">
-                    <div class="left">
-                        <img src="https://api.dicebear.com/9.x/male/svg?seed=KarthikMahvash&mouth=smile" alt="Profile" class="profile-image">
-                        <div class="request-info">
-                            <h3>Karthik Mahvash</h3>
-                            <div class="request-details">
-                                <div class="detail-item">
-                                    <span class="detail-label"><i class="fas fa-envelope"></i> Email:</span>
-                                    <span class="detail-value">karthik.mahvash@example.com</span>
-                                </div>
-                                <div class="detail-item">
-                                    <span class="detail-label"><i class="fas fa-user-tie"></i> Role:</span>
-                                    <span class="detail-value">Concrete Specialist</span>
-                                </div>
-                                <div class="detail-item">
-                                    <span class="detail-label"><i class="fas fa-map-marker-alt"></i> Location:</span>
-                                    <span class="detail-value">Gandhinagar</span>
-                                </div>
-                                <div class="detail-item">
-                                    <span class="detail-label"><i class="fas fa-tools"></i> Specialties:</span>
-                                    <span class="detail-value">Concrete, Finishing</span>
-                                </div>
-                                <div class="detail-item">
-                                    <span class="detail-label"><i class="fas fa-briefcase"></i> Experience:</span>
-                                    <span class="detail-value">8+ years</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="request-actions">
-                        <button class="btn btn-view" data-worker="Karthik Mahvash" data-title="Concrete Specialist with 8+ years experience" data-rating="4.7" data-about="Karthik is an expert in concrete structures." data-specialties="Concrete, Finishing" data-projects='[]' data-contact="+91-3210987654" data-location="Gandhinagar" data-linkedin="linkedin.com/in/karthik-mahvash" data-previous-work="Worked on commercial buildings in Gandhinagar, specializing in durable concrete finishes.">
-                            <i class="fas fa-eye"></i> View Profile
-                        </button>
-                        <button class="btn btn-hire">
-                            <i class="fas fa-check"></i> Accept
-                        </button>
-                        <button class="btn btn-reject">
-                            <i class="fas fa-times"></i> Reject
-                        </button>
-                        <button class="btn btn-toggle-details">
-                            <i class="fas fa-chevron-down"></i> Details
-                        </button>
-                    </div>
-                    <div class="details">
-                        <div class="detail-expanded-item">
-                            <span class="detail-label"><i class="fas fa-file-alt"></i> Resume:</span>
-                            <span class="detail-value"><a href="#" class="detail-link">Download Resume</a></span>
-                        </div>
-                        <div class="detail-expanded-item">
-                            <span class="detail-label"><i class="fab fa-linkedin"></i> LinkedIn:</span>
-                            <span class="detail-value"><a href="#" class="detail-link">linkedin.com/in/karthik-mahvash</a></span>
-                        </div>
-                        <div class="detail-expanded-item">
-                            <span class="detail-label"><i class="fas fa-history"></i> Previous Work:</span>
-                            <span class="detail-value">Worked on commercial buildings in Gandhinagar, specializing in durable concrete finishes.</span>
-                        </div>
-                    </div>
+    <% if (workerRequests.length === 0) { %>
+      <p>No worker requests at this time.</p>
+    <% } else { %>
+      <% workerRequests.forEach(request => { %>
+        <div class="request-card" data-worker-id="<%= request.worker._id %>" data-request-id="<%= request._id %>">
+          <div class="left">
+            <img src="<%= request.worker.profileImage %>" alt="Profile" class="profile-image">
+            <div class="request-info">
+              <h3><%= request.worker.name %></h3>
+              <div class="request-details">
+                <div class="detail-item">
+                  <span class="detail-label"><i class="fas fa-envelope"></i> Email:</span>
+                  <span class="detail-value"><%= request.worker.email %></span>
                 </div>
-
-                <div class="request-card">
-                    <div class="left">
-                        <img src="https://api.dicebear.com/9.x/male/svg?seed=LakshDev&mouth=smile" alt="Profile" class="profile-image">
-                        <div class="request-info">
-                            <h3>Laksh Dev</h3>
-                            <div class="request-details">
-                                <div class="detail-item">
-                                    <span class="detail-label"><i class="fas fa-envelope"></i> Email:</span>
-                                    <span class="detail-value">laksh.dev@example.com</span>
-                                </div>
-                                <div class="detail-item">
-                                    <span class="detail-label"><i class="fas fa-user-tie"></i> Role:</span>
-                                    <span class="detail-value">Architectural Drafter</span>
-                                </div>
-                                <div class="detail-item">
-                                    <span class="detail-label"><i class="fas fa-map-marker-alt"></i> Location:</span>
-                                    <span class="detail-value">Meerut</span>
-                                </div>
-                                <div class="detail-item">
-                                    <span class="detail-label"><i class="fas fa-tools"></i> Specialties:</span>
-                                    <span class="detail-value">Drafting, Design</span>
-                                </div>
-                                <div class="detail-item">
-                                    <span class="detail-label"><i class="fas fa-briefcase"></i> Experience:</span>
-                                    <span class="detail-value">5 years</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="request-actions">
-                        <button class="btn btn-view" data-worker="Laksh Dev" data-title="Architectural Drafter with 5 years experience" data-rating="4.1" data-about="Laksh excels in creating detailed architectural plans." data-specialties="Drafting, Design" data-projects='[]' data-contact="+91-2109876543" data-location="Meerut" data-linkedin="linkedin.com/in/laksh-dev" data-previous-work="Drafted plans for residential complexes in Meerut.">
-                            <i class="fas fa-eye"></i> View Profile
-                        </button>
-                        <button class="btn btn-hire">
-                            <i class="fas fa-check"></i> Accept
-                        </button>
-                        <button class="btn btn-reject">
-                            <i class="fas fa-times"></i> Reject
-                        </button>
-                        <button class="btn btn-toggle-details">
-                            <i class="fas fa-chevron-down"></i> Details
-                        </button>
-                    </div>
-                    <div class="details">
-                        <div class="detail-expanded-item">
-                            <span class="detail-label"><i class="fas fa-file-alt"></i> Resume:</span>
-                            <span class="detail-value"><a href="#" class="detail-link">Download Resume</a></span>
-                        </div>
-                        <div class="detail-expanded-item">
-                            <span class="detail-label"><i class="fab fa-linkedin"></i> LinkedIn:</span>
-                            <span class="detail-value"><a href="#" class="detail-link">linkedin.com/in/laksh-dev</a></span>
-                        </div>
-                        <div class="detail-expanded-item">
-                            <span class="detail-label"><i class="fas fa-history"></i> Previous Work:</span>
-                            <span class="detail-value">Drafted plans for residential complexes in Meerut.</span>
-                        </div>
-                    </div>
+                <div class="detail-item">
+                  <span class="detail-label"><i class="fas fa-user-tie"></i> Role:</span>
+                  <span class="detail-value"><%= request.position %></span>
                 </div>
-
-                <div class="request-card">
-                    <div class="left">
-                        <img src="https://api.dicebear.com/9.x/male/svg?seed=PatilHarish&mouth=smile" alt="Profile" class="profile-image">
-                        <div class="request-info">
-                            <h3>Patil Harish</h3>
-                            <div class="request-details">
-                                <div class="detail-item">
-                                    <span class="detail-label"><i class="fas fa-envelope"></i> Email:</span>
-                                    <span class="detail-value">patil.harish@example.com</span>
-                                </div>
-                                <div class="detail-item">
-                                    <span class="detail-label"><i class="fas fa-user-tie"></i> Role:</span>
-                                    <span class="detail-value">Heavy Equipment Operator</span>
-                                </div>
-                                <div class="detail-item">
-                                    <span class="detail-label"><i class="fas fa-map-marker-alt"></i> Location:</span>
-                                    <span class="detail-value">Mumbai</span>
-                                </div>
-                                <div class="detail-item">
-                                    <span class="detail-label"><i class="fas fa-tools"></i> Specialties:</span>
-                                    <span class="detail-value">Equipment Operation, Construction</span>
-                                </div>
-                                <div class="detail-item">
-                                    <span class="detail-label"><i class="fas fa-briefcase"></i> Experience:</span>
-                                    <span class="detail-value">10+ years</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="request-actions">
-                        <button class="btn btn-view" data-worker="Patil Harish" data-title="Heavy Equipment Operator with 10+ years experience" data-rating="4.9" data-about="Patil is an experienced heavy equipment operator with a focus on safety and efficiency." data-specialties="Equipment Operation, Construction" data-projects='[]' data-contact="+91-1098765432" data-location="Mumbai" data-linkedin="linkedin.com/in/patil-harish" data-previous-work="Operated heavy machinery for large-scale construction projects in Mumbai.">
-                            <i class="fas fa-eye"></i> View Profile
-                        </button>
-                        <button class="btn btn-hire">
-                            <i class="fas fa-check"></i> Accept
-                        </button>
-                        <button class="btn btn-reject">
-                            <i class="fas fa-times"></i> Reject
-                        </button>
-                        <button class="btn btn-toggle-details">
-                            <i class="fas fa-chevron-down"></i> Details
-                        </button>
-                    </div>
-                    <div class="details">
-                        <div class="detail-expanded-item">
-                            <span class="detail-label"><i class="fas fa-file-alt"></i> Resume:</span>
-                            <span class="detail-value"><a href="#" class="detail-link">Download Resume</a></span>
-                        </div>
-                        <div class="detail-expanded-item">
-                            <span class="detail-label"><i class="fab fa-linkedin"></i> LinkedIn:</span>
-                            <span class="detail-value"><a href="#" class="detail-link">linkedin.com/in/patil-harish</a></span>
-                        </div>
-                        <div class="detail-expanded-item">
-                            <span class="detail-label"><i class="fas fa-history"></i> Previous Work:</span>
-                            <span class="detail-value">Operated heavy machinery for large-scale construction projects in Mumbai.</span>
-                        </div>
-                    </div>
+                <div class="detail-item">
+                  <span class="detail-label"><i class="fas fa-map-marker-alt"></i> Location:</span>
+                  <span class="detail-value"><%= request.location %></span>
                 </div>
+                <div class="detail-item">
+                  <span class="detail-label"><i class="fas fa-tools"></i> Specialties:</span>
+                  <span class="detail-value"><%= request.worker.specialties.join(', ') %></span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label"><i class="fas fa-briefcase"></i> Experience:</span>
+                  <span class="detail-value"><%= request.worker.experience %></span>
+                </div>
+              </div>
             </div>
+          </div>
+          <div class="request-actions">
+            <button class="btn btn-view" 
+                    data-worker="<%= request.worker.name %>" 
+                    data-title="<%= request.worker.title %>" 
+                    data-rating="<%= request.worker.rating %>" 
+                    data-about="<%= request.worker.about %>" 
+                    data-specialties="<%= request.worker.specialties.join(', ') %>" 
+                    data-projects='<%= JSON.stringify(request.worker.projects) %>' 
+                    data-contact="<%= request.worker.contact %>" 
+                    data-location="<%= request.worker.location %>" 
+                    data-linkedin="<%= request.worker.linkedin %>" 
+                    data-previous-work="<%= request.worker.previousWork %>"
+                    data-profile-image="<%= request.worker.profileImage %>">
+              <i class="fas fa-eye"></i> View Profile
+            </button>
+            <button class="btn btn-hire btn-accept" data-request-id="<%= request._id %>">
+              <i class="fas fa-check"></i> Accept
+            </button>
+            <button class="btn btn-reject" data-request-id="<%= request._id %>">
+              <i class="fas fa-times"></i> Reject
+            </button>
+            <button class="btn btn-toggle-details">
+              <i class="fas fa-chevron-down"></i> Details
+            </button>
+          </div>
+          <div class="details">
+            <div class="detail-expanded-item">
+              <span class="detail-label"><i class="fas fa-file-alt"></i> Resume:</span>
+              <span class="detail-value"><a href="<%= request.worker.resume %>" class="detail-link">Download Resume</a></span>
+            </div>
+            <div class="detail-expanded-item">
+              <span class="detail-label"><i class="fab fa-linkedin"></i> LinkedIn:</span>
+              <span class="detail-value"><a href="<%= request.worker.linkedin %>" class="detail-link"><%= request.worker.linkedin %></a></span>
+            </div>
+            <div class="detail-expanded-item">
+              <span class="detail-label"><i class="fas fa-history"></i> Previous Work:</span>
+              <span class="detail-value"><%= request.worker.previousWork %></span>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    <% } %>
+  </div>
         </div>
 
         <!-- Requested Workers Section -->
@@ -1321,49 +1099,48 @@
                         <div id="modal-projects" class="projects-grid"></div>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <!-- <div class="modal-footer">
                     <button class="btn btn-hire modal-hire-btn">
                         <i class="fas fa-user-plus"></i> Hire This Worker
                     </button>
-                </div>
+                </div> -->
             </div>
         </div>
 
         <!-- Hire Request Modal -->
-<div id="hire-modal" class="modal">
-    <div class="modal-content hire-modal-content">
-        <span class="close">×</span>
-        <div class="modal-header hire-modal-header">
-            <h2>Hire Worker</h2>
+        <div id="hire-modal" class="modal">
+            <div class="modal-content hire-modal-content">
+                <span class="close">×</span>
+                <div class="modal-header hire-modal-header">
+                    <h2>Hire Worker</h2>
+                </div>
+                <form id="hire-form">
+                    <div class="modal-body">
+                        <p id="hire-modal-worker-name" style="margin-bottom: 15px;"></p>
+                        <div class="form-group">
+                            <label for="position">Position</label>
+                            <input type="text" id="position" name="position" placeholder="Enter position (e.g., Master Carpenter)" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="location">Location</label>
+                            <input type="text" id="location" name="location" placeholder="Enter job location (e.g., Guntur)" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="salary">Salary (₹/hr)</label>
+                            <input type="number" id="salary" name="salary" placeholder="Enter salary (e.g., 1200)" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-view" id="cancel-hire">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                        <button type="submit" class="btn btn-hire" id="submit-hire">
+                            <i class="fas fa-paper-plane"></i> Send Request
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="modal-body">
-            <p id="hire-modal-worker-name" style="margin-bottom: 15px;"></p>
-            <form id="jobOfferForm">
-                <div class="form-group">
-                    <label for="position">Position</label>
-                    <input type="text" id="position" name="position" required>
-                </div>
-                <div class="form-group">
-                    <label for="location">Location</label>
-                    <input type="text" id="location" name="location" required>
-                </div>
-                <div class="form-group">
-                    <label for="salary">Salary (₹/hr)</label>
-                    <input type="number" id="salary" name="salary" required>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-view" type="button" id="cancel-hire">
-                        <i class="fas fa-times"></i> Cancel
-                    </button>
-                    <button class="btn btn-hire" type="submit">
-                        <i class="fas fa-paper-plane"></i> Send Request
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
     </div>
 
     <script>
@@ -1408,79 +1185,89 @@
             });
         }
 
-        // Profile View Modal Functionality
         function initializeProfileViewButtons() {
-            viewProfileButtons.forEach(button => {
-                button.addEventListener('click', (event) => {
-                    event.preventDefault();
+    viewProfileButtons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            event.preventDefault();
+            
+            const workerName = button.getAttribute('data-worker');
+            const workerTitle = button.getAttribute('data-title');
+            const workerRating = button.getAttribute('data-rating');
+            const workerAbout = button.getAttribute('data-about');
+            const workerSpecialties = button.getAttribute('data-specialties');
+            const workerProjects = JSON.parse(button.getAttribute('data-projects') || '[]');
+            const workerContact = button.getAttribute('data-contact');
+            const workerLocation = button.getAttribute('data-location');
+            const workerLinkedIn = button.getAttribute('data-linkedin');
+            const workerPreviousWork = button.getAttribute('data-previous-work');
+            const profileImage = button.getAttribute('data-profile-image');
+            
+            // Debug: Log the profile image URL and worker name
+            console.log('Worker Name:', workerName);
+            console.log('Profile Image URL:', profileImage);
+            
+            // Update modal content
+            document.getElementById('modal-name').textContent = workerName;
+            document.getElementById('modal-title').textContent = workerTitle;
+            document.getElementById('modal-about').textContent = workerAbout;
+            document.getElementById('modal-specialties').textContent = workerSpecialties;
+            document.getElementById('modal-contact').textContent = workerContact;
+            document.getElementById('modal-location').textContent = workerLocation;
+            document.getElementById('modal-linkedin').innerHTML = `<a href="#">${workerLinkedIn}</a>`;
+            document.getElementById('modal-previous-work').textContent = workerPreviousWork;
+            
+            // Update modal profile image with fallback
+            const modalProfileImage = document.getElementById('modal-profile-image');
+            if (!modalProfileImage) {
+                console.error('Error: #modal-profile-image element not found in the DOM');
+                return;
+            }
+            modalProfileImage.src = profileImage && profileImage.trim() !== ''
+                ? profileImage
+                : `https://api.dicebear.com/9.x/male/svg?seed=${encodeURIComponent(workerName.replace(/\s+/g, ''))}&mouth=smile`;
+            
+            const stars = Math.round(parseFloat(workerRating));
+            let ratingHTML = '';
+            for (let i = 0; i < 5; i++) {
+                if (i < stars) {
+                    ratingHTML += '<i class="fas fa-star"></i>';
+                } else {
+                    ratingHTML += '<i class="far fa-star"></i>';
+                }
+            }
+            ratingHTML += ` (${workerRating})`;
+            document.getElementById('modal-rating').innerHTML = ratingHTML;
+            
+            const projectsContainer = document.getElementById('modal-projects');
+            projectsContainer.innerHTML = '';
+            
+            if (workerProjects.length === 0) {
+                projectsContainer.innerHTML = '<p>No notable projects available.</p>';
+            } else {
+                workerProjects.forEach(project => {
+                    const projectElement = document.createElement('div');
+                    projectElement.className = 'project';
                     
-                    const workerName = button.getAttribute('data-worker');
-                    const workerTitle = button.getAttribute('data-title');
-                    const workerRating = button.getAttribute('data-rating');
-                    const workerAbout = button.getAttribute('data-about');
-                    const workerSpecialties = button.getAttribute('data-specialties');
-                    const workerProjects = JSON.parse(button.getAttribute('data-projects') || '[]');
-                    const workerContact = button.getAttribute('data-contact');
-                    const workerLocation = button.getAttribute('data-location');
-                    const workerLinkedIn = button.getAttribute('data-linkedin');
-                    const workerPreviousWork = button.getAttribute('data-previous-work');
+                    projectElement.innerHTML = `
+                        <img src="${project.image}" alt="${project.title}">
+                        <div class="project-info">
+                            <h5>${project.title}</h5>
+                            <p><i class="fas fa-map-marker-alt"></i> ${project.location}</p>
+                            <p>${project.description}</p>
+                        </div>
+                    `;
                     
-                    // Update modal content
-                    document.getElementById('modal-name').textContent = workerName;
-                    document.getElementById('modal-title').textContent = workerTitle;
-                    document.getElementById('modal-about').textContent = workerAbout;
-                    document.getElementById('modal-specialties').textContent = workerSpecialties;
-                    document.getElementById('modal-contact').textContent = workerContact;
-                    document.getElementById('modal-location').textContent = workerLocation;
-                    document.getElementById('modal-linkedin').innerHTML = `<a href="#">${workerLinkedIn}</a>`;
-                    document.getElementById('modal-previous-work').textContent = workerPreviousWork;
-                    
-                    // Update modal profile image based on worker name
-                    const modalProfileImage = document.getElementById('modal-profile-image');
-                    modalProfileImage.src = `https://api.dicebear.com/9.x/male/svg?seed=${workerName.replace(/\s+/g, '')}&mouth=smile`;
-                    
-                    const stars = Math.round(parseFloat(workerRating));
-                    let ratingHTML = '';
-                    for (let i = 0; i < 5; i++) {
-                        if (i < stars) {
-                            ratingHTML += '<i class="fas fa-star"></i>';
-                        } else {
-                            ratingHTML += '<i class="far fa-star"></i>';
-                        }
-                    }
-                    ratingHTML += ` (${workerRating})`;
-                    document.getElementById('modal-rating').innerHTML = ratingHTML;
-                    
-                    const projectsContainer = document.getElementById('modal-projects');
-                    projectsContainer.innerHTML = '';
-                    
-                    if (workerProjects.length === 0) {
-                        projectsContainer.innerHTML = '<p>No notable projects available.</p>';
-                    } else {
-                        workerProjects.forEach(project => {
-                            const projectElement = document.createElement('div');
-                            projectElement.className = 'project';
-                            
-                            projectElement.innerHTML = `
-                                <img src="${project.image}" alt="${project.title}">
-                                <div class="project-info">
-                                    <h5>${project.title}</h5>
-                                    <p><i class="fas fa-map-marker-alt"></i> ${project.location}</p>
-                                    <p>${project.description}</p>
-                                </div>
-                            `;
-                            
-                            projectsContainer.appendChild(projectElement);
-                        });
-                    }
-                    
-                    profileModal.style.display = 'flex';
-                    setTimeout(() => {
-                        profileModal.classList.add('show');
-                    }, 10);
+                    projectsContainer.appendChild(projectElement);
                 });
-            });
-        }
+            }
+            
+            profileModal.style.display = 'flex';
+            setTimeout(() => {
+                profileModal.classList.add('show');
+            }, 10);
+        });
+    });
+}
 
         // Hire Modal Functionality
         function initializeHireButtons() {
@@ -1867,43 +1654,68 @@
             }
         `;
         document.head.appendChild(notificationStyles);
-
-document.getElementById('jobOfferForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const formData = {
-        position: document.getElementById('position').value,
-        location: document.getElementById('location').value,
-        salary: document.getElementById('salary').value
-    };
-
-    try {
-        const res = await fetch('/companytoworker', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData)
+        function initializeHireButtons() {
+        hireButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const workerName = button.getAttribute('data-worker');
+                const workerId = button.getAttribute('data-worker-id');
+                hireModalWorkerName.textContent = `Sending hire request to ${workerName}`;
+                hireModalWorkerName.setAttribute('data-worker-id', workerId); // Store worker ID
+                hireModal.style.display = 'flex';
+                setTimeout(() => {
+                    hireModal.classList.add('show');
+                }, 10);
+            });
         });
 
-        if (!res.ok) {
-            throw new Error(`HTTP error! status: ${res.status}`);
-        }
+        const hireForm = document.getElementById('hire-form');
+        
+        hireForm.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Prevent default form submission
 
-        const data = await res.json();
-        
-        // Use your notification system instead of alert
-        showNotification(data.message || 'Request sent successfully!', 'success');
-        
-        // Close the modal
-        closeModal(hireModal);
-        
-        // Reset the form
-        e.target.reset();
+            const formData = new FormData(hireForm);
+            const workerId = hireModalWorkerName.getAttribute('data-worker-id');
+            const data = {
+                position: formData.get('position'),
+                location: formData.get('location'),
+                salary: parseFloat(formData.get('salary')),
+                workerId: workerId // Include worker ID
+            };
 
-    } catch (err) {
-        console.error('Error:', err);
-        showNotification(err.message || 'Failed to send request', 'error');
+            if (!data.position || !data.location || !data.salary || !data.workerId) {
+                showNotification('Please fill in all fields.', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('/companytoworker', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    showNotification(`Hire request sent to ${hireModalWorkerName.textContent.replace('Sending hire request to ', '')} successfully!`, 'success');
+                    closeModal(hireModal);
+                    hireForm.reset(); // Reset form fields
+                } else {
+                    showNotification('Error: ' + result.error, 'error');
+                }
+            } catch (err) {
+                console.error('Error submitting form:', err);
+                showNotification('An error occurred while sending the request.', 'error');
+            }
+        });
+
+        cancelHireBtn.addEventListener('click', () => {
+            closeModal(hireModal);
+            hireForm.reset(); // Reset form fields
+        });
     }
-});
     </script>
 </body>
 </html>

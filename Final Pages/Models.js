@@ -578,6 +578,11 @@ const companyToWorkerSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Worker',
       required: true
+  },
+  status: {
+    type: String,
+    enum: ["Pending", "Accepted", "Denied"],
+    default: "Pending",
   }
 });
 

@@ -204,12 +204,62 @@ app.get("/companyrevenue.html", (req, res) => {
 });
 app.get("/companyhiring.html", isAuthenticated, async (req, res) => {
   try {
+      // Fetch workers for "Find Workers" section
       const workers = await Worker.find({});
-      res.render("company/hiring", { workers });
+      const processedWorkers = workers.map(worker => {
+          const sanitizedName = encodeURIComponent(worker.name.replace(/\s+/g, ''));
+          return {
+              ...worker._doc,
+              profileImage: worker.profileImage && worker.profileImage.trim() !== ''
+                  ? worker.profileImage
+                  : `https://api.dicebear.com/9.x/male/svg?seed=${sanitizedName}&mouth=smile`
+          };
+      });
+
+      const companyId = new mongoose.Types.ObjectId(req.user.user_id);
+
+      // Fetch worker requests
+      const workerRequests = await WorkerToCompany.find({ companyId })
+          .populate('workerId', 'name email specialties experience profileImage title rating about projects contact location linkedin previousWork')
+          .catch(err => {
+              console.error('Population Error:', err);
+              return [];
+          });
+
+      // Process requests with proper fallbacks
+      const processedRequests = workerRequests.map(request => ({
+          _id: request._id,
+          fullName: request.fullName,
+          email: request.email,
+          positionApplying: request.positionApplying,
+          expectedSalary: request.expectedSalary,
+          status: request.status,
+          location: request.location,
+          worker: {
+              ...(request.workerId ? request.workerId._doc : {}),
+              name: request.fullName || (request.workerId ? request.workerId.name : ''),
+              email: request.email || (request.workerId ? request.workerId.email : ''),
+              location: request.location || (request.workerId ? request.workerId.location : ''),
+              profileImage: request.workerId && request.workerId.profileImage && request.workerId.profileImage.trim() !== ''
+                  ? request.workerId.profileImage
+                  : `https://api.dicebear.com/9.x/male/svg?seed=${encodeURIComponent((request.fullName || 'worker').replace(/\s+/g, ''))}&mouth=smile`
+          }
+      }));
+
+      res.render("company/hiring", { 
+          workers: processedWorkers, 
+          workerRequests: processedRequests,
+          requestedWorkers: processedRequests // For consistency with the template
+      });
   } catch (err) {
       console.error('Error fetching workers:', err);
+      console.error('Error fetching data:', err);
       res.status(500).send('Server error');
   }
+});
+app.get("/companysettings.html",isAuthenticated, async(req, res) => {
+  const user=await Company.findById(req.user.user_id);
+  res.render("company/company_settings", { user });
 });
 app.get("/companysettings.html", async(req, res) => {
   const user=await Company.findById(req.user.user_id);
