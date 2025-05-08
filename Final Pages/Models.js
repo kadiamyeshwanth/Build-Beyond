@@ -417,6 +417,7 @@ constructionProjectSchema.pre('save', function(next) {
   next();
 });
 const designRequestSchema = new mongoose.Schema({
+  projectName: { type: String, required: true },
   fullName: { type: String, required: true },
   email: { type: String, required: true },
   phone: { type: String, required: true },

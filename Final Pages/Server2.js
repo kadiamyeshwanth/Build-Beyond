@@ -530,6 +530,7 @@ app.post(
 app.post('/design_request', upload.any(), async (req, res) => {
   try {
     const {
+      projectName,
       fullName,
       email,
       phone,
@@ -545,7 +546,7 @@ app.post('/design_request', upload.any(), async (req, res) => {
     } = req.body;
 
     // Validate required fields
-    if (!fullName || !email || !phone || !address || !roomType || !roomLength || !roomWidth || !dimensionUnit) {
+    if (!projectName||!fullName || !email || !phone || !address || !roomType || !roomLength || !roomWidth || !dimensionUnit) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
@@ -560,6 +561,7 @@ app.post('/design_request', upload.any(), async (req, res) => {
 
     // Create new design request
     const designRequest = new DesignRequest({
+      projectName,
       fullName,
       email,
       phone,
