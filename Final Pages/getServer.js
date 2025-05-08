@@ -139,7 +139,7 @@ app.get("/worker_edit", (req, res) => {
 
 // Logout Route
 app.get("/logout", (req, res) => {
-  res.render("signin_up_");
+  res.render("landing_page");
 });
 // Serve Static Files
 app.use(express.static("Final Pages"));
@@ -281,8 +281,8 @@ app.get("/customersettings.html", isAuthenticated,async(req, res) => {
 app.get("/companyongoing_projects.html", (req, res) => {
   res.render("company/company_ongoing_projects");
 });
-app.get("/companyclients.html", (req, res) => {
-  res.render("company/clients");
+app.get("/project_requests.html", (req, res) => {
+  res.render("company/project_requests");
 });
 app.get("/companyrevenue.html", (req, res) => {
   res.render("company/revenue");

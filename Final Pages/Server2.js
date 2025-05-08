@@ -652,13 +652,13 @@ app.post('/design_request',isAuthenticated, upload.any(), async (req, res) => {
   }
 });
 //Bid-form Submit
-app.post('/bidForm_Submit', upload.fields([
+app.post('/bidForm_Submit',isAuthenticated, upload.fields([
     { name: 'siteFiles', maxCount: 10 },
     { name: 'floorImages', maxCount: 100 }
 ]), async (req, res) => {
     try {
         // Placeholder customerId (replace with actual auth system)
-        const customerId = new mongoose.Types.ObjectId();
+        const customerId = req.user.user_id;
 
         // Process site files (store filenames only)
         const siteFiles = req.files.siteFiles ? 
@@ -1230,7 +1230,7 @@ app.delete('/api/worker-requests/:id', isAuthenticated, async (req, res) => {
 app.get("/companybids.html", isAuthenticated, async (req, res) => {
   try {
     // Get company ID from authenticated user
-    const companyId = req.user.user_id
+    const companyId = req.user.user_id;
 
     // Get company details
     const company = await Company.findById(companyId)
