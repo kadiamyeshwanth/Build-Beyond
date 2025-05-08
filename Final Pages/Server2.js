@@ -392,18 +392,22 @@ app.post('/construction_form', upload.any(), async (req, res) => {
 
 //Architect 
 app.post(
-  "/architect_submit",
+  "/architect_submit",isAuthenticated,
   upload.array("referenceImages", 10),
   async (req, res) => {
     try {
-      // Temporary test customer ID (replace with auth logic)
-      const customerId = new mongoose.Types.ObjectId(
-        "000000000000000000000000"
-      );
-      const workerId = new mongoose.Types.ObjectId("000000000000000000000000");
+      // Get customer ID from authenticated user
+      const customer = req.user.user_id;
+
+      // Get worker ID from form data (if provided)
+      const worker =
+        req.body.workerId && req.body.workerId !== ""
+          ? new mongoose.Types.ObjectId(req.body.workerId)
+          : null;
 
       // Extract form data
       const {
+        projectName,
         fullName,
         contactNumber,
         email,
@@ -425,6 +429,7 @@ app.post(
 
       // Validate required fields
       const requiredFields = [
+        "projectName",
         "fullName",
         "contactNumber",
         "email",
@@ -438,25 +443,53 @@ app.post(
         "designType",
         "numFloors",
         "architecturalStyle",
-        "budget",
       ];
+
+      const missingFields = [];
       for (const field of requiredFields) {
         if (!req.body[field]) {
-          return res.status(400).json({
-            message: `Missing required field: ${field}`,
-          });
+          missingFields.push(field);
         }
+      }
+
+      if (missingFields.length > 0) {
+        console.error("Missing required fields:", missingFields);
+        return res.status(400).json({
+          message: `Missing required fields: ${missingFields.join(", ")}`,
+        });
       }
 
       // Parse floorRequirements with error handling
       let parsedFloorRequirements = [];
       if (floorRequirements) {
         try {
-          parsedFloorRequirements = Array.isArray(floorRequirements)
-            ? floorRequirements
-            : JSON.parse(floorRequirements);
+          // Check if floorRequirements is already an object/array
+          if (
+            typeof floorRequirements === "object" &&
+            !Array.isArray(floorRequirements)
+          ) {
+            // Convert object format to array format if needed
+            parsedFloorRequirements = Object.keys(floorRequirements).map(
+              (key) => {
+                const item = floorRequirements[key];
+                return {
+                  floorNumber: parseInt(item.floorNumber || key) + 1,
+                  details: item.details || "",
+                };
+              }
+            );
+          } else if (Array.isArray(floorRequirements)) {
+            parsedFloorRequirements = floorRequirements;
+          } else {
+            // Try to parse as JSON if it's a string
+            parsedFloorRequirements = JSON.parse(floorRequirements);
+          }
         } catch (parseError) {
-          console.error("Error parsing floorRequirements:", parseError);
+          console.error(
+            "Error parsing floorRequirements:",
+            parseError,
+            floorRequirements
+          );
           return res.status(400).json({
             message: "Invalid floorRequirements format",
           });
@@ -464,18 +497,23 @@ app.post(
       }
 
       // Handle file uploads safely
-      const referenceImages = req.files
-        ? req.files.map((file) => ({
-            url: `/Uploads/${file.filename}`,
-            originalName: file.originalname,
-            mimeType: file.mimetype,
-            size: file.size,
-          }))
-        : [];
+      const referenceImages =
+        req.files && req.files.length > 0
+          ? req.files.map((file) => ({
+              url: `/Uploads/${file.filename}`,
+              originalName: file.originalname,
+              mimeType: file.mimetype,
+              size: file.size,
+            }))
+          : [];
 
-      // Create document
+
+      // Create document with all required fields
       const architectHiring = new ArchitectHiring({
-        customer: customerId,
+        projectName,
+        status: "Pending",
+        customer,
+        worker,
         customerDetails: {
           fullName,
           contactNumber,
@@ -495,10 +533,15 @@ app.post(
         designRequirements: {
           designType,
           numFloors,
-          floorRequirements: parsedFloorRequirements.map((floor, index) => ({
-            floorNumber: floor.floorNumber || index + 1,
-            details: floor.details,
-          })),
+          floorRequirements: parsedFloorRequirements.map((floor, index) => {
+            return {
+              floorNumber:
+                typeof floor.floorNumber === "number"
+                  ? floor.floorNumber
+                  : index + 1,
+              details: floor.details || "",
+            };
+          }),
           specialFeatures,
           architecturalStyle,
         },
@@ -507,6 +550,7 @@ app.post(
           completionDate: completionDate ? new Date(completionDate) : undefined,
           referenceImages,
         },
+        // createdAt and updatedAt will be set automatically by default values
       });
 
       // Save to MongoDB
@@ -525,12 +569,10 @@ app.post(
     }
   }
 );
-
 //Interiror design
 app.post('/design_request', upload.any(), async (req, res) => {
   try {
     const {
-      projectName,
       fullName,
       email,
       phone,
@@ -546,7 +588,7 @@ app.post('/design_request', upload.any(), async (req, res) => {
     } = req.body;
 
     // Validate required fields
-    if (!projectName||!fullName || !email || !phone || !address || !roomType || !roomLength || !roomWidth || !dimensionUnit) {
+    if (!fullName || !email || !phone || !address || !roomType || !roomLength || !roomWidth || !dimensionUnit) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
@@ -561,7 +603,6 @@ app.post('/design_request', upload.any(), async (req, res) => {
 
     // Create new design request
     const designRequest = new DesignRequest({
-      projectName,
       fullName,
       email,
       phone,
@@ -916,7 +957,7 @@ app.post(
 // Company to Worker 
 app.post('/companytoworker', isAuthenticated , async (req, res) => {
   try {
-      const { position, location, salary ,workerId} = req.body;
+      const { position, location, salary,workerId } = req.body;
 
       // Replace these with actual values (from session, auth, or hidden form inputs)
       const dummyCompanyId = req.user.user_id;

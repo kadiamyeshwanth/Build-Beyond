@@ -234,8 +234,13 @@
         <h1>Architectural Design Request Form</h1>
         
         <form id="designRequestForm" enctype="multipart/form-data" action="/architect_submit" method="post">
+            <input type="hidden" id="workerId" name="workerId" value="">
             <!-- Customer Details -->
             <div class="section">
+                <div class="form-group">
+                        <label for="projectName">Project Name*</label>
+                        <input type="text" id="projectName" name="projectName" required>
+                </div>
                 <h2 class="section-title">Customer Details</h2>
                 <div class="form-row">
                     <div class="form-group">
@@ -389,7 +394,19 @@
         </form>
     </div>
 
-    <script>
+<script>
+        // Get workerId from URL query parameters
+        document.addEventListener('DOMContentLoaded', function() {
+            // Parse URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const workerId = urlParams.get('workerId');
+            
+            // Set workerId in the hidden field if it exists
+            if (workerId) {
+                document.getElementById('workerId').value = workerId;
+            }
+        });
+        
         // Dynamic floor requirements
         document.getElementById('numFloors').addEventListener('change', function() {
             const numFloors = this.value === '5+' ? 5 : parseInt(this.value);
@@ -468,7 +485,6 @@
         });
 
         // Form submission
-        // 
         const form = document.querySelector("form");
         form.addEventListener("submit", (e) => {
         e.preventDefault(); // Prevent default form submission

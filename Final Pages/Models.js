@@ -1,26 +1,6 @@
-// Schemas
-// const {
-//   express,
-//   app,
-//   PORT,
-//   bodyParser,
-//   session,
-//   SQLiteStore,
-//   cors,
-//   path,
-//   mongoose,
-//   router,
-//   multer,
-//   fs,
-//   bcrypt
-// } = require("./getServer");
-
-// app.set("view engine", "ejs");
-// app.set("views", "views");
-
-const mongoose=require("mongoose")
-const bcrypt=require("bcrypt");
-const Schema=mongoose.Schema;
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
+const Schema = mongoose.Schema;
 
 const customerSchema = new mongoose.Schema(
   {
@@ -72,22 +52,26 @@ const companySchema = new mongoose.Schema(
     // For customer profile
     projectsCompleted: { type: String },
     yearsInBusiness: { type: String },
-    teamMembers: [{
-      name: { type: String },
-      position: { type: String },
-      image: { type: String }
-    }],
-    completedProjects: [{
-      title: { type: String },
-      description: { type: String },
-      image: { type: String }
-    }],
+    teamMembers: [
+      {
+        name: { type: String },
+        position: { type: String },
+        image: { type: String },
+      },
+    ],
+    completedProjects: [
+      {
+        title: { type: String },
+        description: { type: String },
+        image: { type: String },
+      },
+    ],
     didYouKnow: { type: String },
-    profileType: { 
-      type: String, 
-      enum: ["worker", "customer"], 
-      default: "worker" 
-    }
+    profileType: {
+      type: String,
+      enum: ["worker", "customer"],
+      default: "worker",
+    },
   },
   { timestamps: true }
 );
@@ -119,8 +103,8 @@ const workerSchema = new mongoose.Schema(
     certificateFiles: [{ type: String }],
     role: { type: String, default: "worker" },
     profileImage: { type: String },
-    professionalTitle: { type: String},
-    about: { type: String},
+    professionalTitle: { type: String },
+    about: { type: String },
     specialties: [{ type: String, default: [] }],
     projects: [
       {
@@ -160,6 +144,16 @@ workerSchema.index({ availability: 1 });
 });
 
 const architectHiringSchema = new mongoose.Schema({
+  projectName: {
+    type: String,
+    required: [true, "Project name is required"],
+    trim: true,
+  },
+  status: {
+    type: String,
+    enum: ["Pending", "Accepted", "Rejected"],
+    default: "Pending",
+  },
   customer: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User", // Reference to User model (customer)
@@ -338,35 +332,35 @@ const constructionProjectSchema = new mongoose.Schema({
   // Customer Information
   customerName: {
     type: String,
-    required: true
+    required: true,
   },
   customerEmail: {
     type: String,
     required: true,
-    match: [/.+\@.+\..+/, 'Please enter a valid email']
+    match: [/.+\@.+\..+/, "Please enter a valid email"],
   },
   customerPhone: {
     type: String,
-    required: true
+    required: true,
   },
 
   // Project Details
   projectAddress: {
     type: String,
-    required: true
+    required: true,
   },
   projectLocationPincode: {
     type: String,
-    required: true
+    required: true,
   },
   totalArea: {
     type: Number,
-    required: true
+    required: true,
   },
   buildingType: {
     type: String,
-    enum: ['residential', 'commercial', 'industrial', 'mixedUse', 'other'],
-    required: true
+    enum: ["residential", "commercial", "industrial", "mixedUse", "other"],
+    required: true,
   },
   estimatedBudget: Number,
   projectTimeline: Number,
@@ -375,44 +369,46 @@ const constructionProjectSchema = new mongoose.Schema({
   totalFloors: {
     type: Number,
     required: true,
-    min: 1
+    min: 1,
   },
-  floors: [{
-    floorNumber: Number,
-    floorType: {
-      type: String,
-      enum: ['residential', 'commercial', 'parking', 'mechanical', 'other']
+  floors: [
+    {
+      floorNumber: Number,
+      floorType: {
+        type: String,
+        enum: ["residential", "commercial", "parking", "mechanical", "other"],
+      },
+      floorArea: Number,
+      floorDescription: String,
+      floorImagePath: String,
     },
-    floorArea: Number,
-    floorDescription: String,
-    floorImagePath: String
-  }],
+  ],
 
   // Additional Requirements
   specialRequirements: String,
   accessibilityNeeds: {
     type: String,
-    enum: ['wheelchair', 'elevators', 'ramps', 'other', 'none', '']
+    enum: ["wheelchair", "elevators", "ramps", "other", "none", ""],
   },
   energyEfficiency: {
     type: String,
-    enum: ['standard', 'leed', 'passive', 'netZero', 'other', '']
+    enum: ["standard", "leed", "passive", "netZero", "other", ""],
   },
   siteFilepaths: [String], // Array of file paths or URLs
 
   // Timestamps
   createdAt: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   updatedAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 // Update the updatedAt field before saving
-constructionProjectSchema.pre('save', function(next) {
+constructionProjectSchema.pre("save", function (next) {
   this.updatedAt = Date.now();
   next();
 });
@@ -426,11 +422,11 @@ const designRequestSchema = new mongoose.Schema({
   roomSize: {
     length: { type: Number, required: true },
     width: { type: Number, required: true },
-    unit: { type: String, required: true, enum: ['feet', 'meters'] },
+    unit: { type: String, required: true, enum: ["feet", "meters"] },
   },
   ceilingHeight: {
     height: { type: Number },
-    unit: { type: String, enum: ['feet', 'meters'] },
+    unit: { type: String, enum: ["feet", "meters"] },
   },
   designPreference: { type: String },
   projectDescription: { type: String },
@@ -438,7 +434,6 @@ const designRequestSchema = new mongoose.Schema({
   inspirationImages: [{ type: String }], // Array of image paths
   createdAt: { type: Date, default: Date.now },
 });
-
 
 //Bid-form by Krishna
 const floorSchema = new mongoose.Schema({
@@ -583,32 +578,32 @@ BidSchema.pre("save", function (next) {
 // Company To Worker Schema
 const companyToWorkerSchema = new mongoose.Schema({
   position: {
-      type: String,
-      required: true
+    type: String,
+    required: true,
   },
   location: {
-      type: String,
-      required: true
+    type: String,
+    required: true,
   },
   salary: {
-      type: Number,
-      required: true
+    type: Number,
+    required: true,
   },
   company: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Company',
-      required: true
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Company",
+    required: true,
   },
   worker: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Worker',
-      required: true
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Worker",
+    required: true,
   },
   status: {
     type: String,
     enum: ["Pending", "Accepted", "Denied"],
     default: "Pending",
-  }
+  },
 });
 
 //Worker to Company
@@ -705,16 +700,34 @@ const jobApplicationSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-
 // Models
 const Customer = mongoose.model("Customer", customerSchema);
 const Company = mongoose.model("Company", companySchema);
 const Worker = mongoose.model("Worker", workerSchema);
-const ArchitectHiring = mongoose.model("ArchitectHiring",architectHiringSchema);
-const ConstructionProjectSchema = mongoose.model("ConstructionProjectSchema",constructionProjectSchema);
-const DesignRequest = mongoose.model('DesignRequest', designRequestSchema);
+const ArchitectHiring = mongoose.model(
+  "ArchitectHiring",
+  architectHiringSchema
+);
+const ConstructionProjectSchema = mongoose.model(
+  "ConstructionProjectSchema",
+  constructionProjectSchema
+);
+const DesignRequest = mongoose.model("DesignRequest", designRequestSchema);
 const Bid = mongoose.model("Bid", BidSchema);
 const WorkerToCompany = mongoose.model("WorkerToCompany", jobApplicationSchema);
-const CompanytoWorker = mongoose.model("CompanytoWorker",companyToWorkerSchema);
+const CompanytoWorker = mongoose.model(
+  "CompanytoWorker",
+  companyToWorkerSchema
+);
 
-module.exports = { Customer, Company, Worker, ArchitectHiring, ConstructionProjectSchema ,DesignRequest,Bid,WorkerToCompany,CompanytoWorker};
+module.exports = {
+  Customer,
+  Company,
+  Worker,
+  ArchitectHiring,
+  ConstructionProjectSchema,
+  DesignRequest,
+  Bid,
+  WorkerToCompany,
+  CompanytoWorker,
+};
