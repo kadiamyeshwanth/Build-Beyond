@@ -134,15 +134,22 @@
     <div class="container">
         <h1>Construction Project Submission Form</h1>
         
-        <form id="constructionForm" method="post" action ="/construction_form" enctype="multipart/form-data">
+        <form id="constructionForm" method="post" action="/construction_form" enctype="multipart/form-data">
+            <!-- Hidden field for company ID -->
+            <input type="hidden" id="companyId" name="companyId" value="">
+            
+            <!-- Project Name -->
+            <div class="form-section">
+                <h2>Project Information</h2>
+                <div class="form-group">
+                    <label for="projectName" class="required">Project Name</label>
+                    <input type="text" id="projectName" name="projectName" required>
+                </div>
+            </div>
+            
             <!-- Personal Information Section -->
             <div class="form-section">
                 <h2>Customer Information</h2>
-                <div class="form-group">
-                    <label for="customerName" class="required">Project Name</label>
-                    <input type="text" id="customerName" name="customerName" required>
-                </div>
-
                 <div class="form-group">
                     <label for="customerName" class="required">Full Name</label>
                     <input type="text" id="customerName" name="customerName" required>
@@ -267,6 +274,15 @@
             const generateFloorsBtn = document.getElementById('generateFloors');
             const floorDetailsContainer = document.getElementById('floorDetails');
             
+            // Get company ID from URL parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const companyId = urlParams.get('companyId');
+            
+            // Set company ID in hidden field
+            if (companyId) {
+                document.getElementById('companyId').value = companyId;
+            }
+            
             // Generate floor details based on the number of floors
             generateFloorsBtn.addEventListener('click', function() {
                 const totalFloors = parseInt(document.getElementById('totalFloors').value);
@@ -320,59 +336,58 @@
             
             // Form submission
             form.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            // Validate required fields
-            const requiredFields = form.querySelectorAll('[required]');
-            let isValid = true;
-            
-            requiredFields.forEach(field => {
-                if (!field.value.trim()) {
-                isValid = false;
-                field.style.borderColor = 'red';
-                } else {
-                field.style.borderColor = '#ddd';
-                }
-            });
-            
-            if (!isValid) {
-                alert('Please fill in all required fields');
-                return;
-            }
-            
-            try {
-                // Create FormData object to handle file uploads
-                const formData = new FormData(form);
+                e.preventDefault();
                 
-                // Show loading state
-                const submitBtn = form.querySelector('.submit-btn');
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'Submitting...';
+                // Validate required fields
+                const requiredFields = form.querySelectorAll('[required]');
+                let isValid = true;
                 
-                // Send form data to server
-                const response = await fetch('/construction_form', {
-                method: 'POST',
-                body: formData
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        isValid = false;
+                        field.style.borderColor = 'red';
+                    } else {
+                        field.style.borderColor = '#ddd';
+                    }
                 });
                 
-                const result = await response.json();
-                
-                if (response.ok) {
-                alert('Project submitted successfully!');
-                form.reset();
-                floorDetailsContainer.innerHTML = '';
-                } else {
-                throw new Error(result.message || 'Failed to submit project');
+                if (!isValid) {
+                    alert('Please fill in all required fields');
+                    return;
                 }
-            } catch (error) {
-                console.error('Submission error:', error);
-                alert(`Error: ${error.message}`);
-            } finally {
-                // Reset button state
-                const submitBtn = form.querySelector('.submit-btn');
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Submit Project';
-            }
+                
+                try {
+                    // Create FormData object to handle file uploads
+                    const formData = new FormData(form);
+                    
+                    // Show loading state
+                    const submitBtn = form.querySelector('.submit-btn');
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Submitting...';
+                    
+                    // Send form data to server
+                    const response = await fetch('/construction_form', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (response.ok) {
+                        alert('Project submitted successfully!');
+                        window.location.href = '/customerdashboard.html';
+                    } else {
+                        throw new Error(result.message || 'Failed to submit project');
+                    }
+                } catch (error) {
+                    console.error('Submission error:', error);
+                    alert(`Error: ${error.message}`);
+                } finally {
+                    // Reset button state
+                    const submitBtn = form.querySelector('.submit-btn');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Submit Project';
+                }
             });
                         
             // Add or remove floors
@@ -396,7 +411,7 @@
                     reader.readAsDataURL(input.files[0]);
                 }
             };
-        })
+        });
     </script>
 </body>
 </html>

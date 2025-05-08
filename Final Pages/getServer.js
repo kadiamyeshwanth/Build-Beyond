@@ -180,8 +180,20 @@ app.get("/Job_Request_Status",isAuthenticated, async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-app.get("/construction_comanies_list.html", (req, res) => {
-  res.render("customer/construction_companies_list");
+app.get('/construction_comanies_list.html', isAuthenticated, async (req, res) => {
+  try {
+    // Fetch all companies from the database
+    const companies = await Company.find({}).lean();
+    
+    // Render the EJS template with the companies data
+    res.render('customer/construction_companies_list', { 
+      companies,
+      user: req.user
+    });
+  } catch (error) {
+    console.error('Error fetching companies:', error);
+    res.status(500).send('Server error');
+  }
 });
 app.get("/construction_companies_profile.html", (req, res) => {
   res.render("customer/construction_companies_profile");

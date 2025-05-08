@@ -438,533 +438,121 @@
 
     <!-- Company Cards -->
     <div class="company-container">
-        <!-- Company 1 -->
-        <div class="company-card" data-id="larsen">
-            <div class="company-name">Larsen & Toubro</div>
-            
-            <div class="company-stats">
-                <div class="stat">
-                    <span class="stat-number">350+</span>
-                    <span class="stat-label">Projects</span>
+        <% if (companies && companies.length > 0) { %>
+            <% companies.forEach((company, index) => { %>
+                <div class="company-card" data-id="<%= company._id %>">
+                    <div class="company-name"><%= company.companyName %></div>
+                    
+                    <div class="company-stats">
+                        <div class="stat">
+                            <span class="stat-number"><%= company.projectsCompleted || '0+' %></span>
+                            <span class="stat-label">Projects</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number"><%= company.yearsInBusiness || '0' %></span>
+                            <span class="stat-label">Years</span>
+                        </div>
+                    </div>
+                    
+                    <div class="company-details">
+                        <%= company.description || 'Leading construction company with expertise in residential and commercial buildings, infrastructure development, and engineering services.' %>
+                    </div>
+                    
+                    <div class="location">
+                        <i class="fas fa-map-marker-alt"></i> <%= company.location && company.location.city ? company.location.city : 'Location not specified' %>, India
+                    </div>
+                    
+                    <div class="buttons">
+                        <button class="view-details-btn" onclick="showDetails('<%= company._id %>')" data-id="<%= company._id %>">View Details</button>
+                        <a href="/constructionform.html?companyId=<%= company._id %>" class="book-now-btn">Book Now</a>
+                    </div>
                 </div>
-                <div class="stat">
-                    <span class="stat-number">85</span>
-                    <span class="stat-label">Years</span>
-                </div>
+            <% }); %>
+        <% } else { %>
+            <div class="no-companies">
+                <p>No construction companies found.</p>
             </div>
-            
-            <div class="company-details">
-                Leading construction company with expertise in residential and commercial buildings, infrastructure development, and engineering services.
-            </div>
-            
-            <div class="location">
-                <i class="fas fa-map-marker-alt"></i> Hyderabad, India
-            </div>
-            
-            <div class="buttons">
-                <button class="view-details-btn" onclick="showDetails(this.getAttribute('data-id'))" data-id="larsen">View Details</button>
-                <a href="/constructionform.html" class="book-now-btn">Book Now</a>
-            </div>
-        </div>
-
-        <!-- Company 2 -->
-        <div class="company-card" data-id="meil">
-            <div class="company-name">MEIL</div>
-            
-            <div class="company-stats">
-                <div class="stat">
-                    <span class="stat-number">250+</span>
-                    <span class="stat-label">Projects</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number">32</span>
-                    <span class="stat-label">Years</span>
-                </div>
-            </div>
-            
-            <div class="company-details">
-                Specializing in infrastructure development, industrial construction, and large-scale civil engineering projects across India.
-            </div>
-            
-            <div class="location">
-                <i class="fas fa-map-marker-alt"></i> Mumbai, India
-            </div>
-            
-            <div class="buttons">
-                <button class="view-details-btn" onclick="showDetails(this.getAttribute('data-id'))" data-id="meil">View Details</button>
-                <a href="/constructionform.html" class="book-now-btn">Book Now</a>
-            </div>
-        </div>
-
-        <!-- Company 3 -->
-        <div class="company-card" data-id="abc">
-            <div class="company-name">ABC Constructions</div>
-            
-            <div class="company-stats">
-                <div class="stat">
-                    <span class="stat-number">120+</span>
-                    <span class="stat-label">Projects</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number">15</span>
-                    <span class="stat-label">Years</span>
-                </div>
-            </div>
-            
-            <div class="company-details">
-                Residential and commercial construction company known for quality craftsmanship and modern design approach in urban developments.
-            </div>
-            
-            <div class="location">
-                <i class="fas fa-map-marker-alt"></i> Hyderabad, India
-            </div>
-            
-            <div class="buttons">
-                <button class="view-details-btn" onclick="showDetails(this.getAttribute('data-id'))" data-id="abc">View Details</button>
-                <a href="/constructionform.html" class="book-now-btn">Book Now</a>
-            </div>
-        </div>
-
-        <!-- Company 4 -->
-        <div class="company-card" data-id="xyz">
-            <div class="company-name">XYZ Constructions</div>
-            
-            <div class="company-stats">
-                <div class="stat">
-                    <span class="stat-number">180+</span>
-                    <span class="stat-label">Projects</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number">22</span>
-                    <span class="stat-label">Years</span>
-                </div>
-            </div>
-            
-            <div class="company-details">
-                Infrastructure and renovation specialists with expertise in industrial buildings, bridges, and transportation facilities.
-            </div>
-            
-            <div class="location">
-                <i class="fas fa-map-marker-alt"></i> Mumbai, India
-            </div>
-            
-            <div class="buttons">
-                <button class="view-details-btn" onclick="showDetails(this.getAttribute('data-id'))" data-id="xyz">View Details</button>
-                <a href="/constructionform.html" class="book-now-btn">Book Now</a>
-            </div>
-        </div>
-
-        <!-- Company 5 -->
-        <div class="company-card" data-id="123">
-            <div class="company-name">123 Constructions</div>
-            
-            <div class="company-stats">
-                <div class="stat">
-                    <span class="stat-number">95+</span>
-                    <span class="stat-label">Projects</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number">10</span>
-                    <span class="stat-label">Years</span>
-                </div>
-            </div>
-            
-            <div class="company-details">
-                Renovation and commercial building specialists with focus on sustainable and eco-friendly construction practices.
-            </div>
-            
-            <div class="location">
-                <i class="fas fa-map-marker-alt"></i> Delhi NCR, India
-            </div>
-            
-            <div class="buttons">
-                <button class="view-details-btn" onclick="showDetails(this.getAttribute('data-id'))" data-id="123">View Details</button>
-                <a href="/constructionform.html" class="book-now-btn">Book Now</a>
-            </div>
-        </div>
+        <% } %>
     </div>
 
-    <!-- Company Details Modal for L&T -->
-    <div class="details-overlay" id="larsen-details">
-        <div class="details-content">
-            <button class="close-details" onclick="closeDetails('larsen')"><i class="fas fa-times"></i></button>
-            
-            <h2 class="detail-company-name">Larsen & Toubro</h2>
-            <p class="detail-company-subtitle">Leading Engineering & Construction Conglomerate</p>
-            
-            <div class="detail-section">
-                <h3 class="detail-section-title">Company Overview</h3>
-                <div class="detail-stats">
-                    <div class="detail-stat">
-                        <div class="detail-stat-number">350+</div>
-                        <div class="detail-stat-label">Projects Completed</div>
-                    </div>
-                    <div class="detail-stat">
-                        <div class="detail-stat-number">85</div>
-                        <div class="detail-stat-label">Years in Business</div>
-                    </div>
-                    <div class="detail-stat">
-                        <div class="detail-stat-number">15K+</div>
-                        <div class="detail-stat-label">Employees</div>
-                    </div>
-                </div>
-                
-                <p class="detail-description">
-                    Larsen & Toubro Limited (L&T) is a major Indian multinational conglomerate with operations in more than 30 countries. 
-                    The company was founded in 1938 in Mumbai. L&T is engaged in technology, engineering, construction, manufacturing, 
-                    and financial services with over $21 billion in revenue. With expertise spanning decades, L&T has constructed some of 
-                    the most iconic structures in India and abroad, including airports, metros, highways, bridges, and high-rise buildings.
-                </p>
-            </div>
-            
-            <div class="detail-section">
-                <h3 class="detail-section-title">Key Team Members</h3>
-                <div class="detail-team-member">
-                    <img src="/api/placeholder/120/120" alt="Rajesh Kumar" class="member-image">
-                    <div class="member-info">
-                        <h4 class="member-name">Rajesh Kumar</h4>
-                        <p class="member-position">CEO & Founder</p>
-                    </div>
-                </div>
-                <div class="detail-team-member">
-                    <img src="/api/placeholder/120/120" alt="Priya Sharma" class="member-image">
-                    <div class="member-info">
-                        <h4 class="member-name">Priya Sharma</h4>
-                        <p class="member-position">Head of Projects</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="detail-section">
-                <h3 class="detail-section-title">Completed Projects</h3>
-                <div class="detail-projects">
-                    <div class="project-item">
-                        <img src="/api/placeholder/120/120" alt="Downtown Office Complex" class="project-image">
-                        <div class="project-info">
-                            <h4 class="project-name">Downtown Office Complex</h4>
-                            <p class="project-description">A 25-story commercial tower with retail spaces and premium office accommodations in the heart of the city.</p>
+    <!-- Company Details Modals -->
+    <% if (companies && companies.length > 0) { %>
+        <% companies.forEach(company => { %>
+            <div class="details-overlay" id="<%= company._id %>-details">
+                <div class="details-content">
+                    <button class="close-details" onclick="closeDetails('<%= company._id %>')"><i class="fas fa-times"></i></button>
+                    
+                    <h2 class="detail-company-name"><%= company.companyName %></h2>
+                    <p class="detail-company-subtitle"><%= company.contactPerson ? company.contactPerson + ' - ' : '' %>Leading Engineering & Construction</p>
+                    
+                    <div class="detail-section">
+                        <h3 class="detail-section-title">Company Overview</h3>
+                        <div class="detail-stats">
+                            <div class="detail-stat">
+                                <div class="detail-stat-number"><%= company.projectsCompleted || '0+' %></div>
+                                <div class="detail-stat-label">Projects Completed</div>
+                            </div>
+                            <div class="detail-stat">
+                                <div class="detail-stat-number"><%= company.yearsInBusiness || '0' %></div>
+                                <div class="detail-stat-label">Years in Business</div>
+                            </div>
+                            <div class="detail-stat">
+                                <div class="detail-stat-number"><%= company.size || 'N/A' %></div>
+                                <div class="detail-stat-label">Employees</div>
+                            </div>
                         </div>
+                        
+                        <p class="detail-description">
+                            <%= company.description || 'Company description not available.' %>
+                        </p>
                     </div>
-                    <div class="project-item">
-                        <img src="/api/placeholder/120/120" alt="Tech Park Campus" class="project-image">
-                        <div class="project-info">
-                            <h4 class="project-name">Tech Park Campus</h4>
-                            <p class="project-description">A 10-acre integrated technology park with office spaces, research facilities, and recreational areas.</p>
+                    
+                    <% if (company.teamMembers && company.teamMembers.length > 0) { %>
+                        <div class="detail-section">
+                            <h3 class="detail-section-title">Key Team Members</h3>
+                            <% company.teamMembers.forEach(member => { %>
+                                <div class="detail-team-member">
+                                    <img src="<%= member.image || '/api/placeholder/120/120' %>" alt="<%= member.name %>" class="member-image">
+                                    <div class="member-info">
+                                        <h4 class="member-name"><%= member.name %></h4>
+                                        <p class="member-position"><%= member.position %></p>
+                                    </div>
+                                </div>
+                            <% }); %>
                         </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="detail-section">
-                <h3 class="detail-section-title">Did You Know?</h3>
-                <p class="detail-description">
-                    Our company was the first in the region to implement sustainable construction practices across all projects, 
-                    reducing environmental impact by 40% compared to industry standards.
-                </p>
-            </div>
-            
-            <a href="/constructionform.html" class="detail-book-now">Book Now</a>
-        </div>
-    </div>
-
-    <!-- Company Details Modal for MEIL -->
-    <div class="details-overlay" id="meil-details">
-        <div class="details-content">
-            <button class="close-details" onclick="closeDetails('meil')"><i class="fas fa-times"></i></button>
-            
-            <h2 class="detail-company-name">MEIL</h2>
-            <p class="detail-company-subtitle">Megha Engineering & Infrastructure Limited</p>
-            
-            <div class="detail-section">
-                <h3 class="detail-section-title">Company Overview</h3>
-                <div class="detail-stats">
-                    <div class="detail-stat">
-                        <div class="detail-stat-number">250+</div>
-                        <div class="detail-stat-label">Projects Completed</div>
-                    </div>
-                    <div class="detail-stat">
-                        <div class="detail-stat-number">32</div>
-                        <div class="detail-stat-label">Years in Business</div>
-                    </div>
-                    <div class="detail-stat">
-                        <div class="detail-stat-number">8K+</div>
-                        <div class="detail-stat-label">Employees</div>
-                    </div>
-                </div>
-                
-                <p class="detail-description">
-                    Megha Engineering & Infrastructure Limited (MEIL) is a major infrastructure company with expertise in irrigation, 
-                    power generation, oil & gas, and transportation sectors. Established in 1989, MEIL has grown to become one of India's 
-                    leading construction companies with operations across multiple states and international presence.
-                </p>
-            </div>
-            
-            <div class="detail-section">
-                <h3 class="detail-section-title">Key Team Members</h3>
-                <div class="detail-team-member">
-                    <img src="/api/placeholder/120/120" alt="Team Member" class="member-image">
-                    <div class="member-info">
-                        <h4 class="member-name">Sudhir Reddy</h4>
-                        <p class="member-position">Managing Director</p>
-                    </div>
-                </div>
-                <div class="detail-team-member">
-                    <img src="/api/placeholder/120/120" alt="Team Member" class="member-image">
-                    <div class="member-info">
-                        <h4 class="member-name">Anand Kumar</h4>
-                        <p class="member-position">Chief Technical Officer</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="detail-section">
-                <h3 class="detail-section-title">Completed Projects</h3>
-                <div class="detail-projects">
-                    <div class="project-item">
-                        <img src="/api/placeholder/120/120" alt="Kaleshwaram Lift Irrigation Project" class="project-image">
-                        <div class="project-info">
-                            <h4 class="project-name">Kaleshwaram Lift Irrigation Project</h4>
-                            <p class="project-description">One of the world's largest multi-stage lift irrigation projects with massive pumping stations.</p>
+                    <% } %>
+                    
+                    <% if (company.completedProjects && company.completedProjects.length > 0) { %>
+                        <div class="detail-section">
+                            <h3 class="detail-section-title">Completed Projects</h3>
+                            <div class="detail-projects">
+                                <% company.completedProjects.forEach(project => { %>
+                                    <div class="project-item">
+                                        <img src="<%= project.image || '/api/placeholder/120/120' %>" alt="<%= project.title %>" class="project-image">
+                                        <div class="project-info">
+                                            <h4 class="project-name"><%= project.title %></h4>
+                                            <p class="project-description"><%= project.description %></p>
+                                        </div>
+                                    </div>
+                                <% }); %>
+                            </div>
                         </div>
-                    </div>
-                    <div class="project-item">
-                        <img src="/api/placeholder/120/120" alt="Mumbai Metro Line" class="project-image">
-                        <div class="project-info">
-                            <h4 class="project-name">Mumbai Metro Line</h4>
-                            <p class="project-description">Construction of elevated metro rail line with stations and infrastructure facilities.</p>
+                    <% } %>
+                    
+                    <% if (company.didYouKnow) { %>
+                        <div class="detail-section">
+                            <h3 class="detail-section-title">Did You Know?</h3>
+                            <p class="detail-description">
+                                <%= company.didYouKnow %>
+                            </p>
                         </div>
-                    </div>
+                    <% } %>
+                    
+                    <a href="/constructionform.html?companyId=<%= company._id %>" class="detail-book-now">Book Now</a>
                 </div>
             </div>
-            
-            <a href="/constructionform.html" class="detail-book-now">Book Now</a>
-        </div>
-    </div>
-
-    <!-- ABC Constructions Details Modal -->
-    <div class="details-overlay" id="abc-details">
-        <div class="details-content">
-            <button class="close-details" onclick="closeDetails('abc')"><i class="fas fa-times"></i></button>
-            
-            <h2 class="detail-company-name">ABC Constructions</h2>
-            <p class="detail-company-subtitle">Modern Residential & Commercial Specialists</p>
-            
-            <div class="detail-section">
-                <h3 class="detail-section-title">Company Overview</h3>
-                <div class="detail-stats">
-                    <div class="detail-stat">
-                        <div class="detail-stat-number">120+</div>
-                        <div class="detail-stat-label">Projects Completed</div>
-                    </div>
-                    <div class="detail-stat">
-                        <div class="detail-stat-number">15</div>
-                        <div class="detail-stat-label">Years in Business</div>
-                    </div>
-                    <div class="detail-stat">
-                        <div class="detail-stat-number">500+</div>
-                        <div class="detail-stat-label">Employees</div>
-                    </div>
-                </div>
-                
-                <p class="detail-description">
-                    ABC Constructions is a modern construction firm specializing in residential and commercial projects. 
-                    Established in 2008, the company has quickly gained a reputation for innovative design approaches and 
-                    quality craftsmanship. Their projects are known for contemporary aesthetics, efficient space utilization, 
-                    and adherence to sustainable building practices.
-                </p>
-            </div>
-            
-            <div class="detail-section">
-                <h3 class="detail-section-title">Key Team Members</h3>
-                <div class="detail-team-member">
-                    <img src="/api/placeholder/120/120" alt="Team Member" class="member-image">
-                    <div class="member-info">
-                        <h4 class="member-name">Vikram Mehta</h4>
-                        <p class="member-position">Founder & CEO</p>
-                    </div>
-                </div>
-                <div class="detail-team-member">
-                    <img src="/api/placeholder/120/120" alt="Team Member" class="member-image">
-                    <div class="member-info">
-                        <h4 class="member-name">Aisha Khan</h4>
-                        <p class="member-position">Chief Architect</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="detail-section">
-                <h3 class="detail-section-title">Completed Projects</h3>
-                <div class="detail-projects">
-                    <div class="project-item">
-                        <img src="/api/placeholder/120/120" alt="Harmony Heights" class="project-image">
-                        <div class="project-info">
-                            <h4 class="project-name">Harmony Heights</h4>
-                            <p class="project-description">A luxury residential complex with 150 apartments, featuring modern amenities and smart home technologies.</p>
-                        </div>
-                    </div>
-                    <div class="project-item">
-                        <img src="/api/placeholder/120/120" alt="Green Plaza" class="project-image">
-                        <div class="project-info">
-                            <h4 class="project-name">Green Plaza</h4>
-                            <p class="project-description">An eco-friendly commercial complex with LEED certification, utilizing renewable energy sources.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <a href="/constructionform.html" class="detail-book-now">Book Now</a>
-        </div>
-    </div>
-
-    <!-- XYZ Constructions Details Modal -->
-    <div class="details-overlay" id="xyz-details">
-        <div class="details-content">
-            <button class="close-details" onclick="closeDetails('xyz')"><i class="fas fa-times"></i></button>
-            
-            <h2 class="detail-company-name">XYZ Constructions</h2>
-            <p class="detail-company-subtitle">Infrastructure & Industrial Construction Experts</p>
-            
-            <div class="detail-section">
-                <h3 class="detail-section-title">Company Overview</h3>
-                <div class="detail-stats">
-                    <div class="detail-stat">
-                        <div class="detail-stat-number">180+</div>
-                        <div class="detail-stat-label">Projects Completed</div>
-                    </div>
-                    <div class="detail-stat">
-                        <div class="detail-stat-number">22</div>
-                        <div class="detail-stat-label">Years in Business</div>
-                    </div>
-                    <div class="detail-stat">
-                        <div class="detail-stat-number">1.2K+</div>
-                        <div class="detail-stat-label">Employees</div>
-                    </div>
-                </div>
-                
-                <p class="detail-description">
-                    XYZ Constructions is a leading infrastructure development company established in 2002. The company 
-                    specializes in large-scale industrial projects, bridges, highways, and transportation facilities. 
-                    With a strong engineering team and state-of-the-art equipment, XYZ Constructions has successfully 
-                    delivered complex projects across multiple states in India.
-                </p>
-            </div>
-            
-            <div class="detail-section">
-                <h3 class="detail-section-title">Key Team Members</h3>
-                <div class="detail-team-member">
-                    <img src="/api/placeholder/120/120" alt="Team Member" class="member-image">
-                    <div class="member-info">
-                        <h4 class="member-name">Rahul Desai</h4>
-                        <p class="member-position">Managing Director</p>
-                    </div>
-                </div>
-                <div class="detail-team-member">
-                    <img src="/api/placeholder/120/120" alt="Team Member" class="member-image">
-                    <div class="member-info">
-                        <h4 class="member-name">Neha Joshi</h4>
-                        <p class="member-position">Chief Project Engineer</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="detail-section">
-                <h3 class="detail-section-title">Completed Projects</h3>
-                <div class="detail-projects">
-                    <div class="project-item">
-                        <img src="/api/placeholder/120/120" alt="Coastal Highway Link" class="project-image">
-                        <div class="project-info">
-                            <h4 class="project-name">Coastal Highway Link</h4>
-                            <p class="project-description">A 45-kilometer coastal highway with bridges and underpasses connecting major port cities.</p>
-                        </div>
-                    </div>
-                    <div class="project-item">
-                        <img src="/api/placeholder/120/120" alt="Industrial Manufacturing Hub" class="project-image">
-                        <div class="project-info">
-                            <h4 class="project-name">Industrial Manufacturing Hub</h4>
-                            <p class="project-description">Development of a 200-acre industrial zone with factories, warehouses, and logistics facilities.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <a href="/constructionform.html" class="detail-book-now">Book Now</a>
-        </div>
-    </div>
-    
-    <!-- 123 Constructions Details Modal -->
-    <div class="details-overlay" id="123-details">
-        <div class="details-content">
-            <button class="close-details" onclick="closeDetails('123')"><i class="fas fa-times"></i></button>
-            
-            <h2 class="detail-company-name">123 Constructions</h2>
-            <p class="detail-company-subtitle">Renovation & Sustainable Building Specialists</p>
-            
-            <div class="detail-section">
-                <h3 class="detail-section-title">Company Overview</h3>
-                <div class="detail-stats">
-                    <div class="detail-stat">
-                        <div class="detail-stat-number">95+</div>
-                        <div class="detail-stat-label">Projects Completed</div>
-                    </div>
-                    <div class="detail-stat">
-                        <div class="detail-stat-number">10</div>
-                        <div class="detail-stat-label">Years in Business</div>
-                    </div>
-                    <div class="detail-stat">
-                        <div class="detail-stat-number">250+</div>
-                        <div class="detail-stat-label">Employees</div>
-                    </div>
-                </div>
-                
-                <p class="detail-description">
-                    123 Constructions is a relatively young company that has made a significant impact in the renovation 
-                    and sustainable building sector. Founded in 2014, the company focuses on eco-friendly construction 
-                    methods, energy-efficient designs, and revitalization of existing commercial spaces. They are 
-                    pioneers in using recycled materials and implementing green building standards.
-                </p>
-            </div>
-            
-            <div class="detail-section">
-                <h3 class="detail-section-title">Key Team Members</h3>
-                <div class="detail-team-member">
-                    <img src="/api/placeholder/120/120" alt="Team Member" class="member-image">
-                    <div class="member-info">
-                        <h4 class="member-name">Arjun Malhotra</h4>
-                        <p class="member-position">Founder & Director</p>
-                    </div>
-                </div>
-                <div class="detail-team-member">
-                    <img src="/api/placeholder/120/120" alt="Team Member" class="member-image">
-                    <div class="member-info">
-                        <h4 class="member-name">Divya Sharma</h4>
-                        <p class="member-position">Sustainability Head</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="detail-section">
-                <h3 class="detail-section-title">Completed Projects</h3>
-                <div class="detail-projects">
-                    <div class="project-item">
-                        <img src="/api/placeholder/120/120" alt="Heritage Mall Revitalization" class="project-image">
-                        <div class="project-info">
-                            <h4 class="project-name">Heritage Mall Revitalization</h4>
-                            <p class="project-description">Renovation of a historical building into a modern shopping complex while preserving architectural elements.</p>
-                        </div>
-                    </div>
-                    <div class="project-item">
-                        <img src="/api/placeholder/120/120" alt="Green Office Park" class="project-image">
-                        <div class="project-info">
-                            <h4 class="project-name">Green Office Park</h4>
-                            <p class="project-description">A commercial complex featuring solar power generation, rainwater harvesting, and natural ventilation systems.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <a href="/constructionform.html" class="detail-book-now">Book Now</a>
-        </div>
-    </div>
+        <% }); %>
+    <% } %>
 
     <script>
         function showDetails(companyId) {

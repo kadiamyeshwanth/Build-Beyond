@@ -295,8 +295,8 @@ app.get("/session", (req, res) => {
   }
 });
 
-// Handle form submission
-app.post('/construction_form', upload.any(), async (req, res) => {
+// Update your existing construction_form route in server.js
+app.post('/construction_form', isAuthenticated, upload.any(), async (req, res) => {
   try {
     // Extract form data from request body
     const {
@@ -314,8 +314,11 @@ app.post('/construction_form', upload.any(), async (req, res) => {
       specialRequirements,
       accessibilityNeeds,
       energyEfficiency,
-      companyId,
+      companyId, // This will come from the hidden field
     } = req.body;
+
+    // Get customer ID from authenticated user
+    const customerId = req.user.user_id;
 
     // Process floor data
     const floors = [];
@@ -374,7 +377,7 @@ app.post('/construction_form', upload.any(), async (req, res) => {
       energyEfficiency,
       siteFilepaths,
       companyId,
-      customerId,
+      customerId, // Add the customer ID from authenticated user
     });
 
     // Save to database
@@ -579,7 +582,6 @@ app.post(
 //Interiror design
 app.post('/design_request',isAuthenticated, upload.any(), async (req, res) => {
   try {
-    console.log(req.user.user_id)
     const {
       projectName,
       fullName,
@@ -596,8 +598,6 @@ app.post('/design_request',isAuthenticated, upload.any(), async (req, res) => {
       projectDescription,
       workerId, // Extract workerId from form body
     } = req.body;
-
-    console.log(req.body); // Debug: Check if workerId is received
 
     // Validate required fields
     if (!projectName || !fullName || !email || !phone || !address || !roomType || !roomLength || !roomWidth || !dimensionUnit) {
