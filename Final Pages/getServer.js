@@ -186,7 +186,7 @@ app.get("/Job_Request_Status",isAuthenticated, async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-app.get('/construction_companies_list.html', isAuthenticated, async (req, res) => {
+app.get('/construction_comanies_list.html', isAuthenticated, async (req, res) => {
   try {
     // Fetch all companies from the database
     const companies = await Company.find({}).lean();

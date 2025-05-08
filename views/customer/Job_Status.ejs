@@ -217,95 +217,88 @@
         </div>
         
         <!-- Interior Designer Applications Section -->
-        <!-- Interior Designer Applications Section -->
-<div id="interior-section" class="content-section">
-    <h2 class="interior-heading">Interior Designers You Requested to Join</h2>
-    <p>Track the status of your applications to join interior designers</p>
+        <div id="interior-section" class="content-section">
+            <h2 class="interior-heading">Interior Designers You Requested to Join</h2>
+            <p>Track the status of your applications to join interior designers</p>
 
-    <% if (interiorApplications && interiorApplications.length > 0) { %>
-        <% interiorApplications.forEach(function(app) { %>
-            <div class="application interior-app">
-                <div class="status interior-status"><%= app.status %></div>
-                <h3>
-                    <span class="project-name"><%= app.projectName %></span>
-                </h3>
-                <div class="date-info">Submitted: <%= new Date(app.createdAt).toLocaleDateString() %></div>
-                
-                <div class="section-title">Customer Information</div>
-                <p><strong>Name:</strong> <%= app.fullName %></p>
-                <p><strong>Email:</strong> <%= app.email %></p>
-                <p><strong>Phone:</strong> <%= app.phone %></p>
-                <p><strong>Address:</strong> <%= app.address %></p>
-                
-                <div class="section-title">Room Details</div>
-                <p><strong>Room Type:</strong> <%= app.roomType %></p>
-                <p><strong>Room Dimensions:</strong> 
-                    <%= app.roomLength %> × <%= app.roomWidth %> <%= app.dimensionUnit %>
-                </p>
-                <p><strong>Ceiling Height:</strong> <%= app.ceilingHeight %> <%= app.heightUnit %></p>
-                <p><strong>Design Preference:</strong> <%= app.designPreference %></p>
-                <p><strong>Project Description:</strong> <%= app.projectDescription %></p>
-            </div>
-        <% }); %>
-    <% } else { %>
-        <div class="no-applications">
-            <p>You haven't submitted any interior designer applications yet.</p>
+            <% if (interiorApplications && interiorApplications.length > 0) { %>
+                <% interiorApplications.forEach(function(app) { %>
+                    <div class="application interior-app">
+                        <div class="status interior-status"><%= app.status %></div>
+                        <h3>
+                            <span class="project-name"><%= app.name %></span>
+                        </h3>
+                        <p><strong>Email:</strong> <%= app.email %></p>
+                        
+                        <div class="section-title">Room Details</div>
+                        <p><strong>Room Type:</strong> <%= app.roomType %></p>
+                        <p><strong>Room Size:</strong> <%= app.roomSize.length %>X<%= app.roomSize.width %><%= app.roomSize.unit %></p>
+                        <p><strong>Ceiling Height:</strong> <%= app.ceilingHeight.height%><%= app.ceilingHeight.unit%></p>
+                        <p><strong>Design Preference:</strong> <%= app.designPreference%></p>
+                        <p><strong>Project Description:</strong> <%= app.projectDescription %></p>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <div class="no-applications">
+                    <p>You haven't submitted any interior designer applications yet.</p>
+                </div>
+            <% } %>
         </div>
-    <% } %>
-</div>
+        
         <!-- Construction Company Applications Section -->
-<div id="company-section" class="content-section">
-    <h2 class="company-heading">Construction Companies You Requested to Join</h2>
-    <p>Track the status of your applications to join construction companies</p>
+        <div id="company-section" class="content-section">
+            <h2 class="company-heading">Construction Companies You Requested to Join</h2>
+            <p>Track the status of your applications to join construction companies</p>
 
-    <% if (companyApplications && companyApplications.length > 0) { %>
-        <% companyApplications.forEach(function(app) { %>
-            <div class="application company-app">
-                <div class="status company-status"><%= app.status %></div>
-                <h3>
-                    <span class="project-name"><%= app.projectName %></span>
-                    <% if (app.company && app.company.name) { %>
-                        with <span><%= app.company.name %></span>
-                    <% } %>
-                </h3>
-                <div class="date-info">Submitted: <%= new Date(app.createdAt).toLocaleDateString() %></div>
-                
-                <div class="section-title">Customer Information</div>
-                <p><strong>Name:</strong> <%= app.customerName %></p>
-                <p><strong>Email:</strong> <%= app.customerEmail %></p>
-                <p><strong>Phone:</strong> <%= app.customerPhone %></p>
-                
-                <div class="section-title">Project Details</div>
-                <p><strong>Address:</strong> <%= app.projectAddress %></p>
-                <p><strong>Location Pincode:</strong> <%= app.projectLocation %></p>
-                <p><strong>Total Area:</strong> <%= app.totalArea %> sq.meters</p>
-                <p><strong>Building Type:</strong> <%= app.buildingType %></p>
-                <% if (app.estimatedBudget) { %>
-                    <p><strong>Estimated Budget:</strong> $<%= app.estimatedBudget %></p>
-                <% } %>
-                <% if (app.projectTimeline) { %>
-                    <p><strong>Project Timeline:</strong> <%= app.projectTimeline %> months</p>
-                <% } %>
-                
-                <div class="section-title">Building Details</div>
-                <p><strong>Total Floors:</strong> <%= app.totalFloors %></p>
-                
-                <div class="section-title">Additional Requirements</div>
-                <p><strong>Special Requirements:</strong> <%= app.specialRequirements || 'None specified' %></p>
-                <p><strong>Accessibility Needs:</strong> <%= app.accessibilityNeeds || 'None specified' %></p>
-                <p><strong>Energy Efficiency:</strong> <%= app.energyEfficiency || 'Standard' %></p>
-                
-                <% if (app.siteFiles && app.siteFiles.length > 0) { %>
-                    <p><strong>Attached Files:</strong> <%= app.siteFiles.length %> file(s) uploaded</p>
-                <% } %>
-            </div>
-        <% }); %>
-    <% } else { %>
-        <div class="no-applications">
-            <p>You haven't submitted any construction company applications yet.</p>
+            <% if (companyApplications && companyApplications.length > 0) { %>
+                <% companyApplications.forEach(function(app) { %>
+                    <div class="application company-app">
+                        <div class="status company-status"><%= app.status %></div>
+                        <h3>
+                            <span class="project-name"><%= app.projectName %></span>
+                            <% if (app.company && app.company.name) { %>
+                                with <span><%= app.company.name %></span>
+                            <% } %>
+                        </h3>
+                        <div class="date-info">Submitted: <%= new Date(app.createdAt).toLocaleDateString() %></div>
+                        
+                        <div class="section-title">Customer Information</div>
+                        <p><strong>Name:</strong> <%= app.customerName %></p>
+                        <p><strong>Email:</strong> <%= app.customerEmail %></p>
+                        <p><strong>Phone:</strong> <%= app.customerPhone %></p>
+                        
+                        <div class="section-title">Project Details</div>
+                        <p><strong>Address:</strong> <%= app.projectAddress %></p>
+                        <p><strong>Location Pincode:</strong> <%= app.projectLocation %></p>
+                        <p><strong>Total Area:</strong> <%= app.totalArea %> sq.meters</p>
+                        <p><strong>Building Type:</strong> <%= app.buildingType %></p>
+                        <% if (app.estimatedBudget) { %>
+                            <p><strong>Estimated Budget:</strong> $<%= app.estimatedBudget %></p>
+                        <% } %>
+                        <% if (app.projectTimeline) { %>
+                            <p><strong>Project Timeline:</strong> <%= app.projectTimeline %> months</p>
+                        <% } %>
+                        
+                        <div class="section-title">Building Details</div>
+                        <p><strong>Total Floors:</strong> <%= app.totalFloors %></p>
+                        
+                        <div class="section-title">Additional Requirements</div>
+                        <p><strong>Special Requirements:</strong> <%= app.specialRequirements || 'None specified' %></p>
+                        <p><strong>Accessibility Needs:</strong> <%= app.accessibilityNeeds || 'None specified' %></p>
+                        <p><strong>Energy Efficiency:</strong> <%= app.energyEfficiency || 'Standard' %></p>
+                        
+                        <% if (app.siteFiles && app.siteFiles.length > 0) { %>
+                            <p><strong>Attached Files:</strong> <%= app.siteFiles.length %> file(s) uploaded</p>
+                        <% } %>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <div class="no-applications">
+                    <p>You haven't submitted any construction company applications yet.</p>
+                </div>
+            <% } %>
         </div>
-    <% } %>
-</div>
+    </div>
 
     <script>
         // Tab switching functionality
