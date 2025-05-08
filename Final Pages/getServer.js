@@ -83,13 +83,13 @@ app.get("/workerjobs.html", isAuthenticated, async (req, res) => {
       });
     } else {
       const Jobs = await DesignRequest.find({
-        worker: req.user.user_id,
-        status: "Pending",
+        workerId: req.user.user_id,
+        status: "pending",
       }).sort({ updatedAt: -1 });
 
       return res.render("worker/InteriorDesigner_Jobs", {
         user: req.user,
-        jobOffers: Jobs
+        jobs: Jobs
       });
     }
   } catch (error) {

@@ -3,475 +3,442 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Architectural Job Offers</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
-      rel="stylesheet"
-    />
+    <title>Interior Designer Job Offers</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
-    --primary-color: #2c3e50;
-    --secondary-color: #3498db;
-    --accent-color: #1abc9c;
-    --background-color: #f5f7fa;
-    --card-bg: #ffffff;
-    --text-color: #333333;
-    --text-light: #7f8c8d;
-    --border-color: #e0e0e0;
-    --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    --transition: all 0.3s ease;
-}
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #1abc9c;
+            --background-color: #f5f7fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --text-light: #7f8c8d;
+            --border-color: #e0e0e0;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-body {
-    font-family: "Poppins", sans-serif;
-    background-color: var(--background-color);
-    color: var(--text-color);
-    line-height: 1.6;
-    height: 100vh;
-    overflow: hidden;
-}
+        body {
+            font-family: "Poppins", sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            height: 100vh;
+            overflow: hidden;
+        }
 
-.navbar {
-    position: sticky;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 60px;
-    background-color: #121639;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-}
+        .navbar {
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: #121639;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
 
-.navbar-left {
-    font-weight: bold;
-    font-size: 1.2rem;
-}
+        .navbar-left {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
 
-.navbar-middle {
-    display: flex;
-    gap: 20px;
-}
+        .navbar-middle {
+            display: flex;
+            gap: 20px;
+        }
 
-.navbar-middle a {
-    color: white;
-    text-decoration: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
+        .navbar-middle a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
 
-.navbar-middle a:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
+        .navbar-middle a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
 
-.navbar-right {
-    display: flex;
-    align-items: center;
-}
+        .navbar-right {
+            display: flex;
+            align-items: center;
+        }
 
-.profile-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #6c5ce7;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-}
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #6c5ce7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
 
-.profile-icon svg {
-    width: 24px;
-    height: 24px;
-    fill: white;
-}
+        .profile-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
 
-.container {
-    height: calc(100vh - 60px);
-    padding: 20px;
-    overflow: hidden;
-}
+        .container {
+            height: calc(100vh - 60px);
+            padding: 20px;
+            overflow: hidden;
+        }
 
-.job-dashboard {
-    display: flex;
-    height: 100%;
-    gap: 30px;
-    max-width: 1600px;
-    margin: 0 auto;
-}
+        .job-dashboard {
+            display: flex;
+            height: 100%;
+            gap: 30px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
 
-.job-list-panel {
-    flex: 0 0 380px;
-    background-color: var(--card-bg);
-    border-radius: 12px;
-    box-shadow: var(--shadow);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    height: 100%;
-}
+        .job-list-panel {
+            flex: 0 0 380px;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            height: 100%;
+        }
 
-.search-container {
-    padding: 20px;
-    border-bottom: 1px solid var(--border-color);
-    position: relative;
-    flex-shrink: 0;
-}
+        .search-container {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            flex-shrink: 0;
+        }
 
-.search-container input {
-    width: 100%;
-    padding: 12px 15px 12px 40px;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    font-size: 14px;
-    transition: var(--transition);
-}
+        .search-container input {
+            width: 100%;
+            padding: 12px 15px 12px 40px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: var(--transition);
+        }
 
-.search-container input:focus {
-    outline: none;
-    border-color: var(--secondary-color);
-    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
-}
+        .search-container input:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
 
-.search-icon {
-    position: absolute;
-    left: 35px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--text-light);
-}
+        .search-icon {
+            position: absolute;
+            left: 35px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
 
-.jobs-container {
-    overflow-y: auto;
-    padding: 15px;
-    flex-grow: 1;
-}
+        .jobs-container {
+            overflow-y: auto;
+            padding: 15px;
+            flex-grow: 1;
+        }
 
-.job-card {
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    padding: 18px;
-    margin-bottom: 15px;
-    cursor: pointer;
-    transition: var(--transition);
-}
+        .job-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
 
-.job-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    border-left: 4px solid var(--accent-color);
-}
+        .job-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--accent-color);
+        }
 
-.job-card.active {
-    border-left: 4px solid var(--secondary-color);
-    background-color: rgba(52, 152, 219, 0.05);
-}
+        .job-card.active {
+            border-left: 4px solid var(--secondary-color);
+            background-color: rgba(52, 152, 219, 0.05);
+        }
 
-.job-type {
-    display: inline-block;
-    font-size: 12px;
-    font-weight: 600;
-    padding: 4px 10px;
-    border-radius: 12px;
-    margin-bottom: 10px;
-}
+        .job-type {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
 
-.job-type.residential {
-    background-color: #e3f2fd;
-    color: #1976d2;
-}
+        .job-type.interior {
+            background-color: #fce4ec;
+            color: #c2185b;
+        }
 
-.job-type.commercial {
-    background-color: #fff8e1;
-    color: #ff8f00;
-}
+        .job-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--primary-color);
+        }
 
-.job-type.landscape {
-    background-color: #e8f5e9;
-    color: #388e3c;
-}
+        .job-budget {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
 
-.job-type.mixed-use {
-    background-color: #f3e5f5;
-    color: #7b1fa2;
-}
+        .job-summary {
+            font-size: 14px;
+            color: var(--text-color);
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
 
-.job-type.industrial {
-    background-color: #e8eaf6;
-    color: #3f51b5;
-}
+        .job-details-panel {
+            flex: 1;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+            position: relative;
+            overflow-y: auto;
+            height: 100%;
+        }
 
-.job-type.other, .job-type.public {
-    background-color: #eeeeee;
-    color: #616161;
-}
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--text-light);
+            text-align: center;
+        }
 
-.job-type.interior {
-    background-color: #fce4ec;
-    color: #c2185b;
-}
+        .empty-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
 
-.job-title {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: var(--primary-color);
-}
+        .empty-state h2 {
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
 
-.job-budget {
-    font-size: 14px;
-    color: var(--text-light);
-    margin-bottom: 10px;
-}
+        .empty-state p {
+            font-size: 16px;
+            max-width: 300px;
+        }
 
-.job-summary {
-    font-size: 14px;
-    color: var(--text-color);
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
+        .job-details-content {
+            animation: fadeIn 0.3s ease-in-out;
+            display: none;
+        }
 
-.job-details-panel {
-    flex: 1;
-    background-color: var(--card-bg);
-    border-radius: 12px;
-    box-shadow: var(--shadow);
-    padding: 30px;
-    position: relative;
-    overflow-y: auto;
-    height: 100%;
-}
+        .job-details-content.active {
+            display: block;
+        }
 
-.empty-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    color: var(--text-light);
-    text-align: center;
-}
+        .details-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
 
-.empty-icon {
-    font-size: 60px;
-    margin-bottom: 20px;
-    opacity: 0.3;
-}
+        .details-header-left h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
 
-.empty-state h2 {
-    font-size: 24px;
-    font-weight: 500;
-    margin-bottom: 10px;
-}
+        .details-header-right {
+            text-align: right;
+        }
 
-.empty-state p {
-    font-size: 16px;
-    max-width: 300px;
-}
+        .details-section {
+            margin-bottom: 30px;
+        }
 
-.job-details-content {
-    animation: fadeIn 0.3s ease-in-out;
-    display: none;
-}
+        .details-section h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-.job-details-content.active {
-    display: block;
-}
+        .details-section h3 i {
+            color: var(--secondary-color);
+        }
 
-.details-header {
-    display: flex;
-    justify-content: space-Transparent;
-    align-items: flex-start;
-    margin-bottom: 30px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--border-color);
-}
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
 
-.details-header-left h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
-    color: var(--primary-color);
-}
+        .detail-item {
+            margin-bottom: 15px;
+        }
 
-.details-header-right {
-    text-align: right;
-}
+        .detail-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
 
-.details-section {
-    margin-bottom: 30px;
-}
+        .detail-value {
+            font-size: 16px;
+        }
 
-.details-section h3 {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 15px;
-    color: var(--primary-color);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
+        .reference-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
 
-.details-section h3 i {
-    color: var(--secondary-color);
-}
+        .reference-image {
+            height: 120px;
+            border-radius: 8px;
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
 
-.details-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-}
+        .reference-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
 
-.detail-item {
-    margin-bottom: 15px;
-}
+        .special-features {
+            background-color: #f9f9f9;
+            padding: 18px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 3px solid var(--accent-color);
+        }
 
-.detail-label {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-light);
-    margin-bottom: 5px;
-}
+        .job-action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+        }
 
-.detail-value {
-    font-size: 16px;
-}
+        .job-action-button {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-.reference-images {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 15px;
-    margin-top: 15px;
-}
+        .accept-button {
+            background-color: var(--accent-color);
+            color: white;
+        }
 
-.reference-image {
-    height: 120px;
-    border-radius: 8px;
-    background-size: cover;
-    background-position: center;
-    cursor: pointer;
-    transition: var(--transition);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
+        .accept-button:hover {
+            background-color: #16a085;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
 
-.reference-image:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
+        .deny-button {
+            background-color: #e74c3c;
+            color: white;
+        }
 
-.special-features {
-    background-color: #f9f9f9;
-    padding: 18px;
-    border-radius: 8px;
-    margin-top: 15px;
-    border-left: 3px solid var(--accent-color);
-}
+        .deny-button:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
 
-.job-action-buttons {
-    display: flex;
-    gap: 15px;
-    margin-top: 40px;
-}
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-.job-action-button {
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: var(--transition);
-    border: none;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
+        /* Responsive adjustments */
+        @media (max-width: 1200px) {
+            .job-list-panel {
+                flex: 0 0 340px;
+            }
+        }
 
-.accept-button {
-    background-color: var(--accent-color);
-    color: white;
-}
+        @media (max-width: 992px) {
+            .job-dashboard {
+                flex-direction: column;
+                height: auto;
+            }
+            
+            .job-list-panel, .job-details-panel {
+                height: 500px;
+                width: 100%;
+            }
+            
+            body {
+                height: auto;
+                overflow: auto;
+            }
+            
+            .container {
+                height: auto;
+                overflow: visible;
+            }
+        }
 
-.accept-button:hover {
-    background-color: #16a085;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-.deny-button {
-    background-color: #e74c3c;
-    color: white;
-}
-
-.deny-button:hover {
-    background-color: #c0392b;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Responsive adjustments */
-@media (max-width: 1200px) {
-    .job-list-panel {
-        flex: 0 0 340px;
-    }
-}
-
-@media (max-width: 992px) {
-    .job-dashboard {
-        flex-direction: column;
-        height: auto;
-    }
-    
-    .job-list-panel, .job-details-panel {
-        height: 500px;
-        width: 100%;
-    }
-    
-    body {
-        height: auto;
-        overflow: auto;
-    }
-    
-    .container {
-        height: auto;
-        overflow: visible;
-    }
-}
-
-@media (max-width: 768px) {
-    .details-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .navbar-middle {
-        display: none;
-    }
-}
+        @media (max-width: 768px) {
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .navbar-middle {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -484,36 +451,18 @@ body {
                     <i class="fas fa-search search-icon"></i>
                 </div>
                 <div class="jobs-container" id="jobList">
-                    <div class="job-card" data-id="1">
-                        <span class="job-type interior">interior</span>
-                        <h3 class="job-title">Modern Kitchen Redesign</h3>
-                        <p class="job-budget">₹8k - ₹12k</p>
-                        <p class="job-summary">Complete kitchen renovation with modern appliances and open concept layout</p>
-                    </div>
-                    <div class="job-card" data-id="2">
-                        <span class="job-type interior">interior</span>
-                        <h3 class="job-title">Luxury Bedroom Makeover</h3>
-                        <p class="job-budget">₹10k - ₹15k</p>
-                        <p class="job-summary">Complete bedroom redesign with walk-in closet and ensuite bathroom</p>
-                    </div>
-                    <div class="job-card" data-id="3">
-                        <span class="job-type interior">interior</span>
-                        <h3 class="job-title">Living Room Redesign</h3>
-                        <p class="job-budget">₹7k - ₹10k</p>
-                        <p class="job-summary">Modern living room with entertainment center and fireplace</p>
-                    </div>
-                    <div class="job-card" data-id="4">
-                        <span class="job-type interior">interior</span>
-                        <h3 class="job-title">Home Office Design</h3>
-                        <p class="job-budget">₹5k - ₹8k</p>
-                        <p class="job-summary">Ergonomic home office with built-in shelving and natural lighting</p>
-                    </div>
-                    <div class="job-card" data-id="5">
-                        <span class="job-type interior">interior</span>
-                        <h3 class="job-title">Bathroom Renovation</h3>
-                        <p class="job-budget">₹6k - ₹9k</p>
-                        <p class="job-summary">Complete bathroom renovation with walk-in shower and modern fixtures</p>
-                    </div>
+                    <% if (!jobs || jobs.length === 0) { %>
+                        <p>No job offers available.</p>
+                    <% } else { %>
+                        <% jobs.forEach(job => { %>
+                            <div class="job-card" data-id="<%= job._id %>">
+                                <span class="job-type interior"><%= job.roomType || 'Interior' %></span>
+                                <h3 class="job-title"><%= job.projectName || 'Untitled Project' %></h3>
+                                <p class="job-budget"><%= job.budget || 'Budget not specified' %></p>
+                                <p class="job-summary"><%= job.projectDescription || 'No description provided' %></p>
+                            </div>
+                        <% }); %>
+                    <% } %>
                 </div>
             </section>
             <section class="job-details-panel" id="jobDetailsPanel">
@@ -522,154 +471,91 @@ body {
                     <h2>No Job Selected</h2>
                     <p>Click on a job offer from the list to view its details</p>
                 </div>
-                <div class="job-details-content" data-id="1">
-                    <div class="details-header">
-                        <div class="details-header-left">
-                            <h2>Modern Kitchen Redesign</h2>
-                            <span class="job-type interior">interior</span>
-                            <p class="job-budget">₹8k - ₹12k</p>
+                <% if (jobs && jobs.length > 0) { %>
+                    <% jobs.forEach(job => { %>
+                        <div class="job-details-content" data-id="<%= job._id %>">
+                            <div class="details-header">
+                                <div class="details-header-left">
+                                    <h2><%= job.projectName || 'Untitled Project' %></h2>
+                                    <span class="job-type interior"><%= job.roomType || 'Interior' %></span>
+                                    <p class="job-budget"><%= job.budget || 'Budget not specified' %></p>
+                                </div>
+                                <div class="details-header-right">
+                                    <p class="detail-label">Posted On</p>
+                                    <p class="detail-value"><%= job.createdAt ? new Date(job.createdAt).toLocaleDateString() : 'N/A' %></p>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <h3><i class="fas fa-user"></i> Customer Details</h3>
+                                <div class="details-grid">
+                                    <div class="detail-item">
+                                        <p class="detail-label">Name</p>
+                                        <p class="detail-value"><%= job.customerId?.name || job.fullName || 'Anonymous' %></p>
+                                    </div>
+                                    <div class="detail-item">
+                                        <p class="detail-label">Contact</p>
+                                        <p class="detail-value"><%= job.customerId?.phone || job.phone || 'N/A' %></p>
+                                    </div>
+                                    <div class="detail-item">
+                                        <p class="detail-label">Email</p>
+                                        <p class="detail-value"><%= job.customerId?.email || job.email || 'N/A' %></p>
+                                    </div>
+                                    <div class="detail-item">
+                                        <p class="detail-label">Address</p>
+                                        <p class="detail-value"><%= job.address || 'N/A' %></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <h3><i class="fas fa-home"></i> Room Information</h3>
+                                <div class="details-grid">
+                                    <div class="detail-item">
+                                        <p class="detail-label">Room Type</p>
+                                        <p class="detail-value"><%= job.roomType || 'N/A' %></p>
+                                    </div>
+                                    <div class="detail-item">
+                                        <p class="detail-label">Size</p>
+                                        <p class="detail-value"><%= job.roomSize ? `${job.roomSize.length} × ${job.roomSize.width} ${job.roomSize.unit}` : 'N/A' %></p>
+                                    </div>
+                                    <div class="detail-item">
+                                        <p class="detail-label">Ceiling Height</p>
+                                        <p class="detail-value"><%= job.ceilingHeight ? `${job.ceilingHeight.height} ${job.ceilingHeight.unit}` : 'N/A' %></p>
+                                    </div>
+                                    <div class="detail-item">
+                                        <p class="detail-label">Preferred Style</p>
+                                        <p class="detail-value"><%= job.designPreference || 'N/A' %></p>
+                                    </div>
+                                </div>
+                                <% if (job.projectDescription) { %>
+                                    <div class="special-features">
+                                        <p class="detail-label">Special Features</p>
+                                        <p class="detail-value"><%= job.projectDescription %></p>
+                                    </div>
+                                <% } %>
+                            </div>
+                            <% if (job.inspirationImages && job.inspirationImages.length > 0) { %>
+                                <div class="details-section">
+                                    <h3><i class="fas fa-images"></i> Inspiration Images</h3>
+                                    <div class="reference-images">
+                                        <% job.inspirationImages.forEach(image => { %>
+                                            <div class="reference-image" style="background-image: url('<%= image %>')"></div>
+                                        <% }); %>
+                                    </div>
+                                </div>
+                            <% } %>
+                            <% if (job.status !== 'accepted' && job.status !== 'rejected') { %>
+                                <div class="job-action-buttons">
+                                    <button class="job-action-button accept-button" data-type="interior" data-id="<%= job._id %>">
+                                        <i class="fas fa-check"></i> Accept Job
+                                    </button>
+                                    <button class="job-action-button deny-button" data-type="interior" data-id="<%= job._id %>">
+                                        <i class="fas fa-times"></i> Deny Job
+                                    </button>
+                                </div>
+                            <% } %>
                         </div>
-                        <div class="details-header-right">
-                            <p class="detail-label">Preferred Completion</p>
-                            <p class="detail-value">June 30, 2025</p>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-user"></i> Customer Details</h3>
-                        <div class="details-grid">
-                            <div class="detail-item">
-                                <p class="detail-label">Name</p>
-                                <p class="detail-value">Priya Sharma</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Contact</p>
-                                <p class="detail-value">9876543210</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Email</p>
-                                <p class="detail-value">priya.sharma@example.com</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Address</p>
-                                <p class="detail-value">45 Green Park, Bangalore, Karnataka 560001</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-home"></i> Room Information</h3>
-                        <div class="details-grid">
-                            <div class="detail-item">
-                                <p class="detail-label">Room Type</p>
-                                <p class="detail-value">Kitchen</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Size</p>
-                                <p class="detail-value">12 × 15 feet</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Ceiling Height</p>
-                                <p class="detail-value">9 feet</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Preferred Style</p>
-                                <p class="detail-value">Modern</p>
-                            </div>
-                        </div>
-                        <div class="special-features">
-                            <p class="detail-label">Special Features</p>
-                            <p class="detail-value">Island counter, breakfast bar, smart appliances</p>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-images"></i> Reference Images</h3>
-                        <div class="reference-images">
-                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3')"></div>
-                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1600210492493-0946911123ea?auto=format&fit=crop&q=80&w=1974&ixlib=rb-4.0.3')"></div>
-                        </div>
-                    </div>
-                    <div class="job-action-buttons">
-                        <button class="job-action-button accept-button">
-                            <i class="fas fa-check"></i> Accept Job
-                        </button>
-                        <button class="job-action-button deny-button">
-                            <i class="fas fa-times"></i> Deny Job
-                        </button>
-                    </div>
-                </div>
-                <div class="job-details-content" data-id="2">
-                    <div class="details-header">
-                        <div class="details-header-left">
-                            <h2>Luxury Bedroom Makeover</h2>
-                            <span class="job-type interior">interior</span>
-                            <p class="job-budget">₹10k - ₹15k</p>
-                        </div>
-                        <div class="details-header-right">
-                            <p class="detail-label">Preferred Completion</p>
-                            <p class="detail-value">July 15, 2025</p>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-user"></i> Customer Details</h3>
-                        <div class="details-grid">
-                            <div class="detail-item">
-                                <p class="detail-label">Name</p>
-                                <p class="detail-value">Rahul Verma</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Contact</p>
-                                <p class="detail-value">8765432109</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Email</p>
-                                <p class="detail-value">rahul.verma@example.com</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Address</p>
-                                <p class="detail-value">78 Palm Avenue, Mumbai, Maharashtra 400001</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-home"></i> Room Information</h3>
-                        <div class="details-grid">
-                            <div class="detail-item">
-                                <p class="detail-label">Room Type</p>
-                                <p class="detail-value">Bedroom</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Size</p>
-                                <p class="detail-value">18 × 20 feet</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Ceiling Height</p>
-                                <p class="detail-value">10 feet</p>
-                            </div>
-                            <div class="detail-item">
-                                <p class="detail-label">Preferred Style</p>
-                                <p class="detail-value">Contemporary</p>
-                            </div>
-                        </div>
-                        <div class="special-features">
-                            <p class="detail-label">Special Features</p>
-                            <p class="detail-value">Walk-in closet, ensuite bathroom, smart lighting</p>
-                        </div>
-                    </div>
-                    <div class="details-section">
-                        <h3><i class="fas fa-images"></i> Reference Images</h3>
-                        <div class="reference-images">
-                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3')"></div>
-                            <div class="reference-image" style="background-image: url('https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&q=80&w=2032&ixlib=rb-4.0.3')"></div>
-                        </div>
-                    </div>
-                    <div class="job-action-buttons">
-                        <button class="job-action-button accept-button">
-                            <i class="fas fa-check"></i> Accept Job
-                        </button>
-                        <button class="job-action-button deny-button">
-                            <i class="fas fa-times"></i> Deny Job
-                        </button>
-                    </div>
-                </div>
+                    <% }); %>
+                <% } %>
             </section>
         </div>
     </main>
@@ -705,19 +591,57 @@ body {
                 const acceptButton = selectedJob.querySelector('.accept-button');
                 const denyButton = selectedJob.querySelector('.deny-button');
 
-                // Remove existing listeners to prevent duplicates
-                const newAcceptButton = acceptButton.cloneNode(true);
-                const newDenyButton = denyButton.cloneNode(true);
-                acceptButton.replaceWith(newAcceptButton);
-                denyButton.replaceWith(newDenyButton);
+                if (acceptButton && denyButton) {
+                    // Remove existing listeners to prevent duplicates
+                    const newAcceptButton = acceptButton.cloneNode(true);
+                    const newDenyButton = denyButton.cloneNode(true);
+                    acceptButton.replaceWith(newAcceptButton);
+                    denyButton.replaceWith(newDenyButton);
 
-                newAcceptButton.addEventListener('click', () => {
-                    alert(`Job "${jobTitle}" accepted!`);
-                });
+                    newAcceptButton.addEventListener('click', async () => {
+                        const type = newAcceptButton.getAttribute('data-type');
+                        const id = newAcceptButton.getAttribute('data-id');
+                        if (confirm(`Are you sure you want to accept the offer for "${jobTitle}"?`)) {
+                            try {
+                                const response = await fetch(`/accept-job/${type}/${id}`, {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' }
+                                });
+                                const result = await response.json();
+                                if (result.success) {
+                                    alert(`Congratulations! You have accepted the offer for "${jobTitle}".`);
+                                    location.reload();
+                                } else {
+                                    alert(`Error: ${result.error}`);
+                                }
+                            } catch (error) {
+                                alert('An error occurred while accepting the offer.');
+                            }
+                        }
+                    });
 
-                newDenyButton.addEventListener('click', () => {
-                    alert(`Job "${jobTitle}" declined.`);
-                });
+                    newDenyButton.addEventListener('click', async () => {
+                        const type = newDenyButton.getAttribute('data-type');
+                        const id = newDenyButton.getAttribute('data-id');
+                        if (confirm(`Are you sure you want to decline the offer for "${jobTitle}"?`)) {
+                            try {
+                                const response = await fetch(`/reject-job/${type}/${id}`, {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' }
+                                });
+                                const result = await response.json();
+                                if (result.success) {
+                                    alert(`Offer for "${jobTitle}" declined. The client has been notified.`);
+                                    location.reload();
+                                } else {
+                                    alert(`Error: ${result.error}`);
+                                }
+                            } catch (error) {
+                                alert('An error occurred while rejecting the offer.');
+                            }
+                        }
+                    });
+                }
             }
         }
 
@@ -728,8 +652,16 @@ body {
                 card.addEventListener('click', () => showJobDetails(card.dataset.id));
             });
 
-            // Show empty state initially
-            emptyState.style.display = 'flex';
+            // Show empty state initially if no jobs
+            <% if (!jobs || jobs.length === 0) { %>
+                emptyState.style.display = 'flex';
+            <% } else { %>
+                // Show first job details by default
+                const firstJobCard = document.querySelector('.job-card');
+                if (firstJobCard) {
+                    showJobDetails(firstJobCard.dataset.id);
+                }
+            <% } %>
 
             // Search functionality
             document.getElementById('searchInput').addEventListener('input', (e) => {
