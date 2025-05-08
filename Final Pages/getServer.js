@@ -178,19 +178,8 @@ app.get("/architecht_form", (req, res) => {
   res.render("customer/architect_form", { workerId });
 });
 
-app.get("/interior_designer.html",isAuthenticated, async(req, res) => {
-  try {
-    // Find all workers that are architects (isArchitect = false)
-    const designers = await Worker.find({ 
-        isArchitect: false
-    });
-    
-    // Render the EJS template with architect data
-    res.render('customer/interior_design', { designers });
-} catch (error) {
-    console.error('Error fetching architects:', error);
-    res.status(500).json({ message: 'Failed to fetch architects' });
-}
+app.get("/interior_designer.html", (req, res) => {
+  res.render("customer/interior_design");
 });
 app.get("/ongoing_projects.html", (req, res) => {
   res.render("customer/ongoing_projects");
@@ -218,8 +207,35 @@ app.get("/customersettings.html", (req, res) => {
   res.render("customer/customer_settings");
 });
 // Company routes
-app.get("/companybids.html", (req, res) => {
-  res.render("company/company_bids");
+app.get("/companybids.html", async (req, res) => {
+  try {
+    // 1. Fetch all available bids
+    const bids = await Bid.find({}).lean();
+
+    // 2. Handle selected bid if ID is provided
+    const selectedBidId = req.query.bidId;
+    let selectedBid = null;
+
+    if (selectedBidId && mongoose.Types.ObjectId.isValid(selectedBidId)) {
+      selectedBid = await Bid.findById(selectedBidId).lean();
+    }
+
+    // 3. Render with the original template structure
+    res.render("company/company_bids", {
+      bids,
+      selectedBid,
+      req, // Pass the entire request object
+      success: req.query.success,
+      error: req.query.error
+    });
+
+  } catch (error) {
+    console.error("Error fetching bids:", error);
+    res.status(500).render("company/company_bids", {
+      error: "Error loading bids",
+      req // Maintain same template structure
+    });
+  }
 });
 app.get("/companyongoing_projects.html", (req, res) => {
   res.render("company/company_ongoing_projects");
@@ -230,61 +246,55 @@ app.get("/companyclients.html", (req, res) => {
 app.get("/companyrevenue.html", (req, res) => {
   res.render("company/revenue");
 });
-app.get("/companyhiring.html", isAuthenticated, async (req, res) => {
+app.get("/companyhiring.html", isAuthenticated,async (req, res) => {
   try {
-      // Fetch workers for "Find Workers" section
-      const workers = await Worker.find({});
-      const processedWorkers = workers.map(worker => {
-          const sanitizedName = encodeURIComponent(worker.name.replace(/\s+/g, ''));
-          return {
-              ...worker._doc,
-              profileImage: worker.profileImage && worker.profileImage.trim() !== ''
-                  ? worker.profileImage
-                  : `https://api.dicebear.com/9.x/male/svg?seed=${sanitizedName}&mouth=smile`
-          };
-      });
+    const companyId = new mongoose.Types.ObjectId(req.user.user_id);
 
-      const companyId = new mongoose.Types.ObjectId(req.user.user_id);
+    // Fetch all available workers
+    const workers = await Worker.find().lean();
 
-      // Fetch worker requests
-      const workerRequests = await WorkerToCompany.find({ companyId })
-          .populate('workerId', 'name email specialties experience profileImage title rating about projects contact location linkedin previousWork')
-          .catch(err => {
-              console.error('Population Error:', err);
-              return [];
-          });
+    // Format workers with fallback image and rating (optional defaults)
+    const processedWorkers = workers.map(worker => ({
+      ...worker,
+      profileImage: worker.profileImage?.trim()
+        ? worker.profileImage
+        : `https://api.dicebear.com/9.x/male/svg?seed=${encodeURIComponent((worker.name || 'worker').replace(/\s+/g, ''))}&mouth=smile`,
+      rating: worker.rating || 0
+    }));
 
-      // Process requests with proper fallbacks
-      const processedRequests = workerRequests.map(request => ({
-          _id: request._id,
-          fullName: request.fullName,
-          email: request.email,
-          positionApplying: request.positionApplying,
-          expectedSalary: request.expectedSalary,
-          status: request.status,
-          location: request.location,
-          worker: {
-              ...(request.workerId ? request.workerId._doc : {}),
-              name: request.fullName || (request.workerId ? request.workerId.name : ''),
-              email: request.email || (request.workerId ? request.workerId.email : ''),
-              location: request.location || (request.workerId ? request.workerId.location : ''),
-              profileImage: request.workerId && request.workerId.profileImage && request.workerId.profileImage.trim() !== ''
-                  ? request.workerId.profileImage
-                  : `https://api.dicebear.com/9.x/male/svg?seed=${encodeURIComponent((request.fullName || 'worker').replace(/\s+/g, ''))}&mouth=smile`
-          }
-      }));
+    // Fetch pending requests (from workers to company)
+    const workerRequests = await WorkerToCompany.find({ companyId })
+      .populate("workerId")
+      .lean();
 
-      res.render("company/hiring", { 
-          workers: processedWorkers, 
-          workerRequests: processedRequests,
-          requestedWorkers: processedRequests // For consistency with the template
-      });
+    // Fetch requests sent by company to workers
+    const requestedWorkersRaw = await CompanytoWorker.find({ company: companyId })
+      .populate("worker", "name email location profileImage")
+      .lean();
+
+    const requestedWorkers = requestedWorkersRaw.map(request => ({
+      _id: request._id,
+      positionApplying: request.position,
+      expectedSalary: request.salary,
+      status: request.status,
+      location: request.location,
+      worker: {
+        name: request.worker?.name || "Unknown",
+        email: request.worker?.email || "N/A"
+      }
+    }));
+
+    res.render("company/hiring", {
+      workers: processedWorkers,
+      workerRequests,
+      requestedWorkers
+    });
   } catch (err) {
-      console.error('Error fetching workers:', err);
-      console.error('Error fetching data:', err);
-      res.status(500).send('Server error');
+    console.error("Error loading hiring page:", err);
+    res.status(500).send("Error loading hiring page");
   }
 });
+
 app.get("/companysettings.html",isAuthenticated, async(req, res) => {
   const user=await Company.findById(req.user.user_id);
   res.render("company/company_settings", { user });
