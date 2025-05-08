@@ -940,7 +940,7 @@ app.post('/companytoworker', isAuthenticated , async (req, res) => {
 // Worker to company request
 // POST route for job application
 app.post(
-  "/worker_request_Company",
+  "/worker_request/:companyId",
   isAuthenticated,
   upload.single("resume"),
   async (req, res) => {
@@ -960,6 +960,7 @@ app.post(
       } = req.body;
 
       const workerId = req.user.user_id;
+
       // Validate required fields
       if (
         !fullName ||
@@ -999,6 +1000,15 @@ app.post(
         return res.status(400).json({ error: "Invalid companyId format" });
       }
 
+      // Find the company to get its name
+      const company = await Company.findById(companyId);
+      if (!company) {
+        return res.status(404).json({ error: "Company not found" });
+      }
+
+      // Get the company name
+      const compName = company.name || company.companyName;
+
       // Split primarySkills into an array
       const skillsArray = primarySkills.split(",").map((skill) => skill.trim());
 
@@ -1017,12 +1027,13 @@ app.post(
         termsAgree: termsAgree === "true" || termsAgree === true,
         workerId,
         companyId,
+        compName, 
       });
 
       // Save to MongoDB
       await jobApplication.save();
 
-      res.json({ success: true, redirect: "/workerjoin_company.html" });
+    res.redirect("/workerjoin_company.html");
     } catch (error) {
       console.error("Error in /worker_request_Company:", {
         message: error.message,
@@ -1040,12 +1051,10 @@ app.post(
           .status(400)
           .json({ error: `Validation error: ${error.message}` });
       }
-      res
-        .status(500)
-        .json({
-          error: "Server error while processing application",
-          details: error.message,
-        });
+      res.status(500).json({
+        error: "Server error while processing application",
+        details: error.message,
+      });
     }
   }
 );

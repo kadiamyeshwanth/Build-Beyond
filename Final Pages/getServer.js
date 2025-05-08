@@ -11,7 +11,7 @@ const router = express.Router();
 const multer = require("multer");
 const fs = require("fs");
 const bcrypt=require("bcrypt");
-const { Customer, Company, Worker, ArchitectHiring,ConstructionProjectSchema } = require("./Models.js");
+const {Customer,Company,Worker,ArchitectHiring,ConstructionProjectSchema,DesignRequest,Bid,WorkerToCompany,CompanytoWorker}=require("./Models.js")
 const jwt = require("jsonwebtoken");
 
 // Middleware
@@ -85,10 +85,34 @@ app.get("/workerjobs.html", isAuthenticated, async (req, res) => {
 });
 
 
-app.get("/workerjoin_company.html",isAuthenticated, async (req, res) => {
-  const user=await Worker.findById(req.user.user_id);
-  res.render("worker/workers_join_company",{user});
+app.get("/workerjoin_company.html", isAuthenticated, async (req, res) => {
+  try {
+    // Extract worker ID from req.user
+    const workerId = req.user.user_id;
+
+    // Fetch worker details
+    const user = await Worker.findById(workerId).lean(); // .lean() for plain JS object (Mongoose)
+
+    // Fetch all companies
+    const companies = await Company.find().lean();
+
+    // Fetch CompanytoWorker mappings (e.g., companies that invited the worker)
+    const offers = await CompanytoWorker.find({ worker:req.user.user_id }).lean();
+
+    // Fetch WorkerToCompany mappings (e.g., worker's requests to join companies)
+    const jobApplications = await WorkerToCompany.find({ workerId:req.user.user_id }).lean();
+    res.render("worker/workers_join_company", {
+      user,
+      companies,
+      offers,
+      jobApplications,
+    });
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    res.status(500).send("Server error");
+  }
 });
+
 app.get("/workersettings.html", isAuthenticated,async (req, res) => {
   const user=await Worker.findById(req.user.user_id);
   res.render("worker/worker_settings",{user});

@@ -587,19 +587,19 @@ const jobApplicationSchema = new mongoose.Schema(
   {
     fullName: {
       type: String,
-      required: [true, 'Full name is required'],
+      required: [true, "Full name is required"],
       trim: true,
     },
     email: {
       type: String,
-      required: [true, 'Email address is required'],
+      required: [true, "Email address is required"],
       trim: true,
       lowercase: true,
-      match: [/^\S+@\S+\.\S+$/, 'Please enter a valid email address'],
+      match: [/^\S+@\S+\.\S+$/, "Please enter a valid email address"],
     },
     location: {
       type: String,
-      required: [true, 'Current location is required'],
+      required: [true, "Current location is required"],
       trim: true,
     },
     linkedin: {
@@ -607,59 +607,69 @@ const jobApplicationSchema = new mongoose.Schema(
       trim: true,
       match: [
         /^https?:\/\/(www\.)?linkedin\.com\/.*$/,
-        'Please enter a valid LinkedIn URL',
+        "Please enter a valid LinkedIn URL",
       ],
       default: null,
     },
     experience: {
       type: Number,
-      required: [true, 'Years of experience is required'],
-      min: [0, 'Experience cannot be negative'],
+      required: [true, "Years of experience is required"],
+      min: [0, "Experience cannot be negative"],
     },
     expectedSalary: {
       type: Number,
-      required: [true, 'Expected salary is required'],
-      min: [0, 'Expected salary cannot be negative'],
+      required: [true, "Expected salary is required"],
+      min: [0, "Expected salary cannot be negative"],
     },
     positionApplying: {
       type: String,
-      required: [true, 'Position applying for is required'],
+      required: [true, "Position applying for is required"],
       trim: true,
     },
     primarySkills: {
       type: [String],
-      required: [true, 'Primary skills are required'],
+      required: [true, "Primary skills are required"],
       validate: {
         validator: function (array) {
           return array.length > 0;
         },
-        message: 'At least one primary skill is required',
+        message: "At least one primary skill is required",
       },
     },
     workExperience: {
       type: String,
-      required: [true, 'Previous work experience is required'],
+      required: [true, "Previous work experience is required"],
       trim: true,
     },
     resume: {
       type: String,
-      required: [true, 'Resume is required'],
+      required: [true, "Resume is required"],
       trim: true,
     },
     termsAgree: {
       type: Boolean,
-      required: [true, 'You must agree to the terms'],
+      required: [true, "You must agree to the terms"],
       enum: [true],
     },
     workerId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Worker',
-      required: [true, 'Worker ID is required'],
+      ref: "Worker",
+      required: [true, "Worker ID is required"],
     },
     companyId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Company',
-      required: [true, 'Company ID is required'],
+      ref: "Company",
+      required: [true, "Company ID is required"],
+    },
+    compName: {
+      type: String,
+      required: [true, "Company name is required"],
+      trim: true,
+    },
+    status: {
+      type: String,
+      enum: ["Pending", "Accepted", "Denied"],
+      default: "Pending",
     },
   },
   { timestamps: true }
