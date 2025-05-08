@@ -13,7 +13,7 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Arial, sans-serif;
         }
-
+        
         :root {
             --primary-green: #4D7A70;
             --secondary-green: #6A9E8E;
@@ -921,15 +921,15 @@
       <p>No worker requests at this time.</p>
     <% } else { %>
       <% workerRequests.forEach(request => { %>
-        <div class="request-card" data-worker-id="<%= request.worker._id %>" data-request-id="<%= request._id %>">
+        <div class="request-card" data-worker-id="<%= request.workerId._id %>" data-request-id="<%= request._id %>">
           <div class="left">
-            <img src="<%= request.worker.profileImage %>" alt="Profile" class="profile-image">
+            <img src="<%= request.workerId.profileImage %>" alt="Profile" class="profile-image">
             <div class="request-info">
-              <h3><%= request.worker.name %></h3>
+              <h3><%= request.workerId.name %></h3>
               <div class="request-details">
                 <div class="detail-item">
                   <span class="detail-label"><i class="fas fa-envelope"></i> Email:</span>
-                  <span class="detail-value"><%= request.worker.email %></span>
+                  <span class="detail-value"><%= request.workerId.email %></span>
                 </div>
                 <div class="detail-item">
                   <span class="detail-label"><i class="fas fa-user-tie"></i> Role:</span>
@@ -941,28 +941,28 @@
                 </div>
                 <div class="detail-item">
                   <span class="detail-label"><i class="fas fa-tools"></i> Specialties:</span>
-                  <span class="detail-value"><%= request.worker.specialties.join(', ') %></span>
+                  <span class="detail-value"><%= request.workerId.specialties.join(', ') %></span>
                 </div>
                 <div class="detail-item">
                   <span class="detail-label"><i class="fas fa-briefcase"></i> Experience:</span>
-                  <span class="detail-value"><%= request.worker.experience %></span>
+                  <span class="detail-value"><%= request.workerId.experience %></span>
                 </div>
               </div>
             </div>
           </div>
           <div class="request-actions">
             <button class="btn btn-view" 
-                    data-worker="<%= request.worker.name %>" 
-                    data-title="<%= request.worker.title %>" 
-                    data-rating="<%= request.worker.rating %>" 
-                    data-about="<%= request.worker.about %>" 
-                    data-specialties="<%= request.worker.specialties.join(', ') %>" 
-                    data-projects='<%= JSON.stringify(request.worker.projects) %>' 
-                    data-contact="<%= request.worker.contact %>" 
-                    data-location="<%= request.worker.location %>" 
-                    data-linkedin="<%= request.worker.linkedin %>" 
-                    data-previous-work="<%= request.worker.previousWork %>"
-                    data-profile-image="<%= request.worker.profileImage %>">
+                    data-worker="<%= request.workerId.name %>" 
+                    data-title="<%= request.workerId.title %>" 
+                    data-rating="<%= request.workerId.rating %>" 
+                    data-about="<%= request.workerId.about %>" 
+                    data-specialties="<%= request.workerId.specialties.join(', ') %>" 
+                    data-projects='<%= JSON.stringify(request.workerId.projects) %>' 
+                    data-contact="<%= request.workerId.contact %>" 
+                    data-location="<%= request.workerId.location %>" 
+                    data-linkedin="<%= request.workerId.linkedin %>" 
+                    data-previous-work="<%= request.workerId.previousWork %>"
+                    data-profile-image="<%= request.workerId.profileImage %>">
               <i class="fas fa-eye"></i> View Profile
             </button>
             <button class="btn btn-hire btn-accept" data-request-id="<%= request._id %>">
@@ -978,15 +978,15 @@
           <div class="details">
             <div class="detail-expanded-item">
               <span class="detail-label"><i class="fas fa-file-alt"></i> Resume:</span>
-              <span class="detail-value"><a href="<%= request.worker.resume %>" class="detail-link">Download Resume</a></span>
+              <span class="detail-value"><a href="<%= request.workerId.resume %>" class="detail-link">Download Resume</a></span>
             </div>
             <div class="detail-expanded-item">
               <span class="detail-label"><i class="fab fa-linkedin"></i> LinkedIn:</span>
-              <span class="detail-value"><a href="<%= request.worker.linkedin %>" class="detail-link"><%= request.worker.linkedin %></a></span>
+              <span class="detail-value"><a href="<%= request.workerId.linkedin %>" class="detail-link"><%= request.workerId.linkedin %></a></span>
             </div>
             <div class="detail-expanded-item">
               <span class="detail-label"><i class="fas fa-history"></i> Previous Work:</span>
-              <span class="detail-value"><%= request.worker.previousWork %></span>
+              <span class="detail-value"><%= request.workerId.previousWork %></span>
             </div>
           </div>
         </div>
@@ -996,116 +996,54 @@
         </div>
 
         <!-- Requested Workers Section -->
-        <div id="requested-workers" class="section">
-            <div class="section-header">
-                <h2>Requested Workers Status</h2>
-                <div class="filter-controls">
-                    <input type="text" placeholder="Search workers..." class="search-input">
-                    <select class="filter-dropdown">
-                        <option value="all">All Status</option>
-                        <option value="accepted">Accepted</option>
-                        <option value="pending">Pending</option>
-                        <option value="rejected">Rejected</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="table-responsive">
-                <table class="requested-table">
-                    <thead>
-                        <tr>
-                            <th><i class="fas fa-user"></i> Worker Name</th>
-                            <th><i class="fas fa-envelope"></i> Email</th>
-                            <th><i class="fas fa-briefcase"></i> Position</th>
-                            <th><i class="fas fa-map-marker-alt"></i> Location</th>
-                            <th><i class="fas fa-rupee-sign"></i> Expected Salary</th>
-                            <th><i class="fas fa-info-circle"></i> Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Karthik Mahvash</td>
-                            <td>karthik.mahvash@example.com</td>
-                            <td>Concrete Specialist</td>
-                            <td>Gandhinagar</td>
-                            <td>₹167,200</td>
-                            <td><span class="status status-accepted">Accepted</span></td>
-                        </tr>
-                        <tr>
-                            <td>Laksh Dev</td>
-                            <td>laksh.dev@example.com</td>
-                            <td>Architectural Drafter</td>
-                            <td>Meerut</td>
-                            <td>₹264,000</td>
-                            <td><span class="status status-pending">Pending</span></td>
-                        </tr>
-                        <tr>
-                            <td>Patil Harish</td>
-                            <td>patil.harish@example.com</td>
-                            <td>Heavy Equipment Operator</td>
-                            <td>Mumbai</td>
-                            <td>₹211,200</td>
-                            <td><span class="status status-rejected">Rejected</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+<div id="requested-workers" class="section">
+    <div class="section-header">
+        <h2>Requested Workers Status</h2>
+        <div class="filter-controls">
+            <input type="text" placeholder="Search workers..." class="search-input">
+            <select class="filter-dropdown">
+                <option value="all">All Status</option>
+                <option value="accepted">Accepted</option>
+                <option value="pending">Pending</option>
+                <option value="rejected">Rejected</option>
+            </select>
         </div>
+    </div>
 
-        <!-- Profile View Modal -->
-        <div id="profile-modal" class="modal">
-            <div class="modal-content">
-                <span class="close">×</span>
-                <div class="modal-header">
-                    <img src="" id="modal-profile-image" alt="Profile" class="modal-profile-image">
-                    <div class="modal-header-info">
-                        <h2 id="modal-name"></h2>
-                        <p id="modal-title"></p>
-                        <div class="modal-rating" id="modal-rating"></div>
-                    </div>
-                </div>
-                <div class="modal-body">
-                    <div class="modal-section">
-                        <h4><i class="fas fa-user"></i> About</h4>
-                        <p id="modal-about"></p>
-                    </div>
-                    <div class="modal-section">
-                        <h4><i class="fas fa-tools"></i> Specialties</h4>
-                        <p id="modal-specialties"></p>
-                    </div>
-                    <div class="modal-section">
-                        <h4><i class="fas fa-address-card"></i> Additional Information</h4>
-                        <div id="modal-details" class="modal-details">
-                            <div class="modal-detail-item">
-                                <span class="modal-detail-label"><i class="fas fa-phone"></i> Contact:</span>
-                                <span class="modal-detail-value" id="modal-contact"></span>
-                            </div>
-                            <div class="modal-detail-item">
-                                <span class="modal-detail-label"><i class="fas fa-map-marker-alt"></i> Location:</span>
-                                <span class="modal-detail-value" id="modal-location"></span>
-                            </div>
-                            <div class="modal-detail-item">
-                                <span class="modal-detail-label"><i class="fab fa-linkedin"></i> LinkedIn:</span>
-                                <span class="modal-detail-value" id="modal-linkedin"></span>
-                            </div>
-                            <div class="modal-detail-item">
-                                <span class="modal-detail-label"><i class="fas fa-history"></i> Previous Work:</span>
-                                <span class="modal-detail-value" id="modal-previous-work"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-section">
-                        <h4><i class="fas fa-building"></i> Notable Projects</h4>
-                        <div id="modal-projects" class="projects-grid"></div>
-                    </div>
-                </div>
-                <!-- <div class="modal-footer">
-                    <button class="btn btn-hire modal-hire-btn">
-                        <i class="fas fa-user-plus"></i> Hire This Worker
-                    </button>
-                </div> -->
-            </div>
-        </div>
+    <div class="table-responsive">
+        <table class="requested-table">
+            <thead>
+                <tr>
+                    <th><i class="fas fa-user"></i> Worker Name</th>
+                    <th><i class="fas fa-envelope"></i> Email</th>
+                    <th><i class="fas fa-briefcase"></i> Position</th>
+                    <th><i class="fas fa-map-marker-alt"></i> Location</th>
+                    <th><i class="fas fa-rupee-sign"></i> Expected Salary</th>
+                    <th><i class="fas fa-info-circle"></i> Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (requestedWorkers && requestedWorkers.length > 0) { %>
+                    <% requestedWorkers.forEach(request => { %>
+                        <tr>
+                            <td><%= request.worker.name %></td>
+                            <td><%= request.worker.email %></td>
+                            <td><%= request.positionApplying %></td>
+                            <td><%= request.location %></td>
+                            <td>₹<%= request.expectedSalary.toLocaleString('en-IN') %></td>
+                            <td><span class="status status-<%= request.status.toLowerCase() %>"><%= request.status %></span></td>
+                        </tr>
+                    <% }) %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="6">No requested workers found.</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+    
+</div>
 
         <!-- Hire Request Modal -->
         <div id="hire-modal" class="modal">
@@ -1142,50 +1080,52 @@
             </div>
         </div>
     </div>
-
     <script>
-        // DOM Elements
-        const tabs = document.querySelectorAll('.tab');
-        const sections = document.querySelectorAll('.section');
-        const profileModal = document.getElementById('profile-modal');
-        const hireModal = document.getElementById('hire-modal');
-        const modalCloseButtons = document.querySelectorAll('.modal .close');
-        const viewProfileButtons = document.querySelectorAll('.btn-view');
-        const hireButtons = document.querySelectorAll('.hire-btn');
-        const toggleDetailsButtons = document.querySelectorAll('.btn-toggle-details');
-        const actionButtons = document.querySelectorAll('.btn-hire:not(.hire-btn), .btn-reject');
-        const searchInputs = document.querySelectorAll('.search-input');
-        const filterDropdowns = document.querySelectorAll('.filter-dropdown');
-        const cancelHireBtn = document.getElementById('cancel-hire');
-        const submitHireBtn = document.getElementById('submit-hire');
-        const hireModalWorkerName = document.getElementById('hire-modal-worker-name');
+    // DOM Elements
+const tabs = document.querySelectorAll('.tab');
+const sections = document.querySelectorAll('.section');
+const profileModal = document.getElementById('profile-modal');
+const hireModal = document.getElementById('hire-modal');
+const modalCloseButtons = document.querySelectorAll('.modal .close');
+const viewProfileButtons = document.querySelectorAll('.btn-view');
+const hireButtons = document.querySelectorAll('.hire-btn');
+const toggleDetailsButtons = document.querySelectorAll('.btn-toggle-details');
+const actionButtons = document.querySelectorAll('.btn-hire:not(.hire-btn), .btn-reject');
+const searchInputs = document.querySelectorAll('.search-input');
+const filterDropdowns = document.querySelectorAll('.filter-dropdown');
+const cancelHireBtn = document.getElementById('cancel-hire');
+const submitHireBtn = document.getElementById('submit-hire');
+const hireModalWorkerName = document.getElementById('hire-modal-worker-name');
 
-        // Initialize the app
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeTabs();
-            initializeProfileViewButtons();
-            initializeHireButtons();
-            initializeToggleDetailsButtons();
-            initializeActionButtons();
-            initializeSearchAndFilters();
-            initializeModalEvents();
+// Initialize the app
+document.addEventListener('DOMContentLoaded', function() {
+    initializeTabs();
+    initializeProfileViewButtons();
+    initializeHireButtons();
+    initializeToggleDetailsButtons();
+    initializeActionButtons();
+    initializeSearchAndFilters();
+    initializeModalEvents();
+    
+    // Initialize new card functionality
+    initializeWorkerCards();
+});
+
+// Tab Switching Functionality
+function initializeTabs() {
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            sections.forEach(section => section.classList.remove('active'));
+            
+            tab.classList.add('active');
+            const targetSectionId = tab.getAttribute('data-tab');
+            document.getElementById(targetSectionId).classList.add('active');
         });
+    });
+}
 
-        // Tab Switching Functionality
-        function initializeTabs() {
-            tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    tabs.forEach(t => t.classList.remove('active'));
-                    sections.forEach(section => section.classList.remove('active'));
-                    
-                    tab.classList.add('active');
-                    const targetSectionId = tab.getAttribute('data-tab');
-                    document.getElementById(targetSectionId).classList.add('active');
-                });
-            });
-        }
-
-        function initializeProfileViewButtons() {
+function initializeProfileViewButtons() {
     viewProfileButtons.forEach(button => {
         button.addEventListener('click', (event) => {
             event.preventDefault();
@@ -1269,407 +1209,24 @@
     });
 }
 
-        // Hire Modal Functionality
-        function initializeHireButtons() {
-            hireButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const workerName = button.getAttribute('data-worker');
-                    hireModalWorkerName.textContent = `Sending hire request to ${workerName}`;
-                    hireModal.style.display = 'flex';
-                    setTimeout(() => {
-                        hireModal.classList.add('show');
-                    }, 10);
-                });
-            });
-
-            submitHireBtn.addEventListener('click', () => {
-                const position = document.getElementById('position').value;
-                const location = document.getElementById('location').value;
-                const salary = document.getElementById('salary').value;
-                const workerName = hireModalWorkerName.textContent.replace('Sending hire request to ', '');
-
-                if (!position || !location || !salary) {
-                    showNotification('Please fill in all fields.', 'error');
-                    return;
-                }
-
-                // Simulate sending a hire request (replace with actual backend call)
-                console.log(`Hire request sent to ${workerName} for position ${position} at ${location} with salary ₹${salary}/hr`);
-
-                showNotification(`Hire request sent to ${workerName} successfully!`, 'success');
-                closeModal(hireModal);
-
-                // Reset form
-                document.getElementById('position').value = '';
-                document.getElementById('location').value = '';
-                document.getElementById('salary').value = '';
-            });
-
-            cancelHireBtn.addEventListener('click', () => {
-                closeModal(hireModal);
-                // Reset form
-                document.getElementById('position').value = '';
-                document.getElementById('location').value = '';
-                document.getElementById('salary').value = '';
-            });
-        }
-
-        // Toggle Details in Worker Requests
-        function initializeToggleDetailsButtons() {
-            toggleDetailsButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    button.classList.toggle('active');
-                    const requestCard = button.closest('.request-card');
-                    const details = requestCard.querySelector('.details');
-                    
-                    if (details.style.display === 'block') {
-                        details.style.display = 'none';
-                        button.innerHTML = '<i class="fas fa-chevron-down"></i> Details';
-                    } else {
-                        details.style.display = 'block';
-                        button.innerHTML = '<i class="fas fa-chevron-up"></i> Hide Details';
-                    }
-                });
-            });
-        }
-
-        // Initialize action buttons (hire, reject, etc.)
-        function initializeActionButtons() {
-            actionButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    if (button.classList.contains('btn-hire')) {
-                        showNotification('Worker hired successfully!', 'success');
-                    } else if (button.classList.contains('btn-reject')) {
-                        showNotification('Worker request rejected.', 'error');
-                    }
-                });
-            });
-        }
-
-        // Initialize search and filter functionality
-        function initializeSearchAndFilters() {
-            searchInputs.forEach(input => {
-                input.addEventListener('input', debounce(function() {
-                    const searchTerm = this.value.toLowerCase();
-                    const currentTab = document.querySelector('.tab.active').getAttribute('data-tab');
-                    
-                    if (currentTab === 'find-workers') {
-                        filterWorkerCards(searchTerm);
-                    } else if (currentTab === 'worker-requests') {
-                        filterRequestCards(searchTerm);
-                    } else if (currentTab === 'requested-workers') {
-                        filterTableRows(searchTerm);
-                    }
-                }, 300));
-            });
-            
-            filterDropdowns.forEach(dropdown => {
-                dropdown.addEventListener('change', function() {
-                    const filterValue = this.value;
-                    const currentTab = document.querySelector('.tab.active').getAttribute('data-tab');
-                    
-                    if (currentTab === 'find-workers') {
-                        filterWorkersBySkill(filterValue);
-                    } else if (currentTab === 'requested-workers') {
-                        filterWorkersByStatus(filterValue);
-                    }
-                });
-            });
-        }
-
-        // Modal events
-        function initializeModalEvents() {
-            modalCloseButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const modal = button.closest('.modal');
-                    closeModal(modal);
-                });
-            });
-
-            [profileModal, hireModal].forEach(modal => {
-                modal.addEventListener('click', (event) => {
-                    if (event.target === modal) {
-                        closeModal(modal);
-                    }
-                });
-
-                document.addEventListener('keydown', (event) => {
-                    if (event.key === 'Escape' && modal.classList.contains('show')) {
-                        closeModal(modal);
-                    }
-                });
-            });
-
-            const modalHireBtn = document.querySelector('.modal-hire-btn');
-            if (modalHireBtn) {
-                modalHireBtn.addEventListener('click', () => {
-                    showNotification('Worker hired successfully!', 'success');
-                    closeModal(profileModal);
-                });
-            }
-        }
-
-        // Close modal function
-        function closeModal(modal) {
-            modal.classList.remove('show');
+// Hire Modal Functionality
+function initializeHireButtons() {
+    hireButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const workerName = button.getAttribute('data-worker');
+            const workerId = button.getAttribute('data-worker-id');
+            hireModalWorkerName.textContent = `Sending hire request to ${workerName}`;
+            hireModalWorkerName.setAttribute('data-worker-id', workerId); // Store worker ID
+            hireModal.style.display = 'flex';
             setTimeout(() => {
-                modal.style.display = 'none';
-            }, 300);
-        }
-
-        // Filter worker cards based on search term
-        function filterWorkerCards(searchTerm) {
-            const workerCards = document.querySelectorAll('#find-workers .worker-card');
-            
-            workerCards.forEach(card => {
-                const name = card.querySelector('h3').textContent.toLowerCase();
-                const skills = Array.from(card.querySelectorAll('.tag')).map(tag => tag.textContent.toLowerCase());
-                const email = card.querySelector('.email').textContent.toLowerCase();
-                
-                if (name.includes(searchTerm) || 
-                    skills.some(skill => skill.includes(searchTerm)) || 
-                    email.includes(searchTerm)) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
-
-        // Filter worker cards based on skill
-        function filterWorkersBySkill(skill) {
-            const workerCards = document.querySelectorAll('#find-workers .worker-card');
-            
-            workerCards.forEach(card => {
-                const skills = Array.from(card.querySelectorAll('.tag')).map(tag => tag.textContent.toLowerCase());
-                
-                if (skill === 'all' || skills.some(s => s.toLowerCase() === skill.toLowerCase())) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
-
-        // Filter request cards based on search term
-        function filterRequestCards(searchTerm) {
-            const requestCards = document.querySelectorAll('#worker-requests .request-card');
-            
-            requestCards.forEach(card => {
-                const name = card.querySelector('h3').textContent.toLowerCase();
-                const role = card.querySelector('.detail-value').textContent.toLowerCase();
-                const location = card.querySelectorAll('.detail-value')[2].textContent.toLowerCase();
-                
-                if (name.includes(searchTerm) || 
-                    role.includes(searchTerm) || 
-                    location.includes(searchTerm)) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
-
-        // Filter table rows based on search term
-        function filterTableRows(searchTerm) {
-            const tableRows = document.querySelectorAll('#requested-workers tbody tr');
-            
-            tableRows.forEach(row => {
-                const cells = row.querySelectorAll('td');
-                const rowText = Array.from(cells).map(cell => cell.textContent.toLowerCase()).join(' ');
-                
-                if (rowText.includes(searchTerm)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        }
-
-        // Filter table rows based on status
-        function filterWorkersByStatus(status) {
-            const tableRows = document.querySelectorAll('#requested-workers tbody tr');
-            
-            tableRows.forEach(row => {
-                const statusCell = row.querySelector('.status');
-                const workerStatus = statusCell.textContent.toLowerCase();
-                
-                if (status === 'all' || workerStatus === status.toLowerCase()) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        }
-
-        // Show notification
-        function showNotification(message, type = 'info') {
-            const notification = document.createElement('div');
-            notification.className = `notification notification-${type}`;
-            
-            let icon = '';
-            switch (type) {
-                case 'success':
-                    icon = '<i class="fas fa-check-circle"></i>';
-                    break;
-                case 'error':
-                    icon = '<i class="fas fa-exclamation-circle"></i>';
-                    break;
-                case 'info':
-                    icon = '<i class="fas fa-info-circle"></i>';
-                    break;
-                case 'warning':
-                    icon = '<i class="fas fa-exclamation-triangle"></i>';
-                    break;
-            }
-            
-            notification.innerHTML = `
-                <div class="notification-content">
-                    ${icon}
-                    <span>${message}</span>
-                </div>
-                <button class="notification-close">×</button>
-            `;
-            
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.classList.add('show');
+                hireModal.classList.add('show');
             }, 10);
-            
-            const closeBtn = notification.querySelector('.notification-close');
-            closeBtn.addEventListener('click', () => {
-                notification.classList.remove('show');
-                setTimeout(() => {
-                    notification.remove();
-                }, 300);
-            });
-            
-            setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.classList.remove('show');
-                    setTimeout(() => {
-                        notification.remove();
-                    }, 300);
-                }
-            }, 5000);
-        }
-
-        // Debounce function for search input
-        function debounce(func, delay) {
-            let timeout;
-            return function() {
-                const context = this;
-                const args = arguments;
-                clearTimeout(timeout);
-                timeout = setTimeout(() => func.apply(context, args), delay);
-            };
-        }
-
-        // Add CSS for notifications
-        const notificationStyles = document.createElement('style');
-        notificationStyles.textContent = `
-            .notification {
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                padding: 15px;
-                border-radius: 8px;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                gap: 15px;
-                background: var(--white);
-                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-                z-index: 1100;
-                min-width: 300px;
-                max-width: 450px;
-                transform: translateY(100px);
-                opacity: 0;
-                transition: all 0.3s ease;
-            }
-            
-            .notification.show {
-                transform: translateY(0);
-                opacity: 1;
-            }
-            
-            .notification-content {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-            }
-            
-            .notification i {
-                font-size: 20px;
-            }
-            
-            .notification-success {
-                border-left: 4px solid var(--primary-green);
-            }
-            
-            .notification-success i {
-                color: var(--primary-green);
-            }
-            
-            .notification-error {
-                border-left: 4px solid #e63946;
-            }
-            
-            .notification-error i {
-                color: #e63946;
-            }
-            
-            .notification-info {
-                border-left: 4px solid #3b82f6;
-            }
-            
-            .notification-info i {
-                color: #3b82f6;
-            }
-            
-            .notification-warning {
-                border-left: 4px solid #d97706;
-            }
-            
-            .notification-warning i {
-                color: #d97706;
-            }
-            
-            .notification-close {
-                background: none;
-                border: none;
-                font-size: 20px;
-                cursor: pointer;
-                color: var(--medium-grey);
-                transition: color 0.3s ease;
-            }
-            
-            .notification-close:hover {
-                color: var(--dark-grey);
-            }
-            
-            .notification-content span {
-                font-size: var(--font-size-body);
-            }
-        `;
-        document.head.appendChild(notificationStyles);
-        function initializeHireButtons() {
-        hireButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const workerName = button.getAttribute('data-worker');
-                const workerId = button.getAttribute('data-worker-id');
-                hireModalWorkerName.textContent = `Sending hire request to ${workerName}`;
-                hireModalWorkerName.setAttribute('data-worker-id', workerId); // Store worker ID
-                hireModal.style.display = 'flex';
-                setTimeout(() => {
-                    hireModal.classList.add('show');
-                }, 10);
-            });
         });
+    });
 
-        const hireForm = document.getElementById('hire-form');
-        
+    const hireForm = document.getElementById('hire-form');
+    
+    if (hireForm) {
         hireForm.addEventListener('submit', async (e) => {
             e.preventDefault(); // Prevent default form submission
 
@@ -1710,12 +1267,670 @@
                 showNotification('An error occurred while sending the request.', 'error');
             }
         });
+    } else {
+        // Fallback for older implementation
+        submitHireBtn.addEventListener('click', () => {
+            const position = document.getElementById('position').value;
+            const location = document.getElementById('location').value;
+            const salary = document.getElementById('salary').value;
+            const workerName = hireModalWorkerName.textContent.replace('Sending hire request to ', '');
 
-        cancelHireBtn.addEventListener('click', () => {
+            if (!position || !location || !salary) {
+                showNotification('Please fill in all fields.', 'error');
+                return;
+            }
+
+            // Simulate sending a hire request (replace with actual backend call)
+            console.log(`Hire request sent to ${workerName} for position ${position} at ${location} with salary ₹${salary}/hr`);
+
+            showNotification(`Hire request sent to ${workerName} successfully!`, 'success');
             closeModal(hireModal);
-            hireForm.reset(); // Reset form fields
+
+            // Reset form
+            document.getElementById('position').value = '';
+            document.getElementById('location').value = '';
+            document.getElementById('salary').value = '';
         });
     }
-    </script>
+
+    cancelHireBtn.addEventListener('click', () => {
+        closeModal(hireModal);
+        // Reset form
+        const hireForm = document.getElementById('hire-form');
+        if (hireForm) {
+            hireForm.reset();
+        } else {
+            document.getElementById('position').value = '';
+            document.getElementById('location').value = '';
+            document.getElementById('salary').value = '';
+        }
+    });
+}
+
+// Toggle Details in Worker Requests
+function initializeToggleDetailsButtons() {
+    toggleDetailsButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            button.classList.toggle('active');
+            const requestCard = button.closest('.request-card');
+            const details = requestCard.querySelector('.details');
+            
+            if (details.style.display === 'block') {
+                details.style.display = 'none';
+                button.innerHTML = '<i class="fas fa-chevron-down"></i> Details';
+            } else {
+                details.style.display = 'block';
+                button.innerHTML = '<i class="fas fa-chevron-up"></i> Hide Details';
+            }
+        });
+    });
+}
+
+// Initialize action buttons (hire, reject, etc.)
+function initializeActionButtons() {
+    actionButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            if (button.classList.contains('btn-hire')) {
+                showNotification('Worker hired successfully!', 'success');
+            } else if (button.classList.contains('btn-reject')) {
+                showNotification('Worker request rejected.', 'error');
+            }
+        });
+    });
+}
+
+// Initialize search and filter functionality
+function initializeSearchAndFilters() {
+    searchInputs.forEach(input => {
+        input.addEventListener('input', debounce(function() {
+            const searchTerm = this.value.toLowerCase();
+            const currentTab = document.querySelector('.tab.active').getAttribute('data-tab');
+            
+            if (currentTab === 'find-workers') {
+                filterWorkerCards(searchTerm);
+            } else if (currentTab === 'worker-requests') {
+                filterRequestCards(searchTerm);
+            } else if (currentTab === 'requested-workers') {
+                // Check if we're using the new card layout or old table layout
+                if (document.querySelector('#requested-workers .cards-container')) {
+                    filterWorkerCardsBySearch(searchTerm);
+                } else {
+                    filterTableRows(searchTerm);
+                }
+            }
+        }, 300));
+    });
+    
+    filterDropdowns.forEach(dropdown => {
+        dropdown.addEventListener('change', function() {
+            const filterValue = this.value;
+            const currentTab = document.querySelector('.tab.active').getAttribute('data-tab');
+            
+            if (currentTab === 'find-workers') {
+                filterWorkersBySkill(filterValue);
+            } else if (currentTab === 'requested-workers') {
+                // Check if we're using the new card layout or old table layout
+                if (document.querySelector('#requested-workers .cards-container')) {
+                    filterWorkerCardsByStatus(filterValue);
+                } else {
+                    filterWorkersByStatus(filterValue);
+                }
+            }
+        });
+    });
+}
+
+// Modal events
+function initializeModalEvents() {
+    modalCloseButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const modal = button.closest('.modal');
+            closeModal(modal);
+        });
+    });
+
+    [profileModal, hireModal].forEach(modal => {
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                closeModal(modal);
+            }
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && modal.classList.contains('show')) {
+                closeModal(modal);
+            }
+        });
+    });
+
+    const modalHireBtn = document.querySelector('.modal-hire-btn');
+    if (modalHireBtn) {
+        modalHireBtn.addEventListener('click', () => {
+            showNotification('Worker hired successfully!', 'success');
+            closeModal(profileModal);
+        });
+    }
+}
+
+// Close modal function
+function closeModal(modal) {
+    modal.classList.remove('show');
+    setTimeout(() => {
+        modal.style.display = 'none';
+    }, 300);
+}
+
+// Filter worker cards based on search term
+function filterWorkerCards(searchTerm) {
+    const workerCards = document.querySelectorAll('#find-workers .worker-card');
+    
+    workerCards.forEach(card => {
+        const name = card.querySelector('h3').textContent.toLowerCase();
+        const skills = Array.from(card.querySelectorAll('.tag')).map(tag => tag.textContent.toLowerCase());
+        const email = card.querySelector('.email').textContent.toLowerCase();
+        
+        if (name.includes(searchTerm) || 
+            skills.some(skill => skill.includes(searchTerm)) || 
+            email.includes(searchTerm)) {
+            card.style.display = 'flex';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
+// Filter worker cards based on skill
+function filterWorkersBySkill(skill) {
+    const workerCards = document.querySelectorAll('#find-workers .worker-card');
+    
+    workerCards.forEach(card => {
+        const skills = Array.from(card.querySelectorAll('.tag')).map(tag => tag.textContent.toLowerCase());
+        
+        if (skill === 'all' || skills.some(s => s.toLowerCase() === skill.toLowerCase())) {
+            card.style.display = 'flex';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
+// Filter request cards based on search term
+function filterRequestCards(searchTerm) {
+    const requestCards = document.querySelectorAll('#worker-requests .request-card');
+    
+    requestCards.forEach(card => {
+        const name = card.querySelector('h3').textContent.toLowerCase();
+        const role = card.querySelector('.detail-value').textContent.toLowerCase();
+        const location = card.querySelectorAll('.detail-value')[2].textContent.toLowerCase();
+        
+        if (name.includes(searchTerm) || 
+            role.includes(searchTerm) || 
+            location.includes(searchTerm)) {
+            card.style.display = 'flex';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
+// Filter table rows based on search term
+function filterTableRows(searchTerm) {
+    const tableRows = document.querySelectorAll('#requested-workers tbody tr');
+    
+    tableRows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        const rowText = Array.from(cells).map(cell => cell.textContent.toLowerCase()).join(' ');
+        
+        if (rowText.includes(searchTerm)) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+}
+
+// Filter table rows based on status
+function filterWorkersByStatus(status) {
+    const tableRows = document.querySelectorAll('#requested-workers tbody tr');
+    
+    tableRows.forEach(row => {
+        const statusCell = row.querySelector('.status');
+        const workerStatus = statusCell.textContent.toLowerCase();
+        
+        if (status === 'all' || workerStatus === status.toLowerCase()) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+}
+
+// Initialize worker cards in the requested workers section
+function initializeWorkerCards() {
+    // Find elements for the new card-based layout
+    const workerSearch = document.getElementById('worker-search');
+    const statusFilter = document.getElementById('status-filter');
+    const workerCards = document.querySelectorAll('#requested-workers .worker-card');
+    
+    // Skip if elements don't exist (old table layout might be in use)
+    if (!workerSearch || !statusFilter || workerCards.length === 0) {
+        return;
+    }
+    
+    // View profile buttons
+    const viewProfileButtons = document.querySelectorAll('#requested-workers .view-profile');
+    const acceptButtons = document.querySelectorAll('#requested-workers .accept-btn');
+    const rejectButtons = document.querySelectorAll('#requested-workers .reject-btn');
+    
+    viewProfileButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const workerId = this.getAttribute('data-id');
+            console.log('View profile for worker ID:', workerId);
+            // You might want to show the profile modal here
+        });
+    });
+    
+    acceptButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const requestId = this.getAttribute('data-id');
+            updateRequestStatus(requestId, 'Accepted');
+        });
+    });
+    
+    rejectButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const requestId = this.getAttribute('data-id');
+            updateRequestStatus(requestId, 'Rejected');
+        });
+    });
+}
+
+// Filter worker cards in requested workers section by search term
+function filterWorkerCardsBySearch(searchTerm) {
+    const workerCards = document.querySelectorAll('#requested-workers .worker-card');
+    
+    workerCards.forEach(card => {
+        const name = card.querySelector('.worker-name').textContent.toLowerCase();
+        const email = card.querySelector('.worker-email').textContent.toLowerCase();
+        const position = card.querySelector('.worker-details p:nth-child(1)').textContent.toLowerCase();
+        
+        if (name.includes(searchTerm) || 
+            email.includes(searchTerm) || 
+            position.includes(searchTerm)) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+    
+    checkForNoResults();
+}
+
+// Filter worker cards in requested workers section by status
+function filterWorkerCardsByStatus(status) {
+    const workerCards = document.querySelectorAll('#requested-workers .worker-card');
+    
+    workerCards.forEach(card => {
+        const cardStatus = card.getAttribute('data-status').toLowerCase();
+        
+        if (status === 'all' || cardStatus === status.toLowerCase()) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+    
+    checkForNoResults();
+}
+
+// Check if there are any visible cards after filtering
+function checkForNoResults() {
+    const workerCards = document.querySelectorAll('#requested-workers .worker-card');
+    const cardsContainer = document.querySelector('#requested-workers .cards-container');
+    
+    if (!cardsContainer) return;
+    
+    const visibleCards = Array.from(workerCards).filter(card => card.style.display !== 'none');
+    let noResultsMessage = document.querySelector('#requested-workers .no-results-message');
+    
+    if (visibleCards.length === 0) {
+        if (!noResultsMessage) {
+            noResultsMessage = document.createElement('div');
+            noResultsMessage.className = 'no-results-message';
+            noResultsMessage.innerHTML = '<p>No workers match your search criteria.</p>';
+            cardsContainer.appendChild(noResultsMessage);
+        } else {
+            noResultsMessage.style.display = 'block';
+        }
+    } else if (noResultsMessage) {
+        noResultsMessage.style.display = 'none';
+    }
+}
+
+// Function to update request status via AJAX
+function updateRequestStatus(requestId, status) {
+    fetch('/update-worker-request', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.content || ''
+        },
+        body: JSON.stringify({ requestId, status })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Update UI to reflect the new status
+            const card = document.querySelector(`button[data-id="${requestId}"]`).closest('.worker-card');
+            const statusSpan = card.querySelector('.status');
+            
+            // Update status text and class
+            statusSpan.textContent = status;
+            statusSpan.className = `status status-${status.toLowerCase()}`;
+            
+            // Update data-status attribute
+            card.setAttribute('data-status', status.toLowerCase());
+            
+            // Hide action buttons if status is no longer pending
+            if (status !== 'Pending') {
+                const actionButtons = card.querySelector('.action-buttons');
+                if (actionButtons) {
+                    actionButtons.style.display = 'none';
+                }
+            }
+            
+            // Show notification
+            showNotification(`Worker request ${status.toLowerCase()}`, status === 'Accepted' ? 'success' : 'info');
+            
+            // Re-apply any active filters
+            const statusFilter = document.getElementById('status-filter');
+            if (statusFilter && statusFilter.value !== 'all') {
+                filterWorkerCardsByStatus(statusFilter.value);
+            }
+        } else {
+            showNotification('Failed to update status: ' + (data.message || 'Unknown error'), 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error updating request status:', error);
+        showNotification('An error occurred while updating the status', 'error');
+    });
+}
+
+// Show notification
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    
+    let icon = '';
+    switch (type) {
+        case 'success':
+            icon = '<i class="fas fa-check-circle"></i>';
+            break;
+        case 'error':
+            icon = '<i class="fas fa-exclamation-circle"></i>';
+            break;
+        case 'info':
+            icon = '<i class="fas fa-info-circle"></i>';
+            break;
+        case 'warning':
+            icon = '<i class="fas fa-exclamation-triangle"></i>';
+            break;
+    }
+    
+    notification.innerHTML = `
+        <div class="notification-content">
+            ${icon}
+            <span>${message}</span>
+        </div>
+        <button class="notification-close">×</button>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 10);
+    
+    const closeBtn = notification.querySelector('.notification-close');
+    closeBtn.addEventListener('click', () => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+            notification.remove();
+        }, 300);
+    });
+    
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.classList.remove('show');
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
+        }
+    }, 5000);
+}
+
+// Debounce function for search input
+function debounce(func, delay) {
+    let timeout;
+    return function() {
+        const context = this;
+        const args = arguments;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(context, args), delay);
+    };
+}
+
+// Add CSS for notifications
+if (!document.querySelector('#notification-styles')) {
+    const notificationStyles = document.createElement('style');
+    notificationStyles.id = 'notification-styles';
+    notificationStyles.textContent = `
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            background: var(--white);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            z-index: 1100;
+            min-width: 300px;
+            max-width: 450px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .notification i {
+            font-size: 20px;
+        }
+        
+        .notification-success {
+            border-left: 4px solid var(--primary-green);
+        }
+        
+        .notification-success i {
+            color: var(--primary-green);
+        }
+        
+        .notification-error {
+            border-left: 4px solid #e63946;
+        }
+        
+        .notification-error i {
+            color: #e63946;
+        }
+        
+        .notification-info {
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .notification-info i {
+            color: #3b82f6;
+        }
+        
+        .notification-warning {
+            border-left: 4px solid #d97706;
+        }
+        
+        .notification-warning i {
+            color: #d97706;
+        }
+        
+        .notification-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--medium-grey);
+            transition: color 0.3s ease;
+        }
+        
+        .notification-close:hover {
+            color: var(--dark-grey);
+        }
+        
+        .notification-content span {
+            font-size: var(--font-size-body);
+        }
+    `;
+    document.head.appendChild(notificationStyles);
+}
+// Function to update request status via AJAX
+function updateRequestStatus(requestId, status) {
+    fetch('/update-company-request', {  // Changed endpoint
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.content || ''
+        },
+        body: JSON.stringify({ requestId, status })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Update UI to reflect the new status
+            const card = document.querySelector(`button[data-id="${requestId}"]`).closest('.worker-card');
+            const statusSpan = card.querySelector('.status');
+            
+            // Update status text and class
+            statusSpan.textContent = status;
+            statusSpan.className = `status status-${status.toLowerCase()}`;
+            
+            // Update data-status attribute
+            card.setAttribute('data-status', status.toLowerCase());
+            
+            // Hide action buttons if status is no longer pending
+            if (status !== 'Pending') {
+                const actionButtons = card.querySelector('.action-buttons');
+                if (actionButtons) {
+                    actionButtons.style.display = 'none';
+                }
+            }
+            
+            // Show notification
+            showNotification(`Worker request ${status.toLowerCase()}`, status === 'Accepted' ? 'success' : 'info');
+            
+            // Re-apply any active filters
+            const statusFilter = document.getElementById('status-filter');
+            if (statusFilter && statusFilter.value !== 'all') {
+                filterWorkerCardsByStatus(statusFilter.value);
+            }
+        } else {
+            showNotification('Failed to update status: ' + (data.message || 'Unknown error'), 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error updating request status:', error);
+        showNotification('An error occurred while updating the status', 'error');
+    });
+}
+// Function to handle status updates
+function updateRequestStatus(requestId, status) {
+    // Show loading state
+    const card = document.querySelector(`button[data-id="${requestId}"]`).closest('.worker-card');
+    const statusSpan = card.querySelector('.status');
+    statusSpan.textContent = 'Updating...';
+    statusSpan.className = 'status status-updating';
+
+    // Disable buttons during update
+    const buttons = card.querySelectorAll('button');
+    buttons.forEach(btn => btn.disabled = true);
+
+    fetch('/update-company-request', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.content || ''
+        },
+        body: JSON.stringify({ requestId, status })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            // Update UI
+            statusSpan.textContent = status;
+            statusSpan.className = `status status-${status.toLowerCase()}`;
+            card.setAttribute('data-status', status.toLowerCase());
+
+            // Hide action buttons if not pending
+            if (status !== 'Pending') {
+                const actionButtons = card.querySelector('.action-buttons');
+                if (actionButtons) actionButtons.style.display = 'none';
+            }
+
+            showNotification(`Request ${status.toLowerCase()} successfully`, 'success');
+        } else {
+            throw new Error(data.message || 'Update failed');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        statusSpan.textContent = 'Error';
+        statusSpan.className = 'status status-error';
+        showNotification(`Failed to update: ${error.message}`, 'error');
+    })
+    .finally(() => {
+        // Re-enable buttons
+        buttons.forEach(btn => btn.disabled = false);
+    });
+}
+
+// Initialize event listeners
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.accept-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            updateRequestStatus(this.getAttribute('data-id'), 'Accepted');
+        });
+    });
+
+    document.querySelectorAll('.reject-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            updateRequestStatus(this.getAttribute('data-id'), 'Rejected');
+        });
+    });
+});
+</script>
 </body>
 </html>

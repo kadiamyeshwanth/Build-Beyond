@@ -88,10 +88,10 @@ app.get("/workerjobs.html", isAuthenticated, async (req, res) => {
 app.get("/workerjoin_company.html", isAuthenticated, async (req, res) => {
   try {
     // Extract worker ID from req.user
-    const workerId = req.user.user_id;
+    const worker = req.user.user_id;
 
     // Fetch worker details
-    const user = await Worker.findById(workerId).lean(); // .lean() for plain JS object (Mongoose)
+    const user = await Worker.findById(worker).lean(); // .lean() for plain JS object (Mongoose)
 
     // Fetch all companies
     const companies = await Company.find().lean();
@@ -100,7 +100,7 @@ app.get("/workerjoin_company.html", isAuthenticated, async (req, res) => {
     const offers = await CompanytoWorker.find({ worker:req.user.user_id }).lean();
 
     // Fetch WorkerToCompany mappings (e.g., worker's requests to join companies)
-    const jobApplications = await WorkerToCompany.find({ workerId:req.user.user_id }).lean();
+    const jobApplications = await WorkerToCompany.find({ worker:req.user.user_id }).lean();
     res.render("worker/workers_join_company", {
       user,
       companies,
@@ -235,21 +235,39 @@ app.get("/companyhiring.html", isAuthenticated, async (req, res) => {
           expectedSalary: request.expectedSalary,
           status: request.status,
           location: request.location,
+          workerId: {
+            ...(request.workerId ? request.workerId._doc : {}),
+            name: request.fullName || (request.workerId ? request.workerId.name : ''),
+            email: request.email || (request.workerId ? request.workerId.email : ''),
+            location: request.location || (request.workerId ? request.workerId.location : ''),
+            profileImage: request.workerId && request.workerId.profileImage && request.workerId.profileImage.trim() !== ''
+                ? request.workerId.profileImage
+                : `https://api.dicebear.com/9.x/male/svg?seed=${encodeURIComponent((request.fullName || 'workerId').replace(/\s+/g, ''))}&mouth=smile`
+        }
+      }));
+      const company = new mongoose.Types.ObjectId(req.user.user_id);
+      const requestedWorkers = await CompanytoWorker.find({ company })
+          .populate('worker', 'name email')
+          .catch(err => {
+              console.error('Population Error for Requested Workers:', err);
+              return [];
+          });
+
+      const processedRequestedWorkers = requestedWorkers.map(request => ({
+          _id: request._id,
+          positionApplying: request.position,
+          expectedSalary: request.salary,
+          status: request.status,
+          location: request.location,
           worker: {
-              ...(request.workerId ? request.workerId._doc : {}),
-              name: request.fullName || (request.workerId ? request.workerId.name : ''),
-              email: request.email || (request.workerId ? request.workerId.email : ''),
-              location: request.location || (request.workerId ? request.workerId.location : ''),
-              profileImage: request.workerId && request.workerId.profileImage && request.workerId.profileImage.trim() !== ''
-                  ? request.workerId.profileImage
-                  : `https://api.dicebear.com/9.x/male/svg?seed=${encodeURIComponent((request.fullName || 'worker').replace(/\s+/g, ''))}&mouth=smile`
+              name: request.worker ? request.worker.name : 'Unknown',
+              email: request.worker ? request.worker.email : 'N/A'
           }
       }));
-
       res.render("company/hiring", { 
           workers: processedWorkers, 
           workerRequests: processedRequests,
-          requestedWorkers: processedRequests // For consistency with the template
+          requestedWorkers: processedRequestedWorkers
       });
   } catch (err) {
       console.error('Error fetching workers:', err);
