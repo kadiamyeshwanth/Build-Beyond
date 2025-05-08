@@ -236,6 +236,15 @@
             margin-top: 20px;
         }
         
+        .error-message {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            background: #f8d7da;
+            color: #721c24;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -247,8 +256,8 @@
         
         <form id="designRequestForm">
             <div class="form-group">
-                <label for="fullName">Project Name*</label>
-                <input type="text" id="fullName" name="fullName" required>
+                <label for="projectName">Project Name*</label>
+                <input type="text" id="projectName" name="projectName" required>
             </div>
 
             <div class="form-group">
@@ -384,6 +393,9 @@
             <h2>Request Submitted Successfully!</h2>
             <p>One of our designers will contact you within 48 hours to discuss your project.</p>
         </div>
+        <div class="error-message" id="errorMessage" style="display: none;">
+            <p id="errorText"></p>
+        </div>
     </div>
 
     <script>
@@ -424,6 +436,7 @@
                 }
             });
         }
+
         function createPreviewElement(file, previewContainer, uploadedFiles, fileInput, maxFiles) {
             const reader = new FileReader();
             
@@ -523,17 +536,17 @@
                     
                     if (response.ok) {
                         form.style.display = 'none';
-                        successMessage.style.display = 'block';
-                        errorMessage.style.display = 'none';
+                        if (successMessage) successMessage.style.display = 'block';
+                        if (errorMessage) errorMessage.style.display = 'none';
                     } else {
-                        errorMessage.style.display = 'block';
-                        errorText.textContent = result.error || 'An error occurred. Please try again.';
-                        successMessage.style.display = 'none';
+                        if (errorMessage) errorMessage.style.display = 'block';
+                        if (errorText) errorText.textContent = result.error || 'An error occurred. Please try again.';
+                        if (successMessage) successMessage.style.display = 'none';
                     }
                 } catch (error) {
-                    errorMessage.style.display = 'block';
-                    errorText.textContent = 'Network error. Please check your connection and try again.';
-                    successMessage.style.display = 'none';
+                    if (errorMessage) errorMessage.style.display = 'block';
+                    if (errorText) errorText.textContent = 'Network error. Please check your connection and try again.';
+                    if (successMessage) successMessage.style.display = 'none';
                 }
             }
         });
