@@ -162,7 +162,7 @@ app.get("/Job_Request_Status",isAuthenticated, async (req, res) => {
     
     // Fetch ArchitectHiring records where workerId matches userId
     const architectApplications = await ArchitectHiring.find({
-      customer: req.user.user_id,
+      customerId: req.user.user_id,
     }).lean();
 
     // Fetch DesignRequest records where workerId matches userId
@@ -170,18 +170,23 @@ app.get("/Job_Request_Status",isAuthenticated, async (req, res) => {
       customerId: req.user.user_id,
     }).lean();
 
+    const companyApplications = await ConstructionProjectSchema.find({
+      customerId: req.user.user_id,
+    }).lean();
+
     // Combine the records
     // Render the template with job requests
     res.render("customer/Job_Status", {
       architectApplications,
-      interiorApplications, // Pass user data if needed
+      interiorApplications,
+      companyApplications// Pass user data if needed
     });
   } catch (error) {
     console.error("Error fetching job request status:", error);
     res.status(500).send("Internal Server Error");
   }
 });
-app.get('/construction_comanies_list.html', isAuthenticated, async (req, res) => {
+app.get('/construction_companies_list.html', isAuthenticated, async (req, res) => {
   try {
     // Fetch all companies from the database
     const companies = await Company.find({}).lean();
