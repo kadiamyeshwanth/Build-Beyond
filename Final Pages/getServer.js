@@ -152,6 +152,7 @@ app.get("/platformadmindashboard.html", (req, res) => {
 app.get("/home.html", (req, res) => {
   res.render("customer/customer_dashboard");
 });
+
 app.get("/Job_Request_Status",isAuthenticated, async (req, res) => {
   try {
     // Ensure user is authenticated
@@ -166,7 +167,7 @@ app.get("/Job_Request_Status",isAuthenticated, async (req, res) => {
 
     // Fetch DesignRequest records where workerId matches userId
     const interiorApplications = await DesignRequest.find({
-      workerId: req.user.user_id,
+      customerId: req.user.user_id,
     }).lean();
 
     // Combine the records
