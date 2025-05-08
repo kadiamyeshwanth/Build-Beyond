@@ -152,6 +152,34 @@ app.get("/platformadmindashboard.html", (req, res) => {
 app.get("/home.html", (req, res) => {
   res.render("customer/customer_dashboard");
 });
+app.get("/Job_Request_Status",isAuthenticated, async (req, res) => {
+  try {
+    // Ensure user is authenticated
+    if (!req.user || !req.user.user_id) {
+      return res.status(401).send("Unauthorized");
+    }
+    
+    // Fetch ArchitectHiring records where workerId matches userId
+    const architectApplications = await ArchitectHiring.find({
+      customer: req.user.user_id,
+    }).lean();
+
+    // Fetch DesignRequest records where workerId matches userId
+    const interiorApplications = await DesignRequest.find({
+      workerId: req.user.user_id,
+    }).lean();
+
+    // Combine the records
+    // Render the template with job requests
+    res.render("customer/Job_Status", {
+      architectApplications,
+      interiorApplications, // Pass user data if needed
+    });
+  } catch (error) {
+    console.error("Error fetching job request status:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
 app.get("/construction_comanies_list.html", (req, res) => {
   res.render("customer/construction_companies_list");
 });
