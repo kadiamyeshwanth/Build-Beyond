@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Application Tracker</title>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #333;
+            padding-left: 10px;
+            margin-top: 30px;
+        }
+        .architect-heading {
+            border-left: 4px solid #00c4b4;
+        }
+        .interior-heading {
+            border-left: 4px solid #ff6200;
+        }
+        .application {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            position: relative;
+            transition: border-color 0.3s ease, background-color 0.3s ease;
+            cursor: pointer;
+        }
+        .architect-app {
+            border-left: 4px solid #00c4b4;
+        }
+        .architect-app:hover {
+            border-color: #00c4b4;
+        }
+        .interior-app {
+            border-left: 4px solid #ff6200;
+        }
+        .interior-app:hover {
+            border-color: #ff6200;
+        }
+        .application.selected {
+            background-color: #e6f0fa;
+            border-color: #005b96;
+        }
+        .application p {
+            margin: 5px 0;
+            color: #555;
+        }
+        .status {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .architect-status {
+            background-color: #e0f7fa;
+            color: #00838f;
+            border: 1px solid #00838f;
+        }
+        .interior-status {
+            background-color: #fff3e0;
+            color: #ff6200;
+            border: 1px solid #ff6200;
+        }
+        .section-title {
+            color: #005b96;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .tab-container {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .tab:hover {
+            background-color: #f5f5f5;
+        }
+        .tab.active {
+            border-bottom: 3px solid #005b96;
+            font-weight: bold;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .no-applications {
+            text-align: center;
+            padding: 20px;
+            color: #777;
+        }
+        .project-name {
+            font-weight: bold;
+            color: #005b96;
+            margin-right: 10px;
+        }
+        .date-info {
+            font-size: 12px;
+            color: #777;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <%- include('navbar_customer') %>
+    <div class="container">
+        <div class="tab-container">
+            <div class="tab active" data-target="architect-section">Architect Applications</div>
+            <div class="tab" data-target="interior-section">Interior Designer Applications</div>
+        </div>
+        
+        <!-- Architect Applications Section -->
+        <div id="architect-section" class="content-section active">
+            <h2 class="architect-heading">Architects You Requested to Join</h2>
+            <p>Track the status of your applications to join architects</p>
+
+            <% if (architectApplications && architectApplications.length > 0) { %>
+                <% architectApplications.forEach(function(app) { %>
+                    <div class="application architect-app">
+                        <div class="status architect-status"><%= app.status %></div>
+                        <h3>
+                            <span class="project-name"><%= app.projectName %></span>
+                            <% if (app.worker && app.worker.name) { %>
+                                with <span><%= app.worker.name %></span>
+                            <% } %>
+                        </h3>
+                        <div class="date-info">Submitted: <%= new Date(app.createdAt).toLocaleDateString() %></div>
+                        
+                        <div class="section-title">Customer Details</div>
+                        <p><strong>Name:</strong> <%= app.customerDetails.fullName %></p>
+                        <p><strong>Email:</strong> <%= app.customerDetails.email %></p>
+                        <p><strong>Contact:</strong> <%= app.customerDetails.contactNumber %></p>
+                        
+                        <div class="section-title">Customer Address</div>
+                        <p><strong>Street:</strong> <%= app.customerAddress.streetAddress %></p>
+                        <p><strong>City:</strong> <%= app.customerAddress.city %></p>
+                        <p><strong>State:</strong> <%= app.customerAddress.state %></p>
+                        <p><strong>Zip Code:</strong> <%= app.customerAddress.zipCode %></p>
+                        
+                        <div class="section-title">Plot Information</div>
+                        <p><strong>Location/Address:</strong> <%= app.plotInformation.plotLocation %></p>
+                        <p><strong>Plot Size:</strong> <%= app.plotInformation.plotSize %></p>
+                        <p><strong>Plot Orientation:</strong> <%= app.plotInformation.plotOrientation %></p>
+
+                        <div class="section-title">Design Requirements</div>
+                        <p><strong>Type of Design:</strong> <%= app.designRequirements.designType %></p>
+                        <p><strong>Number of Floors:</strong> <%= app.designRequirements.numFloors %></p>
+                        <p><strong>Special Features:</strong> <%= app.designRequirements.specialFeatures || 'None specified' %></p>
+                        <p><strong>Preferred Architectural Style:</strong> <%= app.designRequirements.architecturalStyle %></p>
+                        
+                        <% if (app.designRequirements.floorRequirements && app.designRequirements.floorRequirements.length > 0) { %>
+                            <div class="section-title">Floor Requirements</div>
+                            <% app.designRequirements.floorRequirements.forEach(function(floor) { %>
+                                <p><strong>Floor <%= floor.floorNumber %>:</strong> <%= floor.details %></p>
+                            <% }); %>
+                        <% } %>
+
+                        <div class="section-title">Additional Details</div>
+                        <p><strong>Budget:</strong> <%= app.additionalDetails.budget || 'Not specified' %></p>
+                        <% if (app.additionalDetails.completionDate) { %>
+                            <p><strong>Preferred Completion Date:</strong> <%= new Date(app.additionalDetails.completionDate).toLocaleDateString() %></p>
+                        <% } else { %>
+                            <p><strong>Preferred Completion Date:</strong> Not specified</p>
+                        <% } %>
+                        
+                        <% if (app.additionalDetails.referenceImages && app.additionalDetails.referenceImages.length > 0) { %>
+                            <p><strong>Reference Images:</strong> <%= app.additionalDetails.referenceImages.length %> image(s) uploaded</p>
+                        <% } %>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <div class="no-applications">
+                    <p>You haven't submitted any architect applications yet.</p>
+                </div>
+            <% } %>
+        </div>
+        
+        <!-- Interior Designer Applications Section -->
+        <div id="interior-section" class="content-section">
+            <h2 class="interior-heading">Interior Designers You Requested to Join</h2>
+            <p>Track the status of your applications to join interior designers</p>
+
+            <% if (interiorApplications && interiorApplications.length > 0) { %>
+                <% interiorApplications.forEach(function(app) { %>
+                    <div class="application interior-app">
+                        <div class="status interior-status"><%= app.status %></div>
+                        <h3>
+                            <span class="project-name"><%= app.name %></span>
+                        </h3>
+                        <p><strong>Email:</strong> <%= app.email %></p>
+                        
+                        <div class="section-title">Room Details</div>
+                        <p><strong>Room Type:</strong> <%= app.roomType %></p>
+                        <p><strong>Room Size:</strong> <%= app.roomSize.length %>X<%= app.roomSize.width %><%= app.roomSize.unit %></p>
+                        <p><strong>Ceiling Height:</strong> <%= app.ceilingHeight.height%><%= app.ceilingHeight.unit%></p>
+                        <p><strong>Design Preference:</strong> <%= app.designPreference%></p>
+                        <p><strong>Project Description:</strong> <%= app.roomDetails.projectDescription %></p>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <div class="no-applications">
+                    <p>You haven't submitted any interior designer applications yet.</p>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs and sections
+                    tabs.forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.content-section').forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked tab and corresponding section
+                    tab.classList.add('active');
+                    const targetId = tab.getAttribute('data-target');
+                    document.getElementById(targetId).classList.add('active');
+                });
+            });
+            
+            // Add click event listener to toggle the 'selected' class on applications
+            const applications = document.querySelectorAll('.application');
+            applications.forEach(app => {
+                app.addEventListener('click', () => {
+                    // Remove 'selected' class from all applications
+                    applications.forEach(a => a.classList.remove('selected'));
+                    // Add 'selected' class to the clicked application
+                    app.classList.add('selected');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

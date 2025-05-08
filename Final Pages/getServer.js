@@ -180,9 +180,6 @@ app.get("/architecht_form", (req, res) => {
 app.get("/ongoing_projects.html", (req, res) => {
   res.render("customer/ongoing_projects");
 });
-app.get("/bidspace.html", (req, res) => {
-  res.render("customer/bid_space");
-});
 app.get("/design_ideas.html", (req, res) => {
   res.render("customer/design_ideas");
 });
@@ -215,40 +212,11 @@ app.get("/constructionform.html", (req, res) => {
 app.get("/bidform.html", (req, res) => {
   res.render("customer/bid_form");
 });
-app.get("/customersettings.html", (req, res) => {
-  res.render("customer/customer_settings");
+app.get("/customersettings.html", isAuthenticated,async(req, res) => {
+  const user=await Customer.findById(req.user.user_id);
+  res.render("customer/customer_settings",{user});
 });
 // Company routes
-app.get("/companybids.html", async (req, res) => {
-  try {
-    // 1. Fetch all available bids
-    const bids = await Bid.find({}).lean();
-
-    // 2. Handle selected bid if ID is provided
-    const selectedBidId = req.query.bidId;
-    let selectedBid = null;
-
-    if (selectedBidId && mongoose.Types.ObjectId.isValid(selectedBidId)) {
-      selectedBid = await Bid.findById(selectedBidId).lean();
-    }
-
-    // 3. Render with the original template structure
-    res.render("company/company_bids", {
-      bids,
-      selectedBid,
-      req, // Pass the entire request object
-      success: req.query.success,
-      error: req.query.error
-    });
-
-  } catch (error) {
-    console.error("Error fetching bids:", error);
-    res.status(500).render("company/company_bids", {
-      error: "Error loading bids",
-      req // Maintain same template structure
-    });
-  }
-});
 app.get("/companyongoing_projects.html", (req, res) => {
   res.render("company/company_ongoing_projects");
 });

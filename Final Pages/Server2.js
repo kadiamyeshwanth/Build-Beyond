@@ -1220,3 +1220,247 @@ app.delete('/api/worker-requests/:id', isAuthenticated, async (req, res) => {
       res.status(500).json({ error: 'Server error' });
   }
 });
+// Route to display bids page with available projects and company's bid status
+app.get("/companybids.html", isAuthenticated, async (req, res) => {
+  try {
+    // Get company ID from authenticated user
+    const companyId = req.user.user_id
+
+    // Get company details
+    const company = await Company.findById(companyId)
+    if (!company) {
+      return res.status(404).render("company/company_bids", {
+        error: "Company not found",
+        bids: [],
+        companyBids: [],
+        selectedBid: null,
+        req,
+        companyName: "",
+        companyId: "",
+      })
+    }
+
+    // 1. Fetch all available bids
+    const bids = await Bid.find({}).lean()
+
+    // 2. Fetch bids where this company has placed a bid
+    const projectsWithCompanyBids = await Bid.find({
+      "companyBids.companyId": companyId,
+    }).lean()
+
+    // Format company bids for display
+    const companyBids = []
+    projectsWithCompanyBids.forEach((project) => {
+      const companyBid = project.companyBids.find((bid) => bid.companyId.toString() === companyId.toString())
+
+      if (companyBid) {
+        // Determine status based on project state
+        // This is a placeholder - you'll need to implement your own status logic
+        let status = "Pending"
+        if (project.winningBidId) {
+          status = project.winningBidId.toString() === companyBid._id.toString() ? "Accepted" : "Rejected"
+        }
+
+        companyBids.push({
+          project: project,
+          bidPrice: companyBid.bidPrice,
+          bidDate: companyBid.bidDate,
+          status: status,
+        })
+      }
+    })
+
+    // 3. Handle selected bid if ID is provided
+    const selectedBidId = req.query.bidId
+    let selectedBid = null
+
+    if (selectedBidId && mongoose.Types.ObjectId.isValid(selectedBidId)) {
+      selectedBid = await Bid.findById(selectedBidId).lean()
+    }
+
+    // 4. Render with all necessary data
+    res.render("company/company_bids", {
+      bids,
+      companyBids,
+      selectedBid,
+      req,
+      companyName: company.companyName,
+      companyId: company._id,
+    })
+  } catch (error) {
+    console.error("Error fetching bids:", error)
+    res.status(500).render("company/company_bids", {
+      error: "Error loading bids",
+      bids: [],
+      companyBids: [],
+      selectedBid: null,
+      req,
+      companyName: "",
+      companyId: "",
+    })
+  }
+})
+
+// Route to handle bid submission
+app.post("/submit-bid", isAuthenticated, async (req, res) => {
+  const session = await mongoose.startSession()
+  session.startTransaction()
+
+  try {
+    const { bidPrice, bidId } = req.body
+    const companyId = req.user.user_id
+
+    // Validate inputs
+    if (!bidPrice || isNaN(bidPrice) || bidPrice <= 0) {
+      await session.abortTransaction()
+      session.endSession()
+      return res.redirect(`/companybids.html?bidId=${bidId}&error=invalid_data`)
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(bidId)) {
+      await session.abortTransaction()
+      session.endSession()
+      return res.redirect("/companybids.html?error=invalid_data")
+    }
+
+    // Get company details
+    const company = await Company.findById(companyId).session(session)
+    if (!company) {
+      await session.abortTransaction()
+      session.endSession()
+      return res.redirect("/companybids.html?error=server_error")
+    }
+
+    // Find the bid project
+    const bidProject = await Bid.findById(bidId).session(session)
+    if (!bidProject) {
+      await session.abortTransaction()
+      session.endSession()
+      return res.redirect("/companybids.html?error=server_error")
+    }
+
+    // Check if company already submitted a bid
+    const hasExistingBid = bidProject.companyBids.some((bid) => bid.companyId.toString() === companyId.toString())
+
+    if (hasExistingBid) {
+      // Update existing bid
+      await Bid.updateOne(
+        {
+          _id: bidId,
+          "companyBids.companyId": companyId,
+        },
+        {
+          $set: {
+            "companyBids.$.bidPrice": Number(bidPrice),
+            "companyBids.$.bidDate": new Date(),
+          },
+        },
+        { session },
+      )
+    } else {
+      // Create new bid submission
+      const newBid = {
+        companyId,
+        companyName: company.companyName,
+        bidPrice: Number(bidPrice),
+        bidDate: new Date(),
+      }
+
+      // Add the bid to the project
+      await Bid.updateOne({ _id: bidId }, { $push: { companyBids: newBid } }, { session })
+    }
+
+    await session.commitTransaction()
+    session.endSession()
+
+    // Redirect with success message
+    res.redirect(`/companybids.html?bidId=${bidId}&success=bid_submitted`)
+  } catch (error) {
+    await session.abortTransaction()
+    session.endSession()
+    console.error("Error submitting bid:", error)
+    res.redirect(`/companybids.html?error=server_error`)
+  }
+})
+// Get customer bidspace page with dynamic data
+app.get('/bidspace.html', isAuthenticated, async (req, res) => {
+  try {
+    // Get customer ID from authenticated user
+    const customerId = req.user.user_id;
+
+    // Fetch bids created by this customer
+    const customerBids = await Bid.find({ customerId }).lean();
+
+    res.render("customer/bid_space", {
+      customerBids,
+      user: req.user
+    });
+  } catch (error) {
+    console.error('Error fetching bids:', error);
+    res.status(500).send('Server error');
+  }
+});
+
+// Accept a company's bid
+app.post('/accept-bid', isAuthenticated, async (req, res) => {
+  try {
+    const { bidId, companyBidId } = req.body;
+    const customerId = req.user.user_id;
+
+    // Validate the bid belongs to this customer
+    const bid = await Bid.findOne({ 
+      _id: bidId, 
+      customerId 
+    });
+
+    if (!bid) {
+      return res.status(404).json({ error: 'Bid not found or unauthorized' });
+    }
+
+    // Find the company bid in the array
+    const companyBid = bid.companyBids.id(companyBidId);
+    if (!companyBid) {
+      return res.status(404).json({ error: 'Company bid not found' });
+    }
+
+    // Update the bid status and set winning bid
+    bid.status = 'awarded';
+    bid.winningBidId = companyBidId;
+    await bid.save();
+
+    res.json({ success: true, message: 'Bid accepted successfully' });
+  } catch (error) {
+    console.error('Error accepting bid:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Decline a company's bid
+app.post('/decline-bid', isAuthenticated, async (req, res) => {
+  try {
+    const { bidId, companyBidId } = req.body;
+    const customerId = req.user.user_id;
+
+    // Validate the bid belongs to this customer
+    const bid = await Bid.findOne({ 
+      _id: bidId, 
+      customerId 
+    });
+
+    if (!bid) {
+      return res.status(404).json({ error: 'Bid not found or unauthorized' });
+    }
+
+    // Remove the company bid from the array
+    bid.companyBids = bid.companyBids.filter(
+      companyBid => companyBid._id.toString() !== companyBidId
+    );
+    
+    await bid.save();
+
+    res.json({ success: true, message: 'Bid declined successfully' });
+  } catch (error) {
+    console.error('Error declining bid:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});

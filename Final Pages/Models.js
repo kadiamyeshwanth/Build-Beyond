@@ -582,6 +582,19 @@ const BidSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  // Add a field to track the winning bid
+  winningBidId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "companyBids",
+    default: null,
+  },
+
+  // Add a status field to the bid itself
+  status: {
+    type: String,
+    enum: ["open", "closed", "awarded", "cancelled"],
+    default: "open",
+  }
 });
 
 BidSchema.pre("save", function (next) {
