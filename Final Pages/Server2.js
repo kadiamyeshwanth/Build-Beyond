@@ -1245,9 +1245,12 @@ app.get("/companybids.html", isAuthenticated, async (req, res) => {
         companyId: "",
       })
     }
-
-    // 1. Fetch all available bids
-    const bids = await Bid.find({}).lean()
+    const activeSection = req.query.section || 'place-bid';
+    // 1. Fetch all available bids (exclude bids where company has already bid and only include open bids)
+    const bids = await Bid.find({
+      "companyBids.companyId": { $ne: companyId },
+      status: "open"
+    }).lean();
 
     // 2. Fetch bids where this company has placed a bid
     const projectsWithCompanyBids = await Bid.find({
@@ -1283,9 +1286,16 @@ app.get("/companybids.html", isAuthenticated, async (req, res) => {
     if (selectedBidId && mongoose.Types.ObjectId.isValid(selectedBidId)) {
       selectedBid = await Bid.findById(selectedBidId).lean()
     }
-
+    const formatDate = (date) => {
+            return new Date(date).toLocaleDateString('en-IN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        };
     // 4. Render with all necessary data
     res.render("company/company_bids", {
+      activeSection: activeSection,
       bids,
       companyBids,
       selectedBid,
@@ -1442,32 +1452,55 @@ app.post('/accept-bid', isAuthenticated, async (req, res) => {
 });
 
 // Decline a company's bid
+// Decline a company's bid (mark as rejected)
 app.post('/decline-bid', isAuthenticated, async (req, res) => {
   try {
     const { bidId, companyBidId } = req.body;
     const customerId = req.user.user_id;
 
-    // Validate the bid belongs to this customer
-    const bid = await Bid.findOne({ 
-      _id: bidId, 
-      customerId 
+    // 1. Validate parent bid belongs to requesting customer
+    const bid = await Bid.findOne({
+      _id: bidId,
+      customerId: customerId
     });
 
     if (!bid) {
       return res.status(404).json({ error: 'Bid not found or unauthorized' });
     }
 
-    // Remove the company bid from the array
-    bid.companyBids = bid.companyBids.filter(
-      companyBid => companyBid._id.toString() !== companyBidId
-    );
-    
+    // 2. Find the specific company bid subdocument
+    const companyBid = bid.companyBids.id(companyBidId);
+    if (!companyBid) {
+      return res.status(404).json({ error: 'Company bid not found' });
+    }
+
+    // 3. Update status to rejected
+    companyBid.status = 'rejected';
+    companyBid.statusChangedAt = Date.now(); // If you added this timestamp field
+
+    // 4. Save changes
     await bid.save();
 
-    res.json({ success: true, message: 'Bid declined successfully' });
+    res.json({
+      success: true,
+      message: 'Bid declined successfully',
+      updatedBid: {
+        _id: bid._id,
+        status: bid.status,
+        companyBids: bid.companyBids.map(b => ({
+          _id: b._id,
+          status: b.status,
+          companyName: b.companyName
+        }))
+      }
+    });
+
   } catch (error) {
     console.error('Error declining bid:', error);
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ 
+      error: 'Server error',
+      details: error.message 
+    });
   }
 });
 // Get all projects
@@ -1494,25 +1527,101 @@ app.get('/api/projects/:id', async (req, res) => {
       res.status(500).json({ error: 'Failed to fetch project' });
   }
 });
-
-// Update project status
-app.patch('/api/projects/:id/status', async (req, res) => {
+// GET route to render the edit project form
+app.get('/edit-project/:id', isAuthenticated, async (req, res) => {
   try {
-      const { status } = req.body;
-      if (!['accepted', 'rejected'].includes(status)) {
-          return res.status(400).json({ error: 'Invalid status' });
-      }
-      const project = await ConstructionProjectSchema.findByIdAndUpdate(
-          req.params.id,
-          { status, updatedAt: Date.now() },
-          { new: true }
-      );
-      if (!project) {
-          return res.status(404).json({ error: 'Project not found' });
-      }
-      res.json({ message: 'Status updated successfully' });
+    const projectId = req.params.id;
+
+    if (!mongoose.Types.ObjectId.isValid(projectId)) {
+      return res.status(400).send('Invalid project ID');
+    }
+
+    const project = await ConstructionProjectSchema.findById(projectId);
+    if (!project) {
+      return res.status(404).send('Project not found');
+    }
+
+    res.render('company/addnewproject_form', { project });
   } catch (error) {
-      console.error('Error updating project status:', error);
-      res.status(500).json({ error: 'Failed to update status' });
+    console.error('Error fetching project:', error);
+    res.status(500).send('Server error');
   }
 });
+app.post(
+  '/api/projects/update',
+  (req, res, next) => {
+    console.log('Incoming body fields:', Object.keys(req.body));
+    console.log('Incoming file fields:', Object.keys(req.files || {}));
+    next();
+  },
+  upload.fields([
+    { name: 'mainImage', maxCount: 1 },
+    { name: 'additionalImages', maxCount: 10 },
+    { name: 'updateImages', maxCount: 1 },
+  ]),
+  (err, req, res, next) => {
+    if (err instanceof multer.MulterError) {
+      console.error('Multer error:', err);
+      return res.status(400).json({ message: 'File upload error', error: err.message });
+    }
+    if (err) {
+      console.error('Other error:', err);
+      return res.status(400).json({ message: 'File upload error', error: err.message });
+    }
+    next();
+  },
+  async (req, res) => {
+    try {
+      const {
+        projectId,
+        completionPercentage,
+        targetCompletionDate,
+        currentPhase,
+        updates,
+      } = req.body;
+
+      // Validate projectId
+      if (!projectId || !mongoose.Types.ObjectId.isValid(projectId)) {
+        return res.status(400).json({ message: 'Invalid project ID' });
+      }
+
+      // Find the project
+      const project = await ConstructionProjectSchema.findById(projectId);
+      if (!project) {
+        return res.status(404).json({ message: 'Project not found' });
+      }
+
+      // Update fields only if provided
+      if (completionPercentage) project.completionPercentage = parseInt(completionPercentage);
+      if (targetCompletionDate) project.targetCompletionDate = new Date(targetCompletionDate);
+      if (currentPhase) project.currentPhase = currentPhase;
+
+      // Handle file uploads
+      if (req.files.mainImage) {
+        project.mainImagePath = req.files.mainImage[0].path;
+      }
+      if (req.files.additionalImages) {
+        project.additionalImagePaths = req.files.additionalImages.map(file => file.path);
+      }
+
+      // Handle recent updates
+      if (updates) {
+        const updateImages = req.files.updateImages || [];
+        const updatesArray = Array.isArray(updates) ? updates : [updates];
+        project.recentUpdates = updatesArray.map((updateText, index) => ({
+          updateText: updateText || '',
+          updateImagePath: updateImages[0] ? updateImages[0].path : null,
+          createdAt: new Date(),
+        }));
+      }
+
+      // Save the updated project
+      await project.save();
+
+      res.status(200).json({ message: 'Project updated successfully' });
+    } catch (error) {
+      console.error('Error updating project:', error);
+      res.status(500).json({ message: 'Server error', error: error.message });
+    }
+  }
+);

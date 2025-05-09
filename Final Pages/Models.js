@@ -34,11 +34,11 @@ const companySchema = new mongoose.Schema(
     password: { type: String, required: true },
     role: { type: String, default: "company" },
     location: {
-      address: { type: String },
-      city: { type: String },
-      state: { type: String },
-      country: { type: String },
-      postalCode: { type: String },
+      address: { type: String, default: '' },
+      city: { type: String, default: 'Not specified' },
+      state: { type: String, default: '' },
+      country: { type: String, default: '' },
+      postalCode: { type: String, default: '' }
     },
     description: { type: String },
     aboutCompany: { type: String }, // For worker profile

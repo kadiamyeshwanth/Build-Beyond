@@ -206,7 +206,7 @@ app.get('/workerdashboard.html', isAuthenticated, async (req, res) => {
         .lean(),
 
       // Companies
-      Company.find({ profileType: 'worker' })
+      Company.find({})
         .sort({ createdAt: -1 })
         .limit(3)
         .lean(),
