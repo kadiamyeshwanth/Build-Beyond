@@ -343,7 +343,6 @@
         <div class="nav-menu">
             <div class="nav-item active" data-section="place-bid">Place a Bid</div>
             <div class="nav-item" data-section="bid-status">Bid Status</div>
-            <div class="nav-item" data-section="bid-status">Request Status</div>
         </div>
 
 
@@ -426,23 +425,27 @@
           <div id="bid-status" class="content-section">
             <h2>Your Bid Status</h2>
             <div class="bid-status-container">
-                <% if (companyBids && companyBids.length > 0) { %>
-                    <% companyBids.forEach(function(bid) { %>
-                        <div class="status-item">
-                            <div class="status-info">
-                                <div class="status-title"><%= bid.project.buildingType %> Project - <%= bid.project.totalFloors %> Floors</div>
-                                <div class="status-price">₹<%= bid.project.estimatedBudget %></div>
-                                <div class="status-description"><%= bid.project.specialRequirements || 'No special requirements provided.' %></div>
-                                <div class="status-date">Posted: <%= new Date(bid.project.createdAt).toLocaleDateString('en-IN') %></div>
-                                <div class="your-bid">Your Bid: ₹<%= bid.bidPrice %></div>
-                            </div>
-                            <div class="status-badge <%= bid.status.toLowerCase() %>"><%= bid.status %></div>
-                        </div>
-                    <% }); %>
-                <% } else { %>
-                    <div class="no-bids">You haven't placed any bids yet.</div>
-                <% } %>
+    <% 
+        // Filter out rejected bids and handle undefined case
+        const visibleBids = (companyBids || []).filter(bid => bid.status !== 'rejected');
+        if (visibleBids.length > 0) { 
+    %>
+        <% visibleBids.forEach(function(bid) { %>
+            <div class="status-item">
+                <div class="status-info">
+                    <div class="status-title"><%= bid.project.buildingType %> Project - <%= bid.project.totalFloors %> Floors</div>
+                    <div class="status-price">₹<%= bid.project.estimatedBudget %></div>
+                    <div class="status-description"><%= bid.project.specialRequirements || 'No special requirements provided.' %></div>
+                    <div class="status-date">Posted: <%= new Date(bid.project.createdAt).toLocaleDateString('en-IN') %></div>
+                    <div class="your-bid">Your Bid: ₹<%= bid.bidPrice %></div>
+                </div>
+                <div class="status-badge <%= bid.status.toLowerCase() %>"><%= bid.status %></div>
             </div>
+        <% }); %>
+    <% } else { %>
+        <div class="no-bids">You haven't placed any bids yet.</div>
+    <% } %>
+</div>
         </div>
         </div>
     </div>

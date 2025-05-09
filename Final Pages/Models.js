@@ -327,7 +327,6 @@ architectHiringSchema.pre("save", function (next) {
   next();
 });
 
-// Construction Form Schema
 const constructionProjectSchema = new mongoose.Schema({
   // Project Identification
   projectName: {
@@ -370,7 +369,7 @@ const constructionProjectSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  projectLocationPincode: {
+  projectLocation: {
     type: String,
     required: true,
   },
@@ -401,7 +400,7 @@ const constructionProjectSchema = new mongoose.Schema({
       },
       floorArea: Number,
       floorDescription: String,
-      floorImagePath: String,
+      floorImage: String,
     },
   ],
 
@@ -415,7 +414,34 @@ const constructionProjectSchema = new mongoose.Schema({
     type: String,
     enum: ["standard", "leed", "passive", "netZero", "other", ""],
   },
-  siteFilepaths: [String], // Array of file paths or URLs
+  siteFilepaths: [String],
+
+  // Progress and Updates (Added from Form)
+  completionPercentage: {
+    type: Number,
+    min: 0,
+    max: 100,
+    default: 0,
+  },
+  targetCompletionDate: {
+    type: Date,
+  },
+  currentPhase: {
+    type: String,
+    enum: ["Foundation", "Structure", "Interior work", "Finishing"],
+  },
+  mainImagePath: String,
+  additionalImagePaths: [String],
+  recentUpdates: [
+    {
+      updateText: String,
+      updateImagePath: String,
+      createdAt: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
 
   // Timestamps
   createdAt: {
@@ -428,7 +454,6 @@ const constructionProjectSchema = new mongoose.Schema({
   },
 });
 
-// Update the updatedAt field before saving
 constructionProjectSchema.pre("save", function (next) {
   this.updatedAt = Date.now();
   next();
@@ -518,6 +543,11 @@ const companyBidSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  status: {
+    type: String,
+    enum: ["pending", "accepted", "rejected"],
+    default: "pending"
+  }
 });
 
 const BidSchema = new mongoose.Schema({

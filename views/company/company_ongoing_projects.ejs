@@ -4,22 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ongoing Projects</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
-    rel="stylesheet"
-  />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary-green: #4D7A70;
-      --secondary-green: #6A9E8E;
+      --primary-green: #3B8F7C;
+      --secondary-green: #4DAF97;
       --light-green: #A3C5BB;
-      --dark-grey: #363636;
+      --accent-green: #E5F4EF;
+      --dark-grey: #2C3333;
       --medium-grey: #5A5A5A;
-      --light-grey: #E0E0E0;
+      --light-grey: #F0F2F2;
       --white: #FFFFFF;
       --black: #000000;
+      --shadow: 0 4px 15px rgba(0,0,0,0.08);
+      --transition: all 0.3s ease;
     }
 
     * {
@@ -30,18 +30,18 @@
     }
 
     body {
-      background-color: var(--white);
+      background-color: var(--light-grey);
       color: var(--black);
       display: flex;
       flex-direction: column;
       min-height: 100vh;
+      font-size: 15px;
     }
 
     .container {
-      max-width: 1200px;
+      max-width: 1300px;
       margin: 0 auto;
-      padding: 2rem;
-      background-color: var(--light-grey);
+      padding: 2.5rem;
       flex: 1;
     }
 
@@ -49,83 +49,121 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 2rem;
+      margin-bottom: 2.5rem;
     }
 
     .header h1 {
-      font-size: 1.8rem;
-      font-weight: bold;
-      color: var(--primary-green);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--dark-grey);
+      position: relative;
+    }
+
+    .header h1:after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 60px;
+      height: 4px;
+      background-color: var(--primary-green);
+      border-radius: 2px;
     }
 
     .add-project-btn {
       background-color: var(--primary-green);
       color: var(--white);
       border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
       font-size: 1rem;
-      font-weight: 500;
+      font-weight: 600;
       cursor: pointer;
       display: flex;
       align-items: center;
       text-decoration: none;
-      transition: background-color 0.3s;
+      transition: var(--transition);
+      box-shadow: 0 4px 12px rgba(75, 122, 112, 0.2);
     }
 
     .add-project-btn:hover {
       background-color: var(--secondary-green);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(75, 122, 112, 0.25);
     }
 
     .dashboard-metrics {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 1.5rem;
-      margin-bottom: 2rem;
+      margin-bottom: 2.5rem;
     }
 
     .metric-card {
       background-color: var(--white);
-      border-radius: 8px;
-      padding: 1.5rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      padding: 1.8rem;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    
+    .metric-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .metric-card:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background-color: var(--primary-green);
     }
 
     .metric-title {
       color: var(--medium-grey);
       font-size: 1rem;
-      margin-bottom: 0.5rem;
+      font-weight: 500;
+      margin-bottom: 0.75rem;
     }
 
     .metric-value {
-      font-size: 1.8rem;
-      font-weight: bold;
+      font-size: 2.2rem;
+      font-weight: 700;
       color: var(--primary-green);
     }
 
     .content-wrapper {
       display: flex;
-      gap: 1.5rem;
+      gap: 2rem;
       margin-top: 2rem;
     }
 
     .left-section {
       width: 75%;
       background-color: var(--white);
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
     }
 
     .project-display {
       display: flex;
       border-bottom: 1px solid var(--light-grey);
-      padding: 1.5rem;
     }
 
     .project-image {
       width: 40%;
-      border-right: 1px solid var(--light-grey);
-      padding: 0;
+      position: relative;
+      overflow: hidden;
+      height: 350px;
     }
 
     .project-image img {
@@ -133,118 +171,160 @@
       height: 100%;
       object-fit: cover;
       display: block;
+      transition: var(--transition);
+    }
+    
+    .project-image:hover img {
+      transform: scale(1.05);
     }
 
     .project-details {
       width: 60%;
-      padding: 1.5rem;
+      padding: 0.9rem;
     }
 
     .project-details h2 {
       margin-bottom: 1rem;
       color: var(--dark-grey);
-      font-size: 1.5rem;
+      font-size: 1.7rem;
+      font-weight: 600;
     }
 
     .project-details p {
       margin-bottom: 1rem;
       color: var(--medium-grey);
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
     .project-details .location {
       display: flex;
       align-items: center;
-      margin-bottom: 1rem;
+      margin-bottom: 1.2rem;
       color: var(--medium-grey);
-      font-size: 0.9rem;
+      font-size: 0.95rem;
+    }
+    
+    .location span {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .location-icon {
+      color: var(--primary-green);
+      font-size: 1.2rem;
+    }
+
+    .tags-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
     }
 
     .project-tag {
       display: inline-block;
-      padding: 0.3rem 0.8rem;
+      padding: 0.4rem 1rem;
       background-color: var(--light-grey);
       color: var(--primary-green);
       border-radius: 20px;
-      font-size: 0.8rem;
-      margin-right: 0.5rem;
-      margin-bottom: 1rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+    
+    .project-tag:hover {
+      background-color: var(--accent-green);
     }
 
     .status-tag {
       display: inline-block;
-      padding: 0.3rem 0.8rem;
-      background-color: #E5F4EF;
+      padding: 0.4rem 1rem;
+      background-color: var(--accent-green);
       color: var(--primary-green);
       border-radius: 20px;
-      font-size: 0.8rem;
-      margin-right: 0.5rem;
+      font-size: 0.85rem;
+      font-weight: 500;
     }
 
     .progress-container {
-      margin-top: 1rem;
-      margin-bottom: 1rem;
+      margin-top: 1.2rem;
+      margin-bottom: 1.5rem;
     }
 
     .progress-bar {
-      height: 8px;
+      height: 10px;
       background-color: var(--light-grey);
-      border-radius: 4px;
+      border-radius: 5px;
       overflow: hidden;
     }
 
     .progress-fill {
       height: 100%;
-      background-color: var(--secondary-green);
+      background: linear-gradient(90deg, var(--primary-green), var(--secondary-green));
       width: 65%;
+      border-radius: 5px;
+      transition: width 1s ease-in-out;
     }
 
     .progress-text {
       display: flex;
       justify-content: space-between;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       color: var(--medium-grey);
-      margin-top: 0.5rem;
+      margin-top: 0.6rem;
+      font-weight: 500;
+    }
+    
+    .progress-percentage {
+      color: var(--primary-green);
+      font-weight: 600;
     }
 
     .action-buttons {
       display: flex;
       gap: 1rem;
-      margin-top: 1.5rem;
+      margin-top: 1.8rem;
     }
 
     .view-details-btn, .edit-btn {
-      padding: 0.5rem 1rem;
+      padding: 0.7rem 1.5rem;
       border: none;
-      border-radius: 4px;
-      font-size: 0.9rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
       font-weight: 500;
       cursor: pointer;
-      transition: background-color 0.3s;
+      transition: var(--transition);
     }
 
     .view-details-btn {
       background-color: var(--primary-green);
       color: var(--white);
+      box-shadow: 0 4px 12px rgba(75, 122, 112, 0.2);
     }
 
     .view-details-btn:hover {
       background-color: var(--secondary-green);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(75, 122, 112, 0.25);
     }
 
     .edit-btn {
       background-color: var(--light-grey);
       color: var(--medium-grey);
+      border: 1px solid #E0E0E0;
     }
 
     .edit-btn:hover {
-      background-color: #D0D0D0;
+      background-color: #E0E0E0;
+      color: var(--dark-grey);
     }
 
     .view-details {
       display: none;
-      padding: 1.5rem;
+      padding: 2rem;
       border-top: 1px solid var(--light-grey);
+      background-color: #FCFCFC;
     }
 
     .view-details.active {
@@ -252,45 +332,153 @@
     }
 
     .view-details h3 {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       color: var(--dark-grey);
-      margin-bottom: 1rem;
+      margin-bottom: 1.2rem;
+      font-weight: 600;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .view-details h3:after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background-color: var(--primary-green);
+      border-radius: 2px;
     }
 
     .view-details .images {
       display: flex;
       gap: 1rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
     }
 
     .view-details .images img {
-      width: 150px;
-      height: 100px;
+      width: 180px;
+      height: 120px;
       object-fit: cover;
-      border-radius: 6px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: var(--transition);
+    }
+    
+    .view-details .images img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
     .view-details .recent-updates {
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
     }
 
     .view-details .update {
       display: flex;
-      gap: 1rem;
-      margin-bottom: 1rem;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+      background-color: var(--white);
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      transition: var(--transition);
+    }
+    
+    .view-details .update:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     }
 
     .view-details .update img {
-      width: 100px;
-      height: 80px;
+      width: 120px;
+      height: 90px;
       object-fit: cover;
-      border-radius: 6px;
+      border-radius: 8px;
     }
 
     .view-details .update p {
       flex: 1;
       color: var(--medium-grey);
       line-height: 1.5;
+      display: flex;
+      align-items: center;
+    }
+
+    .view-details .project-submission-details {
+      margin-top: 2.5rem;
+    }
+
+    .view-details .project-submission-details h3 {
+      font-size: 1.3rem;
+      color: var(--dark-grey);
+      margin-bottom: 1.5rem;
+    }
+
+    .view-details .project-submission-details .section {
+      margin-bottom: 2rem;
+      background-color: var(--white);
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .view-details .project-submission-details .section h4 {
+      font-size: 1.1rem;
+      color: var(--primary-green);
+      margin-bottom: 1rem;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .section h4:after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 30px;
+      height: 2px;
+      background-color: var(--primary-green);
+      border-radius: 1px;
+    }
+
+    .view-details .project-submission-details .section p {
+      color: var(--medium-grey);
+      line-height: 1.6;
+      margin-bottom: 0.7rem;
+    }
+    
+    .section p strong {
+      color: var(--dark-grey);
+      font-weight: 600;
+    }
+
+    .view-details .project-submission-details .floor-plan {
+      border: 1px solid var(--light-grey);
+      padding: 1.2rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      background-color: var(--white);
+      transition: var(--transition);
+    }
+    
+    .floor-plan:hover {
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    .view-details .project-submission-details .floor-plan img {
+      width: 120px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-top: 0.8rem;
+      transition: var(--transition);
+    }
+    
+    .floor-plan img:hover {
+      transform: scale(1.05);
     }
 
     .right-section {
@@ -299,43 +487,88 @@
 
     .filter-properties {
       background-color: var(--white);
-      border-radius: 8px;
-      padding: 1.5rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      padding: 1.8rem;
+      box-shadow: var(--shadow);
     }
 
     .filter-properties h2 {
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
       color: var(--dark-grey);
-      font-size: 1.2rem;
-      font-weight: bold;
+      font-size: 1.3rem;
+      font-weight: 600;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .filter-properties h2:after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background-color: var(--primary-green);
+      border-radius: 2px;
     }
 
     .filter-button {
       display: block;
       width: 100%;
-      padding: 0.5rem;
-      margin-bottom: 0.5rem;
+      padding: 0.8rem;
+      margin-bottom: 0.8rem;
       text-align: center;
-      border-radius: 4px;
+      border-radius: 8px;
       border: none;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
+      font-weight: 500;
       cursor: pointer;
-      transition: background-color 0.3s;
+      transition: var(--transition);
     }
 
     .filter-button.active {
       background-color: var(--primary-green);
       color: var(--white);
+      box-shadow: 0 4px 12px rgba(75, 122, 112, 0.2);
     }
 
     .filter-button.inactive {
       background-color: var(--light-grey);
       color: var(--medium-grey);
+      border: 1px solid #E0E0E0;
     }
 
     .filter-button.inactive:hover {
-      background-color: #D0D0D0;
+      background-color: var(--accent-green);
+      color: var(--primary-green);
+    }
+    
+    .no-projects {
+      padding: 3rem;
+      text-align: center;
+      color: var(--medium-grey);
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 1024px) {
+      .content-wrapper {
+        flex-direction: column;
+      }
+      .left-section, .right-section {
+        width: 100%;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .project-display {
+        flex-direction: column;
+      }
+      .project-image, .project-details {
+        width: 100%;
+      }
+      .project-image {
+        height: 250px;
+      }
     }
   </style>
 </head>
@@ -343,185 +576,228 @@
   <%- include('navbar_company') %>
   <div class="container">
     <div class="header">
-      <h1>Company Dashboard</h1>
-      <a href="/addnewproject_form.html" style="text-decoration: none;"><button class="add-project-btn">+ Add New Project</button></a>
+      <h1>Ongoing Projects</h1>
+      <a href="/addnewproject_form.html" class="add-project-btn">Add New Project</a>
     </div>
     
     <div class="dashboard-metrics">
       <div class="metric-card">
         <div class="metric-title">Total Active Projects</div>
-        <div class="metric-value">10</div>
+        <div class="metric-value"><%= metrics.totalActiveProjects %></div>
       </div>
       <div class="metric-card">
         <div class="metric-title">Monthly Revenue</div>
-        <div class="metric-value">₹4.8 Cr</div>
+        <div class="metric-value">₹<%= metrics.monthlyRevenue %> Cr</div>
       </div>
       <div class="metric-card">
         <div class="metric-title">Customer Satisfaction</div>
-        <div class="metric-value">4.7/5</div>
+        <div class="metric-value"><%= metrics.customerSatisfaction %>/5</div>
       </div>
       <div class="metric-card">
         <div class="metric-title">Projects On Schedule</div>
-        <div class="metric-value">85%</div>
+        <div class="metric-value"><%= metrics.projectsOnSchedule %>%</div>
       </div>
     </div>
     
     <div class="content-wrapper">
       <div class="left-section">
-        <!-- First Project -->
-        <div class="project-display">
-          <div class="project-image">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqjSRsiV4Q22mOElSnkcct2oZmd-1iVrNOcQ&s" alt="Project Image">
-          </div>
-          <div class="project-details">
-            <h2>Sunset Hills Residences</h2>
-            <div class="location">
-              <span>📍 Westview District, Los Angeles</span>
-            </div>
-            <div>
-              <span class="project-tag">Luxury</span>
-              <span class="status-tag">Under Construction</span>
-            </div>
-            
-            <div class="progress-container">
-              <div class="progress-bar">
-                <div class="progress-fill"></div>
+        <% if (projects && projects.length > 0) { %>
+          <% projects.forEach(function(project, index) { %>
+            <div class="project-display">
+              <div class="project-image">
+                <% if (project.siteFilepaths && project.siteFilepaths.length > 0) { %>
+                  <img src="<%= project.siteFilepaths[0] %>" alt="<%= project.projectName %> Image">
+                <% } else { %>
+                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqjSRsiV4Q22mOElSnkcct2oZmd-1iVrNOcQ&s" alt="Default Project Image">
+                <% } %>
               </div>
-              <div class="progress-text">
-                <span>Project Completion: 65%</span>
-                <span>Target: June 2025</span>
-              </div>
-            </div>
-            
-            <p>Current phase: Interior work</p>
-            <div class="action-buttons">
-              <button class="view-details-btn" data-project="1">View Details</button>
-              <a href="addnewproject_form.html" style="text-decoration: none;"><button class="edit-btn">Edit</button></a>
-            </div>
-          </div>
-        </div>
-        <div class="view-details" id="details-1">
-          <h3>All Images</h3>
-          <div class="images">
-            <img src="https://via.placeholder.com/150" alt="Project Image 1">
-            <img src="https://via.placeholder.com/150" alt="Project Image 2">
-            <img src="https://via.placeholder.com/150" alt="Project Image 3">
-          </div>
-          <h3>Recent Updates</h3>
-          <div class="recent-updates">
-            <div class="update">
-              <img src="https://via.placeholder.com/100" alt="Update Image 1">
-              <p>Interior work is progressing as planned. The living room and kitchen areas are nearing completion.</p>
-            </div>
-            <div class="update">
-              <img src="https://via.placeholder.com/100" alt="Update Image 2">
-              <p>Exterior painting has started. The color scheme has been finalized and approved by the clients.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Second Project -->
-        <div class="project-display">
-          <div class="project-image">
-            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Project Image">
-          </div>
-          <div class="project-details">
-            <h2>Green Valley Estates</h2>
-            <div class="location">
-              <span>📍 Mountain View, California</span>
-            </div>
-            <div>
-              <span class="project-tag">Eco-Friendly</span>
-              <span class="status-tag">Planning Phase</span>
-            </div>
-            
-            <div class="progress-container">
-              <div class="progress-bar">
-                <div class="progress-fill" style="width: 25%;"></div>
-              </div>
-              <div class="progress-text">
-                <span>Project Completion: 25%</span>
-                <span>Target: December 2026</span>
+              <div class="project-details">
+                <h2><%= project.projectName %></h2>
+                <div class="location">
+                  <span><svg class="location-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg> <%= project.projectAddress %></span>
+                </div>
+                <div class="tags-container">
+                  <% if (project.buildingType && typeof project.buildingType === 'string') { %>
+                    <span class="project-tag"><%= project.buildingType.charAt(0).toUpperCase() + project.buildingType.slice(1) %></span>
+                  <% } else { %>
+                    <span class="project-tag">Other</span>
+                  <% } %>
+                  <span class="status-tag">Under Construction</span>
+                </div>
+                
+                <div class="progress-container">
+                  <div class="progress-bar">
+                    <div class="progress-fill" style="width: <%= project.completion %>%"></div>
+                  </div>
+                  <div class="progress-text">
+                    <span>Project Completion: <span class="progress-percentage"><%= project.completion %>%</span></span>
+                    <span>Target: <%= project.targetDate %></span>
+                  </div>
+                </div>
+                
+                <p>Current phase: <%= project.currentPhase %></p>
+                <div class="action-buttons">
+                  <button class="view-details-btn" data-project-id="<%= project._id %>">View Details</button>
+                  <a href="/edit-project/<%= project._id %>" style="text-decoration: none;">
+                    <button class="edit-btn">Edit Project</button>
+                  </a>
+                </div>
               </div>
             </div>
-            
-            <p>Current phase: Architectural approvals</p>
-            <div class="action-buttons">
-              <button class="view-details-btn" data-project="2">View Details</button>
-              <a href="addnewproject_form.html" style="text-decoration: none;"><button class="edit-btn">Edit</button></a>
+            <div class="view-details" id="details-<%= project._id %>">
+              <h3>All Images</h3>
+              <div class="images">
+                <% if (project.siteFilepaths && project.siteFilepaths.length > 0) { %>
+                  <% project.siteFilepaths.forEach(function(imgPath) { %>
+                    <img src="<%= imgPath %>" alt="Project Image">
+                  <% }); %>
+                <% } else { %>
+                  <img src="/images/default-1.jpg" alt="Default Project Image">
+                  <img src="/images/default-2.jpg" alt="Default Project Image">
+                  <img src="/images/default-3.jpg" alt="Default Project Image">
+                <% } %>
+              </div>
+              <h3>Recent Updates</h3>
+              <div class="recent-updates">
+                <% if (project.updates && project.updates.length > 0) { %>
+                  <% project.updates.forEach(function(update) { %>
+                    <div class="update">
+                      <img src="<%= update.image || '/images/update-default.jpg' %>" alt="Update Image">
+                      <p><%= update.description %></p>
+                    </div>
+                  <% }); %>
+                <% } else { %>
+                  <div class="update">
+                    <img src="/images/update-default-1.jpg" alt="Insert Image">
+                    <p>Update Description</p>
+                  </div>
+                <% } %>
+              </div>
+              <div class="project-submission-details">
+                <h3>Project Submission Details</h3>
+                <div class="section">
+                  <h4>Customer Information</h4>
+                  <p><strong>Full Name:</strong> <%= project.customerName %></p>
+                  <p><strong>Email Address:</strong> <%= project.customerEmail %></p>
+                  <p><strong>Phone Number:</strong> <%= project.customerPhone %></p>
+                </div>
+                <div class="section">
+                  <h4>Project Details</h4>
+                  <p><strong>Project Address:</strong> <%= project.projectAddress %></p>
+                  <p><strong>Project Location:</strong> <%= project.projectLocation %></p>
+                  <p><strong>Total Building Area:</strong> <%= project.totalArea %> sq meters</p>
+                  <p><strong>Building Type:</strong> <% if (project.buildingType && typeof project.buildingType === 'string') { %><%= project.buildingType.charAt(0).toUpperCase() + project.buildingType.slice(1) %><% } else { %>Other<% } %></p>
+                  <p><strong>Estimated Budget:</strong> <% if (project.estimatedBudget) { %>$<%= project.estimatedBudget.toLocaleString() %><% } else { %>None specified<% } %></p>
+                  <p><strong>Expected Timeline:</strong> <% if (project.projectTimeline) { %><%= project.projectTimeline %> months<% } else { %>None specified<% } %></p>
+                </div>
+                <div class="section">
+                  <h4>Floor Plans</h4>
+                  <p><strong>Total Floors:</strong> <%= project.totalFloors %></p>
+                  <% if (project.floors && project.floors.length > 0) { %>
+                    <% project.floors.forEach(function(floor) { %>
+                      <div class="floor-plan">
+                        <p><strong>Floor <%= floor.floorNumber || 'Unknown' %></strong></p>
+                        <p><strong>Floor Type:</strong> <% if (floor.floorType && typeof floor.floorType === 'string') { %><%= floor.floorType.charAt(0).toUpperCase() + floor.floorType.slice(1) %><% } else { %>Other<% } %></p>
+                        <p><strong>Floor Area:</strong> <%= floor.floorArea || 'None specified' %> sq meters</p>
+                        <p><strong>Floor Description:</strong> <%= floor.floorDescription || 'None specified' %></p>
+                        <% if (floor.floorImage) { %>
+                          <img src="<%= floor.floorImage %>" alt="Floor <%= floor.floorNumber || 'Unknown' %> Plan">
+                        <% } else { %>
+                          <img src="/images/floor-default.jpg" alt="Default Floor Plan">
+                        <% } %>
+                      </div>
+                    <% }); %>
+                  <% } else { %>
+                    <div class="floor-plan">
+                      <p><strong>Floor plans not yet available</strong></p>
+                    </div>
+                  <% } %>
+                </div>
+                <div class="section">
+                  <h4>Additional Requirements</h4>
+                  <p><strong>Special Requirements:</strong> <%= project.specialRequirements || "None specified" %></p>
+                  <p><strong>Accessibility Needs:</strong> <% if (project.accessibilityNeeds && typeof project.accessibilityNeeds === 'string') { %><%= project.accessibilityNeeds.charAt(0).toUpperCase() + project.accessibilityNeeds.slice(1) %><% } else { %>None specified<% } %></p>
+                  <p><strong>Energy Efficiency Goals:</strong> <% if (project.energyEfficiency && typeof project.energyEfficiency === 'string') { %><%= project.energyEfficiency.charAt(0).toUpperCase() + project.energyEfficiency.slice(1) %><% } else { %>Standard<% } %></p>
+                </div>
+              </div>
             </div>
+          <% }); %>
+        <% } else { %>
+          <div class="no-projects">
+            <p>No ongoing projects found. All accepted projects will appear here.</p>
           </div>
-        </div>
-        <div class="view-details" id="details-2">
-          <h3>All Images</h3>
-          <div class="images">
-            <img src="https://via.placeholder.com/150" alt="Project Image 1">
-            <img src="https://via.placeholder.com/150" alt="Project Image 2">
-            <img src="https://via.placeholder.com/150" alt="Project Image 3">
-          </div>
-          <h3>Recent Updates</h3>
-          <div class="recent-updates">
-            <div class="update">
-              <img src="https://via.placeholder.com/100" alt="Update Image 1">
-              <p>Initial eco-friendly designs submitted for approval. Solar panel integration plans are being finalized.</p>
-            </div>
-            <div class="update">
-              <img src="https://via.placeholder.com/100" alt="Update Image 2">
-              <p>Environmental impact assessment underway. Site preparation will begin after approval.</p>
-            </div>
-          </div>
-        </div>
+        <% } %>
       </div>
-      
       <div class="right-section">
         <div class="filter-properties">
           <h2>Filter Properties</h2>
-          <button class="filter-button active">All Properties</button>
-          <button class="filter-button inactive">Under Construction</button>
-          <button class="filter-button inactive">Ready to Move</button>
+          <button class="filter-button active" data-filter="all">All Properties</button>
+          <button class="filter-button inactive" data-filter="residential">Residential</button>
+          <button class="filter-button inactive" data-filter="commercial">Commercial</button>
+          <button class="filter-button inactive" data-filter="industrial">Industrial</button>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    // Toggle View Details Section for multiple projects
-    const viewDetailsBtns = document.querySelectorAll('.view-details-btn');
-    
-    viewDetailsBtns.forEach(button => {
-      button.addEventListener('click', () => {
-        const projectId = button.getAttribute('data-project');
-        const viewDetailsSection = document.getElementById(`details-${projectId}`);
-        
-        // Hide all other details sections first
-        document.querySelectorAll('.view-details').forEach(section => {
-          if (section.id !== `details-${projectId}`) {
-            section.classList.remove('active');
+    document.addEventListener('DOMContentLoaded', function() {
+      // View details functionality for each project
+      const viewDetailsBtns = document.querySelectorAll('.view-details-btn');
+      
+      viewDetailsBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          const projectId = this.getAttribute('data-project-id');
+          const viewDetailsSection = document.getElementById(`details-${projectId}`);
+          
+          viewDetailsSection.classList.toggle('active');
+          this.textContent = viewDetailsSection.classList.contains('active') ? 'Hide Details' : 'View Details';
+        });
+      });
+      
+      // Add hover effect to metric cards
+      const metricCards = document.querySelectorAll('.metric-card');
+      metricCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+          this.style.transform = 'translateY(-5px)';
+        });
+        card.addEventListener('mouseleave', function() {
+          this.style.transform = 'translateY(0)';
+        });
+      });
+      
+      // Initialize filter buttons
+      const filterButtons = document.querySelectorAll('.filter-button');
+      const projectDisplays = document.querySelectorAll('.project-display');
+      
+      filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const filter = this.getAttribute('data-filter');
+          
+          // Update button styles
+          filterButtons.forEach(btn => {
+            btn.classList.remove('active');
+            btn.classList.add('inactive');
+          });
+          this.classList.remove('inactive');
+          this.classList.add('active');
+          
+          // Filter projects
+          if (filter === 'all') {
+            projectDisplays.forEach(project => {
+              project.style.display = 'flex';
+            });
+          } else {
+            projectDisplays.forEach(project => {
+              const buildingType = project.querySelector('.project-tag');
+              if (buildingType && buildingType.textContent.toLowerCase() === filter) {
+                project.style.display = 'flex';
+              } else {
+                project.style.display = 'none';
+              }
+            });
           }
         });
-        
-        // Toggle the clicked section
-        viewDetailsSection.classList.toggle('active');
-        
-        // Update button text based on state
-        if (viewDetailsSection.classList.contains('active')) {
-          button.textContent = 'Hide Details';
-        } else {
-          button.textContent = 'View Details';
-        }
-      });
-    });
-    
-    // Filter buttons functionality
-    const filterButtons = document.querySelectorAll('.filter-button');
-    filterButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        filterButtons.forEach(btn => {
-          btn.classList.remove('active');
-          btn.classList.add('inactive');
-        });
-        button.classList.remove('inactive');
-        button.classList.add('active');
       });
     });
   </script>

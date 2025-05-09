@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Construction Projects Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+        :root {
+            --primary-green: #4D7A70;
+            --secondary-green: #6A9E8E;
+            --light-green: #A3C5BB;
+            --dark-grey: #363636;
+            --medium-grey: #5A5A5A;
+            --light-grey: #E0E0E0;
+            --white: #FFFFFF;
+            --black: #000000;
+            --border-color: #d9d9d9;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: var(--dark-grey);
+        }
+
+        .header {
+            background-color: var(--primary-green);
+            color: var(--white);
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo i {
+            font-size: 1.5rem;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .dashboard {
+            padding: 2rem;
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+
+        .dashboard-header {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .dashboard-title {
+            font-size: 1.25rem;
+            color: var(--primary-green);
+            font-weight: 600;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: var(--light-green);
+            padding: 1.25rem;
+            position: relative;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-header h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-green);
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--medium-grey);
+        }
+
+        .card-id {
+            font-weight: 500;
+        }
+
+        .card-date {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.3rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--white);
+        }
+
+        .card-body {
+            padding: 1.25rem;
+        }
+
+        .card-info {
+            margin-bottom: 1.25rem;
+        }
+
+        .card-info p {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .card-info p:last-child {
+            margin-bottom: 0;
+        }
+
+        .card-info strong {
+            color: var(--medium-grey);
+            font-weight: 500;
+        }
+
+        .card-info span {
+            color: var(--dark-grey);
+            font-weight: 400;
+            text-align: right;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .card-btn {
+            padding: 0.6rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-view {
+            background-color: var(--white);
+            color: var(--primary-green);
+            border: 1px solid var(--primary-green);
+            flex-grow: 1;
+        }
+
+        .btn-view:hover {
+            background-color: var(--primary-green);
+            color: var(--white);
+        }
+
+        .btn-accept {
+            background-color: var(--secondary-green);
+            color: var(--white);
+            flex-basis: 40%;
+        }
+
+        .btn-accept:hover {
+            background-color: var(--primary-green);
+        }
+
+        .btn-reject {
+            background-color: var(--white);
+            color: var(--secondary-green);
+            border: 1px solid var(--secondary-green);
+            flex-basis: 40%;
+        }
+
+        .btn-reject:hover {
+            background-color: var(--secondary-green);
+            color: var(--white);
+        }
+
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s 0.3s, opacity 0.3s linear;
+        }
+
+        .modal-backdrop.active {
+            visibility: visible;
+            opacity: 1;
+            transition: opacity 0.3s linear;
+        }
+
+        .modal {
+            background-color: var(--white);
+            width: 90%;
+            max-width: 900px;
+            max-height: 85vh;
+            border-radius: 8px;
+            overflow: hidden;
+            overflow-y: auto;
+            transform: translateY(-30px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .modal-backdrop.active .modal {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            background-color: var(--primary-green);
+            color: var(--white);
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--white);
+        }
+
+        .modal-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--white);
+            margin-left: 0.75rem;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .modal-close:hover {
+            color: var(--light-grey);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .detail-section {
+            margin-bottom: 2rem;
+        }
+
+        .detail-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-section h3 {
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--light-green);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .detail-item {
+            margin-bottom: 0.75rem;
+        }
+
+        .detail-item strong {
+            display: block;
+            margin-bottom: 0.3rem;
+            color: var(--secondary-green);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .detail-item span {
+            color: var(--dark-grey);
+            font-size: 1rem;
+        }
+
+        .detail-full {
+            grid-column: 1 / -1;
+        }
+
+        .floor-box {
+            background-color: #f9f9f9;
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .floor-box:last-child {
+            margin-bottom: 0;
+        }
+
+        .floor-box h4 {
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .floor-badge {
+            font-size: 0.8rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            background-color: var(--light-green);
+            color: var(--dark-grey);
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .modal-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .modal-btn-accept {
+            background-color: var(--secondary-green);
+            color: var(--white);
+        }
+
+        .modal-btn-accept:hover {
+            background-color: var(--primary-green);
+        }
+
+        .modal-btn-reject {
+            background-color: var(--white);
+            color: var(--secondary-green);
+            border: 1px solid var(--secondary-green);
+        }
+
+        .modal-btn-reject:hover {
+            background-color: var(--secondary-green);
+            color: var(--white);
+        }
+
+        .status-pending {
+            background-color: var(--secondary-green);
+        }
+
+        .status-accepted {
+            background-color: var(--primary-green);
+        }
+
+        .status-rejected {
+            background-color: #A3C5BB;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .header-actions {
+                width: 100%;
+            }
+
+            .dashboard {
+                padding: 1rem;
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card-actions {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .btn-view, .btn-accept, .btn-reject {
+                width: 100%;
+                flex-basis: auto;
+            }
+
+            .modal-actions {
+                flex-direction: column;
+            }
+
+            .modal-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <%- include('navbar_company') %>
+    <main class="dashboard">
+        <div class="dashboard-header">
+            <h2 class="dashboard-title">Project Submissions</h2>
+        </div>
+
+        <div class="cards-container">
+            <% projects.forEach(project => { %>
+                <div class="card">
+                    <div class="card-header">
+                        <h3><%= project.projectName %></h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-info">
+                            <p><strong>Customer</strong> <span><%= project.customerName %></span></p>
+                            <p><strong>Contact</strong> <span><%= project.customerPhone %></span></p>
+                            <p><strong>Building Type</strong> <span><%= project.buildingType.charAt(0).toUpperCase() + project.buildingType.slice(1) %></span></p>
+                            <p><strong>Total Area</strong> <span><%= project.totalArea %> sq.m</span></p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="card-btn btn-view" onclick="showProjectDetails('<%= project._id %>')">
+                                <i class="fas fa-eye"></i> View Details
+                            </button>
+                        </div>
+                        <div class="card-actions" style="margin-top: 0.75rem;">
+                            <button class="card-btn btn-accept" onclick="updateProjectStatus('<%= project._id %>', 'accepted')">
+                                <i class="fas fa-check"></i> Accept
+                            </button>
+                            <button class="card-btn btn-reject" onclick="updateProjectStatus('<%= project._id %>', 'rejected')">
+                                <i class="fas fa-times"></i> Reject
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </main>
+
+    <div class="modal-backdrop" id="projectModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div>
+                    <span class="modal-title" id="modalTitle">Project Details</span>
+                    <span class="modal-status" id="modalStatus">Status</span>
+                </div>
+                <button class="modal-close" id="closeModal">×</button>
+            </div>
+            <div class="modal-body" id="modalContent">
+                <!-- Project details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function showProjectDetails(projectId) {
+            try {
+                const response = await fetch(`/api/projects/${projectId}`);
+                const project = await response.json();
+
+                const modalTitle = document.getElementById('modalTitle');
+                const modalStatus = document.getElementById('modalStatus');
+                const modalContent = document.getElementById('modalContent');
+
+                modalTitle.textContent = `${project.projectName} (${project._id})`;
+                modalStatus.textContent = getStatusText(project.status);
+                modalStatus.className = `modal-status status-${project.status}`;
+
+                let floorsHtml = '';
+                project.floors.forEach(floor => {
+                    floorsHtml += `
+                        <div class="floor-box">
+                            <h4>
+                                Floor ${floor.floorNumber}
+                                <span class="floor-badge">${floor.floorType.charAt(0).toUpperCase() + floor.floorType.slice(1)}</span>
+                            </h4>
+                            <div class="detail-grid">
+                                <div class="detail-item">
+                                    <strong>Area:</strong>
+                                    <span>${floor.floorArea} sq.m</span>
+                                </div>
+                                <div class="detail-item detail-full">
+                                    <strong>Description:</strong>
+                                    <span>${floor.floorDescription || 'N/A'}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                modalContent.innerHTML = `
+                    <div class="detail-section">
+                        <h3>Customer Information</h3>
+                        <div class="detail-grid">
+                            <div class="detail-item">
+                                <strong>Name:</strong>
+                                <span>${project.customerName}</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Email:</strong>
+                                <span>${project.customerEmail}</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Phone:</strong>
+                                <span>${project.customerPhone}</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Submission Date:</strong>
+                                <span>${formatDate(project.createdAt)}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>Project Details</h3>
+                        <div class="detail-grid">
+                            <div class="detail-item">
+                                <strong>Building Type:</strong>
+                                <span>${project.buildingType.charAt(0).toUpperCase() + project.buildingType.slice(1)}</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Total Area:</strong>
+                                <span>${project.totalArea} sq.m</span>
+                            </div>
+                            ${project.estimatedBudget ? `
+                                <div class="detail-item">
+                                    <strong>Budget:</strong>
+                                    <span>₹${formatMoney(project.estimatedBudget)}</span>
+                                </div>
+                            ` : ''}
+                            ${project.projectTimeline ? `
+                                <div class="detail-item">
+                                    <strong>Timeline:</strong>
+                                    <span>${project.projectTimeline} months</span>
+                                </div>
+                            ` : ''}
+                            <div class="detail-item detail-full">
+                                <strong>Address:</strong>
+                                <span>${project.projectAddress}</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Pincode:</strong>
+                                <span>${project.projectLocationPincode}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>Floor Plans (${project.floors.length})</h3>
+                        ${floorsHtml}
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>Additional Requirements</h3>
+                        <div class="detail-grid">
+                            ${project.specialRequirements ? `
+                                <div class="detail-item detail-full">
+                                    <strong>Special Requirements:</strong>
+                                    <span>${project.specialRequirements}</span>
+                                </div>
+                            ` : ''}
+                            ${project.accessibilityNeeds ? `
+                                <div class="detail-item">
+                                    <strong>Accessibility Needs:</strong>
+                                    <span>${project.accessibilityNeeds.charAt(0).toUpperCase() + project.accessibilityNeeds.slice(1)}</span>
+                                </div>
+                            ` : ''}
+                            ${project.energyEfficiency ? `
+                                <div class="detail-item">
+                                    <strong>Energy Efficiency:</strong>
+                                    <span>${project.energyEfficiency.charAt(0).toUpperCase() + project.energyEfficiency.slice(1)}</span>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+
+                    <div class="modal-actions">
+                        <button class="modal-btn modal-btn-accept" onclick="updateProjectStatus('${project._id}', 'accepted')">
+                            <i class="fas fa-check"></i> Accept Project
+                        </button>
+                        <button class="modal-btn modal-btn-reject" onclick="updateProjectStatus('${project._id}', 'rejected')">
+                            <i class="fas fa-times"></i> Reject Project
+                        </button>
+                    </div>
+                `;
+
+                const modal = document.getElementById('projectModal');
+                modal.classList.add('active');
+            } catch (error) {
+                console.error('Error fetching project details:', error);
+                alert('Failed to load project details.');
+            }
+        }
+
+        async function updateProjectStatus(projectId, status) {
+            try {
+                const response = await fetch(`/api/projects/${projectId}/status`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ status })
+                });
+
+                if (response.ok) {
+                    alert(`Project ${status} successfully!`);
+                    location.reload(); // Refresh to reflect updated status
+                } else {
+                    throw new Error('Failed to update status');
+                }
+            } catch (error) {
+                console.error('Error updating project status:', error);
+                alert('Failed to update project status.');
+            }
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('projectModal');
+            modal.classList.remove('active');
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
+
+        function formatMoney(amount) {
+            return amount.toLocaleString('en-IN');
+        }
+
+        function getStatusText(status) {
+            const statusMap = {
+                'pending': 'Pending',
+                'accepted': 'Accepted',
+                'rejected': 'Rejected'
+            };
+            return statusMap[status] || status;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('closeModal').addEventListener('click', closeModal);
+
+            document.getElementById('projectModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

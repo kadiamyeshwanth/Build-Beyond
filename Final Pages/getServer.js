@@ -50,12 +50,6 @@ app.get("/signin_up.html", (req, res) => {
 app.get("/adminpage.html", (req, res) => {
   res.render("adminlogin");
 });
-// Worker Routes
-app.get("/workerdashboard.html", (req, res) => {
-  res.render("worker/worker_dashboard");
-});
-
-
 // Route for showing pending jobs for both architects and interior designers
 app.get("/workerjobs.html", isAuthenticated, async (req, res) => {
   try {
@@ -139,47 +133,119 @@ app.get("/worker_edit", (req, res) => {
 
 // Logout Route
 app.get("/logout", (req, res) => {
-  res.render("signin_up_");
+  res.render("landing_page");
 });
 // Serve Static Files
 app.use(express.static("Final Pages"));
-app.get("/companydashboard.html", (req, res) => {
-  res.render("company/company_dashboard");
-});
+app.get('/companydashboard.html',isAuthenticated, async (req, res) => {
+  try {
+    // Fetch open bids (limited to 2 for display, adjust as needed)
+    const bids = await Bid.find({ status: 'open' })
+      .sort({ createdAt: -1 })
+      .limit(2)
+      .lean();
 
+    // Fetch all projects for the company
+    const projects = await ConstructionProjectSchema.find({
+      companyId: req.user ? req.user.user_id : null
+    })
+      .sort({ createdAt: -1 })
+      .lean();
+
+    // Calculate stats
+    const activeProjects = projects.filter(p => p.status === 'accepted').length;
+    const completedProjects = projects.filter(p => p.status === 'rejected').length;
+    const revenue = projects
+      .filter(p => 
+        p.status === 'rejected' && 
+        new Date(p.updatedAt).getMonth() === new Date().getMonth() &&
+        new Date(p.updatedAt).getFullYear() === new Date().getFullYear()
+      )
+      .reduce((sum, p) => sum + (p.estimatedBudget || 0), 0);
+
+    // Render the dashboard
+    res.render('company/company_dashboard', {
+      bids,
+      projects,
+      activeProjects,
+      completedProjects,
+      revenue,
+      calculateProgress,
+      calculateDaysRemaining
+    });
+  } catch (error) {
+    console.error('Error rendering dashboard:', error);
+    res.status(500).send('Server Error');
+  }
+});
 app.get("/customerdashboard.html", (req, res) => {
   res.render("customer/customer_dashboard");
 });
-
-app.get("/workerdashboard.html", (req, res) => {
-  res.render("worker/worker_dashboard");
-});
-
-app.get("/admindashboard.html", async (req, res) => {
+app.get('/workerdashboard.html', isAuthenticated, async (req, res) => {
   try {
-    // Fetch all data from collections (adjust queries as needed)
-    const Customers = await Customer.find({});
-    const Companies = await Company.find({});
-    const Workers = await Worker.find({});
-    const customersCount = await Customer.countDocuments();
-    const companiesCount = await Company.countDocuments();
-    const workersCount = await Worker.countDocuments();
-    const Projects = await ConstructionProjectSchema.find({});
-    const Bids = await Bid.find({});
-    res.render("admin/admin_dashboard", {
-      customers: Customers,
-      companies: Companies,
-      workers: Workers,
-      customersCount,
-      companiesCount,
-      workersCount,
-      projects: Projects,
-      bids: Bids,
+    // Check authentication
+    if (!req.user || !req.user.user_id) {
+      console.error('Authentication error - missing user ID');
+      return res.status(401).send('Unauthorized: User not authenticated');
+    }
+
+    // Fetch worker details
+    const worker = await Worker.findById(req.user.user_id).lean();
+    if (!worker) {
+      console.error(`Worker not found for ID: ${req.user.user_id}`);
+      return res.status(404).send('Worker not found');
+    }
+
+    // Parallel data fetching
+    const [offers, companies, jobs] = await Promise.all([
+      // Recent offers
+      CompanytoWorker.find({ worker: req.user.user_id, status: 'Pending' })
+        .populate('company', 'companyName')
+        .sort({ createdAt: -1 })
+        .limit(3)
+        .lean(),
+
+      // Companies
+      Company.find({ profileType: 'worker' })
+        .sort({ createdAt: -1 })
+        .limit(3)
+        .lean(),
+
+      // Design jobs
+      DesignRequest.find({ workerId: req.user.user_id, status: 'pending' })
+      .sort({ createdAt: -1 })
+      .limit(3)
+      .lean()
+    ]);
+
+    // Enhance jobs data
+    const enhancedJobs = jobs.map(job => ({
+      ...job,
+      timeline: job.roomType === 'Residential' ? '2 weeks' : '1 month',
+      budget: job.roomSize?.length && job.roomSize?.width 
+        ? job.roomSize.length * job.roomSize.width * 1000 
+        : 0
+    }));
+
+    // Render dashboard view
+    res.render('worker/worker_dashboard', {
+      workerName: worker.name || 'Builder',
+      offers: offers,
+      companies: companies,
+      jobs: enhancedJobs,
+      user: req.user // Pass user data to view if needed
     });
-  } catch (err) {
-    console.error("Error fetching data for admin dashboard:", err);
-    res.status(500).send("Server Error");
+
+  } catch (error) {
+    console.error('Dashboard error:', error);
+    res.status(500).render('error', {
+      message: 'Dashboard Loading Failed',
+      error: process.env.NODE_ENV === 'development' ? error : {}
+    });
   }
+});
+app.get("/admindashboard.html", (req, res) => {
+  res.render("admin/admin_dashboard");
 });
 
 app.get("/platformadmindashboard.html", (req, res) => {
@@ -300,12 +366,117 @@ app.get("/customersettings.html", isAuthenticated,async(req, res) => {
   const user=await Customer.findById(req.user.user_id);
   res.render("customer/customer_settings",{user});
 });
+
 // Company routes
-app.get("/companyongoing_projects.html", (req, res) => {
-  res.render("company/company_ongoing_projects");
+
+// Updated route with better error handling
+app.get("/companyongoing_projects.html",isAuthenticated, async (req, res) => {
+  try {
+    // Get the logged in company's ID from the session
+    const companyId = req.user.user_id;
+    
+    // If no company is logged in, redirect to login
+    if (!companyId) {
+      return res.redirect('/login');
+    }
+    
+    // Fetch only accepted projects for this company
+    const projects = await ConstructionProjectSchema.find({ 
+      companyId: companyId,
+      status: "accepted" 
+    });
+    
+    // Calculate metrics based on accepted projects
+    const totalActiveProjects = projects.length;
+    
+    // Example metrics - in a real app, these would be calculated from your data
+    const metrics = {
+      totalActiveProjects,
+      monthlyRevenue: '4.8', // Placeholder value
+      customerSatisfaction: '4.7', // Placeholder value
+      projectsOnSchedule: '85' // Placeholder value
+    };
+    
+    // Add some properties to projects for display purposes
+    const enhancedProjects = projects.map(project => {
+      // Convert Mongoose document to plain JavaScript object
+      const projectObj = project.toObject();
+      
+      // Add display-only properties with fallbacks
+      // These fields don't exist in the schema, so we're setting defaults
+      projectObj.completion = 0; // Default completion percentage
+      projectObj.targetDate = getTargetDate(project.createdAt, project.projectTimeline);
+      projectObj.currentPhase = 'Update current '; // Default phase
+      
+      // Make sure we have safe defaults for all referenced properties
+      if (!projectObj.siteFilepaths) {
+        projectObj.siteFilepaths = [];
+      }
+      
+      if (!projectObj.floors) {
+        projectObj.floors = [];
+      }
+      
+      // Ensure all values that might be displayed have safe defaults
+      projectObj.customerName = projectObj.customerName || "None specified";
+      projectObj.customerEmail = projectObj.customerEmail || "None specified";
+      projectObj.customerPhone = projectObj.customerPhone || "None specified";
+      projectObj.projectAddress = projectObj.projectAddress || "None specified";
+      projectObj.projectLocation = projectObj.projectLocation || "None specified";
+      projectObj.totalArea = projectObj.totalArea || "None specified";
+      projectObj.buildingType = projectObj.buildingType || "other";
+      projectObj.estimatedBudget = projectObj.estimatedBudget || 0;
+      projectObj.projectTimeline = projectObj.projectTimeline || "None specified";
+      projectObj.totalFloors = projectObj.totalFloors || 0;
+      projectObj.specialRequirements = projectObj.specialRequirements || "None specified";
+      projectObj.accessibilityNeeds = projectObj.accessibilityNeeds || "None specified";
+      projectObj.energyEfficiency = projectObj.energyEfficiency || "None specified";
+      
+      return projectObj;
+    });
+    
+    // Render the template with the data
+    res.render("company/company_ongoing_projects", {
+      projects: enhancedProjects,
+      metrics: metrics
+    });
+    
+  } catch (error) {
+    console.error("Error fetching projects:", error);
+  }
 });
-app.get("/companyclients.html", (req, res) => {
-  res.render("company/clients");
+
+// Helper function to calculate target date based on creation date and timeline
+function getTargetDate(createdAt, projectTimeline) {
+  if (!createdAt || !projectTimeline || isNaN(parseInt(projectTimeline))) {
+    return 'June 2025'; // Default fallback
+  }
+  
+  try {
+    const targetDate = new Date(createdAt);
+    targetDate.setMonth(targetDate.getMonth() + parseInt(projectTimeline));
+    
+    // Format date as Month Year
+    const months = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    
+    return `${months[targetDate.getMonth()]} ${targetDate.getFullYear()}`;
+  } catch (error) {
+    return 'June 2025'; // Default fallback in case of any error
+  }
+}
+
+
+app.get("/project_requests.html", isAuthenticated,async(req, res) => {
+  try {
+    const projects = await ConstructionProjectSchema.find({status: 'pending'}).lean();
+    res.render('company/project_requests', { projects });
+} catch (error) {
+    console.error('Error fetching projects:', error);
+    res.status(500).json({ error: 'Failed to fetch projects' });
+}
 });
 app.get("/companyrevenue.html", (req, res) => {
   res.render("company/revenue");
@@ -363,10 +534,6 @@ app.get("/companysettings.html",isAuthenticated, async(req, res) => {
   const user=await Company.findById(req.user.user_id);
   res.render("company/company_settings", { user });
 });
-app.get("/companysettings.html", async(req, res) => {
-  const user=await Company.findById(req.user.user_id);
-  res.render("company/company_settings", { user });
-});
 app.get("/revenue_form.html", (req, res) => {
   res.render("company/revenue_form");
 });
@@ -378,7 +545,23 @@ app.get("/addnewproject_form.html", (req, res) => {
 app.get("/companySettings",(req,res)=>{
   res.render("company/company_settings");
 })
+function calculateProgress(startDate, timeline) {
+  if (!timeline) return 0;
+  const start = new Date(startDate);
+  const now = new Date();
+  const end = new Date(start.setMonth(start.getMonth() + timeline));
+  const totalDays = (end - start) / (1000 * 60 * 60 * 24);
+  const elapsedDays = (now - start) / (1000 * 60 * 60 * 24);
+  return Math.min(100, Math.round((elapsedDays / totalDays) * 100));
+}
 
+function calculateDaysRemaining(startDate, timeline) {
+  if (!timeline) return 'TBD';
+  const start = new Date(startDate);
+  const end = new Date(start.setMonth(start.getMonth() + timeline));
+  const now = new Date();
+  return Math.max(0, Math.round((end - now) / (1000 * 60 * 60 * 24)));
+}
 module.exports = {
   express,
   app,
