@@ -485,18 +485,15 @@
             <div class="profile-section">
                 <div class="profile-dropdown">
                     <div class="profile-info">
-                        <div class="logo-text">AdminSys</div>
-                        <img src="/api/placeholder/40/40" alt="Admin" class="profile-img">
+                        <div class="logo-text">Admin</div>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEg09MmHvC-78aaRxyd52HabsZqI1-u8R6-w&s" alt="Admin" class="profile-img">
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="dropdown-menu">
                         <a href="#" class="dropdown-item">
                             <i class="fas fa-user"></i> Profile
                         </a>
-                        <a href="#" class="dropdown-item" id="settingsBtn">
-                            <i class="fas fa-cog"></i> Settings
-                        </a>
-                        <a href="#" class="dropdown-item">
+                        <a href="/adminlogin" class="dropdown-item">
                             <i class="fas fa-sign-out-alt"></i> Logout
                         </a>
                     </div>
@@ -703,7 +700,6 @@
                             <th>Company Id</th>
                             <th>Estimated Budget</th>
                             <th>Timeline(Months)</th>
-                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -715,11 +711,6 @@
                             <td><%= projects[i].companyId %></td>
                             <td><%= projects[i].estimatedBudget %></td>
                             <td><%= projects[i].projectTimeline %></td>
-                            <!-- <td>
-                                <span class="status-badge <%= projects[i].status.toLowerCase() %>">
-                                    <%= projects[i].status %>
-                                </span>
-                            </td> -->
                         </tr>
                         <% } %>
                     </tbody>
@@ -741,7 +732,6 @@
                             <th>Company Details</th>
                             <th>Estimated Budget</th>
                             <th>Timeline (Months)</th>
-                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -769,7 +759,6 @@
     <div class="modal" id="settingsModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Settings</h2>
                 <span class="close-btn">&times;</span>
             </div>
             <div class="modal-body">
@@ -784,22 +773,6 @@
                 <div class="form-group">
                     <label for="settingsPhone">Phone</label>
                     <input type="text" id="settingsPhone" value="6301675880"> 
-                </div>
-                
-                <div class="password-section">
-                    <h3>Update Password</h3>
-                    <div class="form-group">
-                        <label for="currentPassword">Current Password</label>
-                        <input type="password" id="currentPassword">
-                    </div>
-                    <div class="form-group">
-                        <label for="newPassword">New Password</label>
-                        <input type="password" id="newPassword">
-                    </div>
-                    <div class="form-group">
-                        <label for="confirmPassword">Confirm New Password</label>
-                        <input type="password" id="confirmPassword">
-                    </div>
                 </div>
                 
                 <div class="form-actions">
@@ -856,29 +829,14 @@
                 }
             });
             
-            // Modal functionality
-            const settingsBtn = document.getElementById('settingsBtn');
-            const settingsModal = document.getElementById('settingsModal');
-            const closeBtns = document.querySelectorAll('.close-btn, .close-modal');
+            // Logout functionality
+            const logoutBtn = document.getElementById('logoutBtn');
             
-            // Open Settings Modal
-            settingsBtn.addEventListener('click', function() {
-                settingsModal.classList.add('active');
-                dropdownMenu.classList.remove('active');
-            });
-            
-            // Close Modals
-            closeBtns.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    settingsModal.classList.remove('active');
-                });
-            });
-            
-            // Close modal when clicking outside the modal content
-            window.addEventListener('click', function(event) {
-                if (event.target === settingsModal) {
-                    settingsModal.classList.remove('active');
-                }
+            logoutBtn.addEventListener('click', function(event) {
+                // If you need to perform any additional logout operations before redirecting
+                // For example, clearing session data, you can add that code here
+                
+                // No need to prevent default as we want the link to navigate to /adminlogin
             });
             
             // File upload functionality
