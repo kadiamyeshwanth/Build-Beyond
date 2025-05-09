@@ -495,13 +495,15 @@ function getTargetDate(createdAt, projectTimeline) {
 
 app.get("/project_requests.html", isAuthenticated,async(req, res) => {
   try {
-    const projects = await ConstructionProjectSchema.find({status: 'pending'}).lean();
+    const projects = await ConstructionProjectSchema.find({status: 'pending',companyId:req.user.user_id}).lean();
     res.render('company/project_requests', { projects });
 } catch (error) {
     console.error('Error fetching projects:', error);
     res.status(500).json({ error: 'Failed to fetch projects' });
 }
 });
+
+
 app.get("/companyrevenue.html", (req, res) => {
   res.render("company/revenue");
 });
