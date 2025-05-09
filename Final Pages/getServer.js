@@ -290,7 +290,7 @@ app.get("/Job_Request_Status",isAuthenticated, async (req, res) => {
     
     // Fetch ArchitectHiring records where workerId matches userId
     const architectApplications = await ArchitectHiring.find({
-      customerId: req.user.user_id,
+      customer: req.user.user_id,
     }).lean();
 
     // Fetch DesignRequest records where workerId matches userId
