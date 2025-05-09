@@ -1596,12 +1596,15 @@ app.post(
       if (targetCompletionDate) project.targetCompletionDate = new Date(targetCompletionDate);
       if (currentPhase) project.currentPhase = currentPhase;
 
-      // Handle file uploads
+      // Handle file uploads and normalize paths to use backslashes
       if (req.files.mainImage) {
-        project.mainImagePath = req.files.mainImage[0].path;
+        const filePath = req.files.mainImage[0].path.replace(/\//g, '\\');
+        project.mainImagePath = filePath; // e.g., \Uploads\1746617698619-863761563.png
       }
       if (req.files.additionalImages) {
-        project.additionalImagePaths = req.files.additionalImages.map(file => file.path);
+        project.additionalImagePaths = req.files.additionalImages.map(file => 
+          file.path.replace(/\//g, '\\') // e.g., \Uploads\1746617698619-863761563.png
+        );
       }
 
       // Handle recent updates
@@ -1610,7 +1613,9 @@ app.post(
         const updatesArray = Array.isArray(updates) ? updates : [updates];
         project.recentUpdates = updatesArray.map((updateText, index) => ({
           updateText: updateText || '',
-          updateImagePath: updateImages[0] ? updateImages[0].path : null,
+          updateImagePath: updateImages[0]
+            ? updateImages[0].path.replace(/\//g, '\\') // e.g., \Uploads\1746617698619-863761563.png
+            : null,
           createdAt: new Date(),
         }));
       }

@@ -606,7 +606,7 @@
             <div class="project-display">
               <div class="project-image">
                 <% if (project.siteFilepaths && project.siteFilepaths.length > 0) { %>
-                  <img src="<%= project.siteFilepaths[0] %>" alt="<%= project.projectName %> Image">
+                  <img src="<%= project.mainImagePath %>" alt="<%= project.projectName %> Image">
                 <% } else { %>
                   <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqjSRsiV4Q22mOElSnkcct2oZmd-1iVrNOcQ&s" alt="Default Project Image">
                 <% } %>
@@ -658,21 +658,27 @@
                 <% } %>
               </div>
               <h3>Recent Updates</h3>
-              <div class="recent-updates">
-                <% if (project.updates && project.updates.length > 0) { %>
-                  <% project.updates.forEach(function(update) { %>
-                    <div class="update">
-                      <img src="<%= update.image || '/images/update-default.jpg' %>" alt="Update Image">
-                      <p><%= update.description %></p>
-                    </div>
-                  <% }); %>
-                <% } else { %>
-                  <div class="update">
-                    <img src="/images/update-default-1.jpg" alt="Insert Image">
-                    <p>Update Description</p>
-                  </div>
-                <% } %>
-              </div>
+<div class="recent-updates">
+  <% if (project.recentUpdates && project.recentUpdates.length > 0) { %>
+    <% project.recentUpdates.forEach(function(update) { %>
+      <div class="update">
+        <img 
+          src="<%= update.updateImagePath ? update.updateImagePath.replace(/\\/g, '/') : '/images/update-default.jpg' %>" 
+          alt="Update Image"
+        >
+        <p><%= update.updateText || 'No description available' %></p>
+        <% if (update.createdAt) { %>
+          <small>Posted on: <%= new Date(update.createdAt).toLocaleDateString() %></small>
+        <% } %>
+      </div>
+    <% }); %>
+  <% } else { %>
+    <div class="update">
+      <img src="/images/update-default.jpg" alt="No Update Image">
+      <p>No updates available</p>
+    </div>
+  <% } %>
+</div>
               <div class="project-submission-details">
                 <h3>Project Submission Details</h3>
                 <div class="section">
