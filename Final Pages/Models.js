@@ -370,7 +370,7 @@ const constructionProjectSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  projectLocationPincode: {
+  projectLocation: {
     type: String,
     required: true,
   },
@@ -401,7 +401,7 @@ const constructionProjectSchema = new mongoose.Schema({
       },
       floorArea: Number,
       floorDescription: String,
-      floorImagePath: String,
+      floorImage: String,
     },
   ],
 
