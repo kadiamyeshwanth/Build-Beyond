@@ -371,7 +371,6 @@ const constructionProjectSchema = new mongoose.Schema({
   },
   projectLocation: {
     type: String,
-    required: true,
   },
   totalArea: {
     type: Number,
