@@ -465,6 +465,16 @@
                 <i class="fas fa-hard-hat"></i>
                 <span>Workers</span>
             </div>
+            <!-- Added the Projects menu item here inside the sidebar-menu div -->
+            <div class="menu-item" data-section="projects">
+                <i class="fas fa-project-diagram"></i>
+                <span>Projects</span>
+            </div>
+            
+            <div class="menu-item" data-section="bids">
+                <i class="fas fa-gavel"></i>
+                <span>Bids</span>
+            </div>
         </div>
     </div>
 
@@ -499,17 +509,17 @@
             <div class="dashboard-cards">
                 <div class="card card-primary">
                     <h3>Total Customers</h3>
-                    <div class="count">245</div>
+                    <div class="count"><%= customersCount %></div>
                     <div class="description">10% increase in last month</div>
                 </div>
                 <div class="card card-primary">
                     <h3>Total Companies</h3>
-                    <div class="count">87</div>
+                    <div class="count"><%= companiesCount %></div>
                     <div class="description">5% increase in last month</div>
                 </div>
                 <div class="card card-primary">
                     <h3>Total Workers</h3>
-                    <div class="count">156</div>
+                    <div class="count"><%= workersCount %></div>
                     <div class="description">15% increase in last month</div>
                 </div>
             </div>
@@ -670,6 +680,82 @@
                                         <span class="file-name" id="filename-worker-<%= workers[i]._id %>">No file selected</span>
                                     </div>
                                 <% } %>
+                            </td>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Projects Section - Moved inside main-content div -->
+        <div id="projects" class="section">
+            <div class="section-header">
+                <h2>Project Details</h2>
+            </div>
+            <div class="section-body">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Project Name</th>
+                            <th>Customer Name</th>
+                            <th>Customer Email</th>
+                            <th>Company Id</th>
+                            <th>Estimated Budget</th>
+                            <th>Timeline(Months)</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for(let i = 0; i < projects.length; i++) { %>
+                        <tr>
+                            <td><%= projects[i].projectName %></td>
+                            <td><%= projects[i].customerName %></td>
+                            <td><%= projects[i].customerEmail %></td>
+                            <td><%= projects[i].companyId %></td>
+                            <td><%= projects[i].estimatedBudget %></td>
+                            <td><%= projects[i].projectTimeline %></td>
+                            <!-- <td>
+                                <span class="status-badge <%= projects[i].status.toLowerCase() %>">
+                                    <%= projects[i].status %>
+                                </span>
+                            </td> -->
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Bids Section - Moved inside main-content div -->
+        <div id="bids" class="section">
+            <div class="section-header">
+                <h2>Bids</h2>
+            </div>
+            <div class="section-body">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Customer Name</th>
+                            <th>Customer Email</th>
+                            <th>Company Name</th>
+                            <th>Estimated Budget</th>
+                            <th>Timeline (Months)</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for(let i = 0; i < bids.length; i++) { %>
+                        <tr>
+                            <td><%= bids[i].customerName %></td>
+                            <td><%= bids[i].customerEmail %></td>
+                            <td><%= bids[i].companyBids %></td>
+                            <td><%= bids[i].estimatedBudget %></td>
+                            <td><%= bids[i].bidTimeline %></td>
+                            <!-- <td>
+                                <span class="status-badge <%= bids[i].status.toLowerCase() %>">
+                                    <%= bids[i].status %>
+                                </span> -->
                             </td>
                         </tr>
                         <% } %>

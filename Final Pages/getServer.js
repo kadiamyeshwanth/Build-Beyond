@@ -161,11 +161,20 @@ app.get("/admindashboard.html", async (req, res) => {
     const Customers = await Customer.find({});
     const Companies = await Company.find({});
     const Workers = await Worker.find({});
-
+    const customersCount = await Customer.countDocuments();
+    const companiesCount = await Company.countDocuments();
+    const workersCount = await Worker.countDocuments();
+    const Projects = await ConstructionProjectSchema.find({});
+    const Bids = await Bid.find({});
     res.render("admin/admin_dashboard", {
       customers: Customers,
       companies: Companies,
       workers: Workers,
+      customersCount,
+      companiesCount,
+      workersCount,
+      projects: Projects,
+      bids: Bids,
     });
   } catch (err) {
     console.error("Error fetching data for admin dashboard:", err);
