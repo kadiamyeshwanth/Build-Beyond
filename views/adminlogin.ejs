@@ -230,6 +230,13 @@
             const forgotPasswordLink = document.getElementById('forgotPassword');
             const signInBtn = document.getElementById('signInBtn');
 
+            // Hardcoded admin credentials
+            const ADMIN_CREDENTIALS = {
+                email: 'admin@example.com',
+                password: 'Admin123!',
+                passKey: 'secret123'
+            };
+
             togglePassword.addEventListener('click', function() {
                 const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
                 passwordInput.setAttribute('type', type);
@@ -253,28 +260,32 @@
                 }
             });
 
-            document.getElementById("loginForm").addEventListener("submit", async (e) => {
-            e.preventDefault();
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
 
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
-            const passKey = document.getElementById("passKey").value;
+                // Validate form fields
+                const isEmailValid = validateField(emailInput, document.getElementById('emailGroup'));
+                const isPasswordValid = validateField(passwordInput, document.getElementById('passwordGroup'));
+                const isPassKeyValid = validateField(passKeyInput, document.getElementById('passKeyGroup'));
 
-            const response = await fetch("http://localhost:4000/admin-login", {
-                method: "POST",
-                headers: {
-                "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ email, password, passKey }),
-            });
+                if (!isEmailValid || !isPasswordValid || !isPassKeyValid) {
+                    return;
+                }
 
-            const data = await response.json();
+                const email = emailInput.value.trim();
+                const password = passwordInput.value;
+                const passKey = passKeyInput.value;
 
-            if (response.ok) {
-                window.location.href = data.redirect; // Redirect to the dashboard
-            } else {
-                alert(data.message); // Show error message
-            }
+                // Check against hardcoded credentials
+                if (
+                    email === ADMIN_CREDENTIALS.email &&
+                    password === ADMIN_CREDENTIALS.password &&
+                    passKey === ADMIN_CREDENTIALS.passKey
+                ) {
+                    window.location.href = '/admindashboard.html';
+                } else {
+                    alert('Invalid admin credentials');
+                }
             });
 
             emailInput.addEventListener('blur', function() {
