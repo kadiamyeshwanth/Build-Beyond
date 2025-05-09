@@ -425,12 +425,10 @@ const constructionProjectSchema = new mongoose.Schema({
   },
   targetCompletionDate: {
     type: Date,
-    required: true,
   },
   currentPhase: {
     type: String,
     enum: ["Foundation", "Structure", "Interior work", "Finishing"],
-    required: true,
   },
   mainImagePath: String,
   additionalImagePaths: [String],
