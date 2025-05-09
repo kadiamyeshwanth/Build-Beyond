@@ -155,8 +155,22 @@ app.get("/workerdashboard.html", (req, res) => {
   res.render("worker/worker_dashboard");
 });
 
-app.get("/admindashboard.html", (req, res) => {
-  res.render("admin/admin_dashboard");
+app.get("/admindashboard.html", async (req, res) => {
+  try {
+    // Fetch all data from collections (adjust queries as needed)
+    const Customers = await Customer.find({});
+    const Companies = await Company.find({});
+    const Workers = await Worker.find({});
+
+    res.render("admin/admin_dashboard", {
+      customers: Customers,
+      companies: Companies,
+      workers: Workers,
+    });
+  } catch (err) {
+    console.error("Error fetching data for admin dashboard:", err);
+    res.status(500).send("Server Error");
+  }
 });
 
 app.get("/platformadmindashboard.html", (req, res) => {
