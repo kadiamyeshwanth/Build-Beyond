@@ -351,9 +351,96 @@ app.get("/architecht_form", (req, res) => {
   // Render the form template with the workerId
   res.render("customer/architect_form", { workerId });
 });
-app.get("/ongoing_projects.html", (req, res) => {
+
+
+
+app.get("/ongoing_projects.html", isAuthenticated, async (req, res) => {
+  try {
+    // Get the logged in company's ID from the session
+    const customerId = req.user.user_id;
+
+    // If no company is logged in, redirect to login
+    if (!customerId) {
+      return res.redirect("/login");
+    }
+
+    // Fetch only accepted projects for this company
+    const projects = await ConstructionProjectSchema.find({
+      customerId: customerId,
+      status: "accepted",
+    });
+
+    // Calculate metrics based on accepted projects
+    const totalActiveProjects = projects.length;
+
+    // Example metrics - in a real app, these would be calculated from your data
+    const metrics = {
+      totalActiveProjects,
+      monthlyRevenue: "4.8", // Placeholder value
+      customerSatisfaction: "4.7", // Placeholder value
+      projectsOnSchedule: "85", // Placeholder value
+    };
+
+    // Add some properties to projects for display purposes
+    const enhancedProjects = projects.map((project) => {
+      // Convert Mongoose document to plain JavaScript object
+      const projectObj = project.toObject();
+
+      // Add display-only properties with fallbacks
+      // These fields don't exist in the schema, so we're setting defaults
+      projectObj.completion = 0; // Default completion percentage
+      projectObj.targetDate = getTargetDate(
+        project.createdAt,
+        project.projectTimeline
+      );
+      projectObj.currentPhase = "Update current "; // Default phase
+
+      // Make sure we have safe defaults for all referenced properties
+      if (!projectObj.siteFilepaths) {
+        projectObj.siteFilepaths = [];
+      }
+
+      if (!projectObj.floors) {
+        projectObj.floors = [];
+      }
+
+      // Ensure all values that might be displayed have safe defaults
+      projectObj.customerName = projectObj.customerName || "None specified";
+      projectObj.customerEmail = projectObj.customerEmail || "None specified";
+      projectObj.customerPhone = projectObj.customerPhone || "None specified";
+      projectObj.projectAddress = projectObj.projectAddress || "None specified";
+      projectObj.projectLocation =
+        projectObj.projectLocation || "None specified";
+      projectObj.totalArea = projectObj.totalArea || "None specified";
+      projectObj.buildingType = projectObj.buildingType || "other";
+      projectObj.estimatedBudget = projectObj.estimatedBudget || 0;
+      projectObj.projectTimeline =
+        projectObj.projectTimeline || "None specified";
+      projectObj.totalFloors = projectObj.totalFloors || 0;
+      projectObj.specialRequirements =
+        projectObj.specialRequirements || "None specified";
+      projectObj.accessibilityNeeds =
+        projectObj.accessibilityNeeds || "None specified";
+      projectObj.energyEfficiency =
+        projectObj.energyEfficiency || "None specified";
+
+      return projectObj;
+    });
+
+    // Render the template with the data
+    res.render("customer/ongoing_projects", {
+      projects: enhancedProjects,
+      metrics: metrics,
+    });
+  } catch (error) {
+    console.error("Error fetching projects:", error);
+  }
   res.render("customer/ongoing_projects");
 });
+
+
+
+
 app.get("/design_ideas.html", (req, res) => {
   res.render("customer/design_ideas");
 });
